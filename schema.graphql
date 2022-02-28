@@ -1,0 +1,86 @@
+scalar URL  
+scalar DateTime
+
+type User {
+    pubKey: ID, # this is the primary key - a random guid
+    handle: String,
+    fullName: String,
+    bio: String,
+    profilePic: URL,
+    emailAddress: String, 
+    contacts: [Contact],
+    skills: [Skill],
+    requests: [Request],
+    acknowledgmentsIn: [Acknowledgement],
+    acknowledgmentsOut: [Acknowledgement]
+}
+
+type Skill {
+    # for GraphQL Query, this would be type 'User' but for DB Schema purposes call it ID
+    timeStamp: DateTime,
+    userPubKey: ID, 
+    title: String,
+    message: String,
+    hashtags: [Hashtag], # parse these out of the message on save
+    firstUrl: URL, # parse this out of the message on save, if any
+    isAvailable: Boolean
+    #    hourlyRate: [Rate]  # just fyi, we might add these waay down the line
+    #    isHourForHourOK: Boolean
+}
+
+type Request {
+    userPubKey: ID,    
+    timeStamp: DateTime,
+    title: String,
+    message: String,
+    hashtags: [Hashtag], 
+    firstUrl: URL, 
+    status: RequestStatus,
+    expiryDate: DateTime
+}
+
+type Acknowledgement {
+    fromPubKey: ID,    
+    toPubKey: ID,   
+    timeStamp: DateTime,
+    title: String,
+    message: String,
+    image: URL,
+    hashtags: [Hashtag], 
+    firstUrl: URL
+}
+
+enum RequestStatus {
+    OPEN,
+    TENTATIVE,
+    FILLED, # if filled, stays filled even after expiry date (if any)
+    EXPIRED
+}
+
+# hashtag is just a special string - without the '#'
+scalar Hashtag 
+
+type hashtagMeta {
+    hashtag: Hashtag,
+    aliases: [Hashtag],
+    lastCount: Int, 
+    approved: Boolean,
+    iconUrl: URL
+}
+
+# contact method 
+type Contact {
+    service: SupportedServices,
+    handle: String,
+    url: Url,
+    pubKey: String
+}
+
+# prelimary guess at services we might support *
+enum SupportedServices {
+    RAKLET,
+    TWITTER,
+    WEBSITE,
+    EMAIL,
+    WEB3
+}
