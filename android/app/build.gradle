@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
         applicationId "social.cashless.together_app"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 18
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

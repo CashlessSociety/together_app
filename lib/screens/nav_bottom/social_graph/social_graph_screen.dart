@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:together_app/screens/nav_bottom/social_graph/social_graph_user_list.dart';
 
 class SocialGraphScreen extends StatelessWidget {
   static String routeName = 'social_graph_screen';
@@ -6,10 +7,8 @@ class SocialGraphScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('This is $routeName'),
-      ),
+    return const Scaffold(
+      body: SocialGraphUserList(),
     );
   }
 }

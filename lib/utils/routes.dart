@@ -11,6 +11,23 @@ import 'package:together_app/screens/nav_leftside/notifications/notifications_sc
 import 'package:together_app/screens/nav_leftside/send_gratitude/send_gratitude_screen.dart';
 import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart';
 
+Map<String, WidgetBuilder> getRoutes(BuildContext context) {
+  return {
+    '/main_entry_screen': (context) => const MainEntryScreen(),
+    '/gratitude_wall_screen': (context) => const GratitudeWallScreen(),
+    '/matching_request_screen': (context) => const MatchingRequestScreen(),
+    '/network_feed_screen': (context) => const NetworkFeedScreen(),
+    '/social_graph_screen': (context) => const SocialGraphScreen(),
+    '/add_request_screen': (context) => const AddRequestScreen(),
+    '/my_profile_screen': (context) => const MyProfileScreen(),
+    '/my_skill_screen': (context) => const MySkillsScreen(),
+    '/notifications_screen': (context) => const NotificationsScreen(),
+    '/send_gratitude_screen': (context) => const SendGratitudeScreen(),
+    '/settings_screen': (context) => const SettingsScreen(),
+  };
+}
+
+/// not needed right now
 MaterialPageRoute? generateRoutes(settings) {
   switch (settings.name) {
     case '/main_entry_screen':

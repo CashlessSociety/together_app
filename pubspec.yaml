@@ -22,14 +22,24 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  json_annotation: ^4.0.1
   flutter_screenutil: ^5.3.1
   google_fonts: ^2.3.1
+  graphql_flutter: ^5.0.1
+  graphql: ^5.0.1
+  flutter_dotenv: ^5.0.2
+  get: ^4.6.1
+  provider: ^6.0.2
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^1.0.0
+  json_serializable: ^4.1.2
+  graphql_codegen: ^0.6.0
+  build_runner: ^2.0.3
+  analyzer: ^1.7.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -43,9 +53,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - .env.dev
+    - .env.prod
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

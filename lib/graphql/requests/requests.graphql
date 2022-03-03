@@ -1,0 +1,63 @@
+query GetAllUsers {
+    queryUser{
+        id
+        email
+        name
+        age
+        createdTimestamp
+    }
+}
+
+query GetUserWithEmail($email: String) {
+    getUser(email: $email){
+        id
+        name
+        age
+        email
+        createdTimestamp
+    }
+}
+
+
+query GetUserWithId($id: ID) {
+    getUser(id: $id){
+        id
+        name
+        age
+        email
+        createdTimestamp
+    }
+}
+
+mutation CreateUser($email: String!, $name: String!, $age: Int!){
+    addUser(input: {email: $email, name: $name, age: $age}){
+        user{
+            id
+            name
+            email
+        }
+    }
+}
+
+mutation CreateRequest($owner: UserRef!, $title: String!, $message: String!){
+    addRequest(input: {owner: $owner, title: $title, message: $message}){
+        request{
+            id
+            title
+            message
+            createdTimestamp
+        }
+    }
+}
+
+query GetAllRequests {
+    queryRequest{
+        id
+        owner {
+           name
+        }
+        title
+        message
+        createdTimestamp
+    }
+}

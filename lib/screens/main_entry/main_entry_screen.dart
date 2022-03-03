@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:together_app/screens/main_entry/main_entry_drawer.dart';
 import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_screen.dart';
 import 'package:together_app/screens/nav_bottom/matching_request/matching_request_screen.dart';
 import 'package:together_app/screens/nav_bottom/network_feed/network_feed_screen.dart';
 import 'package:together_app/screens/nav_bottom/social_graph/social_graph_screen.dart';
-import 'package:together_app/screens/nav_leftside/add_request/add_request_screen.dart';
-import 'package:together_app/screens/nav_leftside/my_profile/my_profile_screen.dart';
-import 'package:together_app/screens/nav_leftside/my_skills/my_skills_screen.dart';
-import 'package:together_app/screens/nav_leftside/notifications/notifications_screen.dart';
-import 'package:together_app/screens/nav_leftside/send_gratitude/send_gratitude_screen.dart';
-import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart';
 import 'package:together_app/utils/constants.dart';
+import 'package:together_app/utils/providers.dart';
 
 class MainEntryScreen extends StatefulWidget {
   static String routeName = '/main_entry_screen';
@@ -23,56 +20,38 @@ class MainEntryScreen extends StatefulWidget {
 class _MainEntryScreenState extends State<MainEntryScreen> {
   PageController pageController = PageController();
   int pageIndex = 0;
-  late List<Widget> screenListOnly;
-  List<Map<String, dynamic>> screenMapList = [
-    /// bottom screen
-    {
-      'route': GratitudeWallScreen.routeName,
-      'widget': const GratitudeWallScreen()
-    },
-    {'route': SocialGraphScreen.routeName, 'widget': const SocialGraphScreen()},
-    {
-      'route': MatchingRequestScreen.routeName,
-      'widget': const MatchingRequestScreen()
-    },
-    {'route': NetworkFeedScreen.routeName, 'widget': const NetworkFeedScreen()},
+  bool isDrawerOpened = false;
 
-    /// leftside screen
-    {
-      'route': NotificationsScreen.routeName,
-      'widget': const NotificationsScreen()
-    },
-    {'route': MyProfileScreen.routeName, 'widget': const MyProfileScreen()},
-    {'route': MySkillsScreen.routeName, 'widget': const MySkillsScreen()},
-    {'route': AddRequestScreen.routeName, 'widget': const AddRequestScreen()},
-    {
-      'route': SendGratitudeScreen.routeName,
-      'widget': const SendGratitudeScreen()
-    },
-    {'route': SettingsScreen.routeName, 'widget': const SettingsScreen()},
-  ];
+  void updateIndexState(index) {
+    setState(() {
+      pageIndex = index;
+    });
+  }
 
-  void onJumpToPage(int index) {
+  /// triggered from bottom nav screens
+  void onHandleInternalTabClick(index) {
     if (pageIndex != index) {
       pageController.jumpToPage(index);
-      setState(() {
-        pageIndex = index;
-      });
+      Provider.of<BottomNavNotifier>(context, listen: false)
+          .updateIndex(index: index);
+      updateIndexState(index);
     }
   }
 
-  void onSideItemTapped(String route) {
-    int index = screenMapList.indexWhere(
-        (Map<String, dynamic> element) => element['route'] == route);
-    if (index != -1) {
-      onJumpToPage(index);
+  /// triggered from NONE bottom nav screens
+  void onHandleExternalTabClick(index) {
+    /// close the drawer
+    if (isDrawerOpened && Get.currentRoute == MainEntryScreen.routeName) {
+      Get.back();
+    }
+    if (pageIndex != index) {
+      pageController.jumpToPage(index);
+      updateIndexState(index);
     }
   }
 
   @override
   void initState() {
-    screenListOnly =
-        List.generate(screenMapList.length, (i) => screenMapList[i]['widget']);
     super.initState();
   }
 
@@ -89,23 +68,33 @@ class _MainEntryScreenState extends State<MainEntryScreen> {
         backgroundColor: kPrimaryBlue,
         title: const Text('The Together App'),
       ),
-      drawer: MainEntryDrawer(
-        onTapItem: onSideItemTapped,
-      ),
-      body: Center(
+      drawer: const MainEntryDrawer(),
+      onDrawerChanged: (bool isOpened) {
+        isDrawerOpened = isOpened;
+      },
+      body: Consumer<BottomNavNotifier>(
+        builder: (context, provider, child) {
+          WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+            onHandleExternalTabClick(provider.currentIndex);
+          });
+          return child!;
+        },
         child: PageView(
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: screenListOnly),
+            children: const [
+              GratitudeWallScreen(),
+              SocialGraphScreen(),
+              MatchingRequestScreen(),
+              NetworkFeedScreen(),
+            ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: kBottomNavigationBarItems,
-        currentIndex: pageIndex > 3 ? 0 : pageIndex,
-        onTap: onJumpToPage,
+        currentIndex: pageIndex,
+        onTap: onHandleInternalTabClick,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: pageIndex > 3
-            ? Colors.grey[600]
-            : kBottomNavigationBarItemColors[pageIndex],
+        selectedItemColor: kBottomNavigationBarItemColors[pageIndex],
         showSelectedLabels: false,
         showUnselectedLabels: false,
         unselectedItemColor: Colors.grey[600],
