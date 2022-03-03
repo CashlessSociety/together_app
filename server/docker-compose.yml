@@ -1,0 +1,60 @@
+version: "3.5"
+services:
+  alpha1:
+    image: dgraph/dgraph:latest
+    container_name: alpha1
+    working_dir: /data/alpha1
+    environment:
+      DGRAPH_ALPHA_ACL: secret-file=/dgraph/acl/hmac_secret_file
+    labels:
+      cluster: flock-cluster
+    ports:
+    - 8080:8080
+    - 9080:9080
+    volumes:
+    - ./acl:/dgraph/acl
+    - type: volume
+      source: dgraph
+      target: /data
+      read_only: false
+      volume:
+        nocopy: true
+    command: dgraph alpha --my=alpha1:7080 --zero=zero1:5080 --logtostderr -v=2 --profile_mode block --block_rate 10 --security whitelist="0.0.0.0/0" --telemetry "sentry=false;"
+    networks:
+      - dgraph
+  zero1:
+    image: dgraph/dgraph:latest
+    container_name: zero1
+    working_dir: /data/zero1
+    labels:
+      cluster: flock-cluster
+    ports:
+    - 5080:5080
+    - 6080:6080
+    volumes:
+    - type: volume
+      source: dgraph
+      target: /data
+      read_only: false
+      volume:
+        nocopy: true
+    command: dgraph zero --my=zero1:5080 --replicas 1 --raft "idx=1" --logtostderr -v=2 --profile_mode block --block_rate 10 --telemetry "sentry=false;"
+    networks:
+      - dgraph
+  ratel:
+    image: dgraph/ratel:latest
+    container_name: ratel
+    labels:
+      cluster: flock-cluster
+    ports:
+    - 8000:8000
+    command: dgraph-ratel
+    networks:
+      - dgraph
+
+networks:
+  dgraph:
+    driver: bridge
+
+volumes:
+  dgraph:
