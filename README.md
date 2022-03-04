@@ -17,10 +17,10 @@ follow this step
 - [Test drive - Run the app](https://docs.flutter.dev/get-started/test-drive?tab=androidstudio)
 
 ## Connect to a GraphQL Server
-Create .env.dev and .env.prod to store variables to access your GraphQL server. 
+Create `.env.prod` and `.env.dev` to store variables to access your GraphQL server. 
 
-- Use config `Run (env prod)` to apply .env.prod file for development environment.
-- Use config `Run (env dev)` to apply .env.dev file for production environment.
+- Use config `Run (env prod)` to apply .env.prod file for production environment.
+- Use config `Run (env dev)` to apply .env.dev file for development environment.
 
 .env file example:
 
