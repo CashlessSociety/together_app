@@ -7,6 +7,7 @@ import 'package:together_app/screens/nav_leftside/send_gratitude/send_gratitude_
 import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart';
 
 Color kPrimaryBlue = const Color(0xff1b9eca);
+Color kPrimaryRed = const Color(0xffF7581E);
 
 List<Map<String, dynamic>> kNavSideMenuInfoList = [
   {

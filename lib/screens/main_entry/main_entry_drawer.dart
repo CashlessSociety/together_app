@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:together_app/screens/main_entry/main_entry_screen.dart';
 
 import 'package:together_app/utils/constants.dart';
 
 class MainEntryDrawer extends StatelessWidget {
-  final Function onTapItem;
   const MainEntryDrawer({
     Key? key,
-    required this.onTapItem,
   }) : super(key: key);
 
   @override
@@ -61,8 +61,11 @@ class MainEntryDrawer extends StatelessWidget {
               title: Text(item['name']),
               leading: Icon(item['icon']),
               onTap: () {
-                Navigator.pop(context);
-                onTapItem(item['route']);
+                /// prevent route looping
+                Get.offNamedUntil(
+                    item['route'],
+                    (route) =>
+                        route.settings.name == MainEntryScreen.routeName);
               },
             );
           })

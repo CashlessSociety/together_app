@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:together_app/components/alter_scaffold.dart';
 
 class NotificationsScreen extends StatelessWidget {
   static String routeName = '/notifications_screen';
@@ -6,7 +7,7 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AlterScaffold(
       body: Center(
         child: Text('This is $routeName'),
       ),
