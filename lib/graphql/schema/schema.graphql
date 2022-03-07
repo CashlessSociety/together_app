@@ -7,9 +7,12 @@ type User {
 	email: String! @id
 	name: String!
 	age: Int
+	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "owner")
+	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "owner")
 	requestsAggregate(filter: RequestFilter): RequestAggregateResult
+	skillsAggregate(filter: SkillFilter): SkillAggregateResult
 }
 
 type Request {
@@ -17,7 +20,31 @@ type Request {
 	owner(filter: UserFilter): User! @hasInverse(field: "requests")
 	title: String! @search
 	message: String! @search
+	hashtags(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag] @hasInverse(field: "requests")
 	createdTimestamp: DateTime
+	hashtagsAggregate(filter: HashtagFilter): HashtagAggregateResult
+}
+
+type Skill {
+	id: ID!
+	owner(filter: UserFilter): User! @hasInverse(field: "skills")
+	title: String
+	message: String
+	hashtags(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag] @hasInverse(field: "skills")
+	isAvailable: Boolean
+	createdTimestamp: DateTime
+	hashtagsAggregate(filter: HashtagFilter): HashtagAggregateResult
+}
+
+type Hashtag {
+	id: ID!
+	hashtag: String! @id @search
+	iconName: String
+	blessed: Boolean
+	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "hashtags")
+	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "hashtags")
+	skillsAggregate(filter: SkillFilter): SkillAggregateResult
+	requestsAggregate(filter: RequestFilter): RequestAggregateResult
 }
 
 #######################
@@ -286,13 +313,29 @@ input StringHashFilter {
 # Generated Types
 #######################
 
+type AddHashtagPayload {
+	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+	numUids: Int
+}
+
 type AddRequestPayload {
 	request(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request]
 	numUids: Int
 }
 
+type AddSkillPayload {
+	skill(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill]
+	numUids: Int
+}
+
 type AddUserPayload {
 	user(filter: UserFilter, order: UserOrder, first: Int, offset: Int): [User]
+	numUids: Int
+}
+
+type DeleteHashtagPayload {
+	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+	msg: String
 	numUids: Int
 }
 
@@ -302,10 +345,24 @@ type DeleteRequestPayload {
 	numUids: Int
 }
 
+type DeleteSkillPayload {
+	skill(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill]
+	msg: String
+	numUids: Int
+}
+
 type DeleteUserPayload {
 	user(filter: UserFilter, order: UserOrder, first: Int, offset: Int): [User]
 	msg: String
 	numUids: Int
+}
+
+type HashtagAggregateResult {
+	count: Int
+	hashtagMin: String
+	hashtagMax: String
+	iconNameMin: String
+	iconNameMax: String
 }
 
 type RequestAggregateResult {
@@ -318,8 +375,28 @@ type RequestAggregateResult {
 	createdTimestampMax: DateTime
 }
 
+type SkillAggregateResult {
+	count: Int
+	titleMin: String
+	titleMax: String
+	messageMin: String
+	messageMax: String
+	createdTimestampMin: DateTime
+	createdTimestampMax: DateTime
+}
+
+type UpdateHashtagPayload {
+	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+	numUids: Int
+}
+
 type UpdateRequestPayload {
 	request(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request]
+	numUids: Int
+}
+
+type UpdateSkillPayload {
+	skill(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill]
 	numUids: Int
 }
 
@@ -346,10 +423,24 @@ type UserAggregateResult {
 # Generated Enums
 #######################
 
+enum HashtagHasFilter {
+	hashtag
+	iconName
+	blessed
+	skills
+	requests
+}
+
+enum HashtagOrderable {
+	hashtag
+	iconName
+}
+
 enum RequestHasFilter {
 	owner
 	title
 	message
+	hashtags
 	createdTimestamp
 }
 
@@ -359,12 +450,29 @@ enum RequestOrderable {
 	createdTimestamp
 }
 
+enum SkillHasFilter {
+	owner
+	title
+	message
+	hashtags
+	isAvailable
+	createdTimestamp
+}
+
+enum SkillOrderable {
+	title
+	message
+	createdTimestamp
+}
+
 enum UserHasFilter {
 	email
 	name
 	age
+	isAdmin
 	createdTimestamp
 	requests
+	skills
 }
 
 enum UserOrderable {
@@ -378,10 +486,28 @@ enum UserOrderable {
 # Generated Inputs
 #######################
 
+input AddHashtagInput {
+	hashtag: String!
+	iconName: String
+	blessed: Boolean
+	skills: [SkillRef]
+	requests: [RequestRef]
+}
+
 input AddRequestInput {
 	owner: UserRef!
 	title: String!
 	message: String!
+	hashtags: [HashtagRef]
+	createdTimestamp: DateTime
+}
+
+input AddSkillInput {
+	owner: UserRef!
+	title: String
+	message: String
+	hashtags: [HashtagRef]
+	isAvailable: Boolean
 	createdTimestamp: DateTime
 }
 
@@ -389,7 +515,40 @@ input AddUserInput {
 	email: String!
 	name: String!
 	age: Int
+	isAdmin: Boolean
 	createdTimestamp: DateTime
+	requests: [RequestRef]
+	skills: [SkillRef]
+}
+
+input HashtagFilter {
+	id: [ID!]
+	hashtag: StringTermFilter
+	has: [HashtagHasFilter]
+	and: [HashtagFilter]
+	or: [HashtagFilter]
+	not: HashtagFilter
+}
+
+input HashtagOrder {
+	asc: HashtagOrderable
+	desc: HashtagOrderable
+	then: HashtagOrder
+}
+
+input HashtagPatch {
+	iconName: String
+	blessed: Boolean
+	skills: [SkillRef]
+	requests: [RequestRef]
+}
+
+input HashtagRef {
+	id: ID
+	hashtag: String
+	iconName: String
+	blessed: Boolean
+	skills: [SkillRef]
 	requests: [RequestRef]
 }
 
@@ -413,6 +572,7 @@ input RequestPatch {
 	owner: UserRef
 	title: String
 	message: String
+	hashtags: [HashtagRef]
 	createdTimestamp: DateTime
 }
 
@@ -421,13 +581,59 @@ input RequestRef {
 	owner: UserRef
 	title: String
 	message: String
+	hashtags: [HashtagRef]
 	createdTimestamp: DateTime
+}
+
+input SkillFilter {
+	id: [ID!]
+	has: [SkillHasFilter]
+	and: [SkillFilter]
+	or: [SkillFilter]
+	not: SkillFilter
+}
+
+input SkillOrder {
+	asc: SkillOrderable
+	desc: SkillOrderable
+	then: SkillOrder
+}
+
+input SkillPatch {
+	owner: UserRef
+	title: String
+	message: String
+	hashtags: [HashtagRef]
+	isAvailable: Boolean
+	createdTimestamp: DateTime
+}
+
+input SkillRef {
+	id: ID
+	owner: UserRef
+	title: String
+	message: String
+	hashtags: [HashtagRef]
+	isAvailable: Boolean
+	createdTimestamp: DateTime
+}
+
+input UpdateHashtagInput {
+	filter: HashtagFilter!
+	set: HashtagPatch
+	remove: HashtagPatch
 }
 
 input UpdateRequestInput {
 	filter: RequestFilter!
 	set: RequestPatch
 	remove: RequestPatch
+}
+
+input UpdateSkillInput {
+	filter: SkillFilter!
+	set: SkillPatch
+	remove: SkillPatch
 }
 
 input UpdateUserInput {
@@ -454,8 +660,10 @@ input UserOrder {
 input UserPatch {
 	name: String
 	age: Int
+	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
+	skills: [SkillRef]
 }
 
 input UserRef {
@@ -463,8 +671,10 @@ input UserRef {
 	email: String
 	name: String
 	age: Int
+	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
+	skills: [SkillRef]
 }
 
 #######################
@@ -478,6 +688,12 @@ type Query {
 	getRequest(id: ID!): Request
 	queryRequest(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request]
 	aggregateRequest(filter: RequestFilter): RequestAggregateResult
+	getSkill(id: ID!): Skill
+	querySkill(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill]
+	aggregateSkill(filter: SkillFilter): SkillAggregateResult
+	getHashtag(id: ID, hashtag: String): Hashtag
+	queryHashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+	aggregateHashtag(filter: HashtagFilter): HashtagAggregateResult
 }
 
 #######################
@@ -491,5 +707,11 @@ type Mutation {
 	addRequest(input: [AddRequestInput!]!): AddRequestPayload
 	updateRequest(input: UpdateRequestInput!): UpdateRequestPayload
 	deleteRequest(filter: RequestFilter!): DeleteRequestPayload
+	addSkill(input: [AddSkillInput!]!): AddSkillPayload
+	updateSkill(input: UpdateSkillInput!): UpdateSkillPayload
+	deleteSkill(filter: SkillFilter!): DeleteSkillPayload
+	addHashtag(input: [AddHashtagInput!]!, upsert: Boolean): AddHashtagPayload
+	updateHashtag(input: UpdateHashtagInput!): UpdateHashtagPayload
+	deleteHashtag(filter: HashtagFilter!): DeleteHashtagPayload
 }
 

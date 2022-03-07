@@ -4,6 +4,7 @@ query GetAllUsers {
         email
         name
         age
+        isAdmin
         createdTimestamp
     }
 }
@@ -14,6 +15,7 @@ query GetUserWithEmail($email: String) {
         name
         age
         email
+        isAdmin
         createdTimestamp
     }
 }
@@ -25,16 +27,19 @@ query GetUserWithId($id: ID) {
         name
         age
         email
+        isAdmin
         createdTimestamp
     }
 }
 
-mutation CreateUser($email: String!, $name: String!, $age: Int!){
-    addUser(input: {email: $email, name: $name, age: $age}){
+mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimestamp: DateTime!){
+    addUser(input: {email: $email, name: $name, age: $age, isAdmin: false, createdTimestamp: $createdTimestamp}){
         user{
             id
             name
             email
+            isAdmin
+            createdTimestamp
         }
     }
 }
@@ -59,5 +64,54 @@ query GetAllRequests {
         title
         message
         createdTimestamp
+    }
+}
+
+fragment HashtagFragmentData on Hashtag {
+    id
+    hashtag
+    iconName
+    blessed
+    skillsAggregate{
+        count
+    }
+    requestsAggregate{
+        count
+    }
+}
+
+query GetHashtagByName ($name: String) {
+    getHashtag(hashtag: $name){
+        ...HashtagFragmentData
+    }
+}
+
+
+query GetHashtagById ($id: ID) {
+    getHashtag(id: $id){
+        ...HashtagFragmentData
+    }
+}
+
+
+query GetAllHashtags{
+    queryHashtag(order: {asc: hashtag}){
+        ...HashtagFragmentData
+    }
+}
+
+mutation AddHashtag($name: String!, $iconName: String = "", $blessed: Boolean = false ){
+    addHashtag(input: {hashtag: $name, iconName: $iconName, blessed: $blessed}){
+        hashtag {
+            ...HashtagFragmentData
+        }
+    }
+}
+
+mutation UpdateHashtag($hashtagInput:UpdateHashtagInput!){
+    updateHashtag(input: $hashtagInput){
+        hashtag {
+            ...HashtagFragmentData
+        }
     }
 }

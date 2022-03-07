@@ -31,6 +31,12 @@ dependencies:
   get: ^4.6.1
   provider: ^6.0.2
   flutter_secure_storage: ^5.0.2
+  intl: ^0.17.0
+  font_awesome_flutter: ^9.2.0
+  flutter_typeahead: ^3.2.4
+  keyboard_dismisser: ^2.0.1
+  oktoast: ^3.1.5
+
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +46,10 @@ dev_dependencies:
   graphql_codegen: ^0.6.0
   build_runner: ^2.0.3
   analyzer: ^1.7.0
+
+dependency_overrides:
+  font_awesome_flutter:
+    path: font_awesome_flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

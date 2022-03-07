@@ -33,12 +33,12 @@ class _SocialGraphUserListState extends State<SocialGraphUserList> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: const Icon(Icons.person),
-                      title: Text('Name: ${dataList[index]!.name}'),
-                      subtitle: Text('Email: ${dataList[index]!.email}'),
+                      title: Text(dataList[index]!.name),
+                      subtitle: Text(dataList[index]!.email),
                       trailing: Text(
-                        dataList[index]!.id,
+                        '${dataList[index]!.id}\n${dataList[index]!.createdTimestamp}',
                         style:
-                            TextStyle(fontSize: 10.sp, color: Colors.grey[600]),
+                            TextStyle(fontSize: 9.sp, color: Colors.grey[600]),
                       ),
                     );
                   },

@@ -33,6 +33,7 @@ class _MyProfileTestFormState extends State<MyProfileTestForm> {
           name: name,
           email: email,
           age: 0,
+          createdTimestamp: DateTime.now().toUtc().toIso8601String(),
         ),
       ),
     );

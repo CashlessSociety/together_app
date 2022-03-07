@@ -55,12 +55,15 @@ class MainEntryDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ...List.generate(kNavSideMenuInfoList.length, (i) {
-            Map<String, dynamic> item = kNavSideMenuInfoList[i];
+          ...List.generate(kGetNavSideMenuInfoList().length, (i) {
+            Map<String, dynamic> item = kGetNavSideMenuInfoList()[i];
             return ListTile(
               title: Text(item['name']),
               leading: Icon(item['icon']),
               onTap: () {
+                /// cancel drawer
+                Get.back();
+
                 /// prevent route looping
                 Get.offNamedUntil(
                     item['route'],

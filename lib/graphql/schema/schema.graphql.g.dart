@@ -572,11 +572,44 @@ Map<String, dynamic> _$InputStringHashFilterToJson(
       'in': instance.$in,
     };
 
+InputAddHashtagInput _$InputAddHashtagInputFromJson(Map<String, dynamic> json) {
+  return InputAddHashtagInput(
+    hashtag: json['hashtag'] as String,
+    iconName: json['iconName'] as String?,
+    blessed: json['blessed'] as bool?,
+    skills: (json['skills'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requests: (json['requests'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$InputAddHashtagInputToJson(
+        InputAddHashtagInput instance) =>
+    <String, dynamic>{
+      'hashtag': instance.hashtag,
+      'iconName': instance.iconName,
+      'blessed': instance.blessed,
+      'skills': instance.skills,
+      'requests': instance.requests,
+    };
+
 InputAddRequestInput _$InputAddRequestInputFromJson(Map<String, dynamic> json) {
   return InputAddRequestInput(
     owner: InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String,
     message: json['message'] as String,
+    hashtags: (json['hashtags'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
     createdTimestamp: json['createdTimestamp'] as String?,
   );
 }
@@ -587,6 +620,32 @@ Map<String, dynamic> _$InputAddRequestInputToJson(
       'owner': instance.owner,
       'title': instance.title,
       'message': instance.message,
+      'hashtags': instance.hashtags,
+      'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputAddSkillInput _$InputAddSkillInputFromJson(Map<String, dynamic> json) {
+  return InputAddSkillInput(
+    owner: InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
+    title: json['title'] as String?,
+    message: json['message'] as String?,
+    hashtags: (json['hashtags'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    isAvailable: json['isAvailable'] as bool?,
+    createdTimestamp: json['createdTimestamp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputAddSkillInputToJson(InputAddSkillInput instance) =>
+    <String, dynamic>{
+      'owner': instance.owner,
+      'title': instance.title,
+      'message': instance.message,
+      'hashtags': instance.hashtags,
+      'isAvailable': instance.isAvailable,
       'createdTimestamp': instance.createdTimestamp,
     };
 
@@ -595,11 +654,17 @@ InputAddUserInput _$InputAddUserInputFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     name: json['name'] as String,
     age: json['age'] as int?,
+    isAdmin: json['isAdmin'] as bool?,
     createdTimestamp: json['createdTimestamp'] as String?,
     requests: (json['requests'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    skills: (json['skills'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillRef.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -609,7 +674,135 @@ Map<String, dynamic> _$InputAddUserInputToJson(InputAddUserInput instance) =>
       'email': instance.email,
       'name': instance.name,
       'age': instance.age,
+      'isAdmin': instance.isAdmin,
       'createdTimestamp': instance.createdTimestamp,
+      'requests': instance.requests,
+      'skills': instance.skills,
+    };
+
+InputHashtagFilter _$InputHashtagFilterFromJson(Map<String, dynamic> json) {
+  return InputHashtagFilter(
+    id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    hashtag: json['hashtag'] == null
+        ? null
+        : InputStringTermFilter.fromJson(
+            json['hashtag'] as Map<String, dynamic>),
+    has: (json['has'] as List<dynamic>?)
+        ?.map((e) => _$enumDecodeNullable(_$EnumHashtagHasFilterEnumMap, e,
+            unknownValue: EnumHashtagHasFilter.$unknown))
+        .toList(),
+    and: (json['and'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    or: (json['or'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    not: json['not'] == null
+        ? null
+        : InputHashtagFilter.fromJson(json['not'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputHashtagFilterToJson(InputHashtagFilter instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'hashtag': instance.hashtag,
+      'has':
+          instance.has?.map((e) => _$EnumHashtagHasFilterEnumMap[e]).toList(),
+      'and': instance.and,
+      'or': instance.or,
+      'not': instance.not,
+    };
+
+const _$EnumHashtagHasFilterEnumMap = {
+  EnumHashtagHasFilter.hashtag: 'hashtag',
+  EnumHashtagHasFilter.iconName: 'iconName',
+  EnumHashtagHasFilter.blessed: 'blessed',
+  EnumHashtagHasFilter.skills: 'skills',
+  EnumHashtagHasFilter.requests: 'requests',
+  EnumHashtagHasFilter.$unknown: r'$unknown',
+};
+
+InputHashtagOrder _$InputHashtagOrderFromJson(Map<String, dynamic> json) {
+  return InputHashtagOrder(
+    asc: _$enumDecodeNullable(_$EnumHashtagOrderableEnumMap, json['asc'],
+        unknownValue: EnumHashtagOrderable.$unknown),
+    desc: _$enumDecodeNullable(_$EnumHashtagOrderableEnumMap, json['desc'],
+        unknownValue: EnumHashtagOrderable.$unknown),
+    then: json['then'] == null
+        ? null
+        : InputHashtagOrder.fromJson(json['then'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputHashtagOrderToJson(InputHashtagOrder instance) =>
+    <String, dynamic>{
+      'asc': _$EnumHashtagOrderableEnumMap[instance.asc],
+      'desc': _$EnumHashtagOrderableEnumMap[instance.desc],
+      'then': instance.then,
+    };
+
+const _$EnumHashtagOrderableEnumMap = {
+  EnumHashtagOrderable.hashtag: 'hashtag',
+  EnumHashtagOrderable.iconName: 'iconName',
+  EnumHashtagOrderable.$unknown: r'$unknown',
+};
+
+InputHashtagPatch _$InputHashtagPatchFromJson(Map<String, dynamic> json) {
+  return InputHashtagPatch(
+    iconName: json['iconName'] as String?,
+    blessed: json['blessed'] as bool?,
+    skills: (json['skills'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requests: (json['requests'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$InputHashtagPatchToJson(InputHashtagPatch instance) =>
+    <String, dynamic>{
+      'iconName': instance.iconName,
+      'blessed': instance.blessed,
+      'skills': instance.skills,
+      'requests': instance.requests,
+    };
+
+InputHashtagRef _$InputHashtagRefFromJson(Map<String, dynamic> json) {
+  return InputHashtagRef(
+    id: json['id'] as String?,
+    hashtag: json['hashtag'] as String?,
+    iconName: json['iconName'] as String?,
+    blessed: json['blessed'] as bool?,
+    skills: (json['skills'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requests: (json['requests'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$InputHashtagRefToJson(InputHashtagRef instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'hashtag': instance.hashtag,
+      'iconName': instance.iconName,
+      'blessed': instance.blessed,
+      'skills': instance.skills,
       'requests': instance.requests,
     };
 
@@ -659,6 +852,7 @@ const _$EnumRequestHasFilterEnumMap = {
   EnumRequestHasFilter.owner: 'owner',
   EnumRequestHasFilter.title: 'title',
   EnumRequestHasFilter.message: 'message',
+  EnumRequestHasFilter.hashtags: 'hashtags',
   EnumRequestHasFilter.createdTimestamp: 'createdTimestamp',
   EnumRequestHasFilter.$unknown: r'$unknown',
 };
@@ -696,6 +890,11 @@ InputRequestPatch _$InputRequestPatchFromJson(Map<String, dynamic> json) {
         : InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String?,
     message: json['message'] as String?,
+    hashtags: (json['hashtags'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
     createdTimestamp: json['createdTimestamp'] as String?,
   );
 }
@@ -705,6 +904,7 @@ Map<String, dynamic> _$InputRequestPatchToJson(InputRequestPatch instance) =>
       'owner': instance.owner,
       'title': instance.title,
       'message': instance.message,
+      'hashtags': instance.hashtags,
       'createdTimestamp': instance.createdTimestamp,
     };
 
@@ -716,6 +916,11 @@ InputRequestRef _$InputRequestRefFromJson(Map<String, dynamic> json) {
         : InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String?,
     message: json['message'] as String?,
+    hashtags: (json['hashtags'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
     createdTimestamp: json['createdTimestamp'] as String?,
   );
 }
@@ -726,7 +931,153 @@ Map<String, dynamic> _$InputRequestRefToJson(InputRequestRef instance) =>
       'owner': instance.owner,
       'title': instance.title,
       'message': instance.message,
+      'hashtags': instance.hashtags,
       'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputSkillFilter _$InputSkillFilterFromJson(Map<String, dynamic> json) {
+  return InputSkillFilter(
+    id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    has: (json['has'] as List<dynamic>?)
+        ?.map((e) => _$enumDecodeNullable(_$EnumSkillHasFilterEnumMap, e,
+            unknownValue: EnumSkillHasFilter.$unknown))
+        .toList(),
+    and: (json['and'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    or: (json['or'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    not: json['not'] == null
+        ? null
+        : InputSkillFilter.fromJson(json['not'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputSkillFilterToJson(InputSkillFilter instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'has': instance.has?.map((e) => _$EnumSkillHasFilterEnumMap[e]).toList(),
+      'and': instance.and,
+      'or': instance.or,
+      'not': instance.not,
+    };
+
+const _$EnumSkillHasFilterEnumMap = {
+  EnumSkillHasFilter.owner: 'owner',
+  EnumSkillHasFilter.title: 'title',
+  EnumSkillHasFilter.message: 'message',
+  EnumSkillHasFilter.hashtags: 'hashtags',
+  EnumSkillHasFilter.isAvailable: 'isAvailable',
+  EnumSkillHasFilter.createdTimestamp: 'createdTimestamp',
+  EnumSkillHasFilter.$unknown: r'$unknown',
+};
+
+InputSkillOrder _$InputSkillOrderFromJson(Map<String, dynamic> json) {
+  return InputSkillOrder(
+    asc: _$enumDecodeNullable(_$EnumSkillOrderableEnumMap, json['asc'],
+        unknownValue: EnumSkillOrderable.$unknown),
+    desc: _$enumDecodeNullable(_$EnumSkillOrderableEnumMap, json['desc'],
+        unknownValue: EnumSkillOrderable.$unknown),
+    then: json['then'] == null
+        ? null
+        : InputSkillOrder.fromJson(json['then'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputSkillOrderToJson(InputSkillOrder instance) =>
+    <String, dynamic>{
+      'asc': _$EnumSkillOrderableEnumMap[instance.asc],
+      'desc': _$EnumSkillOrderableEnumMap[instance.desc],
+      'then': instance.then,
+    };
+
+const _$EnumSkillOrderableEnumMap = {
+  EnumSkillOrderable.title: 'title',
+  EnumSkillOrderable.message: 'message',
+  EnumSkillOrderable.createdTimestamp: 'createdTimestamp',
+  EnumSkillOrderable.$unknown: r'$unknown',
+};
+
+InputSkillPatch _$InputSkillPatchFromJson(Map<String, dynamic> json) {
+  return InputSkillPatch(
+    owner: json['owner'] == null
+        ? null
+        : InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
+    title: json['title'] as String?,
+    message: json['message'] as String?,
+    hashtags: (json['hashtags'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    isAvailable: json['isAvailable'] as bool?,
+    createdTimestamp: json['createdTimestamp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputSkillPatchToJson(InputSkillPatch instance) =>
+    <String, dynamic>{
+      'owner': instance.owner,
+      'title': instance.title,
+      'message': instance.message,
+      'hashtags': instance.hashtags,
+      'isAvailable': instance.isAvailable,
+      'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputSkillRef _$InputSkillRefFromJson(Map<String, dynamic> json) {
+  return InputSkillRef(
+    id: json['id'] as String?,
+    owner: json['owner'] == null
+        ? null
+        : InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
+    title: json['title'] as String?,
+    message: json['message'] as String?,
+    hashtags: (json['hashtags'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    isAvailable: json['isAvailable'] as bool?,
+    createdTimestamp: json['createdTimestamp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputSkillRefToJson(InputSkillRef instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'owner': instance.owner,
+      'title': instance.title,
+      'message': instance.message,
+      'hashtags': instance.hashtags,
+      'isAvailable': instance.isAvailable,
+      'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputUpdateHashtagInput _$InputUpdateHashtagInputFromJson(
+    Map<String, dynamic> json) {
+  return InputUpdateHashtagInput(
+    filter: InputHashtagFilter.fromJson(json['filter'] as Map<String, dynamic>),
+    $set: json['set'] == null
+        ? null
+        : InputHashtagPatch.fromJson(json['set'] as Map<String, dynamic>),
+    remove: json['remove'] == null
+        ? null
+        : InputHashtagPatch.fromJson(json['remove'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputUpdateHashtagInputToJson(
+        InputUpdateHashtagInput instance) =>
+    <String, dynamic>{
+      'filter': instance.filter,
+      'set': instance.$set,
+      'remove': instance.remove,
     };
 
 InputUpdateRequestInput _$InputUpdateRequestInputFromJson(
@@ -744,6 +1095,27 @@ InputUpdateRequestInput _$InputUpdateRequestInputFromJson(
 
 Map<String, dynamic> _$InputUpdateRequestInputToJson(
         InputUpdateRequestInput instance) =>
+    <String, dynamic>{
+      'filter': instance.filter,
+      'set': instance.$set,
+      'remove': instance.remove,
+    };
+
+InputUpdateSkillInput _$InputUpdateSkillInputFromJson(
+    Map<String, dynamic> json) {
+  return InputUpdateSkillInput(
+    filter: InputSkillFilter.fromJson(json['filter'] as Map<String, dynamic>),
+    $set: json['set'] == null
+        ? null
+        : InputSkillPatch.fromJson(json['set'] as Map<String, dynamic>),
+    remove: json['remove'] == null
+        ? null
+        : InputSkillPatch.fromJson(json['remove'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputUpdateSkillInputToJson(
+        InputUpdateSkillInput instance) =>
     <String, dynamic>{
       'filter': instance.filter,
       'set': instance.$set,
@@ -810,8 +1182,10 @@ const _$EnumUserHasFilterEnumMap = {
   EnumUserHasFilter.email: 'email',
   EnumUserHasFilter.name: 'name',
   EnumUserHasFilter.age: 'age',
+  EnumUserHasFilter.isAdmin: 'isAdmin',
   EnumUserHasFilter.createdTimestamp: 'createdTimestamp',
   EnumUserHasFilter.requests: 'requests',
+  EnumUserHasFilter.skills: 'skills',
   EnumUserHasFilter.$unknown: r'$unknown',
 };
 
@@ -846,11 +1220,17 @@ InputUserPatch _$InputUserPatchFromJson(Map<String, dynamic> json) {
   return InputUserPatch(
     name: json['name'] as String?,
     age: json['age'] as int?,
+    isAdmin: json['isAdmin'] as bool?,
     createdTimestamp: json['createdTimestamp'] as String?,
     requests: (json['requests'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    skills: (json['skills'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillRef.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -859,8 +1239,10 @@ Map<String, dynamic> _$InputUserPatchToJson(InputUserPatch instance) =>
     <String, dynamic>{
       'name': instance.name,
       'age': instance.age,
+      'isAdmin': instance.isAdmin,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
+      'skills': instance.skills,
     };
 
 InputUserRef _$InputUserRefFromJson(Map<String, dynamic> json) {
@@ -869,11 +1251,17 @@ InputUserRef _$InputUserRefFromJson(Map<String, dynamic> json) {
     email: json['email'] as String?,
     name: json['name'] as String?,
     age: json['age'] as int?,
+    isAdmin: json['isAdmin'] as bool?,
     createdTimestamp: json['createdTimestamp'] as String?,
     requests: (json['requests'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    skills: (json['skills'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputSkillRef.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -884,6 +1272,8 @@ Map<String, dynamic> _$InputUserRefToJson(InputUserRef instance) =>
       'email': instance.email,
       'name': instance.name,
       'age': instance.age,
+      'isAdmin': instance.isAdmin,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
+      'skills': instance.skills,
     };
