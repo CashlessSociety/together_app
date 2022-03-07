@@ -5,6 +5,9 @@ import 'package:together_app/screens/nav_bottom/matching_request/matching_reques
 import 'package:together_app/screens/nav_bottom/network_feed/network_feed_screen.dart';
 import 'package:together_app/screens/nav_bottom/social_graph/social_graph_screen.dart';
 import 'package:together_app/screens/nav_leftside/add_request/add_request_screen.dart';
+import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_edit_hashtag_screen.dart';
+import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_manage_hashtags_screen.dart';
+import 'package:together_app/screens/nav_leftside/admin_portal/admin_portal_screen.dart';
 import 'package:together_app/screens/nav_leftside/my_profile/my_profile_screen.dart';
 import 'package:together_app/screens/nav_leftside/my_skills/my_skills_screen.dart';
 import 'package:together_app/screens/nav_leftside/notifications/notifications_screen.dart';
@@ -24,7 +27,27 @@ Map<String, WidgetBuilder> getRoutes(BuildContext context) {
     '/notifications_screen': (context) => const NotificationsScreen(),
     '/send_gratitude_screen': (context) => const SendGratitudeScreen(),
     '/settings_screen': (context) => const SettingsScreen(),
+    '/admin_portal_screen': (context) => const AdminPortalScreen(),
+    '/admin_edit_hashtag_screen': (context) => AdminEditHashtagScreen(
+        arguments: ModalRoute.of(context)!.settings.arguments!
+            as AdminEditHashtagScreenArguments),
+    '/admin_manage_hashtags_screen': (context) =>
+        const AdminManageHashtagsScreen(),
   };
+}
+
+class AdminEditHashtagScreenArguments {
+  final String? id;
+  final String? hashtag;
+  final String? iconName;
+  final bool? blessed;
+
+  AdminEditHashtagScreenArguments({
+    this.id,
+    this.hashtag,
+    this.iconName,
+    this.blessed,
+  });
 }
 
 /// not needed right now

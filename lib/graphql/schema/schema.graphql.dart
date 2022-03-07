@@ -543,11 +543,39 @@ class InputStringHashFilter extends JsonSerializable {
 }
 
 @JsonSerializable()
+class InputAddHashtagInput extends JsonSerializable {
+  InputAddHashtagInput(
+      {required this.hashtag,
+      this.iconName,
+      this.blessed,
+      this.skills,
+      this.requests});
+
+  @override
+  factory InputAddHashtagInput.fromJson(Map<String, dynamic> json) =>
+      _$InputAddHashtagInputFromJson(json);
+
+  final String hashtag;
+
+  final String? iconName;
+
+  final bool? blessed;
+
+  final List<InputSkillRef?>? skills;
+
+  final List<InputRequestRef?>? requests;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputAddHashtagInputToJson(this);
+}
+
+@JsonSerializable()
 class InputAddRequestInput extends JsonSerializable {
   InputAddRequestInput(
       {required this.owner,
       required this.title,
       required this.message,
+      this.hashtags,
       this.createdTimestamp});
 
   @override
@@ -560,10 +588,42 @@ class InputAddRequestInput extends JsonSerializable {
 
   final String message;
 
+  final List<InputHashtagRef?>? hashtags;
+
   final String? createdTimestamp;
 
   @override
   Map<String, dynamic> toJson() => _$InputAddRequestInputToJson(this);
+}
+
+@JsonSerializable()
+class InputAddSkillInput extends JsonSerializable {
+  InputAddSkillInput(
+      {required this.owner,
+      this.title,
+      this.message,
+      this.hashtags,
+      this.isAvailable,
+      this.createdTimestamp});
+
+  @override
+  factory InputAddSkillInput.fromJson(Map<String, dynamic> json) =>
+      _$InputAddSkillInputFromJson(json);
+
+  final InputUserRef owner;
+
+  final String? title;
+
+  final String? message;
+
+  final List<InputHashtagRef?>? hashtags;
+
+  final bool? isAvailable;
+
+  final String? createdTimestamp;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputAddSkillInputToJson(this);
 }
 
 @JsonSerializable()
@@ -572,8 +632,10 @@ class InputAddUserInput extends JsonSerializable {
       {required this.email,
       required this.name,
       this.age,
+      this.isAdmin,
       this.createdTimestamp,
-      this.requests});
+      this.requests,
+      this.skills});
 
   @override
   factory InputAddUserInput.fromJson(Map<String, dynamic> json) =>
@@ -585,12 +647,112 @@ class InputAddUserInput extends JsonSerializable {
 
   final int? age;
 
+  final bool? isAdmin;
+
   final String? createdTimestamp;
 
   final List<InputRequestRef?>? requests;
 
+  final List<InputSkillRef?>? skills;
+
   @override
   Map<String, dynamic> toJson() => _$InputAddUserInputToJson(this);
+}
+
+@JsonSerializable()
+class InputHashtagFilter extends JsonSerializable {
+  InputHashtagFilter(
+      {this.id, this.hashtag, this.has, this.and, this.or, this.not});
+
+  @override
+  factory InputHashtagFilter.fromJson(Map<String, dynamic> json) =>
+      _$InputHashtagFilterFromJson(json);
+
+  final List<String>? id;
+
+  final InputStringTermFilter? hashtag;
+
+  @JsonKey(unknownEnumValue: EnumHashtagHasFilter.$unknown)
+  final List<EnumHashtagHasFilter?>? has;
+
+  final List<InputHashtagFilter?>? and;
+
+  final List<InputHashtagFilter?>? or;
+
+  final InputHashtagFilter? not;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputHashtagFilterToJson(this);
+}
+
+@JsonSerializable()
+class InputHashtagOrder extends JsonSerializable {
+  InputHashtagOrder({this.asc, this.desc, this.then});
+
+  @override
+  factory InputHashtagOrder.fromJson(Map<String, dynamic> json) =>
+      _$InputHashtagOrderFromJson(json);
+
+  @JsonKey(unknownEnumValue: EnumHashtagOrderable.$unknown)
+  final EnumHashtagOrderable? asc;
+
+  @JsonKey(unknownEnumValue: EnumHashtagOrderable.$unknown)
+  final EnumHashtagOrderable? desc;
+
+  final InputHashtagOrder? then;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputHashtagOrderToJson(this);
+}
+
+@JsonSerializable()
+class InputHashtagPatch extends JsonSerializable {
+  InputHashtagPatch({this.iconName, this.blessed, this.skills, this.requests});
+
+  @override
+  factory InputHashtagPatch.fromJson(Map<String, dynamic> json) =>
+      _$InputHashtagPatchFromJson(json);
+
+  final String? iconName;
+
+  final bool? blessed;
+
+  final List<InputSkillRef?>? skills;
+
+  final List<InputRequestRef?>? requests;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputHashtagPatchToJson(this);
+}
+
+@JsonSerializable()
+class InputHashtagRef extends JsonSerializable {
+  InputHashtagRef(
+      {this.id,
+      this.hashtag,
+      this.iconName,
+      this.blessed,
+      this.skills,
+      this.requests});
+
+  @override
+  factory InputHashtagRef.fromJson(Map<String, dynamic> json) =>
+      _$InputHashtagRefFromJson(json);
+
+  final String? id;
+
+  final String? hashtag;
+
+  final String? iconName;
+
+  final bool? blessed;
+
+  final List<InputSkillRef?>? skills;
+
+  final List<InputRequestRef?>? requests;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputHashtagRefToJson(this);
 }
 
 @JsonSerializable()
@@ -650,7 +812,11 @@ class InputRequestOrder extends JsonSerializable {
 @JsonSerializable()
 class InputRequestPatch extends JsonSerializable {
   InputRequestPatch(
-      {this.owner, this.title, this.message, this.createdTimestamp});
+      {this.owner,
+      this.title,
+      this.message,
+      this.hashtags,
+      this.createdTimestamp});
 
   @override
   factory InputRequestPatch.fromJson(Map<String, dynamic> json) =>
@@ -662,6 +828,8 @@ class InputRequestPatch extends JsonSerializable {
 
   final String? message;
 
+  final List<InputHashtagRef?>? hashtags;
+
   final String? createdTimestamp;
 
   @override
@@ -671,7 +839,12 @@ class InputRequestPatch extends JsonSerializable {
 @JsonSerializable()
 class InputRequestRef extends JsonSerializable {
   InputRequestRef(
-      {this.id, this.owner, this.title, this.message, this.createdTimestamp});
+      {this.id,
+      this.owner,
+      this.title,
+      this.message,
+      this.hashtags,
+      this.createdTimestamp});
 
   @override
   factory InputRequestRef.fromJson(Map<String, dynamic> json) =>
@@ -685,10 +858,137 @@ class InputRequestRef extends JsonSerializable {
 
   final String? message;
 
+  final List<InputHashtagRef?>? hashtags;
+
   final String? createdTimestamp;
 
   @override
   Map<String, dynamic> toJson() => _$InputRequestRefToJson(this);
+}
+
+@JsonSerializable()
+class InputSkillFilter extends JsonSerializable {
+  InputSkillFilter({this.id, this.has, this.and, this.or, this.not});
+
+  @override
+  factory InputSkillFilter.fromJson(Map<String, dynamic> json) =>
+      _$InputSkillFilterFromJson(json);
+
+  final List<String>? id;
+
+  @JsonKey(unknownEnumValue: EnumSkillHasFilter.$unknown)
+  final List<EnumSkillHasFilter?>? has;
+
+  final List<InputSkillFilter?>? and;
+
+  final List<InputSkillFilter?>? or;
+
+  final InputSkillFilter? not;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputSkillFilterToJson(this);
+}
+
+@JsonSerializable()
+class InputSkillOrder extends JsonSerializable {
+  InputSkillOrder({this.asc, this.desc, this.then});
+
+  @override
+  factory InputSkillOrder.fromJson(Map<String, dynamic> json) =>
+      _$InputSkillOrderFromJson(json);
+
+  @JsonKey(unknownEnumValue: EnumSkillOrderable.$unknown)
+  final EnumSkillOrderable? asc;
+
+  @JsonKey(unknownEnumValue: EnumSkillOrderable.$unknown)
+  final EnumSkillOrderable? desc;
+
+  final InputSkillOrder? then;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputSkillOrderToJson(this);
+}
+
+@JsonSerializable()
+class InputSkillPatch extends JsonSerializable {
+  InputSkillPatch(
+      {this.owner,
+      this.title,
+      this.message,
+      this.hashtags,
+      this.isAvailable,
+      this.createdTimestamp});
+
+  @override
+  factory InputSkillPatch.fromJson(Map<String, dynamic> json) =>
+      _$InputSkillPatchFromJson(json);
+
+  final InputUserRef? owner;
+
+  final String? title;
+
+  final String? message;
+
+  final List<InputHashtagRef?>? hashtags;
+
+  final bool? isAvailable;
+
+  final String? createdTimestamp;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputSkillPatchToJson(this);
+}
+
+@JsonSerializable()
+class InputSkillRef extends JsonSerializable {
+  InputSkillRef(
+      {this.id,
+      this.owner,
+      this.title,
+      this.message,
+      this.hashtags,
+      this.isAvailable,
+      this.createdTimestamp});
+
+  @override
+  factory InputSkillRef.fromJson(Map<String, dynamic> json) =>
+      _$InputSkillRefFromJson(json);
+
+  final String? id;
+
+  final InputUserRef? owner;
+
+  final String? title;
+
+  final String? message;
+
+  final List<InputHashtagRef?>? hashtags;
+
+  final bool? isAvailable;
+
+  final String? createdTimestamp;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputSkillRefToJson(this);
+}
+
+@JsonSerializable()
+class InputUpdateHashtagInput extends JsonSerializable {
+  InputUpdateHashtagInput({required this.filter, this.$set, this.remove});
+
+  @override
+  factory InputUpdateHashtagInput.fromJson(Map<String, dynamic> json) =>
+      _$InputUpdateHashtagInputFromJson(json);
+
+  final InputHashtagFilter filter;
+
+  @JsonKey(name: 'set')
+  final InputHashtagPatch? $set;
+
+  final InputHashtagPatch? remove;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputUpdateHashtagInputToJson(this);
 }
 
 @JsonSerializable()
@@ -708,6 +1008,25 @@ class InputUpdateRequestInput extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$InputUpdateRequestInputToJson(this);
+}
+
+@JsonSerializable()
+class InputUpdateSkillInput extends JsonSerializable {
+  InputUpdateSkillInput({required this.filter, this.$set, this.remove});
+
+  @override
+  factory InputUpdateSkillInput.fromJson(Map<String, dynamic> json) =>
+      _$InputUpdateSkillInputFromJson(json);
+
+  final InputSkillFilter filter;
+
+  @JsonKey(name: 'set')
+  final InputSkillPatch? $set;
+
+  final InputSkillPatch? remove;
+
+  @override
+  Map<String, dynamic> toJson() => _$InputUpdateSkillInputToJson(this);
 }
 
 @JsonSerializable()
@@ -776,7 +1095,13 @@ class InputUserOrder extends JsonSerializable {
 
 @JsonSerializable()
 class InputUserPatch extends JsonSerializable {
-  InputUserPatch({this.name, this.age, this.createdTimestamp, this.requests});
+  InputUserPatch(
+      {this.name,
+      this.age,
+      this.isAdmin,
+      this.createdTimestamp,
+      this.requests,
+      this.skills});
 
   @override
   factory InputUserPatch.fromJson(Map<String, dynamic> json) =>
@@ -786,9 +1111,13 @@ class InputUserPatch extends JsonSerializable {
 
   final int? age;
 
+  final bool? isAdmin;
+
   final String? createdTimestamp;
 
   final List<InputRequestRef?>? requests;
+
+  final List<InputSkillRef?>? skills;
 
   @override
   Map<String, dynamic> toJson() => _$InputUserPatchToJson(this);
@@ -801,8 +1130,10 @@ class InputUserRef extends JsonSerializable {
       this.email,
       this.name,
       this.age,
+      this.isAdmin,
       this.createdTimestamp,
-      this.requests});
+      this.requests,
+      this.skills});
 
   @override
   factory InputUserRef.fromJson(Map<String, dynamic> json) =>
@@ -816,9 +1147,13 @@ class InputUserRef extends JsonSerializable {
 
   final int? age;
 
+  final bool? isAdmin;
+
   final String? createdTimestamp;
 
   final List<InputRequestRef?>? requests;
+
+  final List<InputSkillRef?>? skills;
 
   @override
   Map<String, dynamic> toJson() => _$InputUserRefToJson(this);
@@ -877,9 +1212,40 @@ enum EnumMode {
   single,
   $unknown
 }
+enum EnumHashtagHasFilter {
+  @JsonValue('hashtag')
+  hashtag,
+  @JsonValue('iconName')
+  iconName,
+  @JsonValue('blessed')
+  blessed,
+  @JsonValue('skills')
+  skills,
+  @JsonValue('requests')
+  requests,
+  $unknown
+}
+enum EnumHashtagOrderable {
+  @JsonValue('hashtag')
+  hashtag,
+  @JsonValue('iconName')
+  iconName,
+  $unknown
+}
 enum EnumRequestHasFilter {
   @JsonValue('owner')
   owner,
+  @JsonValue('title')
+  title,
+  @JsonValue('message')
+  message,
+  @JsonValue('hashtags')
+  hashtags,
+  @JsonValue('createdTimestamp')
+  createdTimestamp,
+  $unknown
+}
+enum EnumRequestOrderable {
   @JsonValue('title')
   title,
   @JsonValue('message')
@@ -888,7 +1254,22 @@ enum EnumRequestHasFilter {
   createdTimestamp,
   $unknown
 }
-enum EnumRequestOrderable {
+enum EnumSkillHasFilter {
+  @JsonValue('owner')
+  owner,
+  @JsonValue('title')
+  title,
+  @JsonValue('message')
+  message,
+  @JsonValue('hashtags')
+  hashtags,
+  @JsonValue('isAvailable')
+  isAvailable,
+  @JsonValue('createdTimestamp')
+  createdTimestamp,
+  $unknown
+}
+enum EnumSkillOrderable {
   @JsonValue('title')
   title,
   @JsonValue('message')
@@ -904,10 +1285,14 @@ enum EnumUserHasFilter {
   name,
   @JsonValue('age')
   age,
+  @JsonValue('isAdmin')
+  isAdmin,
   @JsonValue('createdTimestamp')
   createdTimestamp,
   @JsonValue('requests')
   requests,
+  @JsonValue('skills')
+  skills,
   $unknown
 }
 enum EnumUserOrderable {
