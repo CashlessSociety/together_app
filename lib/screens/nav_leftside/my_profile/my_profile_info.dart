@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:together_app/graphql/requests/requests.graphql.dart';
+import 'package:together_app/graphql/query/query.graphql.dart';
 
 class MyProfileInfo extends StatefulWidget {
   final String userId;

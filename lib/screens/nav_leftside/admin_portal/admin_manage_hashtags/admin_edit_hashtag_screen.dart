@@ -5,7 +5,8 @@ import 'package:font_awesome_flutter/name_icon_mapping.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:together_app/graphql/requests/requests.graphql.dart';
+import 'package:together_app/graphql/mutation/mutation.graphql.dart';
+import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/graphql/schema/schema.graphql.dart';
 import 'package:together_app/utils/routes.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -26,116 +27,222 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   GraphQLClient? gqlClient;
   String hashtag = '';
   String iconName = '';
+  bool blessed = false;
   TextEditingController nameTextController = TextEditingController();
   TextEditingController iconTextController = TextEditingController();
-  bool isProcessing = false;
+  bool isProcessingEdit = false;
+  bool isProcessingDelete = false;
 
-  void changeProcessingState(bool state) {
+  void changeProcessingEditState(bool state) {
     if (mounted) {
       setState(() {
-        isProcessing = state;
+        isProcessingEdit = state;
       });
     }
   }
 
-  void onCheckHashtagWithName() async {
-    changeProcessingState(true);
-    final result = await gqlClient!.queryGetHashtagByName(
-      GQLOptionsQueryGetHashtagByName(
+  void changeProcessingDeleteState(bool state) {
+    if (mounted) {
+      setState(() {
+        isProcessingDelete = state;
+      });
+    }
+  }
+
+  void onCheckHashtagMetaWithName() async {
+    changeProcessingEditState(true);
+    final result = await gqlClient!.queryGetHashtagMetaByName(
+      GQLOptionsQueryGetHashtagMetaByName(
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: VariablesQueryGetHashtagByName(
-          name: hashtag.toLowerCase(),
+        variables: VariablesQueryGetHashtagMetaByName(
+          metaName: hashtag.toLowerCase(),
         ),
       ),
     );
     if (result.hasException) {
       showToast("Query Error");
-      changeProcessingState(false);
+      changeProcessingEditState(false);
     } else if (result.parsedData != null) {
       /// new hashtag, can create
-      if (result.parsedData!.getHashtag == null) {
-        await onAddHashtag();
+      if (result.parsedData!.getHashtagMeta == null) {
+        onAddHashtag();
       }
 
       /// hashtag exists, can't create
       else {
         showToast("Hashtag already exists!");
-        changeProcessingState(false);
+        changeProcessingEditState(false);
       }
     } else {
       showToast("result parsedData is null");
-      changeProcessingState(false);
+      changeProcessingEditState(false);
     }
   }
 
-  Future<void> onAddHashtag() async {
-    final result = await gqlClient!.mutateAddHashtag(
-      GQLOptionsMutationAddHashtag(
-        fetchPolicy: FetchPolicy.networkOnly,
-        variables: VariablesMutationAddHashtag(
-          name: hashtag.toLowerCase(),
-          iconName: iconName,
-          blessed: false,
-        ),
-      ),
-    );
-    if (result.hasException) {
-      showToast("Mutation Error");
-      changeProcessingState(false);
-    } else if (result.parsedData != null) {
-      if (result.parsedData!.addHashtag != null &&
-          result.parsedData!.addHashtag!.hashtag != null) {
-        showToast("Hashtag added!");
-        await Future.delayed(const Duration(milliseconds: 500));
-        Get.back(result: result.parsedData!.addHashtag!.hashtag![0]);
-      } else {
-        showToast("Unable to add hashtag!");
-        changeProcessingState(false);
-      }
-    } else {
-      showToast("result parsedData is null");
-      changeProcessingState(false);
-    }
-  }
-
-  Future<void> onEditHashtag() async {
-    final result = await gqlClient!.mutateUpdateHashtag(
-      GQLOptionsMutationUpdateHashtag(
-        variables: VariablesMutationUpdateHashtag(
-          hashtagInput: InputUpdateHashtagInput(
-              filter: InputHashtagFilter(
-                id: [widget.arguments.id!],
+  void onAddHashtag() async {
+    try {
+      gqlClient!.mutateAddHashtagMeta(
+        GQLOptionsMutationAddHashtagMeta(
+            fetchPolicy: FetchPolicy.networkOnly,
+            variables: VariablesMutationAddHashtagMeta(
+              metaName: hashtag.toLowerCase(),
+              iconName: iconName,
+              blessed: blessed,
+              defaultHashtagVariant: InputHashtagVariantRef(
+                variantName: hashtag.toLowerCase(),
               ),
-              $set: InputHashtagPatch(iconName: iconName)),
+            ),
+            onError: (e) {
+              showToast("Mutation Error, $e");
+              changeProcessingEditState(false);
+            },
+            onCompleted: (rst, data) async {
+              if (data != null) {
+                if (data.addHashtagMeta != null &&
+                    data.addHashtagMeta!.hashtagMeta != null) {
+                  showToast("Hashtag added!");
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  Get.back(result: true);
+                } else {
+                  showToast("Unable to add hashtag!");
+                  changeProcessingEditState(false);
+                }
+              } else {
+                showToast("result parsedData is null");
+                changeProcessingEditState(false);
+              }
+            }),
+      );
+    } catch (e) {
+      showToast("Error Catch");
+      changeProcessingEditState(false);
+    }
+  }
+
+  void onEditHashtag() async {
+    try {
+      changeProcessingEditState(true);
+      gqlClient!.mutateUpdateHashtagMeta(
+        GQLOptionsMutationUpdateHashtagMeta(
+            fetchPolicy: FetchPolicy.noCache,
+            variables: VariablesMutationUpdateHashtagMeta(
+              hashtagMetaInput: InputUpdateHashtagMetaInput(
+                filter: InputHashtagMetaFilter(
+                  id: [widget.arguments.id!],
+                ),
+                $set: InputHashtagMetaPatch(
+                  iconName: iconName,
+                  blessed: blessed,
+                ),
+              ),
+            ),
+            onError: (e) {
+              showToast("Mutation Error, $e");
+              changeProcessingEditState(false);
+            },
+            onCompleted: (rst, data) async {
+              if (data != null) {
+                if (data.updateHashtagMeta != null &&
+                    data.updateHashtagMeta!.hashtagMeta != null) {
+                  showToast("Hashtag updated!");
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  Get.back(result: true);
+                } else {
+                  showToast("Unable to update hashtag!");
+                  changeProcessingEditState(false);
+                }
+              } else {
+                showToast("result parsedData is null");
+                changeProcessingEditState(false);
+              }
+            }),
+      );
+    } catch (e) {
+      showToast("Error Catch!");
+      changeProcessingEditState(false);
+    }
+  }
+
+  void onDeleteHashtagMeta() {
+    changeProcessingDeleteState(true);
+    gqlClient!.mutateDeleteHashtagMeta(
+      GQLOptionsMutationDeleteHashtagMeta(
+        fetchPolicy: FetchPolicy.noCache,
+        cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+        variables: VariablesMutationDeleteHashtagMeta(
+          hashtagMetaFilter: InputHashtagMetaFilter(
+            id: [widget.arguments.id!],
+          ),
         ),
+        onError: (e) {
+          showToast("Mutation Error, $e");
+          changeProcessingDeleteState(false);
+        },
+        onCompleted: (rst, data) async {
+          if (data != null) {
+            if (data.deleteHashtagMeta != null &&
+                data.deleteHashtagMeta!.numUids != null) {
+              onDeleteHashtagVariant(data
+                  .deleteHashtagMeta!.hashtagMeta![0]!.hashtagVariants!
+                  .map((e) => e!.id)
+                  .toList());
+            } else {
+              showToast("Unable to delete hashtag!");
+              changeProcessingDeleteState(false);
+            }
+          } else {
+            showToast("result parsedData is null");
+            changeProcessingDeleteState(false);
+          }
+        },
       ),
     );
-    if (result.hasException) {
-      showToast("Mutation Error");
-      changeProcessingState(false);
-    } else if (result.parsedData != null) {
-      if (result.parsedData!.updateHashtag != null &&
-          result.parsedData!.updateHashtag!.hashtag != null) {
-        showToast("Hashtag updated!");
-        await Future.delayed(const Duration(milliseconds: 500));
-        Get.back(result: result.parsedData!.updateHashtag!.hashtag![0]);
-      } else {
-        showToast("Unable to update hashtag!");
-        changeProcessingState(false);
-      }
-    } else {
-      showToast("result parsedData is null");
-      changeProcessingState(false);
-    }
+  }
+
+  void onDeleteHashtagVariant(List<String> variantIdList) {
+    gqlClient!.mutateDeleteHashtagVariant(
+      GQLOptionsMutationDeleteHashtagVariant(
+        fetchPolicy: FetchPolicy.noCache,
+        cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+        variables: VariablesMutationDeleteHashtagVariant(
+          hashtagVariantFilter: InputHashtagVariantFilter(
+            id: variantIdList,
+          ),
+        ),
+        onError: (e) {
+          showToast("Mutation Error, $e");
+          changeProcessingDeleteState(false);
+        },
+        onCompleted: (rst, data) async {
+          if (data != null) {
+            if (data.deleteHashtagVariant != null &&
+                data.deleteHashtagVariant!.numUids != null) {
+              showToast("Hashtag deleted!");
+              await Future.delayed(const Duration(milliseconds: 500));
+              Get.back(result: true);
+            } else {
+              showToast("Unable to delete hashtag!");
+              changeProcessingDeleteState(false);
+            }
+          } else {
+            showToast("result parsedData is null");
+            changeProcessingDeleteState(false);
+          }
+        },
+      ),
+    );
   }
 
   @override
   void initState() {
     if (widget.arguments.id != null) {
-      hashtag = widget.arguments.hashtag!;
+      hashtag = widget.arguments.metaName!;
       iconName = widget.arguments.iconName!;
-      nameTextController.text = widget.arguments.hashtag!;
-      iconTextController.text = widget.arguments.iconName!.split(' ')[1];
+      blessed = widget.arguments.blessed ?? false;
+      nameTextController.text = widget.arguments.metaName!;
+      if (widget.arguments.iconName! != '') {
+        iconTextController.text = widget.arguments.iconName!.split(' ')[1];
+      }
     }
     super.initState();
   }
@@ -167,11 +274,11 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
 
               /// check dup and add new hashtag
               else {
-                onCheckHashtagWithName();
+                onCheckHashtagMetaWithName();
               }
             }
           : null,
-      icon: isProcessing
+      icon: isProcessingEdit
           ? SizedBox(
               width: 25.w,
               height: 25.w,
@@ -185,6 +292,57 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
               size: 25.w,
             ),
     );
+  }
+
+  Widget buildDeleteFloatingButton() {
+    return GQLFQueryGetHashtagMetaById(
+        options: GQLOptionsQueryGetHashtagMetaById(
+          fetchPolicy: FetchPolicy.networkOnly,
+          variables: VariablesQueryGetHashtagMetaById(
+            id: widget.arguments.id,
+          ),
+        ),
+        builder: (result, {refetch, fetchMore}) {
+          if (result.parsedData != null &&
+              result.parsedData!.getHashtagMeta != null) {
+            var variants = result.parsedData!.getHashtagMeta!.hashtagVariants;
+            if (variants != null) {
+              int skillCount = variants
+                  .map((e) => e!.skillsAggregate!.count ?? 0)
+                  .reduce((a, b) => a + b);
+              int requestCount = variants
+                  .map((e) => e!.requestsAggregate!.count ?? 0)
+                  .reduce((a, b) => a + b);
+              if (skillCount + requestCount == 0) {
+                return FloatingActionButton(
+                    backgroundColor: Colors.red,
+                    child: isProcessingDelete
+                        ? SizedBox(
+                            width: 25.w,
+                            height: 25.w,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3.w,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Colors.white),
+                            ),
+                          )
+                        : Icon(
+                            Icons.delete_forever,
+                            size: 30.w,
+                          ),
+                    onPressed: () {
+                      onDeleteHashtagMeta();
+                    });
+              } else {
+                return const SizedBox();
+              }
+            } else {
+              return const SizedBox();
+            }
+          } else {
+            return const SizedBox();
+          }
+        });
   }
 
   @override
@@ -203,88 +361,124 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
           buildSaveButton(),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 20.w),
-        child: Column(
-          children: [
-            TextField(
-              readOnly: widget.arguments.id != null,
-              controller: nameTextController,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.tag),
-                label: Text("Enter the hashtag name"),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  hashtag = value;
-                });
-              },
-            ),
-            TypeAheadField(
-                hideSuggestionsOnKeyboardHide: false,
-                textFieldConfiguration: TextFieldConfiguration(
-                    controller: iconTextController,
-                    decoration: InputDecoration(
-                      icon: iconName != ''
-                          ? FaIcon(
-                              faIconNameMapping[iconName]!,
-                              size: 24.w,
-                            )
-                          : FaIcon(
-                              FontAwesomeIcons.briefcase,
-                              color: Colors.transparent,
-                              size: 24.w,
-                            ),
-                      label: const Text("Search by an icon name"),
-                    )),
-                suggestionsCallback: (pattern) {
-                  if (pattern != '') {
-                    List<MapEntry<String, IconData>> iconList =
-                        faIconNameMapping.entries
-                            .where((e) => e.key.split(' ')[1].contains(pattern))
-                            .toList();
-                    return iconList;
-                  } else {
-                    return [];
-                  }
-                },
-                onSuggestionSelected: (suggestion) {
-                  if (suggestion is MapEntry<String, IconData>) {
-                    iconTextController.text = suggestion.key.split(' ')[1];
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 20.w),
+            child: Column(
+              children: [
+                TextField(
+                  readOnly: widget.arguments.id != null,
+                  controller: nameTextController,
+                  decoration: InputDecoration(
+                    icon: SizedBox(
+                      width: 30.w,
+                      height: 30.w,
+                      child: const Icon(Icons.tag),
+                    ),
+                    label: const Text("Enter the hashtag name"),
+                  ),
+                  onChanged: (value) {
                     setState(() {
-                      iconName = suggestion.key;
+                      hashtag = value;
                     });
-                  }
-                },
-                itemBuilder: (context, suggestion) {
-                  if (suggestion is MapEntry<String, IconData>) {
-                    return ListTile(
-                      dense: true,
-                      leading: FaIcon(
-                        suggestion.value,
+                  },
+                ),
+                TypeAheadField(
+                  hideSuggestionsOnKeyboardHide: false,
+                  textFieldConfiguration: TextFieldConfiguration(
+                      controller: iconTextController,
+                      decoration: InputDecoration(
+                        icon: SizedBox(
+                          width: 30.w,
+                          height: 30.w,
+                          child: Center(
+                            child: iconName != ''
+                                ? FaIcon(
+                                    faIconNameMapping[iconName]!,
+                                  )
+                                : const FaIcon(
+                                    FontAwesomeIcons.hashtag,
+                                    color: Colors.transparent,
+                                  ),
+                          ),
+                        ),
+                        label: const Text("Search by an icon name"),
+                      )),
+                  suggestionsCallback: (pattern) {
+                    if (pattern != '') {
+                      List<MapEntry<String, IconData>> iconList =
+                          faIconNameMapping.entries
+                              .where(
+                                  (e) => e.key.split(' ')[1].contains(pattern))
+                              .toList();
+                      return iconList;
+                    } else {
+                      return [];
+                    }
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    if (suggestion is MapEntry<String, IconData>) {
+                      iconTextController.text = suggestion.key.split(' ')[1];
+                      setState(() {
+                        iconName = suggestion.key;
+                      });
+                    }
+                  },
+                  itemBuilder: (context, suggestion) {
+                    if (suggestion is MapEntry<String, IconData>) {
+                      return ListTile(
+                        dense: true,
+                        leading: FaIcon(
+                          suggestion.value,
+                        ),
+                        title: Text(suggestion.key.split(' ')[1]),
+                        subtitle: Text(suggestion.key.split(' ')[0]),
+                        trailing: iconName == suggestion.key
+                            ? const Icon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                              )
+                            : null,
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                  noItemsFoundBuilder: (context) {
+                    return const ListTile(
+                        title: Text(
+                      "No icon found",
+                      style: TextStyle(color: Colors.grey),
+                    ));
+                  },
+                ),
+                SwitchListTile(
+                    contentPadding: EdgeInsets.only(right: 16.w),
+                    secondary: SizedBox(
+                      width: 30.w,
+                      height: 30.w,
+                      child: const Center(
+                        child: FaIcon(FontAwesomeIcons.solidHeart),
                       ),
-                      title: Text(suggestion.key.split(' ')[1]),
-                      subtitle: Text(suggestion.key.split(' ')[0]),
-                      trailing: iconName == suggestion.key
-                          ? const Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
-                          : null,
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-                noItemsFoundBuilder: (context) {
-                  return const ListTile(
-                      title: Text(
-                    "No icon found",
-                    style: TextStyle(color: Colors.grey),
-                  ));
-                })
-          ],
-        ),
+                    ),
+                    title: const Text("Blessed"),
+                    subtitle: Text(blessed ? "On" : "Off"),
+                    value: blessed,
+                    onChanged: (value) {
+                      setState(() {
+                        blessed = value;
+                      });
+                    }),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 30.w + MediaQuery.of(context).viewPadding.bottom,
+            right: 20.w,
+            child: buildDeleteFloatingButton(),
+          ),
+        ],
       ),
     );
   }

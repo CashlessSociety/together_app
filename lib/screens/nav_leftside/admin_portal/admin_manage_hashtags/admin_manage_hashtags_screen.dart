@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:font_awesome_flutter/name_icon_mapping.dart';
 import 'package:get/get.dart';
-import 'package:together_app/graphql/requests/requests.graphql.dart';
+import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_edit_hashtag_screen.dart';
 import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
@@ -18,7 +18,6 @@ class AdminManageHashtagsScreen extends StatefulWidget {
 }
 
 class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
-  AdminEditHashtagScreenArguments? selectedHashtagArgs;
   Function? refetchFunction;
   Function? fetchMoreFunction;
 
@@ -27,21 +26,17 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
       AdminEditHashtagScreen.routeName,
       arguments: AdminEditHashtagScreenArguments(),
     );
-    if (rst != null &&
-        rst is MutationAddHashtag$addHashtag$hashtag &&
-        refetchFunction != null) {
+    if (rst != null && rst && refetchFunction != null) {
       refetchFunction!();
     }
   }
 
-  void onGotoEditPage() async {
+  void onGotoEditPage(AdminEditHashtagScreenArguments args) async {
     var rst = await Get.toNamed(
       AdminEditHashtagScreen.routeName,
-      arguments: selectedHashtagArgs,
+      arguments: args,
     );
-    if (rst != null &&
-        rst is MutationAddHashtag$addHashtag$hashtag &&
-        refetchFunction != null) {
+    if (rst != null && rst && refetchFunction != null) {
       refetchFunction!();
     }
   }
@@ -67,8 +62,8 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
           ),
         ],
       ),
-      body: GQLFQueryGetAllHashtags(
-        builder: (result, {fetchMore, refetch}) {
+      body: GQLFQueryGetHashtagMetaList(
+        builder: (result, {refetch, fetchMore}) {
           if (refetchFunction == null || refetchFunction != refetch) {
             refetchFunction = refetch;
           }
@@ -83,23 +78,63 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
             return const Center(child: Text('Error loading hashtags'));
           }
           if (result.parsedData != null) {
-            List<QueryGetAllHashtags$queryHashtag?> dataList =
-                result.parsedData!.queryHashtag!;
+            List<QueryGetHashtagMetaList$queryHashtagMeta?> dataList =
+                result.parsedData!.queryHashtagMeta!;
             return Stack(
               children: [
                 ListView.builder(
                     itemCount: dataList.length,
                     itemBuilder: (context, index) {
-                      QueryGetAllHashtags$queryHashtag hashtagData =
+                      QueryGetHashtagMetaList$queryHashtagMeta hashtagData =
                           dataList[index]!;
+                      int skillCount = hashtagData.hashtagVariants!
+                          .map((e) => e!.skillsAggregate!.count ?? 0)
+                          .reduce((a, b) => a + b);
+                      int requestCount = hashtagData.hashtagVariants!
+                          .map((e) => e!.requestsAggregate!.count ?? 0)
+                          .reduce((a, b) => a + b);
                       return ListTile(
-                        leading: FaIcon(faIconNameMapping[
-                            hashtagData.iconName == ''
-                                ? faDefaultIcon
-                                : hashtagData.iconName]),
-                        title: Text(hashtagData.hashtag),
+                        leading: SizedBox(
+                          width: 30.w,
+                          height: 30.w,
+                          child: Center(
+                            child: hashtagData.iconName == ''
+                                ? faHashtagPlaceholderIcon
+                                : FaIcon(
+                                    faIconNameMapping[hashtagData.iconName],
+                                  ),
+                          ),
+                        ),
+                        title: Row(
+                          children: [
+                            Text(hashtagData.metaName),
+                            if (hashtagData.blessed ?? false)
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                child: FaIcon(
+                                  FontAwesomeIcons.solidHeart,
+                                  size: 16.w,
+                                  color: Colors.redAccent,
+                                ),
+                              )
+                          ],
+                        ),
                         subtitle: Text(
-                            'Skill: ${hashtagData.skillsAggregate!.count}, Requests: ${hashtagData.requestsAggregate!.count}'),
+                          'Skills: $skillCount, Requests: $requestCount',
+                        ),
+                        trailing: Icon(
+                          Icons.edit,
+                          size: 20.w,
+                        ),
+                        onTap: () {
+                          onGotoEditPage(
+                            AdminEditHashtagScreenArguments(
+                                id: hashtagData.id,
+                                metaName: hashtagData.metaName,
+                                iconName: hashtagData.iconName,
+                                blessed: hashtagData.blessed),
+                          );
+                        },
                       );
                     }),
                 Positioned(

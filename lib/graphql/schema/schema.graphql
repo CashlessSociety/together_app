@@ -20,9 +20,9 @@ type Request {
 	owner(filter: UserFilter): User! @hasInverse(field: "requests")
 	title: String! @search
 	message: String! @search
-	hashtags(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag] @hasInverse(field: "requests")
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "requests")
 	createdTimestamp: DateTime
-	hashtagsAggregate(filter: HashtagFilter): HashtagAggregateResult
+	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
 type Skill {
@@ -30,21 +30,29 @@ type Skill {
 	owner(filter: UserFilter): User! @hasInverse(field: "skills")
 	title: String
 	message: String
-	hashtags(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag] @hasInverse(field: "skills")
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "skills")
 	isAvailable: Boolean
 	createdTimestamp: DateTime
-	hashtagsAggregate(filter: HashtagFilter): HashtagAggregateResult
+	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
-type Hashtag {
+type HashtagVariant {
 	id: ID!
-	hashtag: String! @id @search
-	iconName: String
-	blessed: Boolean
-	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "hashtags")
-	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "hashtags")
+	variantName: String! @id @search
+	hashtagMeta(filter: HashtagMetaFilter): HashtagMeta! @hasInverse(field: "hashtagVariants")
+	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "hashtagVariants")
+	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "hashtagVariants")
 	skillsAggregate(filter: SkillFilter): SkillAggregateResult
 	requestsAggregate(filter: RequestFilter): RequestAggregateResult
+}
+
+type HashtagMeta {
+	id: ID!
+	metaName: String! @id @search
+	iconName: String
+	blessed: Boolean
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "hashtagMeta")
+	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
 #######################
@@ -313,8 +321,13 @@ input StringHashFilter {
 # Generated Types
 #######################
 
-type AddHashtagPayload {
-	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+type AddHashtagMetaPayload {
+	hashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+	numUids: Int
+}
+
+type AddHashtagVariantPayload {
+	hashtagVariant(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]
 	numUids: Int
 }
 
@@ -333,8 +346,14 @@ type AddUserPayload {
 	numUids: Int
 }
 
-type DeleteHashtagPayload {
-	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+type DeleteHashtagMetaPayload {
+	hashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+	msg: String
+	numUids: Int
+}
+
+type DeleteHashtagVariantPayload {
+	hashtagVariant(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]
 	msg: String
 	numUids: Int
 }
@@ -357,12 +376,18 @@ type DeleteUserPayload {
 	numUids: Int
 }
 
-type HashtagAggregateResult {
+type HashtagMetaAggregateResult {
 	count: Int
-	hashtagMin: String
-	hashtagMax: String
+	metaNameMin: String
+	metaNameMax: String
 	iconNameMin: String
 	iconNameMax: String
+}
+
+type HashtagVariantAggregateResult {
+	count: Int
+	variantNameMin: String
+	variantNameMax: String
 }
 
 type RequestAggregateResult {
@@ -385,8 +410,13 @@ type SkillAggregateResult {
 	createdTimestampMax: DateTime
 }
 
-type UpdateHashtagPayload {
-	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+type UpdateHashtagMetaPayload {
+	hashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+	numUids: Int
+}
+
+type UpdateHashtagVariantPayload {
+	hashtagVariant(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]
 	numUids: Int
 }
 
@@ -423,24 +453,34 @@ type UserAggregateResult {
 # Generated Enums
 #######################
 
-enum HashtagHasFilter {
-	hashtag
+enum HashtagMetaHasFilter {
+	metaName
 	iconName
 	blessed
+	hashtagVariants
+}
+
+enum HashtagMetaOrderable {
+	metaName
+	iconName
+}
+
+enum HashtagVariantHasFilter {
+	variantName
+	hashtagMeta
 	skills
 	requests
 }
 
-enum HashtagOrderable {
-	hashtag
-	iconName
+enum HashtagVariantOrderable {
+	variantName
 }
 
 enum RequestHasFilter {
 	owner
 	title
 	message
-	hashtags
+	hashtagVariants
 	createdTimestamp
 }
 
@@ -454,7 +494,7 @@ enum SkillHasFilter {
 	owner
 	title
 	message
-	hashtags
+	hashtagVariants
 	isAvailable
 	createdTimestamp
 }
@@ -486,10 +526,16 @@ enum UserOrderable {
 # Generated Inputs
 #######################
 
-input AddHashtagInput {
-	hashtag: String!
+input AddHashtagMetaInput {
+	metaName: String!
 	iconName: String
 	blessed: Boolean
+	hashtagVariants: [HashtagVariantRef]
+}
+
+input AddHashtagVariantInput {
+	variantName: String!
+	hashtagMeta: HashtagMetaRef!
 	skills: [SkillRef]
 	requests: [RequestRef]
 }
@@ -498,7 +544,7 @@ input AddRequestInput {
 	owner: UserRef!
 	title: String!
 	message: String!
-	hashtags: [HashtagRef]
+	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
 
@@ -506,7 +552,7 @@ input AddSkillInput {
 	owner: UserRef!
 	title: String
 	message: String
-	hashtags: [HashtagRef]
+	hashtagVariants: [HashtagVariantRef]
 	isAvailable: Boolean
 	createdTimestamp: DateTime
 }
@@ -521,33 +567,60 @@ input AddUserInput {
 	skills: [SkillRef]
 }
 
-input HashtagFilter {
+input HashtagMetaFilter {
 	id: [ID!]
-	hashtag: StringTermFilter
-	has: [HashtagHasFilter]
-	and: [HashtagFilter]
-	or: [HashtagFilter]
-	not: HashtagFilter
+	metaName: StringTermFilter
+	has: [HashtagMetaHasFilter]
+	and: [HashtagMetaFilter]
+	or: [HashtagMetaFilter]
+	not: HashtagMetaFilter
 }
 
-input HashtagOrder {
-	asc: HashtagOrderable
-	desc: HashtagOrderable
-	then: HashtagOrder
+input HashtagMetaOrder {
+	asc: HashtagMetaOrderable
+	desc: HashtagMetaOrderable
+	then: HashtagMetaOrder
 }
 
-input HashtagPatch {
+input HashtagMetaPatch {
 	iconName: String
 	blessed: Boolean
+	hashtagVariants: [HashtagVariantRef]
+}
+
+input HashtagMetaRef {
+	id: ID
+	metaName: String
+	iconName: String
+	blessed: Boolean
+	hashtagVariants: [HashtagVariantRef]
+}
+
+input HashtagVariantFilter {
+	id: [ID!]
+	variantName: StringTermFilter
+	has: [HashtagVariantHasFilter]
+	and: [HashtagVariantFilter]
+	or: [HashtagVariantFilter]
+	not: HashtagVariantFilter
+}
+
+input HashtagVariantOrder {
+	asc: HashtagVariantOrderable
+	desc: HashtagVariantOrderable
+	then: HashtagVariantOrder
+}
+
+input HashtagVariantPatch {
+	hashtagMeta: HashtagMetaRef
 	skills: [SkillRef]
 	requests: [RequestRef]
 }
 
-input HashtagRef {
+input HashtagVariantRef {
 	id: ID
-	hashtag: String
-	iconName: String
-	blessed: Boolean
+	variantName: String
+	hashtagMeta: HashtagMetaRef
 	skills: [SkillRef]
 	requests: [RequestRef]
 }
@@ -572,7 +645,7 @@ input RequestPatch {
 	owner: UserRef
 	title: String
 	message: String
-	hashtags: [HashtagRef]
+	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
 
@@ -581,7 +654,7 @@ input RequestRef {
 	owner: UserRef
 	title: String
 	message: String
-	hashtags: [HashtagRef]
+	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
 
@@ -603,7 +676,7 @@ input SkillPatch {
 	owner: UserRef
 	title: String
 	message: String
-	hashtags: [HashtagRef]
+	hashtagVariants: [HashtagVariantRef]
 	isAvailable: Boolean
 	createdTimestamp: DateTime
 }
@@ -613,15 +686,21 @@ input SkillRef {
 	owner: UserRef
 	title: String
 	message: String
-	hashtags: [HashtagRef]
+	hashtagVariants: [HashtagVariantRef]
 	isAvailable: Boolean
 	createdTimestamp: DateTime
 }
 
-input UpdateHashtagInput {
-	filter: HashtagFilter!
-	set: HashtagPatch
-	remove: HashtagPatch
+input UpdateHashtagMetaInput {
+	filter: HashtagMetaFilter!
+	set: HashtagMetaPatch
+	remove: HashtagMetaPatch
+}
+
+input UpdateHashtagVariantInput {
+	filter: HashtagVariantFilter!
+	set: HashtagVariantPatch
+	remove: HashtagVariantPatch
 }
 
 input UpdateRequestInput {
@@ -691,9 +770,12 @@ type Query {
 	getSkill(id: ID!): Skill
 	querySkill(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill]
 	aggregateSkill(filter: SkillFilter): SkillAggregateResult
-	getHashtag(id: ID, hashtag: String): Hashtag
-	queryHashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
-	aggregateHashtag(filter: HashtagFilter): HashtagAggregateResult
+	getHashtagVariant(id: ID, variantName: String): HashtagVariant
+	queryHashtagVariant(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]
+	aggregateHashtagVariant(filter: HashtagVariantFilter): HashtagVariantAggregateResult
+	getHashtagMeta(id: ID, metaName: String): HashtagMeta
+	queryHashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+	aggregateHashtagMeta(filter: HashtagMetaFilter): HashtagMetaAggregateResult
 }
 
 #######################
@@ -710,8 +792,11 @@ type Mutation {
 	addSkill(input: [AddSkillInput!]!): AddSkillPayload
 	updateSkill(input: UpdateSkillInput!): UpdateSkillPayload
 	deleteSkill(filter: SkillFilter!): DeleteSkillPayload
-	addHashtag(input: [AddHashtagInput!]!, upsert: Boolean): AddHashtagPayload
-	updateHashtag(input: UpdateHashtagInput!): UpdateHashtagPayload
-	deleteHashtag(filter: HashtagFilter!): DeleteHashtagPayload
+	addHashtagVariant(input: [AddHashtagVariantInput!]!, upsert: Boolean): AddHashtagVariantPayload
+	updateHashtagVariant(input: UpdateHashtagVariantInput!): UpdateHashtagVariantPayload
+	deleteHashtagVariant(filter: HashtagVariantFilter!): DeleteHashtagVariantPayload
+	addHashtagMeta(input: [AddHashtagMetaInput!]!, upsert: Boolean): AddHashtagMetaPayload
+	updateHashtagMeta(input: UpdateHashtagMetaInput!): UpdateHashtagMetaPayload
+	deleteHashtagMeta(filter: HashtagMetaFilter!): DeleteHashtagMetaPayload
 }
 
