@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:together_app/graphql/requests/requests.graphql.dart';
+import 'package:together_app/graphql/mutation/mutation.graphql.dart';
+import 'package:together_app/graphql/query/query.graphql.dart';
 
 class MyProfileTestForm extends StatefulWidget {
   const MyProfileTestForm({

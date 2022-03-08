@@ -22,7 +22,7 @@ class _AdminPortalScreenState extends State<AdminPortalScreen> {
         children: [
           ListTile(
             leading: const Icon(Icons.tag),
-            title: const Text("View Hashtags"),
+            title: const Text("Manage Hashtags"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               Get.toNamed(AdminManageHashtagsScreen.routeName);

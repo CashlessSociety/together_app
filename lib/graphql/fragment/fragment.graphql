@@ -1,0 +1,20 @@
+fragment HashtagVariantFragmentData on HashtagVariant {
+    id
+    variantName
+    skillsAggregate {
+        count
+    }
+    requestsAggregate {
+        count
+    }
+}
+
+fragment HashtagMetaFragmentData on HashtagMeta {
+    id
+    metaName
+    iconName
+    blessed
+    hashtagVariants {
+        ...HashtagVariantFragmentData
+    }
+}

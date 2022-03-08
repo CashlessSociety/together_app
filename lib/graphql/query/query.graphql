@@ -1,0 +1,68 @@
+query GetAllUsers {
+    queryUser{
+        id
+        email
+        name
+        age
+        isAdmin
+        createdTimestamp
+    }
+}
+
+query GetUserWithEmail($email: String) {
+    getUser(email: $email){
+        id
+        name
+        age
+        email
+        isAdmin
+        createdTimestamp
+    }
+}
+
+
+query GetUserWithId($id: ID) {
+    getUser(id: $id){
+        id
+        name
+        age
+        email
+        isAdmin
+        createdTimestamp
+    }
+}
+
+
+query GetAllRequests {
+    queryRequest{
+        id
+        owner {
+            name
+        }
+        title
+        message
+        createdTimestamp
+    }
+}
+
+
+
+query GetHashtagMetaByName ($metaName: String) {
+    getHashtagMeta(metaName: $metaName){
+        ...HashtagMetaFragmentData
+    }
+}
+
+
+query GetHashtagMetaById ($id: ID) {
+    getHashtagMeta(id: $id){
+        ...HashtagMetaFragmentData
+    }
+}
+
+
+query GetHashtagMetaList{
+    queryHashtagMeta(order: {asc: metaName}){
+        ...HashtagMetaFragmentData
+    }
+}

@@ -38,13 +38,13 @@ Map<String, WidgetBuilder> getRoutes(BuildContext context) {
 
 class AdminEditHashtagScreenArguments {
   final String? id;
-  final String? hashtag;
+  final String? metaName;
   final String? iconName;
   final bool? blessed;
 
   AdminEditHashtagScreenArguments({
     this.id,
-    this.hashtag,
+    this.metaName,
     this.iconName,
     this.blessed,
   });

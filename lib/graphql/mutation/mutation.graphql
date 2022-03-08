@@ -1,0 +1,67 @@
+mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimestamp: DateTime!){
+    addUser(input: {email: $email, name: $name, age: $age, isAdmin: false, createdTimestamp: $createdTimestamp}){
+        user{
+            id
+            name
+            email
+            isAdmin
+            createdTimestamp
+        }
+    }
+}
+
+mutation CreateRequest($owner: UserRef!, $title: String!, $message: String!){
+    addRequest(input: {owner: $owner, title: $title, message: $message}){
+        request{
+            id
+            title
+            message
+            createdTimestamp
+        }
+    }
+}
+mutation AddHashtagMeta(
+    $metaName: String!,
+    $iconName: String = "",
+    $blessed: Boolean = false,
+    $defaultHashtagVariant: HashtagVariantRef
+){
+    addHashtagMeta(input: {
+        metaName: $metaName,
+        iconName: $iconName,
+        blessed: $blessed,
+        hashtagVariants: [$defaultHashtagVariant]
+    }){
+        hashtagMeta {
+            ...HashtagMetaFragmentData
+        }
+    }
+}
+
+mutation UpdateHashtagMeta($hashtagMetaInput: UpdateHashtagMetaInput!){
+    updateHashtagMeta(input: $hashtagMetaInput){
+        hashtagMeta {
+            ...HashtagMetaFragmentData
+        }
+    }
+}
+
+mutation DeleteHashtagMeta($hashtagMetaFilter: HashtagMetaFilter!){
+    deleteHashtagMeta(filter: $hashtagMetaFilter){
+        msg
+        numUids
+        hashtagMeta {
+            hashtagVariants {
+                id
+            }
+        }
+    }
+}
+
+
+mutation DeleteHashtagVariant($hashtagVariantFilter: HashtagVariantFilter!){
+    deleteHashtagVariant(filter: $hashtagVariantFilter){
+        msg
+        numUids
+    }
+}

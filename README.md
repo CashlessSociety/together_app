@@ -34,10 +34,12 @@ packages for GraphQL server connection (currently
 [Dgraph Cloud](https://cloud.dgraph.io/)), query & mutation operations,
 and UI display & update.      
 
-The GraphQL schema and request files are stored in:
+The GraphQL schema related files are stored in:
     
-    lib/graphql/schema/schema.graphql
-    lib/graphql/requests/requests.graphql
+    lib/graphql/schema
+    lib/graphql/mutation
+    lib/graphql/query
+    lib/graphql/fragment
 
 For code-generation tool from GraphQL to Dart/Flutter, check out 
 the [graphql_codegen](https://pub.dev/packages/graphql_codegen) package.
