@@ -52,8 +52,9 @@ The [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter) packag
 The app was set up in a way that icons are dynamically retrieved, so for more info 
 check out this [link](https://pub.dev/packages/font_awesome_flutter#customizing-font-awesome-flutter).
 
-In short, open the font_awesome_flutter folder as a Flutter project and run this to installs all dependencies for that package:
+In short, run the following commands to install all dependencies for the package:
     
+    cd font_awesome_flutter
     flutter pub get
 
 ## More on Flutter
