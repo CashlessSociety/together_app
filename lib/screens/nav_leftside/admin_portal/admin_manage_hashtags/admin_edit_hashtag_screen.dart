@@ -10,6 +10,7 @@ import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/graphql/schema/schema.graphql.dart';
 import 'package:together_app/utils/routes.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdminEditHashtagScreen extends StatefulWidget {
   final AdminEditHashtagScreenArguments arguments;
@@ -32,6 +33,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   TextEditingController iconTextController = TextEditingController();
   bool isProcessingEdit = false;
   bool isProcessingDelete = false;
+  String faUrl = "https://fontawesome.com/v5/search?m=free";
 
   void changeProcessingEditState(bool state) {
     if (mounted) {
@@ -454,22 +456,32 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
                   },
                 ),
                 SwitchListTile(
-                    contentPadding: EdgeInsets.only(right: 16.w),
-                    secondary: SizedBox(
-                      width: 30.w,
-                      height: 30.w,
-                      child: const Center(
-                        child: FaIcon(FontAwesomeIcons.solidHeart),
-                      ),
+                  contentPadding: EdgeInsets.only(right: 16.w),
+                  secondary: SizedBox(
+                    width: 30.w,
+                    height: 30.w,
+                    child: const Center(
+                      child: FaIcon(FontAwesomeIcons.solidHeart),
                     ),
-                    title: const Text("Blessed"),
-                    subtitle: Text(blessed ? "On" : "Off"),
-                    value: blessed,
-                    onChanged: (value) {
-                      setState(() {
-                        blessed = value;
-                      });
-                    }),
+                  ),
+                  title: const Text("Blessed"),
+                  subtitle: Text(blessed ? "On" : "Off"),
+                  value: blessed,
+                  onChanged: (value) {
+                    setState(() {
+                      blessed = value;
+                    });
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.w),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      launch(faUrl);
+                    },
+                    child: const Text("Link to fontawesome.com"),
+                  ),
+                ),
               ],
             ),
           ),
