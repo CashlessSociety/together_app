@@ -37,6 +37,7 @@ dependencies:
   keyboard_dismisser: ^2.0.1
   oktoast: ^3.1.5
   url_launcher: ^6.0.20
+  detectable_text_field: ^2.0.3
 
 
 dev_dependencies:

@@ -65,10 +65,9 @@ class MainEntryDrawer extends StatelessWidget {
                 Get.back();
 
                 /// prevent route looping
-                Get.offNamedUntil(
-                    item['route'],
-                    (route) =>
-                        route.settings.name == MainEntryScreen.routeName);
+                Get.offNamedUntil(item['route'],
+                    (route) => route.settings.name == MainEntryScreen.routeName,
+                    arguments: item['args']);
               },
             );
           })

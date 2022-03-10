@@ -1619,3 +1619,1161 @@ class QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
       _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
           this);
 }
+
+@JsonSerializable()
+class QueryGetBlessedHashtagMetaList extends JsonSerializable {
+  QueryGetBlessedHashtagMetaList({this.queryHashtagMeta});
+
+  @override
+  factory QueryGetBlessedHashtagMetaList.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetBlessedHashtagMetaListFromJson(json);
+
+  final List<QueryGetBlessedHashtagMetaList$queryHashtagMeta?>?
+      queryHashtagMeta;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetBlessedHashtagMetaListToJson(this);
+}
+
+const QUERY_GET_BLESSED_HASHTAG_META_LIST = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'GetBlessedHashtagMetaList'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'queryHashtagMeta'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'asc'),
+                        value: EnumValueNode(name: NameNode(value: 'metaName')))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'blessed'),
+                        value: BooleanValueNode(value: true))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'HashtagMetaFragmentData'),
+                  directives: []),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
+]);
+
+class GQLOptionsQueryGetBlessedHashtagMetaList
+    extends graphql.QueryOptions<QueryGetBlessedHashtagMetaList> {
+  GQLOptionsQueryGetBlessedHashtagMetaList(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      Duration? pollInterval,
+      graphql.Context? context})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            pollInterval: pollInterval,
+            context: context,
+            document: QUERY_GET_BLESSED_HASHTAG_META_LIST,
+            parserFn: (data) => QueryGetBlessedHashtagMetaList.fromJson(data));
+}
+
+class GQLWatchOptionsQueryGetBlessedHashtagMetaList
+    extends graphql.WatchQueryOptions<QueryGetBlessedHashtagMetaList> {
+  GQLWatchOptionsQueryGetBlessedHashtagMetaList(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: QUERY_GET_BLESSED_HASHTAG_META_LIST,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: (data) => QueryGetBlessedHashtagMetaList.fromJson(data));
+}
+
+class GQLFetchMoreOptionsQueryGetBlessedHashtagMetaList
+    extends graphql.FetchMoreOptions {
+  GQLFetchMoreOptionsQueryGetBlessedHashtagMetaList(
+      {required graphql.UpdateQuery updateQuery})
+      : super(
+            updateQuery: updateQuery,
+            document: QUERY_GET_BLESSED_HASHTAG_META_LIST);
+}
+
+extension GQLExtensionQueryGetBlessedHashtagMetaList on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetBlessedHashtagMetaList>>
+      queryGetBlessedHashtagMetaList(
+              [GQLOptionsQueryGetBlessedHashtagMetaList? options]) async =>
+          await this
+              .query(options ?? GQLOptionsQueryGetBlessedHashtagMetaList());
+  graphql.ObservableQuery<QueryGetBlessedHashtagMetaList>
+      watchQueryGetBlessedHashtagMetaList(
+              [GQLWatchOptionsQueryGetBlessedHashtagMetaList? options]) =>
+          this.watchQuery(
+              options ?? GQLWatchOptionsQueryGetBlessedHashtagMetaList());
+}
+
+class GQLFQueryGetBlessedHashtagMetaList
+    extends graphql_flutter.Query<QueryGetBlessedHashtagMetaList> {
+  GQLFQueryGetBlessedHashtagMetaList(
+      {widgets.Key? key,
+      GQLOptionsQueryGetBlessedHashtagMetaList? options,
+      required graphql_flutter.QueryBuilder<QueryGetBlessedHashtagMetaList>
+          builder})
+      : super(
+            key: key,
+            options: options ?? GQLOptionsQueryGetBlessedHashtagMetaList(),
+            builder: builder);
+}
+
+@JsonSerializable()
+class QueryGetBlessedHashtagMetaList$queryHashtagMeta extends JsonSerializable
+    implements FragmentHashtagMetaFragmentData {
+  QueryGetBlessedHashtagMetaList$queryHashtagMeta(
+      {required this.id,
+      required this.metaName,
+      this.iconName,
+      this.blessed,
+      this.hashtagVariants});
+
+  @override
+  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMetaFromJson(json);
+
+  final String id;
+
+  final String metaName;
+
+  final String? iconName;
+
+  final bool? blessed;
+
+  final List<QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants?>?
+      hashtagVariants;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMetaToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants
+    extends JsonSerializable
+    implements
+        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagVariantFragmentData {
+  QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants(
+      {required this.id,
+      required this.variantName,
+      this.skillsAggregate,
+      this.requestsAggregate});
+
+  @override
+  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariantsFromJson(
+          json);
+
+  final String id;
+
+  final String variantName;
+
+  final QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate?
+      skillsAggregate;
+
+  final QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate?
+      requestsAggregate;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariantsToJson(
+          this);
+}
+
+@JsonSerializable()
+class QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
+    extends JsonSerializable
+    implements
+        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagVariantFragmentData$skillsAggregate {
+  QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate(
+      {this.count});
+
+  @override
+  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+          json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
+          this);
+}
+
+@JsonSerializable()
+class QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
+    extends JsonSerializable
+    implements
+        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagVariantFragmentData$requestsAggregate {
+  QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate(
+      {this.count});
+
+  @override
+  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+          json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
+          this);
+}
+
+@JsonSerializable()
+class VariablesQueryGetSkillsByUserId extends JsonSerializable {
+  VariablesQueryGetSkillsByUserId({this.id});
+
+  @override
+  factory VariablesQueryGetSkillsByUserId.fromJson(Map<String, dynamic> json) =>
+      _$VariablesQueryGetSkillsByUserIdFromJson(json);
+
+  final String? id;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$VariablesQueryGetSkillsByUserIdToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsByUserId extends JsonSerializable {
+  QueryGetSkillsByUserId({this.getUser});
+
+  @override
+  factory QueryGetSkillsByUserId.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetSkillsByUserIdFromJson(json);
+
+  final QueryGetSkillsByUserId$getUser? getUser;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetSkillsByUserIdToJson(this);
+}
+
+const QUERY_GET_SKILLS_BY_USER_ID = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'GetSkillsByUserId'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'getUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'skillsAggregate'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'count'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: 'skills'),
+                  alias: null,
+                  arguments: [
+                    ArgumentNode(
+                        name: NameNode(value: 'order'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'asc'),
+                              value:
+                                  EnumValueNode(name: NameNode(value: 'title')))
+                        ]))
+                  ],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'title'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'message'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'hashtagVariants'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'variantName'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'hashtagMeta'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'id'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'metaName'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: '__typename'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null)
+                              ])),
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null)
+                        ])),
+                    FieldNode(
+                        name: NameNode(value: 'isAvailable'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'createdTimestamp'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+
+class GQLOptionsQueryGetSkillsByUserId
+    extends graphql.QueryOptions<QueryGetSkillsByUserId> {
+  GQLOptionsQueryGetSkillsByUserId(
+      {String? operationName,
+      VariablesQueryGetSkillsByUserId? variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      Duration? pollInterval,
+      graphql.Context? context})
+      : super(
+            variables: variables?.toJson() ?? {},
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            pollInterval: pollInterval,
+            context: context,
+            document: QUERY_GET_SKILLS_BY_USER_ID,
+            parserFn: (data) => QueryGetSkillsByUserId.fromJson(data));
+}
+
+class GQLWatchOptionsQueryGetSkillsByUserId
+    extends graphql.WatchQueryOptions<QueryGetSkillsByUserId> {
+  GQLWatchOptionsQueryGetSkillsByUserId(
+      {String? operationName,
+      VariablesQueryGetSkillsByUserId? variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables?.toJson() ?? {},
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: QUERY_GET_SKILLS_BY_USER_ID,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: (data) => QueryGetSkillsByUserId.fromJson(data));
+}
+
+class GQLFetchMoreOptionsQueryGetSkillsByUserId
+    extends graphql.FetchMoreOptions {
+  GQLFetchMoreOptionsQueryGetSkillsByUserId(
+      {required graphql.UpdateQuery updateQuery,
+      VariablesQueryGetSkillsByUserId? variables})
+      : super(
+            updateQuery: updateQuery,
+            variables: variables?.toJson() ?? {},
+            document: QUERY_GET_SKILLS_BY_USER_ID);
+}
+
+extension GQLExtensionQueryGetSkillsByUserId on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetSkillsByUserId>> queryGetSkillsByUserId(
+          [GQLOptionsQueryGetSkillsByUserId? options]) async =>
+      await this.query(options ?? GQLOptionsQueryGetSkillsByUserId());
+  graphql.ObservableQuery<QueryGetSkillsByUserId> watchQueryGetSkillsByUserId(
+          [GQLWatchOptionsQueryGetSkillsByUserId? options]) =>
+      this.watchQuery(options ?? GQLWatchOptionsQueryGetSkillsByUserId());
+}
+
+class GQLFQueryGetSkillsByUserId
+    extends graphql_flutter.Query<QueryGetSkillsByUserId> {
+  GQLFQueryGetSkillsByUserId(
+      {widgets.Key? key,
+      GQLOptionsQueryGetSkillsByUserId? options,
+      required graphql_flutter.QueryBuilder<QueryGetSkillsByUserId> builder})
+      : super(
+            key: key,
+            options: options ?? GQLOptionsQueryGetSkillsByUserId(),
+            builder: builder);
+}
+
+@JsonSerializable()
+class QueryGetSkillsByUserId$getUser extends JsonSerializable {
+  QueryGetSkillsByUserId$getUser({this.skillsAggregate, this.skills});
+
+  @override
+  factory QueryGetSkillsByUserId$getUser.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetSkillsByUserId$getUserFromJson(json);
+
+  final QueryGetSkillsByUserId$getUser$skillsAggregate? skillsAggregate;
+
+  final List<QueryGetSkillsByUserId$getUser$skills?>? skills;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetSkillsByUserId$getUserToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsByUserId$getUser$skillsAggregate extends JsonSerializable {
+  QueryGetSkillsByUserId$getUser$skillsAggregate({this.count});
+
+  @override
+  factory QueryGetSkillsByUserId$getUser$skillsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsByUserId$getUser$skillsAggregateFromJson(json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsByUserId$getUser$skillsAggregateToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsByUserId$getUser$skills extends JsonSerializable {
+  QueryGetSkillsByUserId$getUser$skills(
+      {required this.id,
+      this.title,
+      this.message,
+      this.hashtagVariants,
+      this.isAvailable,
+      this.createdTimestamp});
+
+  @override
+  factory QueryGetSkillsByUserId$getUser$skills.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsByUserId$getUser$skillsFromJson(json);
+
+  final String id;
+
+  final String? title;
+
+  final String? message;
+
+  final List<QueryGetSkillsByUserId$getUser$skills$hashtagVariants?>?
+      hashtagVariants;
+
+  final bool? isAvailable;
+
+  final String? createdTimestamp;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsByUserId$getUser$skillsToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsByUserId$getUser$skills$hashtagVariants
+    extends JsonSerializable {
+  QueryGetSkillsByUserId$getUser$skills$hashtagVariants(
+      {required this.variantName, required this.hashtagMeta});
+
+  @override
+  factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariantsFromJson(json);
+
+  final String variantName;
+
+  final QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
+      hashtagMeta;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariantsToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
+    extends JsonSerializable {
+  QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta(
+      {required this.id, required this.metaName});
+
+  @override
+  factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMetaFromJson(
+          json);
+
+  final String id;
+
+  final String metaName;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMetaToJson(
+          this);
+}
+
+@JsonSerializable()
+class VariablesQueryGetSkillsPageData extends JsonSerializable {
+  VariablesQueryGetSkillsPageData({this.id});
+
+  @override
+  factory VariablesQueryGetSkillsPageData.fromJson(Map<String, dynamic> json) =>
+      _$VariablesQueryGetSkillsPageDataFromJson(json);
+
+  final String? id;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$VariablesQueryGetSkillsPageDataToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData extends JsonSerializable {
+  QueryGetSkillsPageData({this.queryHashtagMeta, this.getUser});
+
+  @override
+  factory QueryGetSkillsPageData.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageDataFromJson(json);
+
+  final List<QueryGetSkillsPageData$queryHashtagMeta?>? queryHashtagMeta;
+
+  final QueryGetSkillsPageData$getUser? getUser;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetSkillsPageDataToJson(this);
+}
+
+const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'GetSkillsPageData'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'queryHashtagMeta'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'asc'),
+                        value: EnumValueNode(name: NameNode(value: 'metaName')))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'blessed'),
+                        value: BooleanValueNode(value: true))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'HashtagMetaFragmentData'),
+                  directives: []),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'getUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'skillsAggregate'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'count'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: 'skills'),
+                  alias: null,
+                  arguments: [
+                    ArgumentNode(
+                        name: NameNode(value: 'order'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'asc'),
+                              value:
+                                  EnumValueNode(name: NameNode(value: 'title')))
+                        ]))
+                  ],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'title'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'message'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'hashtagVariants'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'variantName'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'hashtagMeta'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'id'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'metaName'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: '__typename'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null)
+                              ])),
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null)
+                        ])),
+                    FieldNode(
+                        name: NameNode(value: 'isAvailable'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'createdTimestamp'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
+]);
+
+class GQLOptionsQueryGetSkillsPageData
+    extends graphql.QueryOptions<QueryGetSkillsPageData> {
+  GQLOptionsQueryGetSkillsPageData(
+      {String? operationName,
+      VariablesQueryGetSkillsPageData? variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      Duration? pollInterval,
+      graphql.Context? context})
+      : super(
+            variables: variables?.toJson() ?? {},
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            pollInterval: pollInterval,
+            context: context,
+            document: QUERY_GET_SKILLS_PAGE_DATA,
+            parserFn: (data) => QueryGetSkillsPageData.fromJson(data));
+}
+
+class GQLWatchOptionsQueryGetSkillsPageData
+    extends graphql.WatchQueryOptions<QueryGetSkillsPageData> {
+  GQLWatchOptionsQueryGetSkillsPageData(
+      {String? operationName,
+      VariablesQueryGetSkillsPageData? variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables?.toJson() ?? {},
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: QUERY_GET_SKILLS_PAGE_DATA,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: (data) => QueryGetSkillsPageData.fromJson(data));
+}
+
+class GQLFetchMoreOptionsQueryGetSkillsPageData
+    extends graphql.FetchMoreOptions {
+  GQLFetchMoreOptionsQueryGetSkillsPageData(
+      {required graphql.UpdateQuery updateQuery,
+      VariablesQueryGetSkillsPageData? variables})
+      : super(
+            updateQuery: updateQuery,
+            variables: variables?.toJson() ?? {},
+            document: QUERY_GET_SKILLS_PAGE_DATA);
+}
+
+extension GQLExtensionQueryGetSkillsPageData on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetSkillsPageData>> queryGetSkillsPageData(
+          [GQLOptionsQueryGetSkillsPageData? options]) async =>
+      await this.query(options ?? GQLOptionsQueryGetSkillsPageData());
+  graphql.ObservableQuery<QueryGetSkillsPageData> watchQueryGetSkillsPageData(
+          [GQLWatchOptionsQueryGetSkillsPageData? options]) =>
+      this.watchQuery(options ?? GQLWatchOptionsQueryGetSkillsPageData());
+}
+
+class GQLFQueryGetSkillsPageData
+    extends graphql_flutter.Query<QueryGetSkillsPageData> {
+  GQLFQueryGetSkillsPageData(
+      {widgets.Key? key,
+      GQLOptionsQueryGetSkillsPageData? options,
+      required graphql_flutter.QueryBuilder<QueryGetSkillsPageData> builder})
+      : super(
+            key: key,
+            options: options ?? GQLOptionsQueryGetSkillsPageData(),
+            builder: builder);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$queryHashtagMeta extends JsonSerializable
+    implements FragmentHashtagMetaFragmentData {
+  QueryGetSkillsPageData$queryHashtagMeta(
+      {required this.id,
+      required this.metaName,
+      this.iconName,
+      this.blessed,
+      this.hashtagVariants});
+
+  @override
+  factory QueryGetSkillsPageData$queryHashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$queryHashtagMetaFromJson(json);
+
+  final String id;
+
+  final String metaName;
+
+  final String? iconName;
+
+  final bool? blessed;
+
+  final List<QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants?>?
+      hashtagVariants;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$queryHashtagMetaToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants
+    extends JsonSerializable
+    implements
+        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagVariantFragmentData {
+  QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants(
+      {required this.id,
+      required this.variantName,
+      this.skillsAggregate,
+      this.requestsAggregate});
+
+  @override
+  factory QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariantsFromJson(json);
+
+  final String id;
+
+  final String variantName;
+
+  final QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate?
+      skillsAggregate;
+
+  final QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate?
+      requestsAggregate;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariantsToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate
+    extends JsonSerializable
+    implements
+        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagVariantFragmentData$skillsAggregate {
+  QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate(
+      {this.count});
+
+  @override
+  factory QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+          json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
+          this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate
+    extends JsonSerializable
+    implements
+        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagVariantFragmentData$requestsAggregate {
+  QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate(
+      {this.count});
+
+  @override
+  factory QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+          json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
+          this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$getUser extends JsonSerializable {
+  QueryGetSkillsPageData$getUser({this.skillsAggregate, this.skills});
+
+  @override
+  factory QueryGetSkillsPageData$getUser.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$getUserFromJson(json);
+
+  final QueryGetSkillsPageData$getUser$skillsAggregate? skillsAggregate;
+
+  final List<QueryGetSkillsPageData$getUser$skills?>? skills;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetSkillsPageData$getUserToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$getUser$skillsAggregate extends JsonSerializable {
+  QueryGetSkillsPageData$getUser$skillsAggregate({this.count});
+
+  @override
+  factory QueryGetSkillsPageData$getUser$skillsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$getUser$skillsAggregateFromJson(json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$getUser$skillsAggregateToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
+  QueryGetSkillsPageData$getUser$skills(
+      {required this.id,
+      this.title,
+      this.message,
+      this.hashtagVariants,
+      this.isAvailable,
+      this.createdTimestamp});
+
+  @override
+  factory QueryGetSkillsPageData$getUser$skills.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$getUser$skillsFromJson(json);
+
+  final String id;
+
+  final String? title;
+
+  final String? message;
+
+  final List<QueryGetSkillsPageData$getUser$skills$hashtagVariants?>?
+      hashtagVariants;
+
+  final bool? isAvailable;
+
+  final String? createdTimestamp;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$getUser$skillsToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$getUser$skills$hashtagVariants
+    extends JsonSerializable {
+  QueryGetSkillsPageData$getUser$skills$hashtagVariants(
+      {required this.variantName, required this.hashtagMeta});
+
+  @override
+  factory QueryGetSkillsPageData$getUser$skills$hashtagVariants.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsFromJson(json);
+
+  final String variantName;
+
+  final QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
+      hashtagMeta;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsToJson(this);
+}
+
+@JsonSerializable()
+class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
+    extends JsonSerializable {
+  QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta(
+      {required this.id, required this.metaName});
+
+  @override
+  factory QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaFromJson(
+          json);
+
+  final String id;
+
+  final String metaName;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaToJson(
+          this);
+}
