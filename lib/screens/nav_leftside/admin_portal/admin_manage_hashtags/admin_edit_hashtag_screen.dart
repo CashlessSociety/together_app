@@ -474,7 +474,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20.w),
+                  padding: EdgeInsets.only(top: 50.w),
                   child: ElevatedButton(
                     onPressed: () {
                       launch(faUrl);

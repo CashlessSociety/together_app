@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:together_app/components/alter_scaffold.dart';
 import 'package:together_app/graphql/mutation/mutation.graphql.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 
@@ -62,48 +63,50 @@ class _MyProfileTestFormState extends State<MyProfileTestForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 30.w, bottom: 10.w),
-            child: Text(
-              'Fake Sign Up Form',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 20.sp,
-                  color: Colors.grey[600]),
+    return AlterScaffold(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 30.w, bottom: 10.w),
+              child: Text(
+                'Fake Sign Up Form',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 20.sp,
+                    color: Colors.grey[600]),
+              ),
             ),
-          ),
-          TextField(
-              readOnly: isProcessing,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.email),
-                label: Text("Enter your email address"),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              }),
-          TextField(
-              readOnly: isProcessing,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.person),
-                label: Text("Enter your full name"),
-              ),
-              onChanged: (value) {
-                name = value;
-              }),
-          SizedBox(height: 30.w),
-          ElevatedButton(
-              onPressed: () {
-                onHandleJoinLogic();
-              },
-              child: Text(buttonText)),
-        ],
+            TextField(
+                readOnly: isProcessing,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.email),
+                  label: Text("Enter your email address"),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    email = value;
+                  });
+                }),
+            TextField(
+                readOnly: isProcessing,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.person),
+                  label: Text("Enter your full name"),
+                ),
+                onChanged: (value) {
+                  name = value;
+                }),
+            SizedBox(height: 30.w),
+            ElevatedButton(
+                onPressed: () {
+                  onHandleJoinLogic();
+                },
+                child: Text(buttonText)),
+          ],
+        ),
       ),
     );
   }

@@ -683,7 +683,13 @@ class InputAddUserInput extends JsonSerializable {
 @JsonSerializable()
 class InputHashtagMetaFilter extends JsonSerializable {
   InputHashtagMetaFilter(
-      {this.id, this.metaName, this.has, this.and, this.or, this.not});
+      {this.id,
+      this.metaName,
+      this.blessed,
+      this.has,
+      this.and,
+      this.or,
+      this.not});
 
   @override
   factory InputHashtagMetaFilter.fromJson(Map<String, dynamic> json) =>
@@ -692,6 +698,8 @@ class InputHashtagMetaFilter extends JsonSerializable {
   final List<String>? id;
 
   final InputStringTermFilter? metaName;
+
+  final bool? blessed;
 
   @JsonKey(unknownEnumValue: EnumHashtagMetaHasFilter.$unknown)
   final List<EnumHashtagMetaHasFilter?>? has;

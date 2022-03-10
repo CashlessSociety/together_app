@@ -1,52 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:together_app/screens/nav_leftside/add_request/add_request_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_portal_screen.dart';
 import 'package:together_app/screens/nav_leftside/my_profile/my_profile_screen.dart';
-import 'package:together_app/screens/nav_leftside/my_skills/my_skills_screen.dart';
 import 'package:together_app/screens/nav_leftside/notifications/notifications_screen.dart';
-import 'package:together_app/screens/nav_leftside/send_gratitude/send_gratitude_screen.dart';
 import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart';
+import 'package:together_app/utils/routes.dart';
 
 Color kPrimaryBlue = const Color(0xff1b9eca);
 Color kPrimaryRed = const Color(0xffF7581E);
+Color kPrimaryOrange = const Color(0xffFF8427);
+Color kDeepBlue = const Color(0xff134074);
 
 FaIcon faHashtagPlaceholderIcon = FaIcon(
   FontAwesomeIcons.hashtag,
   color: Colors.grey[300],
 );
 
-List<Map<String, dynamic>> kGetNavSideMenuInfoList({bool isAdmin = false}) {
+List<Map<String, dynamic>> kGetNavSideMenuInfoList(
+    {dynamic args, bool isAdmin = false}) {
   List<Map<String, dynamic>> menuList = [
     {
       'name': 'Notifications',
       'icon': Icons.notifications,
-      'route': NotificationsScreen.routeName
+      'route': NotificationsScreen.routeName,
+      'args': args,
     },
     {
       'name': 'My Profile',
       'icon': Icons.person,
-      'route': MyProfileScreen.routeName
+      'route': MyProfileScreen.routeName,
+      'args': MyProfileScreenArguments(),
     },
     {
       'name': 'My Skills',
       'icon': Icons.work,
-      'route': MySkillsScreen.routeName
+      'route': MyProfileScreen.routeName,
+      'args': MyProfileScreenArguments(focusedTab: 1),
     },
     {
       'name': 'Add Request',
       'icon': Icons.add_box,
-      'route': AddRequestScreen.routeName
+      'route': MyProfileScreen.routeName,
+      'args': MyProfileScreenArguments(focusedTab: 2),
     },
     {
       'name': 'Send Gratitude',
       'icon': Icons.handshake,
-      'route': SendGratitudeScreen.routeName
+      'route': MyProfileScreen.routeName,
+      'args': MyProfileScreenArguments(focusedTab: 0),
     },
     {
       'name': 'Settings',
       'icon': Icons.settings,
-      'route': SettingsScreen.routeName
+      'route': SettingsScreen.routeName,
+      'args': args,
     },
   ];
   // if (isAdmin) {

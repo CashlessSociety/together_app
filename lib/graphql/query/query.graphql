@@ -66,3 +66,56 @@ query GetHashtagMetaList{
         ...HashtagMetaFragmentData
     }
 }
+
+query GetBlessedHashtagMetaList{
+    queryHashtagMeta(order: {asc: metaName}, filter: {blessed: true}){
+        ...HashtagMetaFragmentData
+    }
+}
+
+query GetSkillsByUserId($id: ID){
+    getUser(id: $id){
+        skillsAggregate{
+            count
+        }
+        skills(order: {asc: title}){
+            id
+            title
+            message
+            hashtagVariants{
+                variantName
+                hashtagMeta{
+                    id
+                    metaName
+                }
+            }
+            isAvailable
+            createdTimestamp
+        }
+    }
+}
+
+query GetSkillsPageData($id: ID){
+    queryHashtagMeta(order: {asc: metaName}, filter: {blessed: true}){
+        ...HashtagMetaFragmentData
+    }
+    getUser(id: $id){
+        skillsAggregate{
+            count
+        }
+        skills(order: {asc: title}){
+            id
+            title
+            message
+            hashtagVariants{
+                variantName
+                hashtagMeta{
+                    id
+                    metaName
+                }
+            }
+            isAvailable
+            createdTimestamp
+        }
+    }
+}

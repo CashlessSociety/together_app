@@ -50,7 +50,7 @@ type HashtagMeta {
 	id: ID!
 	metaName: String! @id @search
 	iconName: String
-	blessed: Boolean
+	blessed: Boolean @search
 	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "hashtagMeta")
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
@@ -570,6 +570,7 @@ input AddUserInput {
 input HashtagMetaFilter {
 	id: [ID!]
 	metaName: StringTermFilter
+	blessed: Boolean
 	has: [HashtagMetaHasFilter]
 	and: [HashtagMetaFilter]
 	or: [HashtagMetaFilter]

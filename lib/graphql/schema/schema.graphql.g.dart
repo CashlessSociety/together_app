@@ -711,6 +711,7 @@ InputHashtagMetaFilter _$InputHashtagMetaFilterFromJson(
         ? null
         : InputStringTermFilter.fromJson(
             json['metaName'] as Map<String, dynamic>),
+    blessed: json['blessed'] as bool?,
     has: (json['has'] as List<dynamic>?)
         ?.map((e) => _$enumDecodeNullable(_$EnumHashtagMetaHasFilterEnumMap, e,
             unknownValue: EnumHashtagMetaHasFilter.$unknown))
@@ -736,6 +737,7 @@ Map<String, dynamic> _$InputHashtagMetaFilterToJson(
     <String, dynamic>{
       'id': instance.id,
       'metaName': instance.metaName,
+      'blessed': instance.blessed,
       'has': instance.has
           ?.map((e) => _$EnumHashtagMetaHasFilterEnumMap[e])
           .toList(),
