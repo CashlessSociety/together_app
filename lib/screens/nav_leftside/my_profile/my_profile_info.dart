@@ -235,46 +235,50 @@ class _MyProfileInfoState extends State<MyProfileInfo>
 
   Widget buildUserInfoSection(QueryResult<QueryGetUserWithId> result) {
     if (result.parsedData != null) {
-      QueryGetUserWithId$getUser data = result.parsedData!.getUser!;
-      return Row(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                data.name,
-                style: TextStyle(fontSize: 20.sp, color: Colors.black87),
-              ),
-              Text(
-                data.email,
-                style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-              ),
-            ],
-          ),
-          IconButton(
-            onPressed: () async {
-              const FlutterSecureStorage storage = FlutterSecureStorage();
-              await storage.delete(key: 'userId');
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.grey,
+      if (result.parsedData!.getUser != null) {
+        QueryGetUserWithId$getUser data = result.parsedData!.getUser!;
+        return Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data.name,
+                  style: TextStyle(fontSize: 20.sp, color: Colors.black87),
+                ),
+                Text(
+                  data.email,
+                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                ),
+              ],
             ),
-          )
-        ],
-      );
+            IconButton(
+              onPressed: () async {
+                const FlutterSecureStorage storage = FlutterSecureStorage();
+                await storage.delete(key: 'userId');
+                Get.back();
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.grey,
+              ),
+            )
+          ],
+        );
+      } else {
+        return Center(
+          child: ElevatedButton(
+              onPressed: () async {
+                const FlutterSecureStorage storage = FlutterSecureStorage();
+                await storage.delete(key: 'userId');
+                Get.back();
+              },
+              child: const Text('Reset')),
+        );
+      }
     } else if (result.hasException) {
-      return Center(
-        child: ElevatedButton(
-            onPressed: () async {
-              const FlutterSecureStorage storage = FlutterSecureStorage();
-              await storage.delete(key: 'userId');
-              Get.back();
-            },
-            child: const Text('Reset')),
-      );
+      return const Text("Network Error");
     } else {
       return const SizedBox();
     }
