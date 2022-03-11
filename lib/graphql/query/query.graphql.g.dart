@@ -710,8 +710,8 @@ QueryGetSkillsByUserId$getUser$skills
     id: json['id'] as String,
     title: json['title'] as String?,
     message: json['message'] as String?,
-    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
-        ?.map((e) => e == null
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
+        .map((e) => e == null
             ? null
             : QueryGetSkillsByUserId$getUser$skills$hashtagVariants.fromJson(
                 e as Map<String, dynamic>))
@@ -934,8 +934,8 @@ QueryGetSkillsPageData$getUser$skills
     id: json['id'] as String,
     title: json['title'] as String?,
     message: json['message'] as String?,
-    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
-        ?.map((e) => e == null
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
+        .map((e) => e == null
             ? null
             : QueryGetSkillsPageData$getUser$skills$hashtagVariants.fromJson(
                 e as Map<String, dynamic>))
@@ -992,3 +992,58 @@ Map<String, dynamic>
           'id': instance.id,
           'metaName': instance.metaName,
         };
+
+VariablesQuerySearchTopRequestHashtag
+    _$VariablesQuerySearchTopRequestHashtagFromJson(Map<String, dynamic> json) {
+  return VariablesQuerySearchTopRequestHashtag(
+    keywordRegex: json['keywordRegex'] as String,
+    limit: json['limit'] as int?,
+  );
+}
+
+Map<String, dynamic> _$VariablesQuerySearchTopRequestHashtagToJson(
+        VariablesQuerySearchTopRequestHashtag instance) =>
+    <String, dynamic>{
+      'keywordRegex': instance.keywordRegex,
+      'limit': instance.limit,
+    };
+
+QuerySearchTopRequestHashtag _$QuerySearchTopRequestHashtagFromJson(
+    Map<String, dynamic> json) {
+  return QuerySearchTopRequestHashtag(
+    queryHashtagMeta: (json['queryHashtagMeta'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : QuerySearchTopRequestHashtag$queryHashtagMeta.fromJson(
+                e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$QuerySearchTopRequestHashtagToJson(
+        QuerySearchTopRequestHashtag instance) =>
+    <String, dynamic>{
+      'queryHashtagMeta': instance.queryHashtagMeta,
+    };
+
+QuerySearchTopRequestHashtag$queryHashtagMeta
+    _$QuerySearchTopRequestHashtag$queryHashtagMetaFromJson(
+        Map<String, dynamic> json) {
+  return QuerySearchTopRequestHashtag$queryHashtagMeta(
+    id: json['id'] as String,
+    iconName: json['iconName'] as String?,
+    metaName: json['metaName'] as String,
+    totalSkillCount: json['totalSkillCount'] as int?,
+    totalRequestCount: json['totalRequestCount'] as int?,
+  );
+}
+
+Map<String, dynamic> _$QuerySearchTopRequestHashtag$queryHashtagMetaToJson(
+        QuerySearchTopRequestHashtag$queryHashtagMeta instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'iconName': instance.iconName,
+      'metaName': instance.metaName,
+      'totalSkillCount': instance.totalSkillCount,
+      'totalRequestCount': instance.totalRequestCount,
+    };

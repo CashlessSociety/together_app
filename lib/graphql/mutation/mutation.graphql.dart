@@ -329,303 +329,6 @@ class MutationCreateUser$addUser$user extends JsonSerializable {
 }
 
 @JsonSerializable()
-class VariablesMutationCreateRequest extends JsonSerializable {
-  VariablesMutationCreateRequest(
-      {required this.owner, required this.title, required this.message});
-
-  @override
-  factory VariablesMutationCreateRequest.fromJson(Map<String, dynamic> json) =>
-      _$VariablesMutationCreateRequestFromJson(json);
-
-  final InputUserRef owner;
-
-  final String title;
-
-  final String message;
-
-  @override
-  Map<String, dynamic> toJson() => _$VariablesMutationCreateRequestToJson(this);
-}
-
-@JsonSerializable()
-class MutationCreateRequest extends JsonSerializable {
-  MutationCreateRequest({this.addRequest});
-
-  @override
-  factory MutationCreateRequest.fromJson(Map<String, dynamic> json) =>
-      _$MutationCreateRequestFromJson(json);
-
-  final MutationCreateRequest$addRequest? addRequest;
-
-  @override
-  Map<String, dynamic> toJson() => _$MutationCreateRequestToJson(this);
-}
-
-const MUTATION_CREATE_REQUEST = const DocumentNode(definitions: [
-  OperationDefinitionNode(
-      type: OperationType.mutation,
-      name: NameNode(value: 'CreateRequest'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'owner')),
-            type: NamedTypeNode(
-                name: NameNode(value: 'UserRef'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'title')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'message')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'addRequest'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'input'),
-                  value: ObjectValueNode(fields: [
-                    ObjectFieldNode(
-                        name: NameNode(value: 'owner'),
-                        value: VariableNode(name: NameNode(value: 'owner'))),
-                    ObjectFieldNode(
-                        name: NameNode(value: 'title'),
-                        value: VariableNode(name: NameNode(value: 'title'))),
-                    ObjectFieldNode(
-                        name: NameNode(value: 'message'),
-                        value: VariableNode(name: NameNode(value: 'message')))
-                  ]))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'request'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'title'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'message'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'createdTimestamp'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ])),
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: '__typename'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-]);
-typedef GQLOnMutationCompletedMutationCreateRequest = FutureOr<void> Function(
-    dynamic, MutationCreateRequest?);
-
-class GQLOptionsMutationCreateRequest
-    extends graphql.MutationOptions<MutationCreateRequest> {
-  GQLOptionsMutationCreateRequest(
-      {String? operationName,
-      required VariablesMutationCreateRequest variables,
-      graphql.FetchPolicy? fetchPolicy,
-      graphql.ErrorPolicy? errorPolicy,
-      graphql.CacheRereadPolicy? cacheRereadPolicy,
-      Object? optimisticResult,
-      graphql.Context? context,
-      GQLOnMutationCompletedMutationCreateRequest? onCompleted,
-      graphql.OnMutationUpdate? update,
-      graphql.OnError? onError})
-      : super(
-            variables: variables.toJson(),
-            operationName: operationName,
-            fetchPolicy: fetchPolicy,
-            errorPolicy: errorPolicy,
-            cacheRereadPolicy: cacheRereadPolicy,
-            optimisticResult: optimisticResult,
-            context: context,
-            onCompleted: onCompleted == null
-                ? null
-                : (data) => onCompleted(data,
-                    data == null ? null : MutationCreateRequest.fromJson(data)),
-            update: update,
-            onError: onError,
-            document: MUTATION_CREATE_REQUEST,
-            parserFn: (data) => MutationCreateRequest.fromJson(data));
-}
-
-class GQLWatchOptionsMutationCreateRequest
-    extends graphql.WatchQueryOptions<MutationCreateRequest> {
-  GQLWatchOptionsMutationCreateRequest(
-      {String? operationName,
-      required VariablesMutationCreateRequest variables,
-      graphql.FetchPolicy? fetchPolicy,
-      graphql.ErrorPolicy? errorPolicy,
-      graphql.CacheRereadPolicy? cacheRereadPolicy,
-      Object? optimisticResult,
-      graphql.Context? context,
-      Duration? pollInterval,
-      bool? eagerlyFetchResults,
-      bool carryForwardDataOnException = true,
-      bool fetchResults = false})
-      : super(
-            variables: variables.toJson(),
-            operationName: operationName,
-            fetchPolicy: fetchPolicy,
-            errorPolicy: errorPolicy,
-            cacheRereadPolicy: cacheRereadPolicy,
-            optimisticResult: optimisticResult,
-            context: context,
-            document: MUTATION_CREATE_REQUEST,
-            pollInterval: pollInterval,
-            eagerlyFetchResults: eagerlyFetchResults,
-            carryForwardDataOnException: carryForwardDataOnException,
-            fetchResults: fetchResults,
-            parserFn: (data) => MutationCreateRequest.fromJson(data));
-}
-
-extension GQLExtensionMutationCreateRequest on graphql.GraphQLClient {
-  Future<graphql.QueryResult<MutationCreateRequest>> mutateCreateRequest(
-          GQLOptionsMutationCreateRequest options) async =>
-      await this.mutate(options);
-  graphql.ObservableQuery<MutationCreateRequest> watchMutationCreateRequest(
-          GQLWatchOptionsMutationCreateRequest options) =>
-      this.watchMutation(options);
-}
-
-class GQLFOptionsMutationCreateRequest
-    extends graphql.MutationOptions<MutationCreateRequest> {
-  GQLFOptionsMutationCreateRequest(
-      {String? operationName,
-      graphql.FetchPolicy? fetchPolicy,
-      graphql.ErrorPolicy? errorPolicy,
-      graphql.CacheRereadPolicy? cacheRereadPolicy,
-      Object? optimisticResult,
-      graphql.Context? context,
-      GQLOnMutationCompletedMutationCreateRequest? onCompleted,
-      graphql.OnMutationUpdate? update,
-      graphql.OnError? onError})
-      : super(
-            operationName: operationName,
-            fetchPolicy: fetchPolicy,
-            errorPolicy: errorPolicy,
-            cacheRereadPolicy: cacheRereadPolicy,
-            optimisticResult: optimisticResult,
-            context: context,
-            onCompleted: onCompleted == null
-                ? null
-                : (data) => onCompleted(data,
-                    data == null ? null : MutationCreateRequest.fromJson(data)),
-            update: update,
-            onError: onError,
-            document: MUTATION_CREATE_REQUEST,
-            parserFn: (data) => MutationCreateRequest.fromJson(data));
-}
-
-typedef GQLFRunMutationMutationCreateRequest
-    = graphql.MultiSourceResult<MutationCreateRequest>
-        Function(VariablesMutationCreateRequest, {Object? optimisticResult});
-typedef GQLFBuilderMutationCreateRequest = widgets.Widget Function(
-    GQLFRunMutationMutationCreateRequest,
-    graphql.QueryResult<MutationCreateRequest>?);
-
-class GQLFMutationCreateRequest
-    extends graphql_flutter.Mutation<MutationCreateRequest> {
-  GQLFMutationCreateRequest(
-      {widgets.Key? key,
-      GQLFOptionsMutationCreateRequest? options,
-      required GQLFBuilderMutationCreateRequest builder})
-      : super(
-            key: key,
-            options: options ?? GQLFOptionsMutationCreateRequest(),
-            builder: (run, result) => builder(
-                (variables, {optimisticResult}) =>
-                    run(variables.toJson(), optimisticResult: optimisticResult),
-                result));
-}
-
-@JsonSerializable()
-class MutationCreateRequest$addRequest extends JsonSerializable {
-  MutationCreateRequest$addRequest({this.request});
-
-  @override
-  factory MutationCreateRequest$addRequest.fromJson(
-          Map<String, dynamic> json) =>
-      _$MutationCreateRequest$addRequestFromJson(json);
-
-  final List<MutationCreateRequest$addRequest$request?>? request;
-
-  @override
-  Map<String, dynamic> toJson() =>
-      _$MutationCreateRequest$addRequestToJson(this);
-}
-
-@JsonSerializable()
-class MutationCreateRequest$addRequest$request extends JsonSerializable {
-  MutationCreateRequest$addRequest$request(
-      {required this.id,
-      required this.title,
-      required this.message,
-      this.createdTimestamp});
-
-  @override
-  factory MutationCreateRequest$addRequest$request.fromJson(
-          Map<String, dynamic> json) =>
-      _$MutationCreateRequest$addRequest$requestFromJson(json);
-
-  final String id;
-
-  final String title;
-
-  final String message;
-
-  final String? createdTimestamp;
-
-  @override
-  Map<String, dynamic> toJson() =>
-      _$MutationCreateRequest$addRequest$requestToJson(this);
-}
-
-@JsonSerializable()
 class VariablesMutationAddHashtagMeta extends JsonSerializable {
   VariablesMutationAddHashtagMeta(
       {required this.metaName,
@@ -1906,4 +1609,542 @@ class MutationDeleteHashtagVariant$deleteHashtagVariant
   @override
   Map<String, dynamic> toJson() =>
       _$MutationDeleteHashtagVariant$deleteHashtagVariantToJson(this);
+}
+
+@JsonSerializable()
+class VariablesMutationCreateSkill extends JsonSerializable {
+  VariablesMutationCreateSkill(
+      {required this.addHashtagMetaInputList, required this.addSkillInput});
+
+  @override
+  factory VariablesMutationCreateSkill.fromJson(Map<String, dynamic> json) =>
+      _$VariablesMutationCreateSkillFromJson(json);
+
+  final List<InputAddHashtagMetaInput> addHashtagMetaInputList;
+
+  final InputAddSkillInput addSkillInput;
+
+  @override
+  Map<String, dynamic> toJson() => _$VariablesMutationCreateSkillToJson(this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill extends JsonSerializable {
+  MutationCreateSkill({this.addHashtagMeta, this.addSkill});
+
+  @override
+  factory MutationCreateSkill.fromJson(Map<String, dynamic> json) =>
+      _$MutationCreateSkillFromJson(json);
+
+  final MutationCreateSkill$addHashtagMeta? addHashtagMeta;
+
+  final MutationCreateSkill$addSkill? addSkill;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationCreateSkillToJson(this);
+}
+
+const MUTATION_CREATE_SKILL = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'CreateSkill'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable:
+                VariableNode(name: NameNode(value: 'addHashtagMetaInputList')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'AddHashtagMetaInput'),
+                    isNonNull: true),
+                isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'addSkillInput')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'AddSkillInput'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'addHashtagMeta'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'upsert'),
+                  value: BooleanValueNode(value: true)),
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: VariableNode(
+                      name: NameNode(value: 'addHashtagMetaInputList')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'numUids'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'addSkill'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ListValueNode(values: [
+                    VariableNode(name: NameNode(value: 'addSkillInput'))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'skill'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'title'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'message'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'hashtagVariants'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'hashtagMeta'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'id'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'metaName'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'iconName'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'hashtagVariants'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(selections: [
+                                      FieldNode(
+                                          name: NameNode(
+                                              value: 'skillsAggregate'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet:
+                                              SelectionSetNode(selections: [
+                                            FieldNode(
+                                                name: NameNode(value: 'count'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null),
+                                            FieldNode(
+                                                name: NameNode(
+                                                    value: '__typename'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null)
+                                          ])),
+                                      FieldNode(
+                                          name: NameNode(
+                                              value: 'requestsAggregate'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet:
+                                              SelectionSetNode(selections: [
+                                            FieldNode(
+                                                name: NameNode(value: 'count'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null),
+                                            FieldNode(
+                                                name: NameNode(
+                                                    value: '__typename'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null)
+                                          ])),
+                                      FieldNode(
+                                          name: NameNode(value: '__typename'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null)
+                                    ])),
+                                FieldNode(
+                                    name: NameNode(value: '__typename'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null)
+                              ])),
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null)
+                        ])),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+typedef GQLOnMutationCompletedMutationCreateSkill = FutureOr<void> Function(
+    dynamic, MutationCreateSkill?);
+
+class GQLOptionsMutationCreateSkill
+    extends graphql.MutationOptions<MutationCreateSkill> {
+  GQLOptionsMutationCreateSkill(
+      {String? operationName,
+      required VariablesMutationCreateSkill variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      GQLOnMutationCompletedMutationCreateSkill? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationCreateSkill.fromJson(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_CREATE_SKILL,
+            parserFn: (data) => MutationCreateSkill.fromJson(data));
+}
+
+class GQLWatchOptionsMutationCreateSkill
+    extends graphql.WatchQueryOptions<MutationCreateSkill> {
+  GQLWatchOptionsMutationCreateSkill(
+      {String? operationName,
+      required VariablesMutationCreateSkill variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: MUTATION_CREATE_SKILL,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: (data) => MutationCreateSkill.fromJson(data));
+}
+
+extension GQLExtensionMutationCreateSkill on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationCreateSkill>> mutateCreateSkill(
+          GQLOptionsMutationCreateSkill options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<MutationCreateSkill> watchMutationCreateSkill(
+          GQLWatchOptionsMutationCreateSkill options) =>
+      this.watchMutation(options);
+}
+
+class GQLFOptionsMutationCreateSkill
+    extends graphql.MutationOptions<MutationCreateSkill> {
+  GQLFOptionsMutationCreateSkill(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      GQLOnMutationCompletedMutationCreateSkill? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationCreateSkill.fromJson(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_CREATE_SKILL,
+            parserFn: (data) => MutationCreateSkill.fromJson(data));
+}
+
+typedef GQLFRunMutationMutationCreateSkill
+    = graphql.MultiSourceResult<MutationCreateSkill>
+        Function(VariablesMutationCreateSkill, {Object? optimisticResult});
+typedef GQLFBuilderMutationCreateSkill = widgets.Widget Function(
+    GQLFRunMutationMutationCreateSkill,
+    graphql.QueryResult<MutationCreateSkill>?);
+
+class GQLFMutationCreateSkill
+    extends graphql_flutter.Mutation<MutationCreateSkill> {
+  GQLFMutationCreateSkill(
+      {widgets.Key? key,
+      GQLFOptionsMutationCreateSkill? options,
+      required GQLFBuilderMutationCreateSkill builder})
+      : super(
+            key: key,
+            options: options ?? GQLFOptionsMutationCreateSkill(),
+            builder: (run, result) => builder(
+                (variables, {optimisticResult}) =>
+                    run(variables.toJson(), optimisticResult: optimisticResult),
+                result));
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addHashtagMeta extends JsonSerializable {
+  MutationCreateSkill$addHashtagMeta({this.numUids});
+
+  @override
+  factory MutationCreateSkill$addHashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addHashtagMetaFromJson(json);
+
+  final int? numUids;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addHashtagMetaToJson(this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill extends JsonSerializable {
+  MutationCreateSkill$addSkill({this.skill});
+
+  @override
+  factory MutationCreateSkill$addSkill.fromJson(Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkillFromJson(json);
+
+  final List<MutationCreateSkill$addSkill$skill?>? skill;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationCreateSkill$addSkillToJson(this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill$skill extends JsonSerializable {
+  MutationCreateSkill$addSkill$skill(
+      {required this.id,
+      this.title,
+      this.message,
+      required this.hashtagVariants});
+
+  @override
+  factory MutationCreateSkill$addSkill$skill.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkill$skillFromJson(json);
+
+  final String id;
+
+  final String? title;
+
+  final String? message;
+
+  final List<MutationCreateSkill$addSkill$skill$hashtagVariants?>
+      hashtagVariants;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addSkill$skillToJson(this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill$skill$hashtagVariants
+    extends JsonSerializable {
+  MutationCreateSkill$addSkill$skill$hashtagVariants(
+      {required this.hashtagMeta});
+
+  @override
+  factory MutationCreateSkill$addSkill$skill$hashtagVariants.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariantsFromJson(json);
+
+  final MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta
+      hashtagMeta;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariantsToJson(this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta
+    extends JsonSerializable {
+  MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta(
+      {required this.id,
+      required this.metaName,
+      this.iconName,
+      this.hashtagVariants});
+
+  @override
+  factory MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMetaFromJson(
+          json);
+
+  final String id;
+
+  final String metaName;
+
+  final String? iconName;
+
+  final List<
+          MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants?>?
+      hashtagVariants;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMetaToJson(
+          this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants
+    extends JsonSerializable {
+  MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants(
+      {this.skillsAggregate, this.requestsAggregate});
+
+  @override
+  factory MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariantsFromJson(
+          json);
+
+  final MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate?
+      skillsAggregate;
+
+  final MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate?
+      requestsAggregate;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariantsToJson(
+          this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate
+    extends JsonSerializable {
+  MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate(
+      {this.count});
+
+  @override
+  factory MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregateFromJson(
+          json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregateToJson(
+          this);
+}
+
+@JsonSerializable()
+class MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate
+    extends JsonSerializable {
+  MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate(
+      {this.count});
+
+  @override
+  factory MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregateFromJson(
+          json);
+
+  final int? count;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregateToJson(
+          this);
 }

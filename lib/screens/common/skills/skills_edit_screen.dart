@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:together_app/components/buttons.dart';
+import 'package:together_app/components/hashtag_selection_sheet.dart';
 import 'package:together_app/components/text_fields.dart';
 import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
@@ -25,16 +24,29 @@ class SkillsEditScreen extends StatefulWidget {
 }
 
 class _SkillsEditScreenState extends State<SkillsEditScreen> {
+  GlobalKey messageTextKey = GlobalKey();
   String skillTitle = '';
   String skillMessage = '';
   bool isAvailable = true;
-  late TextEditingController textController;
-  bool messageTextTapped = false;
+  late TextEditingController messageTextController;
+  TextSelection? textSelectionRecord;
+  bool messageBoxTapped = false;
   List<RegExpMatch> hashtagMatches = [];
   late StreamController<List<RegExpMatch>> hashtagMatchStreamController;
   late Stream<List<RegExpMatch>> hashtagMatchStream;
+  double messageBoxHeight = 0;
+  late StreamController<RegExpMatch?> hashtagSearchStreamController;
+  late Stream<RegExpMatch?> hashtagSearchStream;
 
-  onFilterHashtagFromMessage(String message) {
+  void onHideHashtagSearchField() {
+    hashtagSearchStreamController.add(null);
+  }
+
+  void onShowHashtagSearchField(RegExpMatch match) {
+    hashtagSearchStreamController.add(match);
+  }
+
+  void onFilterHashtagFromMessage(String message) {
     hashtagMatches.clear();
     hashTagRegExp.allMatches(message).forEach((element) {
       hashtagMatches.add(element);
@@ -42,13 +54,35 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     hashtagMatchStreamController.add(hashtagMatches);
   }
 
-  onFixMessageWhenRemoveTag(int start, int end) {
-    String text1 = textController.text.substring(0, start);
-    String text2 =
-        textController.text.substring(end, textController.text.length);
-    textController.text = text1 + text2;
-    textController.selection =
+  void onFixMessageWhenRemoveTag(int start, int end) {
+    String text1 = messageTextController.text.substring(0, start);
+    String text2 = messageTextController.text
+        .substring(end, messageTextController.text.length);
+    messageTextController.text = text1 + text2;
+    messageTextController.selection =
         TextSelection.fromPosition(TextPosition(offset: start));
+  }
+
+  void onGetMessageBoxPosition() {
+    if (messageBoxHeight == 0) {
+      RenderBox? box =
+          messageTextKey.currentContext?.findRenderObject() as RenderBox?;
+      setState(() {
+        messageBoxHeight = box?.size.height ?? 0;
+      });
+    }
+  }
+
+  void onDetectCursorOnHashtag() {
+    int start = messageTextController.selection.start;
+    int end = messageTextController.selection.end;
+    RegExpMatch? matchElement = hashtagMatches.firstWhereOrNull(
+        (element) => start > element.start && end <= element.end);
+    if (matchElement != null) {
+      onShowHashtagSearchField(matchElement);
+    } else {
+      onHideHashtagSearchField();
+    }
   }
 
   @override
@@ -56,15 +90,22 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     hashtagMatchStreamController = StreamController<List<RegExpMatch>>();
     hashtagMatchStream = hashtagMatchStreamController.stream;
 
+    hashtagSearchStreamController = StreamController<RegExpMatch?>();
+    hashtagSearchStream =
+        hashtagSearchStreamController.stream.asBroadcastStream();
+
     if (widget.arguments.hashtagMetaName != null) {
-      textController =
-          TextEditingController(text: " #${widget.arguments.hashtagMetaName}");
-      onFilterHashtagFromMessage(textController.text);
+      String text = " #${widget.arguments.hashtagMetaName}";
+      skillMessage = text;
+      messageTextController = TextEditingController(text: text);
+      onFilterHashtagFromMessage(messageTextController.text);
     } else {
-      textController = TextEditingController();
+      messageTextController = TextEditingController();
     }
-    textController.addListener(() {
-      onFilterHashtagFromMessage(textController.text);
+    messageTextController.addListener(() {
+      textSelectionRecord = messageTextController.selection;
+      onFilterHashtagFromMessage(messageTextController.text);
+      onDetectCursorOnHashtag();
     });
     super.initState();
   }
@@ -72,7 +113,8 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   @override
   void dispose() {
     hashtagMatchStreamController.close();
-    textController.dispose();
+    hashtagSearchStreamController.close();
+    messageTextController.dispose();
     super.dispose();
   }
 
@@ -96,62 +138,72 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
               padding: EdgeInsets.all(20.w),
               child: Column(
                 children: [
-                  OutlineTextField(
-                    contentPadding: EdgeInsets.only(
-                      left: 16.w,
-                      right: 16.w,
+                  SizedBox(
+                    height: 40.w,
+                    child: OutlineTextField(
+                      contentPadding: EdgeInsets.only(
+                        left: 16.w,
+                        right: 16.w,
+                      ),
+                      label: Text(
+                        "Title",
+                        style: TextStyle(fontSize: 15.sp),
+                      ),
+                      textInputAction: TextInputAction.next,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          skillTitle = value;
+                        });
+                      },
                     ),
-                    label: Text(
-                      "Title",
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        skillTitle = value;
-                      });
-                    },
                   ),
                   SizedBox(height: 20.w),
-                  OutlineDetectableTextField(
-                    controller: textController,
-                    contentPadding: EdgeInsets.all(16.w),
-                    label: Text(
-                      "Description",
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                    decoratedStyle: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blue),
-                    basicStyle: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    // textInputAction: TextInputAction.done,
-                    minLines: 5,
-                    maxLines: 5,
-                    onDetectionTyped: (value) {
-                      print(value);
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        skillMessage = value;
-                      });
-                    },
-                    onTap: () {
-                      /// should reset cursor position
-                      if (widget.arguments.hashtagMetaName != null &&
-                          !messageTextTapped) {
-                        textController.selection = TextSelection.fromPosition(
-                            const TextPosition(offset: 0));
+                  Focus(
+                    onFocusChange: (value) {
+                      if (!value) {
+                        onHideHashtagSearchField();
                       }
-                      messageTextTapped = true;
                     },
+                    child: OutlineDetectableTextField(
+                        key: messageTextKey,
+                        controller: messageTextController,
+                        contentPadding: EdgeInsets.all(16.w),
+                        label: Text(
+                          "Description",
+                          style: TextStyle(fontSize: 15.sp),
+                        ),
+                        decoratedStyle: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.blue),
+                        basicStyle: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        // textInputAction: TextInputAction.done,
+                        minLines: 5,
+                        maxLines: 5,
+                        onChanged: (value) {
+                          setState(() {
+                            skillMessage = value;
+                          });
+                        },
+                        onTap: () {
+                          /// should reset cursor position
+                          if (widget.arguments.hashtagMetaName != null &&
+                              !messageBoxTapped) {
+                            messageTextController.selection =
+                                TextSelection.fromPosition(
+                                    const TextPosition(offset: 0));
+                          }
+                          messageBoxTapped = true;
+                          onGetMessageBoxPosition();
+                          onDetectCursorOnHashtag();
+                        }),
                   ),
                   SizedBox(height: 20.w),
                   Row(
@@ -175,7 +227,8 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                                     String tag = element
                                         .group(0)!
                                         .trim()
-                                        .replaceFirst("#", '');
+                                        .replaceFirst("#", '')
+                                        .toLowerCase();
                                     return InputChip(
                                         visualDensity: const VisualDensity(
                                             horizontal: 0.0, vertical: -2),
@@ -208,6 +261,15 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                   )
                 ],
               ),
+            ),
+          ),
+          Positioned(
+            top: 90.w + messageBoxHeight,
+            left: 20.w,
+            right: 70.w,
+            child: HashtagSelectionSheet(
+              hashtagSearchStream: hashtagSearchStream,
+              onTapHashtag: () {},
             ),
           ),
           Positioned(
@@ -291,7 +353,9 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                   ),
                 ),
               ),
-              onPressed: skillTitle != '' && skillMessage != '' ? () {} : null,
+              onPressed: skillTitle.trim() != '' && skillMessage.trim() != ''
+                  ? () {}
+                  : null,
               child: Row(
                 children: [
                   Icon(
