@@ -119,3 +119,22 @@ query GetSkillsPageData($id: ID){
         }
     }
 }
+
+query SearchTopRequestHashtag($keywordRegex: String!, $limit: Int = 12){
+    queryHashtagMeta(
+        filter: {metaName: {regexp: $keywordRegex}},
+        order: {
+            desc: totalRequestCount,
+            then: {
+                asc: metaName
+            }
+        },
+        first: $limit
+    ){
+        id
+        iconName
+        metaName
+        totalSkillCount
+        totalRequestCount
+    }
+}

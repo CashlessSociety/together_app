@@ -548,7 +548,9 @@ class InputAddHashtagMetaInput extends JsonSerializable {
       {required this.metaName,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      this.totalSkillCount,
+      this.totalRequestCount});
 
   @override
   factory InputAddHashtagMetaInput.fromJson(Map<String, dynamic> json) =>
@@ -561,6 +563,10 @@ class InputAddHashtagMetaInput extends JsonSerializable {
   final bool? blessed;
 
   final List<InputHashtagVariantRef?>? hashtagVariants;
+
+  final int? totalSkillCount;
+
+  final int? totalRequestCount;
 
   @override
   Map<String, dynamic> toJson() => _$InputAddHashtagMetaInputToJson(this);
@@ -596,7 +602,7 @@ class InputAddRequestInput extends JsonSerializable {
       {required this.owner,
       required this.title,
       required this.message,
-      this.hashtagVariants,
+      required this.hashtagVariants,
       this.createdTimestamp});
 
   @override
@@ -609,7 +615,7 @@ class InputAddRequestInput extends JsonSerializable {
 
   final String message;
 
-  final List<InputHashtagVariantRef?>? hashtagVariants;
+  final List<InputHashtagVariantRef?> hashtagVariants;
 
   final String? createdTimestamp;
 
@@ -623,7 +629,7 @@ class InputAddSkillInput extends JsonSerializable {
       {required this.owner,
       this.title,
       this.message,
-      this.hashtagVariants,
+      required this.hashtagVariants,
       this.isAvailable,
       this.createdTimestamp});
 
@@ -637,7 +643,7 @@ class InputAddSkillInput extends JsonSerializable {
 
   final String? message;
 
-  final List<InputHashtagVariantRef?>? hashtagVariants;
+  final List<InputHashtagVariantRef?> hashtagVariants;
 
   final bool? isAvailable;
 
@@ -697,7 +703,7 @@ class InputHashtagMetaFilter extends JsonSerializable {
 
   final List<String>? id;
 
-  final InputStringTermFilter? metaName;
+  final InputStringExactFilterStringRegExpFilter? metaName;
 
   final bool? blessed;
 
@@ -736,7 +742,12 @@ class InputHashtagMetaOrder extends JsonSerializable {
 
 @JsonSerializable()
 class InputHashtagMetaPatch extends JsonSerializable {
-  InputHashtagMetaPatch({this.iconName, this.blessed, this.hashtagVariants});
+  InputHashtagMetaPatch(
+      {this.iconName,
+      this.blessed,
+      this.hashtagVariants,
+      this.totalSkillCount,
+      this.totalRequestCount});
 
   @override
   factory InputHashtagMetaPatch.fromJson(Map<String, dynamic> json) =>
@@ -747,6 +758,10 @@ class InputHashtagMetaPatch extends JsonSerializable {
   final bool? blessed;
 
   final List<InputHashtagVariantRef?>? hashtagVariants;
+
+  final int? totalSkillCount;
+
+  final int? totalRequestCount;
 
   @override
   Map<String, dynamic> toJson() => _$InputHashtagMetaPatchToJson(this);
@@ -759,7 +774,9 @@ class InputHashtagMetaRef extends JsonSerializable {
       this.metaName,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      this.totalSkillCount,
+      this.totalRequestCount});
 
   @override
   factory InputHashtagMetaRef.fromJson(Map<String, dynamic> json) =>
@@ -774,6 +791,10 @@ class InputHashtagMetaRef extends JsonSerializable {
   final bool? blessed;
 
   final List<InputHashtagVariantRef?>? hashtagVariants;
+
+  final int? totalSkillCount;
+
+  final int? totalRequestCount;
 
   @override
   Map<String, dynamic> toJson() => _$InputHashtagMetaRefToJson(this);
@@ -790,7 +811,7 @@ class InputHashtagVariantFilter extends JsonSerializable {
 
   final List<String>? id;
 
-  final InputStringTermFilter? variantName;
+  final InputStringExactFilterStringRegExpFilter? variantName;
 
   @JsonKey(unknownEnumValue: EnumHashtagVariantHasFilter.$unknown)
   final List<EnumHashtagVariantHasFilter?>? has;
@@ -1088,6 +1109,45 @@ class InputSkillRef extends JsonSerializable {
 }
 
 @JsonSerializable()
+class InputStringExactFilterStringRegExpFilter extends JsonSerializable {
+  InputStringExactFilterStringRegExpFilter(
+      {this.eq,
+      this.$in,
+      this.le,
+      this.lt,
+      this.ge,
+      this.gt,
+      this.between,
+      this.regexp});
+
+  @override
+  factory InputStringExactFilterStringRegExpFilter.fromJson(
+          Map<String, dynamic> json) =>
+      _$InputStringExactFilterStringRegExpFilterFromJson(json);
+
+  final String? eq;
+
+  @JsonKey(name: 'in')
+  final List<String?>? $in;
+
+  final String? le;
+
+  final String? lt;
+
+  final String? ge;
+
+  final String? gt;
+
+  final InputStringRange? between;
+
+  final String? regexp;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$InputStringExactFilterStringRegExpFilterToJson(this);
+}
+
+@JsonSerializable()
 class InputUpdateHashtagMetaInput extends JsonSerializable {
   InputUpdateHashtagMetaInput({required this.filter, this.$set, this.remove});
 
@@ -1356,6 +1416,10 @@ enum EnumHashtagMetaHasFilter {
   blessed,
   @JsonValue('hashtagVariants')
   hashtagVariants,
+  @JsonValue('totalSkillCount')
+  totalSkillCount,
+  @JsonValue('totalRequestCount')
+  totalRequestCount,
   $unknown
 }
 enum EnumHashtagMetaOrderable {
@@ -1363,6 +1427,10 @@ enum EnumHashtagMetaOrderable {
   metaName,
   @JsonValue('iconName')
   iconName,
+  @JsonValue('totalSkillCount')
+  totalSkillCount,
+  @JsonValue('totalRequestCount')
+  totalRequestCount,
   $unknown
 }
 enum EnumHashtagVariantHasFilter {

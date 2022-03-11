@@ -583,6 +583,8 @@ InputAddHashtagMetaInput _$InputAddHashtagMetaInputFromJson(
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    totalSkillCount: json['totalSkillCount'] as int?,
+    totalRequestCount: json['totalRequestCount'] as int?,
   );
 }
 
@@ -593,6 +595,8 @@ Map<String, dynamic> _$InputAddHashtagMetaInputToJson(
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
+      'totalSkillCount': instance.totalSkillCount,
+      'totalRequestCount': instance.totalRequestCount,
     };
 
 InputAddHashtagVariantInput _$InputAddHashtagVariantInputFromJson(
@@ -628,8 +632,8 @@ InputAddRequestInput _$InputAddRequestInputFromJson(Map<String, dynamic> json) {
     owner: InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String,
     message: json['message'] as String,
-    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
-        ?.map((e) => e == null
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
+        .map((e) => e == null
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -652,8 +656,8 @@ InputAddSkillInput _$InputAddSkillInputFromJson(Map<String, dynamic> json) {
     owner: InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String?,
     message: json['message'] as String?,
-    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
-        ?.map((e) => e == null
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
+        .map((e) => e == null
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -709,7 +713,7 @@ InputHashtagMetaFilter _$InputHashtagMetaFilterFromJson(
     id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
     metaName: json['metaName'] == null
         ? null
-        : InputStringTermFilter.fromJson(
+        : InputStringExactFilterStringRegExpFilter.fromJson(
             json['metaName'] as Map<String, dynamic>),
     blessed: json['blessed'] as bool?,
     has: (json['has'] as List<dynamic>?)
@@ -751,6 +755,8 @@ const _$EnumHashtagMetaHasFilterEnumMap = {
   EnumHashtagMetaHasFilter.iconName: 'iconName',
   EnumHashtagMetaHasFilter.blessed: 'blessed',
   EnumHashtagMetaHasFilter.hashtagVariants: 'hashtagVariants',
+  EnumHashtagMetaHasFilter.totalSkillCount: 'totalSkillCount',
+  EnumHashtagMetaHasFilter.totalRequestCount: 'totalRequestCount',
   EnumHashtagMetaHasFilter.$unknown: r'$unknown',
 };
 
@@ -778,6 +784,8 @@ Map<String, dynamic> _$InputHashtagMetaOrderToJson(
 const _$EnumHashtagMetaOrderableEnumMap = {
   EnumHashtagMetaOrderable.metaName: 'metaName',
   EnumHashtagMetaOrderable.iconName: 'iconName',
+  EnumHashtagMetaOrderable.totalSkillCount: 'totalSkillCount',
+  EnumHashtagMetaOrderable.totalRequestCount: 'totalRequestCount',
   EnumHashtagMetaOrderable.$unknown: r'$unknown',
 };
 
@@ -791,6 +799,8 @@ InputHashtagMetaPatch _$InputHashtagMetaPatchFromJson(
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    totalSkillCount: json['totalSkillCount'] as int?,
+    totalRequestCount: json['totalRequestCount'] as int?,
   );
 }
 
@@ -800,6 +810,8 @@ Map<String, dynamic> _$InputHashtagMetaPatchToJson(
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
+      'totalSkillCount': instance.totalSkillCount,
+      'totalRequestCount': instance.totalRequestCount,
     };
 
 InputHashtagMetaRef _$InputHashtagMetaRefFromJson(Map<String, dynamic> json) {
@@ -813,6 +825,8 @@ InputHashtagMetaRef _$InputHashtagMetaRefFromJson(Map<String, dynamic> json) {
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    totalSkillCount: json['totalSkillCount'] as int?,
+    totalRequestCount: json['totalRequestCount'] as int?,
   );
 }
 
@@ -824,6 +838,8 @@ Map<String, dynamic> _$InputHashtagMetaRefToJson(
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
+      'totalSkillCount': instance.totalSkillCount,
+      'totalRequestCount': instance.totalRequestCount,
     };
 
 InputHashtagVariantFilter _$InputHashtagVariantFilterFromJson(
@@ -832,7 +848,7 @@ InputHashtagVariantFilter _$InputHashtagVariantFilterFromJson(
     id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
     variantName: json['variantName'] == null
         ? null
-        : InputStringTermFilter.fromJson(
+        : InputStringExactFilterStringRegExpFilter.fromJson(
             json['variantName'] as Map<String, dynamic>),
     has: (json['has'] as List<dynamic>?)
         ?.map((e) => _$enumDecodeNullable(
@@ -1216,6 +1232,36 @@ Map<String, dynamic> _$InputSkillRefToJson(InputSkillRef instance) =>
       'hashtagVariants': instance.hashtagVariants,
       'isAvailable': instance.isAvailable,
       'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputStringExactFilterStringRegExpFilter
+    _$InputStringExactFilterStringRegExpFilterFromJson(
+        Map<String, dynamic> json) {
+  return InputStringExactFilterStringRegExpFilter(
+    eq: json['eq'] as String?,
+    $in: (json['in'] as List<dynamic>?)?.map((e) => e as String?).toList(),
+    le: json['le'] as String?,
+    lt: json['lt'] as String?,
+    ge: json['ge'] as String?,
+    gt: json['gt'] as String?,
+    between: json['between'] == null
+        ? null
+        : InputStringRange.fromJson(json['between'] as Map<String, dynamic>),
+    regexp: json['regexp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputStringExactFilterStringRegExpFilterToJson(
+        InputStringExactFilterStringRegExpFilter instance) =>
+    <String, dynamic>{
+      'eq': instance.eq,
+      'in': instance.$in,
+      'le': instance.le,
+      'lt': instance.lt,
+      'ge': instance.ge,
+      'gt': instance.gt,
+      'between': instance.between,
+      'regexp': instance.regexp,
     };
 
 InputUpdateHashtagMetaInput _$InputUpdateHashtagMetaInputFromJson(

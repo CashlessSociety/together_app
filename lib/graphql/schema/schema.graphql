@@ -20,7 +20,7 @@ type Request {
 	owner(filter: UserFilter): User! @hasInverse(field: "requests")
 	title: String! @search
 	message: String! @search
-	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "requests")
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]! @hasInverse(field: "requests")
 	createdTimestamp: DateTime
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
@@ -30,7 +30,7 @@ type Skill {
 	owner(filter: UserFilter): User! @hasInverse(field: "skills")
 	title: String
 	message: String
-	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "skills")
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]! @hasInverse(field: "skills")
 	isAvailable: Boolean
 	createdTimestamp: DateTime
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
@@ -38,7 +38,7 @@ type Skill {
 
 type HashtagVariant {
 	id: ID!
-	variantName: String! @id @search
+	variantName: String! @id @search(by: [exact,regexp])
 	hashtagMeta(filter: HashtagMetaFilter): HashtagMeta! @hasInverse(field: "hashtagVariants")
 	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "hashtagVariants")
 	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "hashtagVariants")
@@ -48,10 +48,12 @@ type HashtagVariant {
 
 type HashtagMeta {
 	id: ID!
-	metaName: String! @id @search
+	metaName: String! @id @search(by: [exact,regexp])
 	iconName: String
 	blessed: Boolean @search
 	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "hashtagMeta")
+	totalSkillCount: Int
+	totalRequestCount: Int
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
@@ -382,6 +384,14 @@ type HashtagMetaAggregateResult {
 	metaNameMax: String
 	iconNameMin: String
 	iconNameMax: String
+	totalSkillCountMin: Int
+	totalSkillCountMax: Int
+	totalSkillCountSum: Int
+	totalSkillCountAvg: Float
+	totalRequestCountMin: Int
+	totalRequestCountMax: Int
+	totalRequestCountSum: Int
+	totalRequestCountAvg: Float
 }
 
 type HashtagVariantAggregateResult {
@@ -458,11 +468,15 @@ enum HashtagMetaHasFilter {
 	iconName
 	blessed
 	hashtagVariants
+	totalSkillCount
+	totalRequestCount
 }
 
 enum HashtagMetaOrderable {
 	metaName
 	iconName
+	totalSkillCount
+	totalRequestCount
 }
 
 enum HashtagVariantHasFilter {
@@ -531,6 +545,8 @@ input AddHashtagMetaInput {
 	iconName: String
 	blessed: Boolean
 	hashtagVariants: [HashtagVariantRef]
+	totalSkillCount: Int
+	totalRequestCount: Int
 }
 
 input AddHashtagVariantInput {
@@ -544,7 +560,7 @@ input AddRequestInput {
 	owner: UserRef!
 	title: String!
 	message: String!
-	hashtagVariants: [HashtagVariantRef]
+	hashtagVariants: [HashtagVariantRef]!
 	createdTimestamp: DateTime
 }
 
@@ -552,7 +568,7 @@ input AddSkillInput {
 	owner: UserRef!
 	title: String
 	message: String
-	hashtagVariants: [HashtagVariantRef]
+	hashtagVariants: [HashtagVariantRef]!
 	isAvailable: Boolean
 	createdTimestamp: DateTime
 }
@@ -569,7 +585,7 @@ input AddUserInput {
 
 input HashtagMetaFilter {
 	id: [ID!]
-	metaName: StringTermFilter
+	metaName: StringExactFilter_StringRegExpFilter
 	blessed: Boolean
 	has: [HashtagMetaHasFilter]
 	and: [HashtagMetaFilter]
@@ -587,6 +603,8 @@ input HashtagMetaPatch {
 	iconName: String
 	blessed: Boolean
 	hashtagVariants: [HashtagVariantRef]
+	totalSkillCount: Int
+	totalRequestCount: Int
 }
 
 input HashtagMetaRef {
@@ -595,11 +613,13 @@ input HashtagMetaRef {
 	iconName: String
 	blessed: Boolean
 	hashtagVariants: [HashtagVariantRef]
+	totalSkillCount: Int
+	totalRequestCount: Int
 }
 
 input HashtagVariantFilter {
 	id: [ID!]
-	variantName: StringTermFilter
+	variantName: StringExactFilter_StringRegExpFilter
 	has: [HashtagVariantHasFilter]
 	and: [HashtagVariantFilter]
 	or: [HashtagVariantFilter]
@@ -690,6 +710,17 @@ input SkillRef {
 	hashtagVariants: [HashtagVariantRef]
 	isAvailable: Boolean
 	createdTimestamp: DateTime
+}
+
+input StringExactFilter_StringRegExpFilter {
+	eq: String
+	in: [String]
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	between: StringRange
+	regexp: String
 }
 
 input UpdateHashtagMetaInput {

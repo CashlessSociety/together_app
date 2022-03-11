@@ -78,77 +78,6 @@ Map<String, dynamic> _$MutationCreateUser$addUser$userToJson(
       'createdTimestamp': instance.createdTimestamp,
     };
 
-VariablesMutationCreateRequest _$VariablesMutationCreateRequestFromJson(
-    Map<String, dynamic> json) {
-  return VariablesMutationCreateRequest(
-    owner: InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
-    title: json['title'] as String,
-    message: json['message'] as String,
-  );
-}
-
-Map<String, dynamic> _$VariablesMutationCreateRequestToJson(
-        VariablesMutationCreateRequest instance) =>
-    <String, dynamic>{
-      'owner': instance.owner,
-      'title': instance.title,
-      'message': instance.message,
-    };
-
-MutationCreateRequest _$MutationCreateRequestFromJson(
-    Map<String, dynamic> json) {
-  return MutationCreateRequest(
-    addRequest: json['addRequest'] == null
-        ? null
-        : MutationCreateRequest$addRequest.fromJson(
-            json['addRequest'] as Map<String, dynamic>),
-  );
-}
-
-Map<String, dynamic> _$MutationCreateRequestToJson(
-        MutationCreateRequest instance) =>
-    <String, dynamic>{
-      'addRequest': instance.addRequest,
-    };
-
-MutationCreateRequest$addRequest _$MutationCreateRequest$addRequestFromJson(
-    Map<String, dynamic> json) {
-  return MutationCreateRequest$addRequest(
-    request: (json['request'] as List<dynamic>?)
-        ?.map((e) => e == null
-            ? null
-            : MutationCreateRequest$addRequest$request.fromJson(
-                e as Map<String, dynamic>))
-        .toList(),
-  );
-}
-
-Map<String, dynamic> _$MutationCreateRequest$addRequestToJson(
-        MutationCreateRequest$addRequest instance) =>
-    <String, dynamic>{
-      'request': instance.request,
-    };
-
-MutationCreateRequest$addRequest$request
-    _$MutationCreateRequest$addRequest$requestFromJson(
-        Map<String, dynamic> json) {
-  return MutationCreateRequest$addRequest$request(
-    id: json['id'] as String,
-    title: json['title'] as String,
-    message: json['message'] as String,
-    createdTimestamp: json['createdTimestamp'] as String?,
-  );
-}
-
-Map<String, dynamic> _$MutationCreateRequest$addRequest$requestToJson(
-        MutationCreateRequest$addRequest$request instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'message': instance.message,
-      'createdTimestamp': instance.createdTimestamp,
-    };
-
 VariablesMutationAddHashtagMeta _$VariablesMutationAddHashtagMetaFromJson(
     Map<String, dynamic> json) {
   return VariablesMutationAddHashtagMeta(
@@ -563,3 +492,196 @@ Map<String, dynamic> _$MutationDeleteHashtagVariant$deleteHashtagVariantToJson(
       'msg': instance.msg,
       'numUids': instance.numUids,
     };
+
+VariablesMutationCreateSkill _$VariablesMutationCreateSkillFromJson(
+    Map<String, dynamic> json) {
+  return VariablesMutationCreateSkill(
+    addHashtagMetaInputList: (json['addHashtagMetaInputList'] as List<dynamic>)
+        .map(
+            (e) => InputAddHashtagMetaInput.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    addSkillInput: InputAddSkillInput.fromJson(
+        json['addSkillInput'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$VariablesMutationCreateSkillToJson(
+        VariablesMutationCreateSkill instance) =>
+    <String, dynamic>{
+      'addHashtagMetaInputList': instance.addHashtagMetaInputList,
+      'addSkillInput': instance.addSkillInput,
+    };
+
+MutationCreateSkill _$MutationCreateSkillFromJson(Map<String, dynamic> json) {
+  return MutationCreateSkill(
+    addHashtagMeta: json['addHashtagMeta'] == null
+        ? null
+        : MutationCreateSkill$addHashtagMeta.fromJson(
+            json['addHashtagMeta'] as Map<String, dynamic>),
+    addSkill: json['addSkill'] == null
+        ? null
+        : MutationCreateSkill$addSkill.fromJson(
+            json['addSkill'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$MutationCreateSkillToJson(
+        MutationCreateSkill instance) =>
+    <String, dynamic>{
+      'addHashtagMeta': instance.addHashtagMeta,
+      'addSkill': instance.addSkill,
+    };
+
+MutationCreateSkill$addHashtagMeta _$MutationCreateSkill$addHashtagMetaFromJson(
+    Map<String, dynamic> json) {
+  return MutationCreateSkill$addHashtagMeta(
+    numUids: json['numUids'] as int?,
+  );
+}
+
+Map<String, dynamic> _$MutationCreateSkill$addHashtagMetaToJson(
+        MutationCreateSkill$addHashtagMeta instance) =>
+    <String, dynamic>{
+      'numUids': instance.numUids,
+    };
+
+MutationCreateSkill$addSkill _$MutationCreateSkill$addSkillFromJson(
+    Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill(
+    skill: (json['skill'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : MutationCreateSkill$addSkill$skill.fromJson(
+                e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$MutationCreateSkill$addSkillToJson(
+        MutationCreateSkill$addSkill instance) =>
+    <String, dynamic>{
+      'skill': instance.skill,
+    };
+
+MutationCreateSkill$addSkill$skill _$MutationCreateSkill$addSkill$skillFromJson(
+    Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill$skill(
+    id: json['id'] as String,
+    title: json['title'] as String?,
+    message: json['message'] as String?,
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
+        .map((e) => e == null
+            ? null
+            : MutationCreateSkill$addSkill$skill$hashtagVariants.fromJson(
+                e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$MutationCreateSkill$addSkill$skillToJson(
+        MutationCreateSkill$addSkill$skill instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'message': instance.message,
+      'hashtagVariants': instance.hashtagVariants,
+    };
+
+MutationCreateSkill$addSkill$skill$hashtagVariants
+    _$MutationCreateSkill$addSkill$skill$hashtagVariantsFromJson(
+        Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill$skill$hashtagVariants(
+    hashtagMeta:
+        MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta.fromJson(
+            json['hashtagMeta'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$MutationCreateSkill$addSkill$skill$hashtagVariantsToJson(
+        MutationCreateSkill$addSkill$skill$hashtagVariants instance) =>
+    <String, dynamic>{
+      'hashtagMeta': instance.hashtagMeta,
+    };
+
+MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMetaFromJson(
+        Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta(
+    id: json['id'] as String,
+    metaName: json['metaName'] as String,
+    iconName: json['iconName'] as String?,
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants
+                .fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic>
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMetaToJson(
+            MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'metaName': instance.metaName,
+          'iconName': instance.iconName,
+          'hashtagVariants': instance.hashtagVariants,
+        };
+
+MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariantsFromJson(
+        Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants(
+    skillsAggregate: json['skillsAggregate'] == null
+        ? null
+        : MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate
+            .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
+    requestsAggregate: json['requestsAggregate'] == null
+        ? null
+        : MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate
+            .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic>
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariantsToJson(
+            MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants
+                instance) =>
+        <String, dynamic>{
+          'skillsAggregate': instance.skillsAggregate,
+          'requestsAggregate': instance.requestsAggregate,
+        };
+
+MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregateFromJson(
+        Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate(
+    count: json['count'] as int?,
+  );
+}
+
+Map<String, dynamic>
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregateToJson(
+            MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$skillsAggregate
+                instance) =>
+        <String, dynamic>{
+          'count': instance.count,
+        };
+
+MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregateFromJson(
+        Map<String, dynamic> json) {
+  return MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate(
+    count: json['count'] as int?,
+  );
+}
+
+Map<String, dynamic>
+    _$MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregateToJson(
+            MutationCreateSkill$addSkill$skill$hashtagVariants$hashtagMeta$hashtagVariants$requestsAggregate
+                instance) =>
+        <String, dynamic>{
+          'count': instance.count,
+        };

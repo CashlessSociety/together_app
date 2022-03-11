@@ -2187,7 +2187,7 @@ class QueryGetSkillsByUserId$getUser$skills extends JsonSerializable {
       {required this.id,
       this.title,
       this.message,
-      this.hashtagVariants,
+      required this.hashtagVariants,
       this.isAvailable,
       this.createdTimestamp});
 
@@ -2202,7 +2202,7 @@ class QueryGetSkillsByUserId$getUser$skills extends JsonSerializable {
 
   final String? message;
 
-  final List<QueryGetSkillsByUserId$getUser$skills$hashtagVariants?>?
+  final List<QueryGetSkillsByUserId$getUser$skills$hashtagVariants?>
       hashtagVariants;
 
   final bool? isAvailable;
@@ -2708,7 +2708,7 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
       {required this.id,
       this.title,
       this.message,
-      this.hashtagVariants,
+      required this.hashtagVariants,
       this.isAvailable,
       this.createdTimestamp});
 
@@ -2723,7 +2723,7 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
 
   final String? message;
 
-  final List<QueryGetSkillsPageData$getUser$skills$hashtagVariants?>?
+  final List<QueryGetSkillsPageData$getUser$skills$hashtagVariants?>
       hashtagVariants;
 
   final bool? isAvailable;
@@ -2776,4 +2776,255 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaToJson(
           this);
+}
+
+@JsonSerializable()
+class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
+  VariablesQuerySearchTopRequestHashtag(
+      {required this.keywordRegex, this.limit});
+
+  @override
+  factory VariablesQuerySearchTopRequestHashtag.fromJson(
+          Map<String, dynamic> json) =>
+      _$VariablesQuerySearchTopRequestHashtagFromJson(json);
+
+  final String keywordRegex;
+
+  final int? limit;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$VariablesQuerySearchTopRequestHashtagToJson(this);
+}
+
+@JsonSerializable()
+class QuerySearchTopRequestHashtag extends JsonSerializable {
+  QuerySearchTopRequestHashtag({this.queryHashtagMeta});
+
+  @override
+  factory QuerySearchTopRequestHashtag.fromJson(Map<String, dynamic> json) =>
+      _$QuerySearchTopRequestHashtagFromJson(json);
+
+  final List<QuerySearchTopRequestHashtag$queryHashtagMeta?>? queryHashtagMeta;
+
+  @override
+  Map<String, dynamic> toJson() => _$QuerySearchTopRequestHashtagToJson(this);
+}
+
+const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'SearchTopRequestHashtag'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'keywordRegex')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'limit')),
+            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: IntValueNode(value: '12')),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'queryHashtagMeta'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'metaName'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'regexp'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'keywordRegex')))
+                        ]))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'desc'),
+                        value: EnumValueNode(
+                            name: NameNode(value: 'totalRequestCount'))),
+                    ObjectFieldNode(
+                        name: NameNode(value: 'then'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'asc'),
+                              value: EnumValueNode(
+                                  name: NameNode(value: 'metaName')))
+                        ]))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: VariableNode(name: NameNode(value: 'limit')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'iconName'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'metaName'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'totalSkillCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'totalRequestCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+
+class GQLOptionsQuerySearchTopRequestHashtag
+    extends graphql.QueryOptions<QuerySearchTopRequestHashtag> {
+  GQLOptionsQuerySearchTopRequestHashtag(
+      {String? operationName,
+      required VariablesQuerySearchTopRequestHashtag variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      Duration? pollInterval,
+      graphql.Context? context})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            pollInterval: pollInterval,
+            context: context,
+            document: QUERY_SEARCH_TOP_REQUEST_HASHTAG,
+            parserFn: (data) => QuerySearchTopRequestHashtag.fromJson(data));
+}
+
+class GQLWatchOptionsQuerySearchTopRequestHashtag
+    extends graphql.WatchQueryOptions<QuerySearchTopRequestHashtag> {
+  GQLWatchOptionsQuerySearchTopRequestHashtag(
+      {String? operationName,
+      required VariablesQuerySearchTopRequestHashtag variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: QUERY_SEARCH_TOP_REQUEST_HASHTAG,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: (data) => QuerySearchTopRequestHashtag.fromJson(data));
+}
+
+class GQLFetchMoreOptionsQuerySearchTopRequestHashtag
+    extends graphql.FetchMoreOptions {
+  GQLFetchMoreOptionsQuerySearchTopRequestHashtag(
+      {required graphql.UpdateQuery updateQuery,
+      required VariablesQuerySearchTopRequestHashtag variables})
+      : super(
+            updateQuery: updateQuery,
+            variables: variables.toJson(),
+            document: QUERY_SEARCH_TOP_REQUEST_HASHTAG);
+}
+
+extension GQLExtensionQuerySearchTopRequestHashtag on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QuerySearchTopRequestHashtag>>
+      querySearchTopRequestHashtag(
+              GQLOptionsQuerySearchTopRequestHashtag options) async =>
+          await this.query(options);
+  graphql.ObservableQuery<QuerySearchTopRequestHashtag>
+      watchQuerySearchTopRequestHashtag(
+              GQLWatchOptionsQuerySearchTopRequestHashtag options) =>
+          this.watchQuery(options);
+}
+
+class GQLFQuerySearchTopRequestHashtag
+    extends graphql_flutter.Query<QuerySearchTopRequestHashtag> {
+  GQLFQuerySearchTopRequestHashtag(
+      {widgets.Key? key,
+      required GQLOptionsQuerySearchTopRequestHashtag options,
+      required graphql_flutter.QueryBuilder<QuerySearchTopRequestHashtag>
+          builder})
+      : super(key: key, options: options, builder: builder);
+}
+
+@JsonSerializable()
+class QuerySearchTopRequestHashtag$queryHashtagMeta extends JsonSerializable {
+  QuerySearchTopRequestHashtag$queryHashtagMeta(
+      {required this.id,
+      this.iconName,
+      required this.metaName,
+      this.totalSkillCount,
+      this.totalRequestCount});
+
+  @override
+  factory QuerySearchTopRequestHashtag$queryHashtagMeta.fromJson(
+          Map<String, dynamic> json) =>
+      _$QuerySearchTopRequestHashtag$queryHashtagMetaFromJson(json);
+
+  final String id;
+
+  final String? iconName;
+
+  final String metaName;
+
+  final int? totalSkillCount;
+
+  final int? totalRequestCount;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QuerySearchTopRequestHashtag$queryHashtagMetaToJson(this);
 }
