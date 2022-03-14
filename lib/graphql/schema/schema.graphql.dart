@@ -548,9 +548,14 @@ class InputAddHashtagMetaInput extends JsonSerializable {
       {required this.metaName,
       this.iconName,
       this.blessed,
+      this.blessedInt,
       this.hashtagVariants,
-      this.totalSkillCount,
-      this.totalRequestCount});
+      this.skillCountAllTime,
+      this.requestCountAllTime,
+      this.skillCountLast24h,
+      this.requestCountLast24h,
+      this.skillCountLast1w,
+      this.requestCountLast1w});
 
   @override
   factory InputAddHashtagMetaInput.fromJson(Map<String, dynamic> json) =>
@@ -562,11 +567,21 @@ class InputAddHashtagMetaInput extends JsonSerializable {
 
   final bool? blessed;
 
+  final int? blessedInt;
+
   final List<InputHashtagVariantRef?>? hashtagVariants;
 
-  final int? totalSkillCount;
+  final int? skillCountAllTime;
 
-  final int? totalRequestCount;
+  final int? requestCountAllTime;
+
+  final int? skillCountLast24h;
+
+  final int? requestCountLast24h;
+
+  final int? skillCountLast1w;
+
+  final int? requestCountLast1w;
 
   @override
   Map<String, dynamic> toJson() => _$InputAddHashtagMetaInputToJson(this);
@@ -745,9 +760,14 @@ class InputHashtagMetaPatch extends JsonSerializable {
   InputHashtagMetaPatch(
       {this.iconName,
       this.blessed,
+      this.blessedInt,
       this.hashtagVariants,
-      this.totalSkillCount,
-      this.totalRequestCount});
+      this.skillCountAllTime,
+      this.requestCountAllTime,
+      this.skillCountLast24h,
+      this.requestCountLast24h,
+      this.skillCountLast1w,
+      this.requestCountLast1w});
 
   @override
   factory InputHashtagMetaPatch.fromJson(Map<String, dynamic> json) =>
@@ -757,11 +777,21 @@ class InputHashtagMetaPatch extends JsonSerializable {
 
   final bool? blessed;
 
+  final int? blessedInt;
+
   final List<InputHashtagVariantRef?>? hashtagVariants;
 
-  final int? totalSkillCount;
+  final int? skillCountAllTime;
 
-  final int? totalRequestCount;
+  final int? requestCountAllTime;
+
+  final int? skillCountLast24h;
+
+  final int? requestCountLast24h;
+
+  final int? skillCountLast1w;
+
+  final int? requestCountLast1w;
 
   @override
   Map<String, dynamic> toJson() => _$InputHashtagMetaPatchToJson(this);
@@ -774,9 +804,14 @@ class InputHashtagMetaRef extends JsonSerializable {
       this.metaName,
       this.iconName,
       this.blessed,
+      this.blessedInt,
       this.hashtagVariants,
-      this.totalSkillCount,
-      this.totalRequestCount});
+      this.skillCountAllTime,
+      this.requestCountAllTime,
+      this.skillCountLast24h,
+      this.requestCountLast24h,
+      this.skillCountLast1w,
+      this.requestCountLast1w});
 
   @override
   factory InputHashtagMetaRef.fromJson(Map<String, dynamic> json) =>
@@ -790,11 +825,21 @@ class InputHashtagMetaRef extends JsonSerializable {
 
   final bool? blessed;
 
+  final int? blessedInt;
+
   final List<InputHashtagVariantRef?>? hashtagVariants;
 
-  final int? totalSkillCount;
+  final int? skillCountAllTime;
 
-  final int? totalRequestCount;
+  final int? requestCountAllTime;
+
+  final int? skillCountLast24h;
+
+  final int? requestCountLast24h;
+
+  final int? skillCountLast1w;
+
+  final int? requestCountLast1w;
 
   @override
   Map<String, dynamic> toJson() => _$InputHashtagMetaRefToJson(this);
@@ -1414,12 +1459,22 @@ enum EnumHashtagMetaHasFilter {
   iconName,
   @JsonValue('blessed')
   blessed,
+  @JsonValue('blessedInt')
+  blessedInt,
   @JsonValue('hashtagVariants')
   hashtagVariants,
-  @JsonValue('totalSkillCount')
-  totalSkillCount,
-  @JsonValue('totalRequestCount')
-  totalRequestCount,
+  @JsonValue('skillCountAllTime')
+  skillCountAllTime,
+  @JsonValue('requestCountAllTime')
+  requestCountAllTime,
+  @JsonValue('skillCountLast24h')
+  skillCountLast24h,
+  @JsonValue('requestCountLast24h')
+  requestCountLast24h,
+  @JsonValue('skillCountLast1w')
+  skillCountLast1w,
+  @JsonValue('requestCountLast1w')
+  requestCountLast1w,
   $unknown
 }
 enum EnumHashtagMetaOrderable {
@@ -1427,10 +1482,20 @@ enum EnumHashtagMetaOrderable {
   metaName,
   @JsonValue('iconName')
   iconName,
-  @JsonValue('totalSkillCount')
-  totalSkillCount,
-  @JsonValue('totalRequestCount')
-  totalRequestCount,
+  @JsonValue('blessedInt')
+  blessedInt,
+  @JsonValue('skillCountAllTime')
+  skillCountAllTime,
+  @JsonValue('requestCountAllTime')
+  requestCountAllTime,
+  @JsonValue('skillCountLast24h')
+  skillCountLast24h,
+  @JsonValue('requestCountLast24h')
+  requestCountLast24h,
+  @JsonValue('skillCountLast1w')
+  skillCountLast1w,
+  @JsonValue('requestCountLast1w')
+  requestCountLast1w,
   $unknown
 }
 enum EnumHashtagVariantHasFilter {

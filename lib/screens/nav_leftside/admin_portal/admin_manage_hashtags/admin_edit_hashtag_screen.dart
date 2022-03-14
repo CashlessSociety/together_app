@@ -90,6 +90,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
               metaName: hashtag.toLowerCase(),
               iconName: iconName,
               blessed: blessed,
+              blessedInt: blessed ? 1 : 0,
               defaultHashtagVariant: InputHashtagVariantRef(
                 variantName: hashtag.toLowerCase(),
               ),
@@ -135,6 +136,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
                 $set: InputHashtagMetaPatch(
                   iconName: iconName,
                   blessed: blessed,
+                  blessedInt: blessed ? 1 : 0,
                 ),
               ),
             ),
@@ -239,10 +241,10 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   void initState() {
     if (widget.arguments.id != null) {
       hashtag = widget.arguments.metaName!;
-      iconName = widget.arguments.iconName!;
+      iconName = widget.arguments.iconName ?? '';
       blessed = widget.arguments.blessed ?? false;
       nameTextController.text = widget.arguments.metaName!;
-      if (widget.arguments.iconName! != '') {
+      if (iconName != '') {
         iconTextController.text = widget.arguments.iconName!.split(' ')[1];
       }
     }

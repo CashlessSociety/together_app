@@ -934,14 +934,14 @@ QueryGetSkillsPageData$getUser$skills
     id: json['id'] as String,
     title: json['title'] as String?,
     message: json['message'] as String?,
+    isAvailable: json['isAvailable'] as bool?,
+    createdTimestamp: json['createdTimestamp'] as String?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
         .map((e) => e == null
             ? null
             : QueryGetSkillsPageData$getUser$skills$hashtagVariants.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
-    isAvailable: json['isAvailable'] as bool?,
-    createdTimestamp: json['createdTimestamp'] as String?,
   );
 }
 
@@ -951,16 +951,15 @@ Map<String, dynamic> _$QueryGetSkillsPageData$getUser$skillsToJson(
       'id': instance.id,
       'title': instance.title,
       'message': instance.message,
-      'hashtagVariants': instance.hashtagVariants,
       'isAvailable': instance.isAvailable,
       'createdTimestamp': instance.createdTimestamp,
+      'hashtagVariants': instance.hashtagVariants,
     };
 
 QueryGetSkillsPageData$getUser$skills$hashtagVariants
     _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
   return QueryGetSkillsPageData$getUser$skills$hashtagVariants(
-    variantName: json['variantName'] as String,
     hashtagMeta:
         QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
             .fromJson(json['hashtagMeta'] as Map<String, dynamic>),
@@ -971,7 +970,6 @@ Map<String, dynamic>
     _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsToJson(
             QueryGetSkillsPageData$getUser$skills$hashtagVariants instance) =>
         <String, dynamic>{
-          'variantName': instance.variantName,
           'hashtagMeta': instance.hashtagMeta,
         };
 
@@ -981,6 +979,7 @@ QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
   return QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta(
     id: json['id'] as String,
     metaName: json['metaName'] as String,
+    iconName: json['iconName'] as String?,
   );
 }
 
@@ -991,12 +990,15 @@ Map<String, dynamic>
         <String, dynamic>{
           'id': instance.id,
           'metaName': instance.metaName,
+          'iconName': instance.iconName,
         };
 
 VariablesQuerySearchTopRequestHashtag
     _$VariablesQuerySearchTopRequestHashtagFromJson(Map<String, dynamic> json) {
   return VariablesQuerySearchTopRequestHashtag(
     keywordRegex: json['keywordRegex'] as String,
+    hashtagMetaOrder: InputHashtagMetaOrder.fromJson(
+        json['hashtagMetaOrder'] as Map<String, dynamic>),
     limit: json['limit'] as int?,
   );
 }
@@ -1005,6 +1007,7 @@ Map<String, dynamic> _$VariablesQuerySearchTopRequestHashtagToJson(
         VariablesQuerySearchTopRequestHashtag instance) =>
     <String, dynamic>{
       'keywordRegex': instance.keywordRegex,
+      'hashtagMetaOrder': instance.hashtagMetaOrder,
       'limit': instance.limit,
     };
 
@@ -1033,8 +1036,13 @@ QuerySearchTopRequestHashtag$queryHashtagMeta
     id: json['id'] as String,
     iconName: json['iconName'] as String?,
     metaName: json['metaName'] as String,
-    totalSkillCount: json['totalSkillCount'] as int?,
-    totalRequestCount: json['totalRequestCount'] as int?,
+    blessed: json['blessed'] as bool?,
+    skillCountAllTime: json['skillCountAllTime'] as int?,
+    skillCountLast1w: json['skillCountLast1w'] as int?,
+    skillCountLast24h: json['skillCountLast24h'] as int?,
+    requestCountAllTime: json['requestCountAllTime'] as int?,
+    requestCountLast1w: json['requestCountLast1w'] as int?,
+    requestCountLast24h: json['requestCountLast24h'] as int?,
   );
 }
 
@@ -1044,6 +1052,11 @@ Map<String, dynamic> _$QuerySearchTopRequestHashtag$queryHashtagMetaToJson(
       'id': instance.id,
       'iconName': instance.iconName,
       'metaName': instance.metaName,
-      'totalSkillCount': instance.totalSkillCount,
-      'totalRequestCount': instance.totalRequestCount,
+      'blessed': instance.blessed,
+      'skillCountAllTime': instance.skillCountAllTime,
+      'skillCountLast1w': instance.skillCountLast1w,
+      'skillCountLast24h': instance.skillCountLast24h,
+      'requestCountAllTime': instance.requestCountAllTime,
+      'requestCountLast1w': instance.requestCountLast1w,
+      'requestCountLast24h': instance.requestCountLast24h,
     };

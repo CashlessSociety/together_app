@@ -2,10 +2,19 @@ import 'dart:async';
 import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:font_awesome_flutter/name_icon_mapping.dart';
 import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:together_app/components/buttons.dart';
 import 'package:together_app/components/hashtag_selection_sheet.dart';
 import 'package:together_app/components/text_fields.dart';
+import 'package:together_app/graphql/mutation/mutation.graphql.dart';
+import 'package:together_app/graphql/query/query.graphql.dart';
+import 'package:together_app/graphql/schema/schema.graphql.dart';
+import 'package:together_app/models/hashtag_key_match.dart';
 import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
 
@@ -24,26 +33,32 @@ class SkillsEditScreen extends StatefulWidget {
 }
 
 class _SkillsEditScreenState extends State<SkillsEditScreen> {
+  String? skillId;
+  GraphQLClient? gqlClient;
   GlobalKey messageTextKey = GlobalKey();
+  FocusNode messageTextFocus = FocusNode();
   String skillTitle = '';
   String skillMessage = '';
+  String firstHashtagName = '';
   bool isAvailable = true;
   late TextEditingController messageTextController;
   TextSelection? textSelectionRecord;
   bool messageBoxTapped = false;
   List<RegExpMatch> hashtagMatches = [];
-  late StreamController<List<RegExpMatch>> hashtagMatchStreamController;
-  late Stream<List<RegExpMatch>> hashtagMatchStream;
+  late StreamController<List<RegExpMatch>> hashtagMatchListStreamController;
+  late Stream<List<RegExpMatch>> hashtagMatchListStream;
   double messageBoxHeight = 0;
-  late StreamController<RegExpMatch?> hashtagSearchStreamController;
-  late Stream<RegExpMatch?> hashtagSearchStream;
+  late StreamController<HashtagKeyMatch?> hashtagSearchKeyStreamController;
+  late Stream<HashtagKeyMatch?> hashtagSearchKeyStream;
+  Function? fetchMoreFunctionForIcon;
+  bool isProcessing = false;
 
   void onHideHashtagSearchField() {
-    hashtagSearchStreamController.add(null);
+    hashtagSearchKeyStreamController.add(null);
   }
 
-  void onShowHashtagSearchField(RegExpMatch match) {
-    hashtagSearchStreamController.add(match);
+  void onShowHashtagSearchField(HashtagKeyMatch match) {
+    hashtagSearchKeyStreamController.add(match);
   }
 
   void onFilterHashtagFromMessage(String message) {
@@ -51,16 +66,37 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     hashTagRegExp.allMatches(message).forEach((element) {
       hashtagMatches.add(element);
     });
-    hashtagMatchStreamController.add(hashtagMatches);
+    hashtagMatchListStreamController.add(hashtagMatches);
+
+    if (hashtagMatches.isNotEmpty) {
+      String hashtag = hashtagMatches[0].group(0)!.trim().replaceFirst("#", "");
+      if (firstHashtagName != hashtag && fetchMoreFunctionForIcon != null) {
+        firstHashtagName = hashtag;
+        fetchMoreFunctionForIcon!(
+          GQLFetchMoreOptionsQueryGetHashtagMetaByName(
+            variables: VariablesQueryGetHashtagMetaByName(
+              metaName: firstHashtagName,
+            ),
+            updateQuery: (previousResultData, fetchMoreResultData) {
+              return fetchMoreResultData;
+            },
+          ),
+        );
+      }
+    }
   }
 
   void onFixMessageWhenRemoveTag(int start, int end) {
     String text1 = messageTextController.text.substring(0, start);
     String text2 = messageTextController.text
         .substring(end, messageTextController.text.length);
+    messageTextFocus.requestFocus();
     messageTextController.text = text1 + text2;
     messageTextController.selection =
         TextSelection.fromPosition(TextPosition(offset: start));
+    setState(() {
+      skillMessage = messageTextController.text;
+    });
   }
 
   void onGetMessageBoxPosition() {
@@ -76,23 +112,225 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   void onDetectCursorOnHashtag() {
     int start = messageTextController.selection.start;
     int end = messageTextController.selection.end;
-    RegExpMatch? matchElement = hashtagMatches.firstWhereOrNull(
-        (element) => start > element.start && end <= element.end);
+    String text = messageTextController.text;
+    RegExpMatch? matchElement = hashtagMatches.firstWhereOrNull((element) {
+      return start > element.start && end <= element.end;
+    });
+
+    /// normal regex match
     if (matchElement != null) {
-      onShowHashtagSearchField(matchElement);
-    } else {
+      HashtagKeyMatch match = HashtagKeyMatch(
+        keyword: matchElement.group(0)!.trim().replaceFirst("#", ""),
+        start: matchElement.start,
+        end: matchElement.end,
+      );
+      onShowHashtagSearchField(match);
+    }
+
+    /// start with "#" only match
+    else if (start == 1 && text.substring(start - 1, start) == "#") {
+      HashtagKeyMatch match = HashtagKeyMatch(
+        keyword: '',
+        start: start - 1,
+        end: start,
+      );
+      onShowHashtagSearchField(match);
+    }
+
+    /// start with " #" only match
+    else if (start >= 2 && text.substring(start - 2, start) == " #") {
+      HashtagKeyMatch match = HashtagKeyMatch(
+        keyword: '',
+        start: start - 2,
+        end: start,
+      );
+      onShowHashtagSearchField(match);
+    }
+
+    /// no match
+    else {
       onHideHashtagSearchField();
+    }
+  }
+
+  void onHandleHashtagTap(int start, int end, String hashtag, String icon) {
+    messageTextFocus.requestFocus();
+    if (start == 0 && end == 0) {
+      messageTextController.text += hashtag;
+    } else {
+      String t1 = messageTextController.text.substring(0, start);
+      String t2 = " #$hashtag ";
+      String t3 = messageTextController.text.substring(end);
+      messageTextController.text = t1 + t2 + t3;
+      messageTextController.selection = TextSelection.fromPosition(
+        TextPosition(offset: (t1 + t2).length),
+      );
+    }
+    setState(() {
+      skillMessage = messageTextController.text;
+    });
+  }
+
+  void onAddSkill(
+    String userId,
+    String title,
+    String message,
+    List<String> hashtagList,
+  ) async {
+    setState(() {
+      isProcessing = true;
+    });
+    gqlClient!.mutateCreateSkill(
+      GQLOptionsMutationCreateSkill(
+          fetchPolicy: FetchPolicy.noCache,
+          variables: VariablesMutationCreateSkill(
+            addHashtagMetaInputList: List.generate(hashtagList.length, (index) {
+              return InputAddHashtagMetaInput(
+                metaName: hashtagList[index],
+                hashtagVariants: [
+                  InputHashtagVariantRef(
+                    variantName: hashtagList[index],
+                  )
+                ],
+              );
+            }),
+            addSkillInput: InputAddSkillInput(
+              owner: InputUserRef(id: userId),
+              title: title,
+              message: message,
+              isAvailable: isAvailable,
+              hashtagVariants: List.generate(
+                hashtagList.length,
+                (index) {
+                  return InputHashtagVariantRef(
+                    variantName: hashtagList[index],
+                  );
+                },
+              ),
+            ),
+          ),
+          onCompleted: (result, MutationCreateSkill? data) {
+            String? _skillId = data?.addSkill?.skill?[0]?.id;
+            onProcessSaveResult(_skillId);
+          },
+          onError: (e) {
+            setState(() {
+              isProcessing = false;
+            });
+            showToast('Save Error!');
+          }),
+    );
+  }
+
+  void onUpdateSkill(
+    String userId,
+    String title,
+    String message,
+    List<String> hashtagList,
+  ) async {
+    setState(() {
+      isProcessing = true;
+    });
+    gqlClient!.mutateUpdateSkill(
+      GQLOptionsMutationUpdateSkill(
+          fetchPolicy: FetchPolicy.noCache,
+          variables: VariablesMutationUpdateSkill(
+            skillId: skillId!,
+            addHashtagMetaInputList: List.generate(hashtagList.length, (index) {
+              return InputAddHashtagMetaInput(
+                metaName: hashtagList[index],
+                hashtagVariants: [
+                  InputHashtagVariantRef(
+                    variantName: hashtagList[index],
+                  )
+                ],
+              );
+            }),
+            skillPatch: InputSkillPatch(
+              owner: InputUserRef(id: userId),
+              title: title,
+              message: message,
+              isAvailable: isAvailable,
+              hashtagVariants: List.generate(
+                hashtagList.length,
+                (index) {
+                  return InputHashtagVariantRef(
+                    variantName: hashtagList[index],
+                  );
+                },
+              ),
+            ),
+          ),
+          onCompleted: (result, MutationUpdateSkill? data) {
+            String? _skillId = data?.updateSkill?.skill?[0]?.id;
+            onProcessSaveResult(_skillId);
+          },
+          onError: (e) {
+            setState(() {
+              isProcessing = false;
+            });
+            showToast('Save Error!');
+          }),
+    );
+  }
+
+  void onProcessSaveResult(String? _skillId) {
+    print("_skillId $_skillId");
+    if (_skillId != null) {
+      showToast(skillId == null ? 'Skill Added!' : "Skill Updated");
+      setState(() {
+        skillId = _skillId;
+        isProcessing = false;
+      });
+    } else {
+      setState(() {
+        isProcessing = false;
+      });
+      showToast('Unable to saved');
+    }
+  }
+
+  void onSaveClicked() async {
+    FlutterSecureStorage storage = const FlutterSecureStorage();
+    String? userId = await storage.read(key: 'userId');
+    if (userId == null) {
+      showToast('User Error');
+    } else {
+      String title = skillTitle.trim();
+      String message = skillMessage.trim();
+      List<String> hashtagList = [];
+      hashTagRegExp.allMatches(message).forEach((element) {
+        String tag = element.group(0)!.trim().replaceFirst("#", '');
+        if (!hashtagList.contains(tag)) {
+          hashtagList.add(tag);
+        }
+      });
+      if (skillId == null) {
+        onAddSkill(userId, title, message, hashtagList);
+      } else {
+        onUpdateSkill(userId, title, message, hashtagList);
+      }
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final GraphQLClient client = GraphQLProvider.of(context).value;
+    if (client != gqlClient) {
+      gqlClient = client;
     }
   }
 
   @override
   void initState() {
-    hashtagMatchStreamController = StreamController<List<RegExpMatch>>();
-    hashtagMatchStream = hashtagMatchStreamController.stream;
+    skillId = widget.arguments.skillId;
+    hashtagMatchListStreamController = StreamController<List<RegExpMatch>>();
+    hashtagMatchListStream = hashtagMatchListStreamController.stream;
 
-    hashtagSearchStreamController = StreamController<RegExpMatch?>();
-    hashtagSearchStream =
-        hashtagSearchStreamController.stream.asBroadcastStream();
+    hashtagSearchKeyStreamController = StreamController<HashtagKeyMatch?>();
+    hashtagSearchKeyStream =
+        hashtagSearchKeyStreamController.stream.asBroadcastStream();
 
     if (widget.arguments.hashtagMetaName != null) {
       String text = " #${widget.arguments.hashtagMetaName}";
@@ -107,13 +345,18 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
       onFilterHashtagFromMessage(messageTextController.text);
       onDetectCursorOnHashtag();
     });
+    if (skillId != null) {
+      skillTitle = widget.arguments.skillTitle!;
+      skillMessage = widget.arguments.skillMessage!;
+      isAvailable = widget.arguments.isAvailable!;
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    hashtagMatchStreamController.close();
-    hashtagSearchStreamController.close();
+    hashtagMatchListStreamController.close();
+    hashtagSearchKeyStreamController.close();
     messageTextController.dispose();
     super.dispose();
   }
@@ -137,6 +380,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             child: Padding(
               padding: EdgeInsets.all(20.w),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 40.w,
@@ -151,9 +395,11 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                       ),
                       textInputAction: TextInputAction.next,
                       style: TextStyle(
-                        fontSize: 20.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
                       ),
+                      minLines: 1,
+                      maxLines: 1,
                       onChanged: (value) {
                         setState(() {
                           skillTitle = value;
@@ -169,6 +415,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                       }
                     },
                     child: OutlineDetectableTextField(
+                        focusNode: messageTextFocus,
                         key: messageTextKey,
                         controller: messageTextController,
                         contentPadding: EdgeInsets.all(16.w),
@@ -187,6 +434,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                         // textInputAction: TextInputAction.done,
                         minLines: 5,
                         maxLines: 5,
+                        // maxLength: 200,
                         onChanged: (value) {
                           setState(() {
                             skillMessage = value;
@@ -205,59 +453,69 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                           onDetectCursorOnHashtag();
                         }),
                   ),
-                  SizedBox(height: 20.w),
-                  Row(
-                    children: [
-                      const Text("Tags:"),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      Expanded(
-                        child: StreamBuilder(
-                            stream: hashtagMatchStream,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<RegExpMatch>> snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.data!.isNotEmpty) {
-                                return Wrap(
-                                  spacing: 8.w,
-                                  children: List.generate(snapshot.data!.length,
-                                      (index) {
-                                    RegExpMatch element = snapshot.data![index];
-                                    String tag = element
-                                        .group(0)!
-                                        .trim()
-                                        .replaceFirst("#", '')
-                                        .toLowerCase();
-                                    return InputChip(
-                                        visualDensity: const VisualDensity(
-                                            horizontal: 0.0, vertical: -2),
-                                        label: Text(
-                                          tag,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                        backgroundColor: kPrimaryOrange,
-                                        deleteIcon: const Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                        ),
-                                        onDeleted: () {
-                                          onFixMessageWhenRemoveTag(
-                                              element.start, element.end);
-                                        },
-                                        onPressed: () {
-                                          onFixMessageWhenRemoveTag(
-                                              element.start, element.end);
-                                        });
-                                  }),
-                                );
-                              } else {
-                                return const SizedBox.shrink();
-                              }
+                  SizedBox(height: 10.w),
+                  const Text(
+                    "Tags:",
+                    style: TextStyle(height: 2),
+                  ),
+                  StreamBuilder(
+                    stream: hashtagMatchListStream,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<RegExpMatch>> snapshot) {
+                      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                        return Wrap(
+                          spacing: 8.w,
+                          children: [
+                            ...List.generate(snapshot.data!.length, (index) {
+                              RegExpMatch element = snapshot.data![index];
+                              return buildHashtagChip(element);
                             }),
+                            buildAddHashtagButton()
+                          ],
+                        );
+                      } else {
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: buildAddHashtagButton(),
+                        );
+                      }
+                    },
+                  ),
+                  SizedBox(height: 10.w),
+                  const Text(
+                    "Icon:",
+                    style: TextStyle(height: 2),
+                  ),
+                  SizedBox(height: 2.w),
+                  GQLFQueryGetHashtagMetaByName(
+                    options: GQLOptionsQueryGetHashtagMetaByName(
+                      cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+                      variables: VariablesQueryGetHashtagMetaByName(
+                        metaName: firstHashtagName,
                       ),
-                    ],
+                    ),
+                    builder: (result, {refetch, fetchMore}) {
+                      if (fetchMoreFunctionForIcon != fetchMore) {
+                        fetchMoreFunctionForIcon = fetchMore;
+                      }
+                      String iconName =
+                          result.parsedData?.getHashtagMeta?.iconName ?? '';
+                      return iconName != ''
+                          ? Row(
+                              children: [
+                                FaIcon(
+                                  faIconNameMapping[iconName],
+                                  color: kDeepBlue,
+                                ),
+                                SizedBox(width: 6.w),
+                                Text(
+                                  "from #$firstHashtagName",
+                                  style: TextStyle(color: kDeepBlue),
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink();
+                    },
                   )
                 ],
               ),
@@ -268,8 +526,8 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             left: 20.w,
             right: 70.w,
             child: HashtagSelectionSheet(
-              hashtagSearchStream: hashtagSearchStream,
-              onTapHashtag: () {},
+              hashtagSearchStream: hashtagSearchKeyStream,
+              onTapHashtag: onHandleHashtagTap,
             ),
           ),
           Positioned(
@@ -283,6 +541,61 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
         ],
       ),
     );
+  }
+
+  Widget buildAddHashtagButton() {
+    return ActionChip(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        pressElevation: 0,
+        elevation: 0,
+        visualDensity: const VisualDensity(horizontal: 0.0, vertical: -2),
+        avatar: const Icon(
+          Icons.add,
+          color: Colors.grey,
+        ),
+        labelPadding: EdgeInsets.only(right: 3.w),
+        label: const Text(
+          "Add tag",
+          style: TextStyle(color: Colors.grey),
+        ),
+        onPressed: () {
+          onGetMessageBoxPosition();
+          messageTextFocus.requestFocus();
+          messageTextController.text = messageTextController.text.trimRight();
+          messageTextController.text += " #";
+          messageTextController.selection = TextSelection.fromPosition(
+            TextPosition(offset: messageTextController.text.length),
+          );
+          setState(() {
+            skillMessage = messageTextController.text;
+          });
+        });
+  }
+
+  Widget buildHashtagChip(RegExpMatch match) {
+    String tag = match.group(0)!.trim().replaceFirst("#", '').toLowerCase();
+    return InputChip(
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -2),
+        labelPadding: EdgeInsets.only(left: 4.w),
+        label: Text(
+          tag,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: kPrimaryOrange,
+        deleteIcon: Icon(
+          Icons.close,
+          color: Colors.white,
+          size: 16.w,
+        ),
+        onDeleted: () {
+          onFixMessageWhenRemoveTag(match.start, match.end);
+        },
+        onPressed: () {
+          onFixMessageWhenRemoveTag(match.start, match.end);
+        });
   }
 
   Widget buildActionSection() {
@@ -354,15 +667,29 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                 ),
               ),
               onPressed: skillTitle.trim() != '' && skillMessage.trim() != ''
-                  ? () {}
+                  ? () {
+                      if (!isProcessing) {
+                        onSaveClicked();
+                      }
+                    }
                   : null,
               child: Row(
                 children: [
-                  Icon(
-                    Icons.check,
-                    size: 16.w,
-                    color: Colors.white,
-                  ),
+                  isProcessing
+                      ? SizedBox(
+                          width: 16.w,
+                          height: 16.w,
+                          child: CircularProgressIndicator(
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.white),
+                            strokeWidth: 2.w,
+                          ),
+                        )
+                      : Icon(
+                          Icons.check,
+                          size: 16.w,
+                          color: Colors.white,
+                        ),
                   SizedBox(
                     width: 3.w,
                   ),

@@ -1,16 +1,22 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/graphql/schema/schema.graphql.dart';
+import 'package:together_app/models/hashtag_key_match.dart';
+import 'package:together_app/utils/constants.dart';
 
 class HashtagSelectionSheet extends StatefulWidget {
   final int maxDisplayCount;
-  final Stream<RegExpMatch?> hashtagSearchStream;
-  final Function onTapHashtag;
+  final Stream<HashtagKeyMatch?> hashtagSearchStream;
+  final Function(
+    int start,
+    int end,
+    String hashtag,
+    String icon,
+  ) onTapHashtag;
 
   const HashtagSelectionSheet({
     Key? key,
@@ -24,28 +30,40 @@ class HashtagSelectionSheet extends StatefulWidget {
 }
 
 class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
-  double itemHeight = 60.w;
-  FetchMore<QuerySearchTopRequestHashtag>? fetchMoreFunction;
-  bool hasReceivedData = false;
-  late StreamSubscription hashtagMatchStreamSubscription;
   GraphQLClient? gqlClient;
+  double itemHeight = 60.w;
+  HashtagKeyMatch? currentMatch;
+  late StreamSubscription hashtagMatchStreamSubscription;
   late StreamController<List<QuerySearchTopRequestHashtag$queryHashtagMeta>>
       hashtagBuilderStreamController;
   late Stream<List<QuerySearchTopRequestHashtag$queryHashtagMeta>>
       hashtagBuilderStream;
 
-  void onSearchHashtag(RegExpMatch match) async {
-    String text = match.group(0)!.trim().replaceFirst("#", "").toLowerCase();
+  InputHashtagMetaOrder hashtagMetaOrder = InputHashtagMetaOrder(
+    desc: EnumHashtagMetaOrderable.requestCountAllTime,
+    then: InputHashtagMetaOrder(
+      desc: EnumHashtagMetaOrderable.blessedInt,
+      then: InputHashtagMetaOrder(
+        asc: EnumHashtagMetaOrderable.metaName,
+      ),
+    ),
+  );
+
+  void onSearchHashtag(HashtagKeyMatch match) async {
+    String text = match.keyword.toLowerCase();
     var result = await gqlClient!.querySearchTopRequestHashtag(
       GQLOptionsQuerySearchTopRequestHashtag(
         fetchPolicy: FetchPolicy.noCache,
         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
         variables: VariablesQuerySearchTopRequestHashtag(
           keywordRegex: "/^$text.*/",
+          hashtagMetaOrder: hashtagMetaOrder,
         ),
       ),
     );
-    if (result.parsedData != null) {
+    if (result.parsedData != null &&
+        currentMatch != null &&
+        currentMatch!.keyword == match.keyword) {
       hashtagBuilderStreamController
           .add(result.parsedData!.queryHashtagMeta!.map((e) => e!).toList());
     }
@@ -53,12 +71,42 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
 
   Widget buildHashtagCard(
       QuerySearchTopRequestHashtag$queryHashtagMeta hashtagData) {
+    // int counter = hashtagData.requestCountLast24h;
+    // int counter = hashtagData.requestCountLast1w;
+    int counter = hashtagData.requestCountAllTime ?? 0;
+    String subtitleText =
+        "$counter request${counter == 1 ? "s" : ""} of all time";
     return ListTile(
       dense: true,
       minVerticalPadding: 0,
-      title: Text('#${hashtagData.metaName}'),
-      subtitle: Text("${hashtagData.totalRequestCount ?? 0}"),
-      onTap: () {},
+      title: Row(
+        children: [
+          Text('#${hashtagData.metaName}'),
+          if (hashtagData.blessed ?? false)
+            Padding(
+              padding: EdgeInsets.only(left: 5.w),
+              child: FaIcon(
+                FontAwesomeIcons.solidHeart,
+                size: 12.w,
+                color: kPrimaryRed,
+              ),
+            ),
+        ],
+      ),
+      subtitle: Text(
+        subtitleText,
+        style: TextStyle(color: counter == 0 ? Colors.transparent : null),
+      ),
+      onTap: () {
+        int start = currentMatch!.start;
+        int end = currentMatch!.end;
+        widget.onTapHashtag(
+          start,
+          end,
+          hashtagData.metaName,
+          hashtagData.iconName ?? '',
+        );
+      },
     );
   }
 
@@ -84,11 +132,19 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
         hashtagBuilderStreamController.stream.asBroadcastStream();
 
     hashtagMatchStreamSubscription = widget.hashtagSearchStream.listen((event) {
-      print('event $event');
       if (event != null) {
-        onSearchHashtag(event);
+        if (currentMatch == null) {
+          currentMatch = event;
+          onSearchHashtag(event);
+        } else if (currentMatch!.keyword != event.keyword) {
+          currentMatch = event;
+          onSearchHashtag(event);
+        }
       } else {
-        hashtagBuilderStreamController.add([]);
+        if (currentMatch != null) {
+          currentMatch = event;
+          hashtagBuilderStreamController.add([]);
+        }
       }
     });
     super.initState();
@@ -120,10 +176,11 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
           stream: hashtagBuilderStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return buildHashtagList(snapshot.data
-                  as List<QuerySearchTopRequestHashtag$queryHashtagMeta>);
+              var data = snapshot.data
+                  as List<QuerySearchTopRequestHashtag$queryHashtagMeta>;
+              return buildHashtagList(data);
             } else {
-              return const SizedBox();
+              return const SizedBox.shrink();
             }
           }),
     );

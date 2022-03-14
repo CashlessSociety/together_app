@@ -1,4 +1,5 @@
 import '../fragment/fragment.graphql.dart';
+import '../schema/schema.graphql.dart';
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:gql/ast.dart';
 import 'package:graphql/client.dart' as graphql;
@@ -2395,17 +2396,23 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                         directives: [],
                         selectionSet: null),
                     FieldNode(
+                        name: NameNode(value: 'isAvailable'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'createdTimestamp'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
                         name: NameNode(value: 'hashtagVariants'),
                         alias: null,
                         arguments: [],
                         directives: [],
                         selectionSet: SelectionSetNode(selections: [
-                          FieldNode(
-                              name: NameNode(value: 'variantName'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null),
                           FieldNode(
                               name: NameNode(value: 'hashtagMeta'),
                               alias: null,
@@ -2425,6 +2432,12 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                                     directives: [],
                                     selectionSet: null),
                                 FieldNode(
+                                    name: NameNode(value: 'iconName'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
                                     name: NameNode(value: '__typename'),
                                     alias: null,
                                     arguments: [],
@@ -2438,18 +2451,6 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                               directives: [],
                               selectionSet: null)
                         ])),
-                    FieldNode(
-                        name: NameNode(value: 'isAvailable'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'createdTimestamp'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
                     FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
@@ -2708,9 +2709,9 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
       {required this.id,
       this.title,
       this.message,
-      required this.hashtagVariants,
       this.isAvailable,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.hashtagVariants});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills.fromJson(
@@ -2723,12 +2724,12 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
 
   final String? message;
 
-  final List<QueryGetSkillsPageData$getUser$skills$hashtagVariants?>
-      hashtagVariants;
-
   final bool? isAvailable;
 
   final String? createdTimestamp;
+
+  final List<QueryGetSkillsPageData$getUser$skills$hashtagVariants?>
+      hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
@@ -2739,14 +2740,12 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
 class QueryGetSkillsPageData$getUser$skills$hashtagVariants
     extends JsonSerializable {
   QueryGetSkillsPageData$getUser$skills$hashtagVariants(
-      {required this.variantName, required this.hashtagMeta});
+      {required this.hashtagMeta});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
       _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsFromJson(json);
-
-  final String variantName;
 
   final QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
       hashtagMeta;
@@ -2760,7 +2759,7 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants
 class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
     extends JsonSerializable {
   QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta(
-      {required this.id, required this.metaName});
+      {required this.id, required this.metaName, this.iconName});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta.fromJson(
@@ -2772,6 +2771,8 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
 
   final String metaName;
 
+  final String? iconName;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaToJson(
@@ -2781,7 +2782,7 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
 @JsonSerializable()
 class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
   VariablesQuerySearchTopRequestHashtag(
-      {required this.keywordRegex, this.limit});
+      {required this.keywordRegex, required this.hashtagMetaOrder, this.limit});
 
   @override
   factory VariablesQuerySearchTopRequestHashtag.fromJson(
@@ -2789,6 +2790,8 @@ class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
       _$VariablesQuerySearchTopRequestHashtagFromJson(json);
 
   final String keywordRegex;
+
+  final InputHashtagMetaOrder hashtagMetaOrder;
 
   final int? limit;
 
@@ -2823,6 +2826,12 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
             defaultValue: DefaultValueNode(value: null),
             directives: []),
         VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'hashtagMetaOrder')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'HashtagMetaOrder'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
             variable: VariableNode(name: NameNode(value: 'limit')),
             type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: false),
             defaultValue: DefaultValueNode(value: IntValueNode(value: '12')),
@@ -2848,20 +2857,8 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
                   ])),
               ArgumentNode(
                   name: NameNode(value: 'order'),
-                  value: ObjectValueNode(fields: [
-                    ObjectFieldNode(
-                        name: NameNode(value: 'desc'),
-                        value: EnumValueNode(
-                            name: NameNode(value: 'totalRequestCount'))),
-                    ObjectFieldNode(
-                        name: NameNode(value: 'then'),
-                        value: ObjectValueNode(fields: [
-                          ObjectFieldNode(
-                              name: NameNode(value: 'asc'),
-                              value: EnumValueNode(
-                                  name: NameNode(value: 'metaName')))
-                        ]))
-                  ])),
+                  value:
+                      VariableNode(name: NameNode(value: 'hashtagMetaOrder'))),
               ArgumentNode(
                   name: NameNode(value: 'first'),
                   value: VariableNode(name: NameNode(value: 'limit')))
@@ -2887,13 +2884,43 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
-                  name: NameNode(value: 'totalSkillCount'),
+                  name: NameNode(value: 'blessed'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null),
               FieldNode(
-                  name: NameNode(value: 'totalRequestCount'),
+                  name: NameNode(value: 'skillCountAllTime'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'skillCountLast1w'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'skillCountLast24h'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'requestCountAllTime'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'requestCountLast1w'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'requestCountLast24h'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -3006,8 +3033,13 @@ class QuerySearchTopRequestHashtag$queryHashtagMeta extends JsonSerializable {
       {required this.id,
       this.iconName,
       required this.metaName,
-      this.totalSkillCount,
-      this.totalRequestCount});
+      this.blessed,
+      this.skillCountAllTime,
+      this.skillCountLast1w,
+      this.skillCountLast24h,
+      this.requestCountAllTime,
+      this.requestCountLast1w,
+      this.requestCountLast24h});
 
   @override
   factory QuerySearchTopRequestHashtag$queryHashtagMeta.fromJson(
@@ -3020,9 +3052,19 @@ class QuerySearchTopRequestHashtag$queryHashtagMeta extends JsonSerializable {
 
   final String metaName;
 
-  final int? totalSkillCount;
+  final bool? blessed;
 
-  final int? totalRequestCount;
+  final int? skillCountAllTime;
+
+  final int? skillCountLast1w;
+
+  final int? skillCountLast24h;
+
+  final int? requestCountAllTime;
+
+  final int? requestCountLast1w;
+
+  final int? requestCountLast24h;
 
   @override
   Map<String, dynamic> toJson() =>

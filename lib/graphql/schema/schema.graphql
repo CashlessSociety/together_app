@@ -51,9 +51,14 @@ type HashtagMeta {
 	metaName: String! @id @search(by: [exact,regexp])
 	iconName: String
 	blessed: Boolean @search
+	blessedInt: Int
 	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "hashtagMeta")
-	totalSkillCount: Int
-	totalRequestCount: Int
+	skillCountAllTime: Int
+	requestCountAllTime: Int
+	skillCountLast24h: Int
+	requestCountLast24h: Int
+	skillCountLast1w: Int
+	requestCountLast1w: Int
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
@@ -384,14 +389,34 @@ type HashtagMetaAggregateResult {
 	metaNameMax: String
 	iconNameMin: String
 	iconNameMax: String
-	totalSkillCountMin: Int
-	totalSkillCountMax: Int
-	totalSkillCountSum: Int
-	totalSkillCountAvg: Float
-	totalRequestCountMin: Int
-	totalRequestCountMax: Int
-	totalRequestCountSum: Int
-	totalRequestCountAvg: Float
+	blessedIntMin: Int
+	blessedIntMax: Int
+	blessedIntSum: Int
+	blessedIntAvg: Float
+	skillCountAllTimeMin: Int
+	skillCountAllTimeMax: Int
+	skillCountAllTimeSum: Int
+	skillCountAllTimeAvg: Float
+	requestCountAllTimeMin: Int
+	requestCountAllTimeMax: Int
+	requestCountAllTimeSum: Int
+	requestCountAllTimeAvg: Float
+	skillCountLast24hMin: Int
+	skillCountLast24hMax: Int
+	skillCountLast24hSum: Int
+	skillCountLast24hAvg: Float
+	requestCountLast24hMin: Int
+	requestCountLast24hMax: Int
+	requestCountLast24hSum: Int
+	requestCountLast24hAvg: Float
+	skillCountLast1wMin: Int
+	skillCountLast1wMax: Int
+	skillCountLast1wSum: Int
+	skillCountLast1wAvg: Float
+	requestCountLast1wMin: Int
+	requestCountLast1wMax: Int
+	requestCountLast1wSum: Int
+	requestCountLast1wAvg: Float
 }
 
 type HashtagVariantAggregateResult {
@@ -467,16 +492,26 @@ enum HashtagMetaHasFilter {
 	metaName
 	iconName
 	blessed
+	blessedInt
 	hashtagVariants
-	totalSkillCount
-	totalRequestCount
+	skillCountAllTime
+	requestCountAllTime
+	skillCountLast24h
+	requestCountLast24h
+	skillCountLast1w
+	requestCountLast1w
 }
 
 enum HashtagMetaOrderable {
 	metaName
 	iconName
-	totalSkillCount
-	totalRequestCount
+	blessedInt
+	skillCountAllTime
+	requestCountAllTime
+	skillCountLast24h
+	requestCountLast24h
+	skillCountLast1w
+	requestCountLast1w
 }
 
 enum HashtagVariantHasFilter {
@@ -544,9 +579,14 @@ input AddHashtagMetaInput {
 	metaName: String!
 	iconName: String
 	blessed: Boolean
+	blessedInt: Int
 	hashtagVariants: [HashtagVariantRef]
-	totalSkillCount: Int
-	totalRequestCount: Int
+	skillCountAllTime: Int
+	requestCountAllTime: Int
+	skillCountLast24h: Int
+	requestCountLast24h: Int
+	skillCountLast1w: Int
+	requestCountLast1w: Int
 }
 
 input AddHashtagVariantInput {
@@ -602,9 +642,14 @@ input HashtagMetaOrder {
 input HashtagMetaPatch {
 	iconName: String
 	blessed: Boolean
+	blessedInt: Int
 	hashtagVariants: [HashtagVariantRef]
-	totalSkillCount: Int
-	totalRequestCount: Int
+	skillCountAllTime: Int
+	requestCountAllTime: Int
+	skillCountLast24h: Int
+	requestCountLast24h: Int
+	skillCountLast1w: Int
+	requestCountLast1w: Int
 }
 
 input HashtagMetaRef {
@@ -612,9 +657,14 @@ input HashtagMetaRef {
 	metaName: String
 	iconName: String
 	blessed: Boolean
+	blessedInt: Int
 	hashtagVariants: [HashtagVariantRef]
-	totalSkillCount: Int
-	totalRequestCount: Int
+	skillCountAllTime: Int
+	requestCountAllTime: Int
+	skillCountLast24h: Int
+	requestCountLast24h: Int
+	skillCountLast1w: Int
+	requestCountLast1w: Int
 }
 
 input HashtagVariantFilter {
