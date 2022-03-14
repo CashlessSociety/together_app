@@ -578,13 +578,18 @@ InputAddHashtagMetaInput _$InputAddHashtagMetaInputFromJson(
     metaName: json['metaName'] as String,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
+    blessedInt: json['blessedInt'] as int?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
-    totalSkillCount: json['totalSkillCount'] as int?,
-    totalRequestCount: json['totalRequestCount'] as int?,
+    skillCountAllTime: json['skillCountAllTime'] as int?,
+    requestCountAllTime: json['requestCountAllTime'] as int?,
+    skillCountLast24h: json['skillCountLast24h'] as int?,
+    requestCountLast24h: json['requestCountLast24h'] as int?,
+    skillCountLast1w: json['skillCountLast1w'] as int?,
+    requestCountLast1w: json['requestCountLast1w'] as int?,
   );
 }
 
@@ -594,9 +599,14 @@ Map<String, dynamic> _$InputAddHashtagMetaInputToJson(
       'metaName': instance.metaName,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
+      'blessedInt': instance.blessedInt,
       'hashtagVariants': instance.hashtagVariants,
-      'totalSkillCount': instance.totalSkillCount,
-      'totalRequestCount': instance.totalRequestCount,
+      'skillCountAllTime': instance.skillCountAllTime,
+      'requestCountAllTime': instance.requestCountAllTime,
+      'skillCountLast24h': instance.skillCountLast24h,
+      'requestCountLast24h': instance.requestCountLast24h,
+      'skillCountLast1w': instance.skillCountLast1w,
+      'requestCountLast1w': instance.requestCountLast1w,
     };
 
 InputAddHashtagVariantInput _$InputAddHashtagVariantInputFromJson(
@@ -754,9 +764,14 @@ const _$EnumHashtagMetaHasFilterEnumMap = {
   EnumHashtagMetaHasFilter.metaName: 'metaName',
   EnumHashtagMetaHasFilter.iconName: 'iconName',
   EnumHashtagMetaHasFilter.blessed: 'blessed',
+  EnumHashtagMetaHasFilter.blessedInt: 'blessedInt',
   EnumHashtagMetaHasFilter.hashtagVariants: 'hashtagVariants',
-  EnumHashtagMetaHasFilter.totalSkillCount: 'totalSkillCount',
-  EnumHashtagMetaHasFilter.totalRequestCount: 'totalRequestCount',
+  EnumHashtagMetaHasFilter.skillCountAllTime: 'skillCountAllTime',
+  EnumHashtagMetaHasFilter.requestCountAllTime: 'requestCountAllTime',
+  EnumHashtagMetaHasFilter.skillCountLast24h: 'skillCountLast24h',
+  EnumHashtagMetaHasFilter.requestCountLast24h: 'requestCountLast24h',
+  EnumHashtagMetaHasFilter.skillCountLast1w: 'skillCountLast1w',
+  EnumHashtagMetaHasFilter.requestCountLast1w: 'requestCountLast1w',
   EnumHashtagMetaHasFilter.$unknown: r'$unknown',
 };
 
@@ -784,8 +799,13 @@ Map<String, dynamic> _$InputHashtagMetaOrderToJson(
 const _$EnumHashtagMetaOrderableEnumMap = {
   EnumHashtagMetaOrderable.metaName: 'metaName',
   EnumHashtagMetaOrderable.iconName: 'iconName',
-  EnumHashtagMetaOrderable.totalSkillCount: 'totalSkillCount',
-  EnumHashtagMetaOrderable.totalRequestCount: 'totalRequestCount',
+  EnumHashtagMetaOrderable.blessedInt: 'blessedInt',
+  EnumHashtagMetaOrderable.skillCountAllTime: 'skillCountAllTime',
+  EnumHashtagMetaOrderable.requestCountAllTime: 'requestCountAllTime',
+  EnumHashtagMetaOrderable.skillCountLast24h: 'skillCountLast24h',
+  EnumHashtagMetaOrderable.requestCountLast24h: 'requestCountLast24h',
+  EnumHashtagMetaOrderable.skillCountLast1w: 'skillCountLast1w',
+  EnumHashtagMetaOrderable.requestCountLast1w: 'requestCountLast1w',
   EnumHashtagMetaOrderable.$unknown: r'$unknown',
 };
 
@@ -794,13 +814,18 @@ InputHashtagMetaPatch _$InputHashtagMetaPatchFromJson(
   return InputHashtagMetaPatch(
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
+    blessedInt: json['blessedInt'] as int?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
-    totalSkillCount: json['totalSkillCount'] as int?,
-    totalRequestCount: json['totalRequestCount'] as int?,
+    skillCountAllTime: json['skillCountAllTime'] as int?,
+    requestCountAllTime: json['requestCountAllTime'] as int?,
+    skillCountLast24h: json['skillCountLast24h'] as int?,
+    requestCountLast24h: json['requestCountLast24h'] as int?,
+    skillCountLast1w: json['skillCountLast1w'] as int?,
+    requestCountLast1w: json['requestCountLast1w'] as int?,
   );
 }
 
@@ -809,9 +834,14 @@ Map<String, dynamic> _$InputHashtagMetaPatchToJson(
     <String, dynamic>{
       'iconName': instance.iconName,
       'blessed': instance.blessed,
+      'blessedInt': instance.blessedInt,
       'hashtagVariants': instance.hashtagVariants,
-      'totalSkillCount': instance.totalSkillCount,
-      'totalRequestCount': instance.totalRequestCount,
+      'skillCountAllTime': instance.skillCountAllTime,
+      'requestCountAllTime': instance.requestCountAllTime,
+      'skillCountLast24h': instance.skillCountLast24h,
+      'requestCountLast24h': instance.requestCountLast24h,
+      'skillCountLast1w': instance.skillCountLast1w,
+      'requestCountLast1w': instance.requestCountLast1w,
     };
 
 InputHashtagMetaRef _$InputHashtagMetaRefFromJson(Map<String, dynamic> json) {
@@ -820,13 +850,18 @@ InputHashtagMetaRef _$InputHashtagMetaRefFromJson(Map<String, dynamic> json) {
     metaName: json['metaName'] as String?,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
+    blessedInt: json['blessedInt'] as int?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
         .toList(),
-    totalSkillCount: json['totalSkillCount'] as int?,
-    totalRequestCount: json['totalRequestCount'] as int?,
+    skillCountAllTime: json['skillCountAllTime'] as int?,
+    requestCountAllTime: json['requestCountAllTime'] as int?,
+    skillCountLast24h: json['skillCountLast24h'] as int?,
+    requestCountLast24h: json['requestCountLast24h'] as int?,
+    skillCountLast1w: json['skillCountLast1w'] as int?,
+    requestCountLast1w: json['requestCountLast1w'] as int?,
   );
 }
 
@@ -837,9 +872,14 @@ Map<String, dynamic> _$InputHashtagMetaRefToJson(
       'metaName': instance.metaName,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
+      'blessedInt': instance.blessedInt,
       'hashtagVariants': instance.hashtagVariants,
-      'totalSkillCount': instance.totalSkillCount,
-      'totalRequestCount': instance.totalRequestCount,
+      'skillCountAllTime': instance.skillCountAllTime,
+      'requestCountAllTime': instance.requestCountAllTime,
+      'skillCountLast24h': instance.skillCountLast24h,
+      'requestCountLast24h': instance.requestCountLast24h,
+      'skillCountLast1w': instance.skillCountLast1w,
+      'requestCountLast1w': instance.requestCountLast1w,
     };
 
 InputHashtagVariantFilter _$InputHashtagVariantFilterFromJson(

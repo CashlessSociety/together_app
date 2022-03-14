@@ -11,6 +11,7 @@ class OutlineTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final int? minLines;
   final int? maxLines;
+  final int? maxLength;
 
   const OutlineTextField({
     Key? key,
@@ -21,6 +22,7 @@ class OutlineTextField extends StatelessWidget {
     this.contentPadding,
     this.minLines,
     this.maxLines,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class OutlineTextField extends StatelessWidget {
       style: style,
       minLines: minLines,
       maxLines: maxLines,
+      maxLength: maxLength,
       textInputAction: textInputAction,
       decoration: InputDecoration(
         label: label,
@@ -49,6 +52,7 @@ class OutlineTextField extends StatelessWidget {
 }
 
 class OutlineDetectableTextField extends StatelessWidget {
+  final FocusNode? focusNode;
   final Widget? label;
   final TextStyle? basicStyle;
   final TextStyle? decoratedStyle;
@@ -56,6 +60,7 @@ class OutlineDetectableTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final int? minLines;
   final int? maxLines;
+  final int? maxLength;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onDetectionTyped;
@@ -63,6 +68,7 @@ class OutlineDetectableTextField extends StatelessWidget {
 
   const OutlineDetectableTextField({
     Key? key,
+    this.focusNode,
     this.label,
     this.basicStyle,
     this.decoratedStyle,
@@ -70,6 +76,7 @@ class OutlineDetectableTextField extends StatelessWidget {
     this.contentPadding,
     this.minLines,
     this.maxLines,
+    this.maxLength,
     this.onDetectionTyped,
     this.onChanged,
     this.controller,
@@ -79,6 +86,7 @@ class OutlineDetectableTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DetectableTextField(
+      focusNode: focusNode,
       controller: controller,
       detectionRegExp: hashTagRegExp,
       basicStyle: basicStyle,
@@ -86,6 +94,7 @@ class OutlineDetectableTextField extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       textInputAction: textInputAction,
+      maxLength: maxLength,
       decoration: InputDecoration(
         label: label,
         alignLabelWithHint: true,

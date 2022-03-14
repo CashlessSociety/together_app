@@ -98,11 +98,12 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
                           width: 30.w,
                           height: 30.w,
                           child: Center(
-                            child: hashtagData.iconName == ''
-                                ? faHashtagPlaceholderIcon
-                                : FaIcon(
+                            child: hashtagData.iconName != '' &&
+                                    hashtagData.iconName != null
+                                ? FaIcon(
                                     faIconNameMapping[hashtagData.iconName],
-                                  ),
+                                  )
+                                : faHashtagPlaceholderIcon,
                           ),
                         ),
                         title: Row(

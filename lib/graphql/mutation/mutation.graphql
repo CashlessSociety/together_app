@@ -14,12 +14,20 @@ mutation AddHashtagMeta(
     $metaName: String!,
     $iconName: String = "",
     $blessed: Boolean = false,
+    $blessedInt: Int = 0,
     $defaultHashtagVariant: HashtagVariantRef
 ){
     addHashtagMeta(input: {
         metaName: $metaName,
         iconName: $iconName,
         blessed: $blessed,
+        blessedInt: $blessedInt,
+        skillCountAllTime: 0,
+        skillCountLast24h: 0,
+        skillCountLast1w: 0,
+        requestCountAllTime: 0,
+        requestCountLast24h: 0,
+        requestCountLast1w: 0,
         hashtagVariants: [$defaultHashtagVariant]
     }){
         hashtagMeta {
@@ -57,30 +65,57 @@ mutation DeleteHashtagVariant($hashtagVariantFilter: HashtagVariantFilter!){
 }
 
 
-mutation CreateSkill($addHashtagMetaInputList: [AddHashtagMetaInput!]!, $addSkillInput: AddSkillInput!){
+mutation CreateSkill(
+    $addHashtagMetaInputList: [AddHashtagMetaInput!]!,
+    $addSkillInput: AddSkillInput!
+){
     addHashtagMeta(upsert: true, input: $addHashtagMetaInputList){
         numUids
     }
     addSkill(input: [$addSkillInput]){
         skill{
             id
-            title
-            message
-            hashtagVariants{
-                hashtagMeta{
-                    id
-                    metaName
-                    iconName
-                    hashtagVariants{
-                        skillsAggregate{
-                            count
-                        }
-                        requestsAggregate{
-                            count
-                        }
-                    }
-                }
-            }
+        }
+    }
+}
+
+mutation UpdateSkill(
+    $skillId: ID!,
+    $addHashtagMetaInputList: [AddHashtagMetaInput!]!,
+    $skillPatch: SkillPatch!
+){
+    addHashtagMeta(upsert: true, input: $addHashtagMetaInputList){
+        numUids
+    }
+    updateSkill(input: {
+        filter: {id: [$skillId]},
+        set: $skillPatch
+    }){
+        skill{
+            id
+        }
+    }
+}
+
+mutation UpdateSkillAvailable($skillId:ID!, $isAvailable: Boolean!){
+    updateSkill(
+        input: {
+            filter: {id: [$skillId]}
+            set: {isAvailable: $isAvailable}
+        },
+    ){
+        skill{
+            isAvailable
+        }
+    }
+}
+
+mutation RemoveSkill($skillId:ID!){
+    deleteSkill(
+        filter: {id: [$skillId]}
+    ){
+        skill{
+            id
         }
     }
 }

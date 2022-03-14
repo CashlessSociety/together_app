@@ -29,7 +29,6 @@ class _MyProfileInfoState extends State<MyProfileInfo>
     SkillsScreen.routeName,
     RequestsScreen.routeName
   ];
-  ScrollController scrollController = ScrollController();
   final double tabHeight = 45.w;
   final double collapsedHeight = 100.w;
   final double expandedHeight = 240.w;
@@ -56,7 +55,6 @@ class _MyProfileInfoState extends State<MyProfileInfo>
 
   @override
   void dispose() {
-    scrollController.dispose();
     super.dispose();
   }
 
@@ -71,7 +69,6 @@ class _MyProfileInfoState extends State<MyProfileInfo>
             length: 3,
             initialIndex: widget.focusedTab ?? 0,
             child: NestedScrollView(
-              controller: scrollController,
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
