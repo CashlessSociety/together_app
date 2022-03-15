@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:font_awesome_flutter/name_icon_mapping.dart';
 import 'package:get/get.dart';
-import 'package:graphql/client.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:together_app/components/dialogs.dart';
+import 'package:together_app/graphql/mutation/mutation.graphql.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/common/skills/skills_available_switch.dart';
 import 'package:together_app/screens/common/skills/skills_edit_screen.dart';
@@ -13,17 +16,46 @@ import 'package:together_app/utils/routes.dart';
 class SkillsScreen extends StatefulWidget {
   static String routeName = '/skills_screen';
   final String userId;
+  final SliverOverlapInjector sliverOverlapInjector;
+  final double viewHeight;
   const SkillsScreen({
     Key? key,
     required this.userId,
+    required this.sliverOverlapInjector,
+    required this.viewHeight,
   }) : super(key: key);
 
   @override
   State<SkillsScreen> createState() => _SkillsScreenState();
 }
 
-class _SkillsScreenState extends State<SkillsScreen> {
-  Function? queryRefetch;
+class _SkillsScreenState extends State<SkillsScreen>
+    with AutomaticKeepAliveClientMixin {
+  GraphQLClient? gqlClient;
+  List<QueryGetSkillsPageData$queryHashtagMeta?>? blessedHashtagList;
+  QueryGetSkillsPageData$getUser? userData;
+
+  void onGetSkillPageData() {
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) async {
+      var result = await gqlClient!.queryGetSkillsPageData(
+        GQLOptionsQueryGetSkillsPageData(
+          fetchPolicy: FetchPolicy.networkOnly,
+          cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+          variables: VariablesQueryGetSkillsPageData(
+            id: widget.userId,
+          ),
+        ),
+      );
+      if (result.hasException) {
+        showToast('Unable to get skill data');
+      } else {
+        setState(() {
+          blessedHashtagList = result.parsedData?.queryHashtagMeta;
+          userData = result.parsedData?.getUser;
+        });
+      }
+    });
+  }
 
   void onCreateSkill({String? hashtagMetaId, String? hashtagMetaName}) async {
     var rst = await Get.toNamed(SkillsEditScreen.routeName,
@@ -31,9 +63,8 @@ class _SkillsScreenState extends State<SkillsScreen> {
           hashtagMetaId: hashtagMetaId,
           hashtagMetaName: hashtagMetaName,
         ));
-    print('rst $rst');
-    if (queryRefetch != null) {
-      queryRefetch!();
+    if (rst != null && rst) {
+      onGetSkillPageData();
     }
   }
 
@@ -51,8 +82,30 @@ class _SkillsScreenState extends State<SkillsScreen> {
           isAvailable: isAvailable,
         ));
     print('rst $rst');
-    if (queryRefetch != null) {
-      queryRefetch!();
+    onGetSkillPageData();
+  }
+
+  void onDeleteSkill({
+    required String skillId,
+  }) async {
+    bool result = await showTwoOptionDialog(context) ?? false;
+    if (result) {
+      setState(() {
+        userData!.skills!.removeWhere((element) => element!.id == skillId);
+      });
+      gqlClient!.mutateRemoveSkill(
+        GQLOptionsMutationRemoveSkill(
+            variables: VariablesMutationRemoveSkill(
+              skillId: skillId,
+            ),
+            onCompleted: (result, MutationRemoveSkill? data) {
+              showToast('Deleted');
+              onGetSkillPageData();
+            },
+            onError: (e) {
+              showToast('Unable to delete');
+            }),
+      );
     }
   }
 
@@ -118,7 +171,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(15.w),
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
               child: buildSkillCardTop(data),
             ),
             const Divider(height: 0, thickness: 1),
@@ -163,9 +216,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
             )
           ],
         ),
-        SizedBox(
-          height: 4.w,
-        ),
+        SizedBox(height: 5.w),
         Text(
           data.message!,
           maxLines: 3,
@@ -176,7 +227,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
           ),
         ),
         SizedBox(
-          height: 4.w,
+          height: 8.w,
         ),
         Text(
           "SKILL HASHTAGS",
@@ -213,43 +264,90 @@ class _SkillsScreenState extends State<SkillsScreen> {
   }
 
   Widget buildSkillCardBottom(QueryGetSkillsPageData$getUser$skills data) {
-    return SizedBox(
-      height: 25.w,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SkillAvailableSwitch(
-            skillId: data.id,
-            isAvailable: data.isAvailable ?? false,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              onUpdateSkill(
-                skillId: data.id,
-                skillTitle: data.title!,
-                skillMessage: data.message!,
-                isAvailable: data.isAvailable ?? false,
-              );
-            },
-            child: Row(
-              children: [Icon(Icons.edit), Text("Edit Skill")],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildSkillListSection(QueryResult<QueryGetSkillsPageData> result) {
-    List<QueryGetSkillsPageData$getUser$skills?> skillList =
-        result.parsedData!.getUser!.skills!;
-    return ListView(
-      padding: EdgeInsets.zero,
+    bool isAvailable = data.isAvailable ?? false;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        buildAddSkillButton(),
-        ...List.generate(skillList.length, (index) {
-          return buildSkillCard(skillList[index]!);
-        }),
+        SkillAvailableSwitch(
+          skillId: data.id,
+          isAvailable: isAvailable,
+          onChanged: (value) {
+            isAvailable = value;
+          },
+        ),
+        Row(
+          children: [
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.grey),
+                elevation: MaterialStateProperty.all(0),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 0)),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.w),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                onDeleteSkill(skillId: data.id);
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.close,
+                    size: 16.w,
+                  ),
+                  SizedBox(width: 5.w),
+                  Text(
+                    "Remove",
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 2.w),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                foregroundColor: MaterialStateProperty.all(kDeepBlue),
+                elevation: MaterialStateProperty.all(0),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 0)),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.w),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                onUpdateSkill(
+                  skillId: data.id,
+                  skillTitle: data.title!,
+                  skillMessage: data.message!,
+                  isAvailable: isAvailable,
+                );
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.edit,
+                    size: 16.w,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Text(
+                    "Edit",
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -287,7 +385,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
     );
   }
 
-  Widget buildEmptySkillSection(QueryResult<QueryGetSkillsPageData> result) {
+  Widget buildEmptySkillSection() {
     return Padding(
       padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.w),
       child: Column(
@@ -317,7 +415,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                 color: Colors.grey),
           ),
           SizedBox(height: 20.w),
-          buildBlessedHashtag(result.parsedData!.queryHashtagMeta!),
+          buildBlessedHashtag(blessedHashtagList!),
           SizedBox(height: 16.w),
           Align(
             alignment: Alignment.center,
@@ -341,43 +439,66 @@ class _SkillsScreenState extends State<SkillsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GQLFQueryGetSkillsPageData(
-          options: GQLOptionsQueryGetSkillsPageData(
-            fetchPolicy: FetchPolicy.cacheAndNetwork,
-            variables: VariablesQueryGetSkillsPageData(
-              id: widget.userId,
-            ),
-          ),
-          builder: (result, {refetch, fetchMore}) {
-            if (queryRefetch != refetch) {
-              queryRefetch = refetch;
-            }
-            if (result.parsedData != null) {
-              /// no skill, prompt create
-              if (result.parsedData!.getUser!.skillsAggregate!.count == 0) {
-                return buildEmptySkillSection(result);
-              }
+  void initState() {
+    super.initState();
+    onGetSkillPageData();
+  }
 
-              /// has skill, show list
-              else {
-                return buildSkillListSection(result);
-              }
-            } else if (result.isLoading) {
-              return Center(
-                child: Text(
-                  "Loading...",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              );
-            } else {
-              return const SizedBox();
-            }
-          }),
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final GraphQLClient client = GraphQLProvider.of(context).value;
+    if (client != gqlClient) {
+      gqlClient = client;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Builder(
+      builder: (context) {
+        int itemCount = 1;
+        bool hasLoaded = false;
+        if (blessedHashtagList != null && userData != null) {
+          hasLoaded = true;
+          itemCount += userData!.skills!.length;
+        }
+        return CustomScrollView(
+          key: PageStorageKey<String>(SkillsScreen.routeName),
+          slivers: [
+            widget.sliverOverlapInjector,
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  if (hasLoaded) {
+                    if (userData!.skillsAggregate!.count == 0) {
+                      return buildEmptySkillSection();
+                    } else {
+                      if (index == 0) {
+                        return buildAddSkillButton();
+                      } else {
+                        return buildSkillCard(userData!.skills![index - 1]!);
+                      }
+                    }
+                  } else {
+                    return SizedBox(
+                      height: widget.viewHeight,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                },
+                childCount: itemCount,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

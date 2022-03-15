@@ -23,7 +23,6 @@ class MyProfileInfo extends StatefulWidget {
 class _MyProfileInfoState extends State<MyProfileInfo>
     with TickerProviderStateMixin {
   late TabController tabController;
-  late Map<String, Widget> tabViewMap;
   List<String> tabViewName = [
     GratitudeScreen.routeName,
     SkillsScreen.routeName,
@@ -42,12 +41,6 @@ class _MyProfileInfoState extends State<MyProfileInfo>
         collapsedHeight -
         tabHeight -
         indicatorWeight;
-
-    tabViewMap = {
-      GratitudeScreen.routeName: GratitudeScreen(userId: widget.userId),
-      SkillsScreen.routeName: SkillsScreen(userId: widget.userId),
-      RequestsScreen.routeName: RequestsScreen(userId: widget.userId),
-    };
 
     tabController = TabController(length: 3, vsync: this);
     super.initState();
@@ -180,27 +173,34 @@ class _MyProfileInfoState extends State<MyProfileInfo>
               },
               body: TabBarView(
                 children: List.generate(tabViewName.length, (index) {
-                  Widget tabWidget = tabViewMap[tabViewName[index]]!;
                   return Builder(builder: (context) {
-                    return CustomScrollView(
-                      key: PageStorageKey<String>(tabViewName[index]),
-                      slivers: [
-                        SliverOverlapInjector(
-                          handle:
-                              NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                  context),
-                        ),
-                        SliverFixedExtentList(
-                          itemExtent: tabViewHeight,
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              return tabWidget;
-                            },
-                            childCount: 1,
-                          ),
-                        ),
-                      ],
+                    var sliverOverlapInjector = SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
                     );
+                    if (tabViewName[index] == SkillsScreen.routeName) {
+                      return SkillsScreen(
+                        userId: widget.userId,
+                        sliverOverlapInjector: sliverOverlapInjector,
+                        viewHeight: tabViewHeight,
+                      );
+                    } else if (tabViewName[index] ==
+                        GratitudeScreen.routeName) {
+                      return GratitudeScreen(
+                        userId: widget.userId,
+                        sliverOverlapInjector: sliverOverlapInjector,
+                        viewHeight: tabViewHeight,
+                      );
+                    } else if (tabViewName[index] == RequestsScreen.routeName) {
+                      return RequestsScreen(
+                        userId: widget.userId,
+                        sliverOverlapInjector: sliverOverlapInjector,
+                        viewHeight: tabViewHeight,
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
                   });
                 }),
               ),

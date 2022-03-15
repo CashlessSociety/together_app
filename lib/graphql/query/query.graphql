@@ -109,7 +109,7 @@ query GetSkillsPageData($id: ID){
             message
             isAvailable
             createdTimestamp
-            hashtagVariants{
+            hashtagVariants(order: {asc: variantName}){
                 hashtagMeta{
                     id
                     metaName
