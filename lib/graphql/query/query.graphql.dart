@@ -21,7 +21,7 @@ class QueryGetAllUsers extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetAllUsersToJson(this);
 }
 
-const QUERY_GET_ALL_USERS = const DocumentNode(definitions: [
+const QUERY_GET_ALL_USERS = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetAllUsers'),
@@ -220,7 +220,7 @@ class QueryGetUserWithEmail extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetUserWithEmailToJson(this);
 }
 
-const QUERY_GET_USER_WITH_EMAIL = const DocumentNode(definitions: [
+const QUERY_GET_USER_WITH_EMAIL = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetUserWithEmail'),
@@ -440,7 +440,7 @@ class QueryGetUserWithId extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetUserWithIdToJson(this);
 }
 
-const QUERY_GET_USER_WITH_ID = const DocumentNode(definitions: [
+const QUERY_GET_USER_WITH_ID = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetUserWithId'),
@@ -643,7 +643,7 @@ class QueryGetAllRequests extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetAllRequestsToJson(this);
 }
 
-const QUERY_GET_ALL_REQUESTS = const DocumentNode(definitions: [
+const QUERY_GET_ALL_REQUESTS = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetAllRequests'),
@@ -867,7 +867,7 @@ class QueryGetHashtagMetaByName extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetHashtagMetaByNameToJson(this);
 }
 
-const QUERY_GET_HASHTAG_META_BY_NAME = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_META_BY_NAME = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetHashtagMetaByName'),
@@ -1139,7 +1139,7 @@ class QueryGetHashtagMetaById extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetHashtagMetaByIdToJson(this);
 }
 
-const QUERY_GET_HASHTAG_META_BY_ID = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_META_BY_ID = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetHashtagMetaById'),
@@ -1392,7 +1392,7 @@ class QueryGetHashtagMetaList extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetHashtagMetaListToJson(this);
 }
 
-const QUERY_GET_HASHTAG_META_LIST = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_META_LIST = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetHashtagMetaList'),
@@ -1636,7 +1636,7 @@ class QueryGetBlessedHashtagMetaList extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetBlessedHashtagMetaListToJson(this);
 }
 
-const QUERY_GET_BLESSED_HASHTAG_META_LIST = const DocumentNode(definitions: [
+const QUERY_GET_BLESSED_HASHTAG_META_LIST = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetBlessedHashtagMetaList'),
@@ -1910,7 +1910,7 @@ class QueryGetSkillsByUserId extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetSkillsByUserIdToJson(this);
 }
 
-const QUERY_GET_SKILLS_BY_USER_ID = const DocumentNode(definitions: [
+const QUERY_GET_SKILLS_BY_USER_ID = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetSkillsByUserId'),
@@ -2289,7 +2289,7 @@ class QueryGetSkillsPageData extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QueryGetSkillsPageDataToJson(this);
 }
 
-const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
+const QUERY_GET_SKILLS_PAGE_DATA = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetSkillsPageData'),
@@ -2410,7 +2410,16 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                     FieldNode(
                         name: NameNode(value: 'hashtagVariants'),
                         alias: null,
-                        arguments: [],
+                        arguments: [
+                          ArgumentNode(
+                              name: NameNode(value: 'order'),
+                              value: ObjectValueNode(fields: [
+                                ObjectFieldNode(
+                                    name: NameNode(value: 'asc'),
+                                    value: EnumValueNode(
+                                        name: NameNode(value: 'variantName')))
+                              ]))
+                        ],
                         directives: [],
                         selectionSet: SelectionSetNode(selections: [
                           FieldNode(
@@ -2814,7 +2823,7 @@ class QuerySearchTopRequestHashtag extends JsonSerializable {
   Map<String, dynamic> toJson() => _$QuerySearchTopRequestHashtagToJson(this);
 }
 
-const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
+const QUERY_SEARCH_TOP_REQUEST_HASHTAG = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'SearchTopRequestHashtag'),

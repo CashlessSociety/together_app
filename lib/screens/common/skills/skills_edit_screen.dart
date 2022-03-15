@@ -41,6 +41,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   String skillMessage = '';
   String firstHashtagName = '';
   bool isAvailable = true;
+  late TextEditingController titleTextController;
   late TextEditingController messageTextController;
   TextSelection? textSelectionRecord;
   bool messageBoxTapped = false;
@@ -52,6 +53,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   late Stream<HashtagKeyMatch?> hashtagSearchKeyStream;
   Function? fetchMoreFunctionForIcon;
   bool isProcessing = false;
+  bool isSaved = false;
 
   void onHideHashtagSearchField() {
     hashtagSearchKeyStreamController.add(null);
@@ -70,18 +72,20 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
 
     if (hashtagMatches.isNotEmpty) {
       String hashtag = hashtagMatches[0].group(0)!.trim().replaceFirst("#", "");
-      if (firstHashtagName != hashtag && fetchMoreFunctionForIcon != null) {
+      if (firstHashtagName != hashtag) {
         firstHashtagName = hashtag;
-        fetchMoreFunctionForIcon!(
-          GQLFetchMoreOptionsQueryGetHashtagMetaByName(
-            variables: VariablesQueryGetHashtagMetaByName(
-              metaName: firstHashtagName,
+        if (fetchMoreFunctionForIcon != null) {
+          fetchMoreFunctionForIcon!(
+            GQLFetchMoreOptionsQueryGetHashtagMetaByName(
+              variables: VariablesQueryGetHashtagMetaByName(
+                metaName: firstHashtagName,
+              ),
+              updateQuery: (previousResultData, fetchMoreResultData) {
+                return fetchMoreResultData;
+              },
             ),
-            updateQuery: (previousResultData, fetchMoreResultData) {
-              return fetchMoreResultData;
-            },
-          ),
-        );
+          );
+        }
       }
     }
   }
@@ -279,6 +283,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     if (_skillId != null) {
       showToast(skillId == null ? 'Skill Added!' : "Skill Updated");
       setState(() {
+        isSaved = true;
         skillId = _skillId;
         isProcessing = false;
       });
@@ -331,25 +336,31 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     hashtagSearchKeyStreamController = StreamController<HashtagKeyMatch?>();
     hashtagSearchKeyStream =
         hashtagSearchKeyStreamController.stream.asBroadcastStream();
-
-    if (widget.arguments.hashtagMetaName != null) {
-      String text = " #${widget.arguments.hashtagMetaName}";
-      skillMessage = text;
-      messageTextController = TextEditingController(text: text);
+    if (skillId != null) {
+      skillTitle = widget.arguments.skillTitle!;
+      skillMessage = widget.arguments.skillMessage!;
+      isAvailable = widget.arguments.isAvailable!;
+      titleTextController = TextEditingController(text: skillTitle);
+      messageTextController = TextEditingController(text: skillMessage);
       onFilterHashtagFromMessage(messageTextController.text);
     } else {
-      messageTextController = TextEditingController();
+      titleTextController = TextEditingController();
+      if (widget.arguments.hashtagMetaName != null) {
+        String text = " #${widget.arguments.hashtagMetaName}";
+        skillMessage = text;
+        messageTextController = TextEditingController(text: text);
+        onFilterHashtagFromMessage(messageTextController.text);
+      } else {
+        messageTextController = TextEditingController();
+      }
     }
+
     messageTextController.addListener(() {
       textSelectionRecord = messageTextController.selection;
       onFilterHashtagFromMessage(messageTextController.text);
       onDetectCursorOnHashtag();
     });
-    if (skillId != null) {
-      skillTitle = widget.arguments.skillTitle!;
-      skillMessage = widget.arguments.skillMessage!;
-      isAvailable = widget.arguments.isAvailable!;
-    }
+
     super.initState();
   }
 
@@ -357,6 +368,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   void dispose() {
     hashtagMatchListStreamController.close();
     hashtagSearchKeyStreamController.close();
+    titleTextController.dispose();
     messageTextController.dispose();
     super.dispose();
   }
@@ -364,181 +376,192 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   @override
   Widget build(BuildContext context) {
     double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: const AppBarBackButton(),
-        title: Text(
-          widget.arguments.skillId == null
-              ? "Create a Skill Card"
-              : "Edit the Skill Card",
+    return WillPopScope(
+      onWillPop: () async {
+        Get.back(result: isSaved);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          leading: AppBarBackButton(
+            onPressed: () {
+              Navigator.maybePop(context);
+            },
+          ),
+          title: Text(
+            widget.arguments.skillId == null
+                ? "Create a Skill Card"
+                : "Edit the Skill Card",
+          ),
         ),
-      ),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 40.w,
-                    child: OutlineTextField(
-                      contentPadding: EdgeInsets.only(
-                        left: 16.w,
-                        right: 16.w,
-                      ),
-                      label: Text(
-                        "Title",
-                        style: TextStyle(fontSize: 15.sp),
-                      ),
-                      textInputAction: TextInputAction.next,
-                      style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      minLines: 1,
-                      maxLines: 1,
-                      onChanged: (value) {
-                        setState(() {
-                          skillTitle = value;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20.w),
-                  Focus(
-                    onFocusChange: (value) {
-                      if (!value) {
-                        onHideHashtagSearchField();
-                      }
-                    },
-                    child: OutlineDetectableTextField(
-                        focusNode: messageTextFocus,
-                        key: messageTextKey,
-                        controller: messageTextController,
-                        contentPadding: EdgeInsets.all(16.w),
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 40.w,
+                      child: OutlineTextField(
+                        controller: titleTextController,
+                        contentPadding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                        ),
                         label: Text(
-                          "Description",
+                          "Title",
                           style: TextStyle(fontSize: 15.sp),
                         ),
-                        decoratedStyle: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blue),
-                        basicStyle: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
+                        textInputAction: TextInputAction.next,
+                        style: TextStyle(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w500,
                         ),
-                        // textInputAction: TextInputAction.done,
-                        minLines: 5,
-                        maxLines: 5,
-                        // maxLength: 200,
+                        minLines: 1,
+                        maxLines: 1,
                         onChanged: (value) {
                           setState(() {
-                            skillMessage = value;
+                            skillTitle = value;
                           });
                         },
-                        onTap: () {
-                          /// should reset cursor position
-                          if (widget.arguments.hashtagMetaName != null &&
-                              !messageBoxTapped) {
-                            messageTextController.selection =
-                                TextSelection.fromPosition(
-                                    const TextPosition(offset: 0));
-                          }
-                          messageBoxTapped = true;
-                          onGetMessageBoxPosition();
-                          onDetectCursorOnHashtag();
-                        }),
-                  ),
-                  SizedBox(height: 10.w),
-                  const Text(
-                    "Tags:",
-                    style: TextStyle(height: 2),
-                  ),
-                  StreamBuilder(
-                    stream: hashtagMatchListStream,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<RegExpMatch>> snapshot) {
-                      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                        return Wrap(
-                          spacing: 8.w,
-                          children: [
-                            ...List.generate(snapshot.data!.length, (index) {
-                              RegExpMatch element = snapshot.data![index];
-                              return buildHashtagChip(element);
-                            }),
-                            buildAddHashtagButton()
-                          ],
-                        );
-                      } else {
-                        return Align(
-                          alignment: Alignment.centerLeft,
-                          child: buildAddHashtagButton(),
-                        );
-                      }
-                    },
-                  ),
-                  SizedBox(height: 10.w),
-                  const Text(
-                    "Icon:",
-                    style: TextStyle(height: 2),
-                  ),
-                  SizedBox(height: 2.w),
-                  GQLFQueryGetHashtagMetaByName(
-                    options: GQLOptionsQueryGetHashtagMetaByName(
-                      cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-                      variables: VariablesQueryGetHashtagMetaByName(
-                        metaName: firstHashtagName,
                       ),
                     ),
-                    builder: (result, {refetch, fetchMore}) {
-                      if (fetchMoreFunctionForIcon != fetchMore) {
-                        fetchMoreFunctionForIcon = fetchMore;
-                      }
-                      String iconName =
-                          result.parsedData?.getHashtagMeta?.iconName ?? '';
-                      return iconName != ''
-                          ? Row(
-                              children: [
-                                FaIcon(
-                                  faIconNameMapping[iconName],
-                                  color: kDeepBlue,
-                                ),
-                                SizedBox(width: 6.w),
-                                Text(
-                                  "from #$firstHashtagName",
-                                  style: TextStyle(color: kDeepBlue),
-                                ),
-                              ],
-                            )
-                          : const SizedBox.shrink();
-                    },
-                  )
-                ],
+                    SizedBox(height: 20.w),
+                    Focus(
+                      onFocusChange: (value) {
+                        if (!value) {
+                          onHideHashtagSearchField();
+                        }
+                      },
+                      child: OutlineDetectableTextField(
+                          focusNode: messageTextFocus,
+                          key: messageTextKey,
+                          controller: messageTextController,
+                          contentPadding: EdgeInsets.all(16.w),
+                          label: Text(
+                            "Description",
+                            style: TextStyle(fontSize: 15.sp),
+                          ),
+                          decoratedStyle: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blue),
+                          basicStyle: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          // textInputAction: TextInputAction.done,
+                          minLines: 5,
+                          maxLines: 5,
+                          // maxLength: 200,
+                          onChanged: (value) {
+                            setState(() {
+                              skillMessage = value;
+                            });
+                          },
+                          onTap: () {
+                            /// should reset cursor position
+                            if (widget.arguments.hashtagMetaName != null &&
+                                !messageBoxTapped) {
+                              messageTextController.selection =
+                                  TextSelection.fromPosition(
+                                      const TextPosition(offset: 0));
+                            }
+                            messageBoxTapped = true;
+                            onGetMessageBoxPosition();
+                            onDetectCursorOnHashtag();
+                          }),
+                    ),
+                    SizedBox(height: 10.w),
+                    const Text(
+                      "Tags:",
+                      style: TextStyle(height: 2),
+                    ),
+                    StreamBuilder(
+                      stream: hashtagMatchListStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<RegExpMatch>> snapshot) {
+                        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                          return Wrap(
+                            spacing: 8.w,
+                            children: [
+                              ...List.generate(snapshot.data!.length, (index) {
+                                RegExpMatch element = snapshot.data![index];
+                                return buildHashtagChip(element);
+                              }),
+                              buildAddHashtagButton()
+                            ],
+                          );
+                        } else {
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: buildAddHashtagButton(),
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(height: 10.w),
+                    const Text(
+                      "Icon:",
+                      style: TextStyle(height: 2),
+                    ),
+                    SizedBox(height: 2.w),
+                    GQLFQueryGetHashtagMetaByName(
+                      options: GQLOptionsQueryGetHashtagMetaByName(
+                        cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+                        variables: VariablesQueryGetHashtagMetaByName(
+                          metaName: firstHashtagName,
+                        ),
+                      ),
+                      builder: (result, {refetch, fetchMore}) {
+                        if (fetchMoreFunctionForIcon != fetchMore) {
+                          fetchMoreFunctionForIcon = fetchMore;
+                        }
+                        String iconName =
+                            result.parsedData?.getHashtagMeta?.iconName ?? '';
+                        return iconName != ''
+                            ? Row(
+                                children: [
+                                  FaIcon(
+                                    faIconNameMapping[iconName],
+                                    color: kDeepBlue,
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    "from #$firstHashtagName",
+                                    style: TextStyle(color: kDeepBlue),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 90.w + messageBoxHeight,
-            left: 20.w,
-            right: 70.w,
-            child: HashtagSelectionSheet(
-              hashtagSearchStream: hashtagSearchKeyStream,
-              onTapHashtag: onHandleHashtagTap,
+            Positioned(
+              top: 90.w + messageBoxHeight,
+              left: 20.w,
+              right: 70.w,
+              child: HashtagSelectionSheet(
+                hashtagSearchStream: hashtagSearchKeyStream,
+                onTapHashtag: onHandleHashtagTap,
+              ),
             ),
-          ),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: keyboardHeight,
-              child: SafeArea(
-                top: false,
-                child: buildActionSection(),
-              )),
-        ],
+            Positioned(
+                left: 0,
+                right: 0,
+                bottom: keyboardHeight,
+                child: SafeArea(
+                  top: false,
+                  child: buildActionSection(),
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -643,7 +666,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
               ),
             ),
             onPressed: () {
-              Get.back();
+              Navigator.maybePop(context);
             },
             child: Text(
               "Cancel",

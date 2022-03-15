@@ -12,6 +12,7 @@ class OutlineTextField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
+  final TextEditingController? controller;
 
   const OutlineTextField({
     Key? key,
@@ -23,6 +24,7 @@ class OutlineTextField extends StatelessWidget {
     this.minLines,
     this.maxLines,
     this.maxLength,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class OutlineTextField extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       maxLength: maxLength,
+      controller: controller,
       textInputAction: textInputAction,
       decoration: InputDecoration(
         label: label,
