@@ -68,12 +68,15 @@ class SkillsEditScreenArguments {
   final String? skillTitle;
   final String? skillMessage;
   final bool? isAvailable;
+  final List<String>? skillHashtagList;
 
-  SkillsEditScreenArguments(
-      {this.hashtagMetaId,
-      this.hashtagMetaName,
-      this.skillId,
-      this.skillTitle,
-      this.skillMessage,
-      this.isAvailable});
+  SkillsEditScreenArguments({
+    this.hashtagMetaId,
+    this.hashtagMetaName,
+    this.skillId,
+    this.skillTitle,
+    this.skillMessage,
+    this.isAvailable,
+    this.skillHashtagList,
+  });
 }

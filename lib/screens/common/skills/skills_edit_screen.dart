@@ -39,6 +39,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   FocusNode messageTextFocus = FocusNode();
   String skillTitle = '';
   String skillMessage = '';
+  List<String> skillHashtagList = [];
   String firstHashtagName = '';
   bool isAvailable = true;
   late TextEditingController titleTextController;
@@ -87,10 +88,13 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
           );
         }
       }
+    } else {
+      firstHashtagName = '';
     }
   }
 
   void onFixMessageWhenRemoveTag(int start, int end) {
+    onGetMessageBoxPosition();
     String text1 = messageTextController.text.substring(0, start);
     String text2 = messageTextController.text
         .substring(end, messageTextController.text.length);
@@ -186,9 +190,11 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     });
     gqlClient!.mutateCreateSkill(
       GQLOptionsMutationCreateSkill(
-          fetchPolicy: FetchPolicy.noCache,
-          variables: VariablesMutationCreateSkill(
-            addHashtagMetaInputList: List.generate(hashtagList.length, (index) {
+        fetchPolicy: FetchPolicy.noCache,
+        variables: VariablesMutationCreateSkill(
+          addHashtagMetaInputList: List.generate(
+            hashtagList.length,
+            (index) {
               return InputAddHashtagMetaInput(
                 metaName: hashtagList[index],
                 hashtagVariants: [
@@ -197,32 +203,34 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                   )
                 ],
               );
-            }),
-            addSkillInput: InputAddSkillInput(
-              owner: InputUserRef(id: userId),
-              title: title,
-              message: message,
-              isAvailable: isAvailable,
-              hashtagVariants: List.generate(
-                hashtagList.length,
-                (index) {
-                  return InputHashtagVariantRef(
-                    variantName: hashtagList[index],
-                  );
-                },
-              ),
+            },
+          ),
+          addSkillInput: InputAddSkillInput(
+            owner: InputUserRef(id: userId),
+            title: title,
+            message: message,
+            isAvailable: isAvailable,
+            hashtagVariants: List.generate(
+              hashtagList.length,
+              (index) {
+                return InputHashtagVariantRef(
+                  variantName: hashtagList[index],
+                );
+              },
             ),
           ),
-          onCompleted: (result, MutationCreateSkill? data) {
-            String? _skillId = data?.addSkill?.skill?[0]?.id;
-            onProcessSaveResult(_skillId);
-          },
-          onError: (e) {
-            setState(() {
-              isProcessing = false;
-            });
-            showToast('Save Error!');
-          }),
+        ),
+        onCompleted: (result, MutationCreateSkill? data) {
+          String? _skillId = data?.addSkill?.skill?[0]?.id;
+          onProcessSaveResult(_skillId);
+        },
+        onError: (e) {
+          setState(() {
+            isProcessing = false;
+          });
+          showToast('Save Error!');
+        },
+      ),
     );
   }
 
@@ -235,12 +243,16 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     setState(() {
       isProcessing = true;
     });
+    List<String> hashtagDeleteList =
+        skillHashtagList.toSet().difference(hashtagList.toSet()).toList();
     gqlClient!.mutateUpdateSkill(
       GQLOptionsMutationUpdateSkill(
-          fetchPolicy: FetchPolicy.noCache,
-          variables: VariablesMutationUpdateSkill(
-            skillId: skillId!,
-            addHashtagMetaInputList: List.generate(hashtagList.length, (index) {
+        fetchPolicy: FetchPolicy.noCache,
+        variables: VariablesMutationUpdateSkill(
+          skillId: skillId!,
+          addHashtagMetaInputList: List.generate(
+            hashtagList.length,
+            (index) {
               return InputAddHashtagMetaInput(
                 metaName: hashtagList[index],
                 hashtagVariants: [
@@ -249,32 +261,42 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                   )
                 ],
               );
-            }),
-            skillPatch: InputSkillPatch(
-              owner: InputUserRef(id: userId),
-              title: title,
-              message: message,
-              isAvailable: isAvailable,
-              hashtagVariants: List.generate(
-                hashtagList.length,
-                (index) {
-                  return InputHashtagVariantRef(
-                    variantName: hashtagList[index],
-                  );
-                },
-              ),
-            ),
+            },
           ),
-          onCompleted: (result, MutationUpdateSkill? data) {
-            String? _skillId = data?.updateSkill?.skill?[0]?.id;
-            onProcessSaveResult(_skillId);
-          },
-          onError: (e) {
-            setState(() {
+          title: title,
+          message: message,
+          isAvailable: isAvailable,
+          hashtagsToDelete: List.generate(
+            hashtagDeleteList.length,
+            (index) {
+              return InputHashtagVariantRef(
+                variantName: hashtagDeleteList[index],
+              );
+            },
+          ),
+          hashtagsToSave: List.generate(
+            hashtagList.length,
+            (index) {
+              return InputHashtagVariantRef(
+                variantName: hashtagList[index],
+              );
+            },
+          ),
+        ),
+        onCompleted: (result, MutationUpdateSkill? data) {
+          String? _skillId = data?.updateSkill?.skill?[0]?.id;
+          skillHashtagList = hashtagList;
+          onProcessSaveResult(_skillId);
+        },
+        onError: (e) {
+          setState(
+            () {
               isProcessing = false;
-            });
-            showToast('Save Error!');
-          }),
+            },
+          );
+          showToast('Save Error!');
+        },
+      ),
     );
   }
 
@@ -287,6 +309,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
         skillId = _skillId;
         isProcessing = false;
       });
+      Navigator.maybePop(context);
     } else {
       setState(() {
         isProcessing = false;
@@ -298,18 +321,20 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
   void onSaveClicked() async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     String? userId = await storage.read(key: 'userId');
+    String title = skillTitle.trim();
+    String message = skillMessage.trim();
+    List<String> hashtagList = [];
+    hashTagRegExp.allMatches(message).forEach((element) {
+      String tag = element.group(0)!.trim().replaceFirst("#", '');
+      if (!hashtagList.contains(tag)) {
+        hashtagList.add(tag);
+      }
+    });
     if (userId == null) {
       showToast('User Error');
+    } else if (hashtagList.isEmpty) {
+      showToast('Please add a hashtag');
     } else {
-      String title = skillTitle.trim();
-      String message = skillMessage.trim();
-      List<String> hashtagList = [];
-      hashTagRegExp.allMatches(message).forEach((element) {
-        String tag = element.group(0)!.trim().replaceFirst("#", '');
-        if (!hashtagList.contains(tag)) {
-          hashtagList.add(tag);
-        }
-      });
       if (skillId == null) {
         onAddSkill(userId, title, message, hashtagList);
       } else {
@@ -340,6 +365,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
       skillTitle = widget.arguments.skillTitle!;
       skillMessage = widget.arguments.skillMessage!;
       isAvailable = widget.arguments.isAvailable!;
+      skillHashtagList = widget.arguments.skillHashtagList!;
       titleTextController = TextEditingController(text: skillTitle);
       messageTextController = TextEditingController(text: skillMessage);
       onFilterHashtagFromMessage(messageTextController.text);

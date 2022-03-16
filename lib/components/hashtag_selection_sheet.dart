@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:font_awesome_flutter/name_icon_mapping.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/graphql/schema/schema.graphql.dart';
 import 'package:together_app/models/hashtag_key_match.dart';
-import 'package:together_app/utils/constants.dart';
 
 class HashtagSelectionSheet extends StatefulWidget {
   final int maxDisplayCount;
@@ -79,18 +79,26 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
     return ListTile(
       dense: true,
       minVerticalPadding: 0,
+      leading: SizedBox(
+        width: 24.w,
+        height: 24.w,
+        child: FittedBox(
+          child: hashtagData.iconName != null && hashtagData.iconName != ""
+              ? FaIcon(
+                  faIconNameMapping[hashtagData.iconName],
+                )
+              : const SizedBox(),
+        ),
+      ),
       title: Row(
         children: [
-          Text('#${hashtagData.metaName}'),
-          if (hashtagData.blessed ?? false)
-            Padding(
-              padding: EdgeInsets.only(left: 5.w),
-              child: FaIcon(
-                FontAwesomeIcons.solidHeart,
-                size: 12.w,
-                color: kPrimaryRed,
-              ),
-            ),
+          Text(
+            '#${hashtagData.metaName}',
+            style: TextStyle(
+                fontWeight: (hashtagData.blessed ?? false)
+                    ? FontWeight.bold
+                    : FontWeight.normal),
+          ),
         ],
       ),
       subtitle: Text(
@@ -98,8 +106,8 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
         style: TextStyle(color: counter == 0 ? Colors.transparent : null),
       ),
       onTap: () {
-        int start = currentMatch!.start;
-        int end = currentMatch!.end;
+        int start = currentMatch?.start ?? 0;
+        int end = currentMatch?.end ?? 0;
         widget.onTapHashtag(
           start,
           end,

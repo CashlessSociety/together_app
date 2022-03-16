@@ -82,14 +82,26 @@ mutation CreateSkill(
 mutation UpdateSkill(
     $skillId: ID!,
     $addHashtagMetaInputList: [AddHashtagMetaInput!]!,
-    $skillPatch: SkillPatch!
+    $title: String!,
+    $message: String!,
+    $isAvailable: Boolean!,
+    $hashtagsToSave: [HashtagVariantRef!]!,
+    $hashtagsToDelete: [HashtagVariantRef!]!,
 ){
     addHashtagMeta(upsert: true, input: $addHashtagMetaInputList){
         numUids
     }
     updateSkill(input: {
         filter: {id: [$skillId]},
-        set: $skillPatch
+        remove: {
+            hashtagVariants: $hashtagsToDelete
+        }
+        set: {
+            title: $title
+            message: $message
+            isAvailable: $isAvailable
+            hashtagVariants: $hashtagsToSave
+        }
     }){
         skill{
             id
