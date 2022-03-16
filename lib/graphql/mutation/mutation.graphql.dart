@@ -1946,7 +1946,11 @@ class VariablesMutationUpdateSkill extends JsonSerializable {
   VariablesMutationUpdateSkill(
       {required this.skillId,
       required this.addHashtagMetaInputList,
-      required this.skillPatch});
+      required this.title,
+      required this.message,
+      required this.isAvailable,
+      required this.hashtagsToSave,
+      required this.hashtagsToDelete});
 
   @override
   factory VariablesMutationUpdateSkill.fromJson(Map<String, dynamic> json) =>
@@ -1956,7 +1960,15 @@ class VariablesMutationUpdateSkill extends JsonSerializable {
 
   final List<InputAddHashtagMetaInput> addHashtagMetaInputList;
 
-  final InputSkillPatch skillPatch;
+  final String title;
+
+  final String message;
+
+  final bool isAvailable;
+
+  final List<InputHashtagVariantRef> hashtagsToSave;
+
+  final List<InputHashtagVariantRef> hashtagsToDelete;
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationUpdateSkillToJson(this);
@@ -1999,9 +2011,39 @@ const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
             defaultValue: DefaultValueNode(value: null),
             directives: []),
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'skillPatch')),
+            variable: VariableNode(name: NameNode(value: 'title')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'message')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'isAvailable')),
             type: NamedTypeNode(
-                name: NameNode(value: 'SkillPatch'), isNonNull: true),
+                name: NameNode(value: 'Boolean'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'hashtagsToSave')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'HashtagVariantRef'),
+                    isNonNull: true),
+                isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'hashtagsToDelete')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'HashtagVariantRef'),
+                    isNonNull: true),
+                isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
             directives: [])
       ],
@@ -2051,9 +2093,33 @@ const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
                               ]))
                         ])),
                     ObjectFieldNode(
+                        name: NameNode(value: 'remove'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'hashtagVariants'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'hashtagsToDelete')))
+                        ])),
+                    ObjectFieldNode(
                         name: NameNode(value: 'set'),
-                        value:
-                            VariableNode(name: NameNode(value: 'skillPatch')))
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'title'),
+                              value:
+                                  VariableNode(name: NameNode(value: 'title'))),
+                          ObjectFieldNode(
+                              name: NameNode(value: 'message'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'message'))),
+                          ObjectFieldNode(
+                              name: NameNode(value: 'isAvailable'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'isAvailable'))),
+                          ObjectFieldNode(
+                              name: NameNode(value: 'hashtagVariants'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'hashtagsToSave')))
+                        ]))
                   ]))
             ],
             directives: [],

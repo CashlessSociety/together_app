@@ -38,6 +38,7 @@ dependencies:
   oktoast: ^3.1.5
   url_launcher: ^6.0.20
   detectable_text_field: ^2.0.3
+  readmore: ^2.1.0
 
 
 dev_dependencies:

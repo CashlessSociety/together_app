@@ -586,8 +586,15 @@ VariablesMutationUpdateSkill _$VariablesMutationUpdateSkillFromJson(
         .map(
             (e) => InputAddHashtagMetaInput.fromJson(e as Map<String, dynamic>))
         .toList(),
-    skillPatch:
-        InputSkillPatch.fromJson(json['skillPatch'] as Map<String, dynamic>),
+    title: json['title'] as String,
+    message: json['message'] as String,
+    isAvailable: json['isAvailable'] as bool,
+    hashtagsToSave: (json['hashtagsToSave'] as List<dynamic>)
+        .map((e) => InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    hashtagsToDelete: (json['hashtagsToDelete'] as List<dynamic>)
+        .map((e) => InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -596,7 +603,11 @@ Map<String, dynamic> _$VariablesMutationUpdateSkillToJson(
     <String, dynamic>{
       'skillId': instance.skillId,
       'addHashtagMetaInputList': instance.addHashtagMetaInputList,
-      'skillPatch': instance.skillPatch,
+      'title': instance.title,
+      'message': instance.message,
+      'isAvailable': instance.isAvailable,
+      'hashtagsToSave': instance.hashtagsToSave,
+      'hashtagsToDelete': instance.hashtagsToDelete,
     };
 
 MutationUpdateSkill _$MutationUpdateSkillFromJson(Map<String, dynamic> json) {

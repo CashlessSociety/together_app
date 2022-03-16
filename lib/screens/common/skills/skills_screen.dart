@@ -8,7 +8,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:together_app/components/dialogs.dart';
 import 'package:together_app/graphql/mutation/mutation.graphql.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
-import 'package:together_app/screens/common/skills/skills_available_switch.dart';
+import 'package:together_app/screens/common/skills/skill_card.dart';
 import 'package:together_app/screens/common/skills/skills_edit_screen.dart';
 import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
@@ -73,16 +73,18 @@ class _SkillsScreenState extends State<SkillsScreen>
     required String skillTitle,
     required String skillMessage,
     required bool isAvailable,
+    required List<String> skillHashtagList,
   }) async {
     var rst = await Get.toNamed(SkillsEditScreen.routeName,
         arguments: SkillsEditScreenArguments(
-          skillId: skillId,
-          skillTitle: skillTitle,
-          skillMessage: skillMessage,
-          isAvailable: isAvailable,
-        ));
-    print('rst $rst');
-    onGetSkillPageData();
+            skillId: skillId,
+            skillTitle: skillTitle,
+            skillMessage: skillMessage,
+            isAvailable: isAvailable,
+            skillHashtagList: skillHashtagList));
+    if (rst != null && rst) {
+      onGetSkillPageData();
+    }
   }
 
   void onDeleteSkill({
@@ -154,201 +156,6 @@ class _SkillsScreenState extends State<SkillsScreen>
           }
         }),
       ),
-    );
-  }
-
-  Widget buildSkillCard(QueryGetSkillsPageData$getUser$skills data) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 15.w,
-        right: 15.w,
-        top: 5.w,
-        bottom: 15.w,
-      ),
-      child: Material(
-        elevation: 5,
-        borderRadius: BorderRadius.circular(5.w),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
-              child: buildSkillCardTop(data),
-            ),
-            const Divider(height: 0, thickness: 1),
-            Padding(
-              padding: EdgeInsets.all(15.w),
-              child: buildSkillCardBottom(data),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildSkillCardTop(QueryGetSkillsPageData$getUser$skills data) {
-    String firstIcon = data.hashtagVariants[0]!.hashtagMeta.iconName ?? '';
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            if (firstIcon != "")
-              Padding(
-                padding: EdgeInsets.only(right: 4.w),
-                child: SizedBox(
-                  height: 24.w,
-                  width: 24.w,
-                  child: FittedBox(
-                    child: FaIcon(
-                      faIconNameMapping[firstIcon],
-                      color: kDeepBlue,
-                    ),
-                  ),
-                ),
-              ),
-            Text(
-              data.title!,
-              style: TextStyle(
-                fontSize: 15.sp,
-                color: Colors.black87,
-                fontWeight: FontWeight.w700,
-              ),
-            )
-          ],
-        ),
-        SizedBox(height: 5.w),
-        Text(
-          data.message!,
-          maxLines: 3,
-          overflow: TextOverflow.fade,
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.black87,
-          ),
-        ),
-        SizedBox(
-          height: 8.w,
-        ),
-        Text(
-          "SKILL HASHTAGS",
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: Colors.grey,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        SizedBox(
-          height: 4.w,
-        ),
-        Wrap(
-          spacing: 4.w,
-          runSpacing: 4.w,
-          children: List.generate(data.hashtagVariants.length, (index) {
-            String tag = data.hashtagVariants[index]!.hashtagMeta.metaName;
-            return Chip(
-              label: Text(
-                '#$tag',
-                style: TextStyle(color: kPrimaryOrange, fontSize: 12.w),
-              ),
-              padding: EdgeInsets.zero,
-              backgroundColor: Colors.grey[200],
-              visualDensity: const VisualDensity(
-                horizontal: VisualDensity.minimumDensity,
-                vertical: VisualDensity.minimumDensity,
-              ),
-            );
-          }),
-        )
-      ],
-    );
-  }
-
-  Widget buildSkillCardBottom(QueryGetSkillsPageData$getUser$skills data) {
-    bool isAvailable = data.isAvailable ?? false;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SkillAvailableSwitch(
-          skillId: data.id,
-          isAvailable: isAvailable,
-          onChanged: (value) {
-            isAvailable = value;
-          },
-        ),
-        Row(
-          children: [
-            TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.grey),
-                elevation: MaterialStateProperty.all(0),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 0)),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.w),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                onDeleteSkill(skillId: data.id);
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.close,
-                    size: 16.w,
-                  ),
-                  SizedBox(width: 5.w),
-                  Text(
-                    "Remove",
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: 2.w),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
-                foregroundColor: MaterialStateProperty.all(kDeepBlue),
-                elevation: MaterialStateProperty.all(0),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 0)),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.w),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                onUpdateSkill(
-                  skillId: data.id,
-                  skillTitle: data.title!,
-                  skillMessage: data.message!,
-                  isAvailable: isAvailable,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.edit,
-                    size: 16.w,
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Text(
-                    "Edit",
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 
@@ -478,7 +285,12 @@ class _SkillsScreenState extends State<SkillsScreen>
                       if (index == 0) {
                         return buildAddSkillButton();
                       } else {
-                        return buildSkillCard(userData!.skills![index - 1]!);
+                        return SkillCard(
+                          isLast: index == userData!.skills!.length,
+                          skillData: userData!.skills![index - 1]!,
+                          onDelete: onDeleteSkill,
+                          onUpdate: onUpdateSkill,
+                        );
                       }
                     }
                   } else {
