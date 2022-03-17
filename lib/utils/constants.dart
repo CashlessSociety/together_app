@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_portal_screen.dart';
-import 'package:together_app/screens/nav_leftside/my_profile/my_profile_screen.dart';
 import 'package:together_app/screens/nav_leftside/notifications/notifications_screen.dart';
 import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart';
-import 'package:together_app/utils/routes.dart';
 
 Color kPrimaryBlue = const Color(0xff1b9eca);
 Color kPrimaryRed = const Color(0xffF7581E);
@@ -26,30 +24,6 @@ List<Map<String, dynamic>> kGetNavSideMenuInfoList(
       'args': args,
     },
     {
-      'name': 'My Profile',
-      'icon': Icons.person,
-      'route': MyProfileScreen.routeName,
-      'args': MyProfileScreenArguments(),
-    },
-    {
-      'name': 'My Skills',
-      'icon': Icons.work,
-      'route': MyProfileScreen.routeName,
-      'args': MyProfileScreenArguments(focusedTab: 1),
-    },
-    {
-      'name': 'Add Request',
-      'icon': Icons.add_box,
-      'route': MyProfileScreen.routeName,
-      'args': MyProfileScreenArguments(focusedTab: 2),
-    },
-    {
-      'name': 'Send Gratitude',
-      'icon': Icons.handshake,
-      'route': MyProfileScreen.routeName,
-      'args': MyProfileScreenArguments(focusedTab: 0),
-    },
-    {
       'name': 'Settings',
       'icon': Icons.settings,
       'route': SettingsScreen.routeName,
@@ -68,20 +42,16 @@ List<Map<String, dynamic>> kGetNavSideMenuInfoList(
 
 List<BottomNavigationBarItem> kBottomNavigationBarItems = [
   const BottomNavigationBarItem(
-    icon: Icon(Icons.favorite),
+    icon: FaIcon(FontAwesomeIcons.solidHeart),
     label: "Gratitude Wall",
   ),
   const BottomNavigationBarItem(
-    icon: Icon(Icons.people),
+    icon: FaIcon(FontAwesomeIcons.users),
     label: "Social Graph",
   ),
   const BottomNavigationBarItem(
-    icon: Icon(Icons.local_fire_department_rounded),
+    icon: FaIcon(FontAwesomeIcons.handsHelping),
     label: "Find Requests",
-  ),
-  const BottomNavigationBarItem(
-    icon: Icon(Icons.newspaper),
-    label: "Network Feed",
   ),
 ];
 

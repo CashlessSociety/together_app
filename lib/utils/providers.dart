@@ -13,3 +13,9 @@ class BottomNavNotifier with ChangeNotifier {
     }
   }
 }
+
+class LoginStateRefresher with ChangeNotifier {
+  void refresh() {
+    notifyListeners();
+  }
+}

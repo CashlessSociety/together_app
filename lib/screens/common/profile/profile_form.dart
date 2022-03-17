@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:together_app/components/alter_scaffold.dart';
 import 'package:together_app/graphql/mutation/mutation.graphql.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
+import 'package:together_app/utils/providers.dart';
 
-class MyProfileTestForm extends StatefulWidget {
-  const MyProfileTestForm({
+class ProfileTestForm extends StatefulWidget {
+  const ProfileTestForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MyProfileTestForm> createState() => _MyProfileTestFormState();
+  State<ProfileTestForm> createState() => _ProfileTestFormState();
 }
 
-class _MyProfileTestFormState extends State<MyProfileTestForm> {
+class _ProfileTestFormState extends State<ProfileTestForm> {
   String email = '';
   String name = '';
   GraphQLClient? gqlClient;
@@ -64,6 +65,7 @@ class _MyProfileTestFormState extends State<MyProfileTestForm> {
   @override
   Widget build(BuildContext context) {
     return AlterScaffold(
+      bottomNavigationBar: null,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
         child: Column(
@@ -135,7 +137,7 @@ class _MyProfileTestFormState extends State<MyProfileTestForm> {
             buttonText = "Done!";
           });
           await Future.delayed(const Duration(milliseconds: 500));
-          Get.back();
+          onRefreshLoginState();
         } else {
           buttonText = "Join";
           isProcessing = false;
@@ -147,9 +149,13 @@ class _MyProfileTestFormState extends State<MyProfileTestForm> {
           buttonText = "Done!";
         });
         await Future.delayed(const Duration(milliseconds: 500));
-        Get.back();
+        onRefreshLoginState();
       }
     }
+  }
+
+  onRefreshLoginState() {
+    Provider.of<LoginStateRefresher>(context, listen: false).refresh();
   }
 
   @override
