@@ -83,6 +83,7 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
             ),
             TextField(
                 readOnly: isProcessing,
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.email),
                   label: Text("Enter your email address"),
@@ -94,6 +95,7 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
                 }),
             TextField(
                 readOnly: isProcessing,
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.person),
                   label: Text("Enter your full name"),

@@ -111,7 +111,7 @@ class _SkillCardState extends State<SkillCard> {
                 colorClickableText: Colors.grey,
                 trimMode: TrimMode.Line,
                 trimCollapsedText: '...Show more',
-                trimExpandedText: '\nShow less',
+                trimExpandedText: ' Show less',
                 delimiter: '',
                 moreStyle: TextStyle(
                     fontSize: 13.sp,
@@ -128,9 +128,19 @@ class _SkillCardState extends State<SkillCard> {
   Widget buildOtherSkillCardBottom(QueryGetSkillsPageData$getUser$skills data) {
     bool isAvailable = data.isAvailable ?? false;
     if (isAvailable) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     } else {
-      return Chip(label: Text("NOT AVAILABLE"));
+      return Chip(
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -2),
+        label: Text(
+          "NOT AVAILABLE",
+          style: TextStyle(
+            fontSize: 12.sp,
+            color: Colors.grey[500],
+          ),
+        ),
+        backgroundColor: Colors.grey[300],
+      );
     }
   }
 
@@ -234,6 +244,7 @@ class _SkillCardState extends State<SkillCard> {
         bottom: 15.w,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
@@ -244,7 +255,11 @@ class _SkillCardState extends State<SkillCard> {
               padding: EdgeInsets.only(left: 50.w, right: 15.w, bottom: 15.w),
               child: buildOwnerSkillCardBottom(widget.skillData),
             ),
-          if (!widget.isOwner) buildOtherSkillCardBottom(widget.skillData),
+          if (!widget.isOwner)
+            Padding(
+              padding: EdgeInsets.only(left: 50.w, bottom: 10.w),
+              child: buildOtherSkillCardBottom(widget.skillData),
+            ),
           if (!widget.isLast)
             Divider(
               height: 0,

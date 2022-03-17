@@ -196,10 +196,10 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             hashtagList.length,
             (index) {
               return InputAddHashtagMetaInput(
-                metaName: hashtagList[index],
+                metaName: hashtagList[index].toLowerCase(),
                 hashtagVariants: [
                   InputHashtagVariantRef(
-                    variantName: hashtagList[index],
+                    variantName: hashtagList[index].toLowerCase(),
                   )
                 ],
               );
@@ -214,7 +214,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
               hashtagList.length,
               (index) {
                 return InputHashtagVariantRef(
-                  variantName: hashtagList[index],
+                  variantName: hashtagList[index].toLowerCase(),
                 );
               },
             ),
@@ -254,10 +254,10 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             hashtagList.length,
             (index) {
               return InputAddHashtagMetaInput(
-                metaName: hashtagList[index],
+                metaName: hashtagList[index].toLowerCase(),
                 hashtagVariants: [
                   InputHashtagVariantRef(
-                    variantName: hashtagList[index],
+                    variantName: hashtagList[index].toLowerCase(),
                   )
                 ],
               );
@@ -270,7 +270,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             hashtagDeleteList.length,
             (index) {
               return InputHashtagVariantRef(
-                variantName: hashtagDeleteList[index],
+                variantName: hashtagDeleteList[index].toLowerCase(),
               );
             },
           ),
@@ -278,7 +278,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             hashtagList.length,
             (index) {
               return InputHashtagVariantRef(
-                variantName: hashtagList[index],
+                variantName: hashtagList[index].toLowerCase(),
               );
             },
           ),
