@@ -12,6 +12,7 @@ import 'package:together_app/utils/constants.dart';
 class SkillCard extends StatefulWidget {
   final QueryGetSkillsPageData$getUser$skills skillData;
   final bool isLast;
+  final bool isOwner;
   final void Function({
     required String skillId,
   }) onDelete;
@@ -28,6 +29,7 @@ class SkillCard extends StatefulWidget {
     required this.onDelete,
     required this.onUpdate,
     required this.isLast,
+    required this.isOwner,
   }) : super(key: key);
 
   @override
@@ -108,8 +110,9 @@ class _SkillCardState extends State<SkillCard> {
                 ),
                 colorClickableText: Colors.grey,
                 trimMode: TrimMode.Line,
-                trimCollapsedText: 'Show more',
-                trimExpandedText: 'Show less',
+                trimCollapsedText: '...Show more',
+                trimExpandedText: '\nShow less',
+                delimiter: '',
                 moreStyle: TextStyle(
                     fontSize: 13.sp,
                     color: Colors.grey,
@@ -122,7 +125,16 @@ class _SkillCardState extends State<SkillCard> {
     );
   }
 
-  Widget buildSkillCardBottom(QueryGetSkillsPageData$getUser$skills data) {
+  Widget buildOtherSkillCardBottom(QueryGetSkillsPageData$getUser$skills data) {
+    bool isAvailable = data.isAvailable ?? false;
+    if (isAvailable) {
+      return SizedBox.shrink();
+    } else {
+      return Chip(label: Text("NOT AVAILABLE"));
+    }
+  }
+
+  Widget buildOwnerSkillCardBottom(QueryGetSkillsPageData$getUser$skills data) {
     bool isAvailable = data.isAvailable ?? false;
     List<String> skillHashtagList = [];
     if (data.hashtagVariants.isNotEmpty) {
@@ -206,76 +218,6 @@ class _SkillCardState extends State<SkillCard> {
                 ),
               ],
             ),
-            // TextButton(
-            //   style: ButtonStyle(
-            //     foregroundColor: MaterialStateProperty.all(Colors.grey),
-            //     elevation: MaterialStateProperty.all(0),
-            //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            //     padding: MaterialStateProperty.all(
-            //         EdgeInsets.symmetric(horizontal: 12.w, vertical: 0)),
-            //     shape: MaterialStateProperty.all(
-            //       RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(16.w),
-            //       ),
-            //     ),
-            //   ),
-            //   onPressed: () {
-            //     widget.onDelete(skillId: data.id);
-            //   },
-            //   child: Row(
-            //     children: [
-            //       Icon(
-            //         Icons.close,
-            //         size: 16.w,
-            //       ),
-            //       SizedBox(width: 5.w),
-            //       Text(
-            //         "Remove",
-            //         style: TextStyle(fontSize: 14.sp),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(width: 2.w),
-            // ElevatedButton(
-            //   style: ButtonStyle(
-            //     backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
-            //     foregroundColor: MaterialStateProperty.all(kDeepBlue),
-            //     elevation: MaterialStateProperty.all(0),
-            //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            //     padding: MaterialStateProperty.all(
-            //         EdgeInsets.symmetric(horizontal: 12.w, vertical: 0)),
-            //     shape: MaterialStateProperty.all(
-            //       RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(16.w),
-            //       ),
-            //     ),
-            //   ),
-            //   onPressed: () {
-            //     widget.onUpdate(
-            //       skillId: data.id,
-            //       skillTitle: data.title!,
-            //       skillMessage: data.message!,
-            //       isAvailable: isAvailable,
-            //       skillHashtagList: skillHashtagList,
-            //     );
-            //   },
-            //   child: Row(
-            //     children: [
-            //       Icon(
-            //         Icons.edit,
-            //         size: 16.w,
-            //       ),
-            //       SizedBox(
-            //         width: 5.w,
-            //       ),
-            //       Text(
-            //         "Edit",
-            //         style: TextStyle(fontSize: 14.sp),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ],
@@ -297,10 +239,12 @@ class _SkillCardState extends State<SkillCard> {
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
             child: buildSkillCardTop(widget.skillData),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 50.w, right: 15.w, bottom: 15.w),
-            child: buildSkillCardBottom(widget.skillData),
-          ),
+          if (widget.isOwner)
+            Padding(
+              padding: EdgeInsets.only(left: 50.w, right: 15.w, bottom: 15.w),
+              child: buildOwnerSkillCardBottom(widget.skillData),
+            ),
+          if (!widget.isOwner) buildOtherSkillCardBottom(widget.skillData),
           if (!widget.isLast)
             Divider(
               height: 0,

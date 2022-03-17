@@ -11,6 +11,7 @@ class AlterScaffold extends StatefulWidget {
   final Widget? body;
   final Widget? drawer;
   final BottomNavigationBar? bottomNavigationBar;
+  final bool enableBottomNavigation;
 
   const AlterScaffold({
     Key? key,
@@ -18,6 +19,7 @@ class AlterScaffold extends StatefulWidget {
     this.body,
     this.drawer,
     this.bottomNavigationBar,
+    this.enableBottomNavigation = false,
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class AlterScaffold extends StatefulWidget {
 
 class _AlterScaffoldState extends State<AlterScaffold> {
   late AppBar defaultAppBar;
-  late BottomNavigationBar defaultBottomNavigationBar;
+  BottomNavigationBar? defaultBottomNavigationBar;
   late Widget defaultEntryDrawer;
 
   void onBottomTabClick(int index) {
@@ -43,17 +45,19 @@ class _AlterScaffoldState extends State<AlterScaffold> {
       title: const Text('The Together App'),
     );
 
-    /// default alter bottom nav
-    defaultBottomNavigationBar = BottomNavigationBar(
-      items: kBottomNavigationBarItems,
-      currentIndex: 0,
-      onTap: onBottomTabClick,
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.grey[600],
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      unselectedItemColor: Colors.grey[600],
-    );
+    if (widget.enableBottomNavigation) {
+      /// default alter bottom nav
+      defaultBottomNavigationBar = BottomNavigationBar(
+        items: kBottomNavigationBarItems,
+        currentIndex: 0,
+        onTap: onBottomTabClick,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.grey[600],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        unselectedItemColor: Colors.grey[600],
+      );
+    }
 
     /// default alter drawer
     defaultEntryDrawer = const MainEntryDrawer();

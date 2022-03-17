@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:font_awesome_flutter/name_icon_mapping.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,7 @@ class _SkillsScreenState extends State<SkillsScreen>
   GraphQLClient? gqlClient;
   List<QueryGetSkillsPageData$queryHashtagMeta?>? blessedHashtagList;
   QueryGetSkillsPageData$getUser? userData;
+  String loggedInUserId = '';
 
   void onGetSkillPageData() {
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) async {
@@ -245,6 +247,32 @@ class _SkillsScreenState extends State<SkillsScreen>
     );
   }
 
+  Widget buildSkillSection(int index) {
+    if (userData!.skillsAggregate!.count == 0) {
+      if (loggedInUserId == widget.userId) {
+        return buildEmptySkillSection();
+      } else {
+        return const Center(
+          child: Text("No Skill Data"),
+        );
+      }
+    } else {
+      if (index == 0) {
+        return widget.userId == loggedInUserId
+            ? buildAddSkillButton()
+            : const SizedBox.shrink();
+      } else {
+        return SkillCard(
+          isOwner: widget.userId == loggedInUserId,
+          isLast: index == userData!.skills!.length,
+          skillData: userData!.skills![index - 1]!,
+          onDelete: onDeleteSkill,
+          onUpdate: onUpdateSkill,
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -263,8 +291,12 @@ class _SkillsScreenState extends State<SkillsScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Builder(
-      builder: (context) {
+    return FutureBuilder(
+      future: const FlutterSecureStorage().read(key: 'userId'),
+      builder: (context, AsyncSnapshot<String?> snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          loggedInUserId = snapshot.data!;
+        }
         int itemCount = 1;
         bool hasLoaded = false;
         if (blessedHashtagList != null && userData != null) {
@@ -279,23 +311,10 @@ class _SkillsScreenState extends State<SkillsScreen>
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   if (hasLoaded) {
-                    if (userData!.skillsAggregate!.count == 0) {
-                      return buildEmptySkillSection();
-                    } else {
-                      if (index == 0) {
-                        return buildAddSkillButton();
-                      } else {
-                        return SkillCard(
-                          isLast: index == userData!.skills!.length,
-                          skillData: userData!.skills![index - 1]!,
-                          onDelete: onDeleteSkill,
-                          onUpdate: onUpdateSkill,
-                        );
-                      }
-                    }
+                    return buildSkillSection(index);
                   } else {
                     return SizedBox(
-                      height: widget.viewHeight,
+                      height: widget.viewHeight - 100.w,
                       child: const Center(
                         child: CircularProgressIndicator(),
                       ),

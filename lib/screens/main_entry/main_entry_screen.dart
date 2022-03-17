@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:together_app/screens/main_entry/main_entry_drawer.dart';
 import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_screen.dart';
 import 'package:together_app/screens/nav_bottom/matching_request/matching_request_screen.dart';
-import 'package:together_app/screens/nav_bottom/network_feed/network_feed_screen.dart';
 import 'package:together_app/screens/nav_bottom/social_graph/social_graph_screen.dart';
 import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/providers.dart';
@@ -38,18 +35,6 @@ class _MainEntryScreenState extends State<MainEntryScreen> {
     }
   }
 
-  /// triggered from NONE bottom nav screens
-  void onHandleExternalTabClick(index) {
-    /// close the drawer
-    if (isDrawerOpened && Get.currentRoute == MainEntryScreen.routeName) {
-      Get.back();
-    }
-    if (pageIndex != index) {
-      pageController.jumpToPage(index);
-      updateIndexState(index);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -64,31 +49,14 @@ class _MainEntryScreenState extends State<MainEntryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kPrimaryBlue,
-        title: const Text('The Together App'),
-      ),
-      drawer: const MainEntryDrawer(),
-      onDrawerChanged: (bool isOpened) {
-        isDrawerOpened = isOpened;
-      },
-      body: Consumer<BottomNavNotifier>(
-        builder: (context, provider, child) {
-          WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-            onHandleExternalTabClick(provider.currentIndex);
-          });
-          return child!;
-        },
-        child: PageView(
-            controller: pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              GratitudeWallScreen(),
-              SocialGraphScreen(),
-              MatchingRequestScreen(),
-              NetworkFeedScreen(),
-            ]),
-      ),
+      body: PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: const [
+            GratitudeWallScreen(),
+            SocialGraphScreen(),
+            MatchingRequestScreen(),
+          ]),
       bottomNavigationBar: BottomNavigationBar(
         items: kBottomNavigationBarItems,
         currentIndex: pageIndex,

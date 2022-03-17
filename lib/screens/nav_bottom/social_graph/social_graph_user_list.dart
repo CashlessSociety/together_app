@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
+import 'package:together_app/screens/common/profile/other_profile_screen.dart';
+import 'package:together_app/utils/routes.dart';
 
 class SocialGraphUserList extends StatefulWidget {
-  const SocialGraphUserList({Key? key}) : super(key: key);
+  final String userId;
+  const SocialGraphUserList({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
 
   @override
   State<SocialGraphUserList> createState() => _SocialGraphUserListState();
@@ -19,7 +25,7 @@ class _SocialGraphUserListState extends State<SocialGraphUserList> {
         } else if (result.parsedData != null) {
           List<QueryGetAllUsers$queryUser?> dataList =
               result.parsedData!.queryUser!;
-          print('dataList $dataList');
+          dataList.removeWhere((element) => element!.id == widget.userId);
           return Column(
             children: [
               ElevatedButton(
@@ -35,11 +41,13 @@ class _SocialGraphUserListState extends State<SocialGraphUserList> {
                       leading: const Icon(Icons.person),
                       title: Text(dataList[index]!.name),
                       subtitle: Text(dataList[index]!.email),
-                      trailing: Text(
-                        '${dataList[index]!.id}\n${dataList[index]!.createdTimestamp}',
-                        style:
-                            TextStyle(fontSize: 9.sp, color: Colors.grey[600]),
-                      ),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () {
+                        Get.toNamed(OtherProfileScreen.routeName,
+                            arguments: OtherProfileScreenArguments(
+                              otherUserId: dataList[index]!.id,
+                            ));
+                      },
                     );
                   },
                 ),

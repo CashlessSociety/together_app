@@ -4,23 +4,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
+import 'package:provider/provider.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/common/gratitude/gratitude_screen.dart';
 import 'package:together_app/screens/common/requests/requests_screen.dart';
 import 'package:together_app/screens/common/skills/skills_screen.dart';
+import 'package:together_app/screens/main_entry/main_entry_drawer.dart';
 import 'package:together_app/utils/constants.dart';
+import 'package:together_app/utils/providers.dart';
 
-class MyProfileInfo extends StatefulWidget {
+class ProfileInfo extends StatefulWidget {
   final String userId;
   final int? focusedTab;
-  const MyProfileInfo({Key? key, required this.userId, this.focusedTab})
-      : super(key: key);
+  final bool isOwner;
+  const ProfileInfo({
+    Key? key,
+    required this.userId,
+    this.focusedTab,
+    required this.isOwner,
+  }) : super(key: key);
 
   @override
-  State<MyProfileInfo> createState() => _MyProfileInfoState();
+  State<ProfileInfo> createState() => _ProfileInfoState();
 }
 
-class _MyProfileInfoState extends State<MyProfileInfo>
+class _ProfileInfoState extends State<ProfileInfo>
     with TickerProviderStateMixin {
   late TabController tabController;
   List<String> tabViewName = [
@@ -54,6 +62,7 @@ class _MyProfileInfoState extends State<MyProfileInfo>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: widget.isOwner ? const MainEntryDrawer() : null,
       body: GQLFQueryGetUserWithId(
         options: GQLOptionsQueryGetUserWithId(
             variables: VariablesQueryGetUserWithId(id: widget.userId)),
@@ -86,12 +95,16 @@ class _MyProfileInfoState extends State<MyProfileInfo>
                         pinned: true,
                         elevation: 0,
                         leading: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.black54,
+                          icon: Icon(
+                            widget.isOwner ? Icons.menu : Icons.arrow_back,
+                            color: Colors.black,
                           ),
                           onPressed: () {
-                            Get.back();
+                            if (widget.isOwner) {
+                              Scaffold.of(context).openDrawer();
+                            } else {
+                              Get.back();
+                            }
                           },
                         ),
                         backgroundColor: Colors.white,
@@ -250,17 +263,19 @@ class _MyProfileInfoState extends State<MyProfileInfo>
                 ),
               ],
             ),
-            IconButton(
-              onPressed: () async {
-                const FlutterSecureStorage storage = FlutterSecureStorage();
-                await storage.delete(key: 'userId');
-                Get.back();
-              },
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.grey,
-              ),
-            )
+            if (widget.isOwner)
+              IconButton(
+                onPressed: () async {
+                  const FlutterSecureStorage storage = FlutterSecureStorage();
+                  await storage.delete(key: 'userId');
+                  Provider.of<LoginStateRefresher>(context, listen: false)
+                      .refresh();
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.grey,
+                ),
+              )
           ],
         );
       } else {

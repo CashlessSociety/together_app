@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         client: createGraphqlClient(),
         child: MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (context) => BottomNavNotifier())
+            ChangeNotifierProvider(create: (context) => BottomNavNotifier()),
+            ChangeNotifierProvider(create: (context) => LoginStateRefresher()),
           ],
           child: KeyboardDismisser(
             child: OKToast(
