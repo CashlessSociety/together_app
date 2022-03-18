@@ -11,8 +11,12 @@ type User {
 	createdTimestamp: DateTime
 	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "owner")
 	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "owner")
+	gratitudeSent(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude] @hasInverse(field: "from")
+	gratitudeReceived(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude] @hasInverse(field: "to")
 	requestsAggregate(filter: RequestFilter): RequestAggregateResult
 	skillsAggregate(filter: SkillFilter): SkillAggregateResult
+	gratitudeSentAggregate(filter: GratitudeFilter): GratitudeAggregateResult
+	gratitudeReceivedAggregate(filter: GratitudeFilter): GratitudeAggregateResult
 }
 
 type Request {
@@ -20,9 +24,17 @@ type Request {
 	owner(filter: UserFilter): User! @hasInverse(field: "requests")
 	title: String! @search
 	message: String! @search
+	status: RequestStatus!
 	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]! @hasInverse(field: "requests")
 	createdTimestamp: DateTime
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
+}
+
+enum RequestStatus {
+	OPEN
+	TENTATIVE
+	FILLED
+	DONE
 }
 
 type Skill {
@@ -36,23 +48,35 @@ type Skill {
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
-type HashtagVariant {
+type Gratitude {
 	id: ID!
-	variantName: String! @id @search(by: [exact,regexp])
-	hashtagMeta(filter: HashtagMetaFilter): HashtagMeta! @hasInverse(field: "hashtagVariants")
-	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "hashtagVariants")
-	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "hashtagVariants")
-	skillsAggregate(filter: SkillFilter): SkillAggregateResult
-	requestsAggregate(filter: RequestFilter): RequestAggregateResult
+	from(filter: UserFilter): User! @hasInverse(field: "gratitudeSent")
+	to(filter: UserFilter): User! @hasInverse(field: "gratitudeReceived")
+	message: String
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]! @hasInverse(field: "gratitudes")
+	createdTimestamp: DateTime
+	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
 }
 
-type HashtagMeta {
+type HashtagVariant {
 	id: ID!
-	metaName: String! @id @search(by: [exact,regexp])
+	variant: String! @id @search(by: [exact,regexp])
+	hashtag(filter: HashtagFilter): Hashtag! @hasInverse(field: "hashtagVariants")
+	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "hashtagVariants")
+	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "hashtagVariants")
+	gratitudes(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude] @hasInverse(field: "hashtagVariants")
+	skillsAggregate(filter: SkillFilter): SkillAggregateResult
+	requestsAggregate(filter: RequestFilter): RequestAggregateResult
+	gratitudesAggregate(filter: GratitudeFilter): GratitudeAggregateResult
+}
+
+type Hashtag {
+	id: ID!
+	name: String! @id @search(by: [exact,regexp])
 	iconName: String
 	blessed: Boolean @search
 	blessedInt: Int
-	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "hashtagMeta")
+	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant] @hasInverse(field: "hashtag")
 	skillCountAllTime: Int
 	requestCountAllTime: Int
 	skillCountLast24h: Int
@@ -328,8 +352,13 @@ input StringHashFilter {
 # Generated Types
 #######################
 
-type AddHashtagMetaPayload {
-	hashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+type AddGratitudePayload {
+	gratitude(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude]
+	numUids: Int
+}
+
+type AddHashtagPayload {
+	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
 	numUids: Int
 }
 
@@ -353,8 +382,14 @@ type AddUserPayload {
 	numUids: Int
 }
 
-type DeleteHashtagMetaPayload {
-	hashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+type DeleteGratitudePayload {
+	gratitude(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude]
+	msg: String
+	numUids: Int
+}
+
+type DeleteHashtagPayload {
+	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
 	msg: String
 	numUids: Int
 }
@@ -383,10 +418,18 @@ type DeleteUserPayload {
 	numUids: Int
 }
 
-type HashtagMetaAggregateResult {
+type GratitudeAggregateResult {
 	count: Int
-	metaNameMin: String
-	metaNameMax: String
+	messageMin: String
+	messageMax: String
+	createdTimestampMin: DateTime
+	createdTimestampMax: DateTime
+}
+
+type HashtagAggregateResult {
+	count: Int
+	nameMin: String
+	nameMax: String
 	iconNameMin: String
 	iconNameMax: String
 	blessedIntMin: Int
@@ -421,8 +464,8 @@ type HashtagMetaAggregateResult {
 
 type HashtagVariantAggregateResult {
 	count: Int
-	variantNameMin: String
-	variantNameMax: String
+	variantMin: String
+	variantMax: String
 }
 
 type RequestAggregateResult {
@@ -445,8 +488,13 @@ type SkillAggregateResult {
 	createdTimestampMax: DateTime
 }
 
-type UpdateHashtagMetaPayload {
-	hashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
+type UpdateGratitudePayload {
+	gratitude(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude]
+	numUids: Int
+}
+
+type UpdateHashtagPayload {
+	hashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
 	numUids: Int
 }
 
@@ -488,8 +536,21 @@ type UserAggregateResult {
 # Generated Enums
 #######################
 
-enum HashtagMetaHasFilter {
-	metaName
+enum GratitudeHasFilter {
+	from
+	to
+	message
+	hashtagVariants
+	createdTimestamp
+}
+
+enum GratitudeOrderable {
+	message
+	createdTimestamp
+}
+
+enum HashtagHasFilter {
+	name
 	iconName
 	blessed
 	blessedInt
@@ -502,8 +563,8 @@ enum HashtagMetaHasFilter {
 	requestCountLast1w
 }
 
-enum HashtagMetaOrderable {
-	metaName
+enum HashtagOrderable {
+	name
 	iconName
 	blessedInt
 	skillCountAllTime
@@ -515,20 +576,22 @@ enum HashtagMetaOrderable {
 }
 
 enum HashtagVariantHasFilter {
-	variantName
-	hashtagMeta
+	variant
+	hashtag
 	skills
 	requests
+	gratitudes
 }
 
 enum HashtagVariantOrderable {
-	variantName
+	variant
 }
 
 enum RequestHasFilter {
 	owner
 	title
 	message
+	status
 	hashtagVariants
 	createdTimestamp
 }
@@ -562,6 +625,8 @@ enum UserHasFilter {
 	createdTimestamp
 	requests
 	skills
+	gratitudeSent
+	gratitudeReceived
 }
 
 enum UserOrderable {
@@ -575,8 +640,16 @@ enum UserOrderable {
 # Generated Inputs
 #######################
 
-input AddHashtagMetaInput {
-	metaName: String!
+input AddGratitudeInput {
+	from: UserRef!
+	to: UserRef!
+	message: String
+	hashtagVariants: [HashtagVariantRef]!
+	createdTimestamp: DateTime
+}
+
+input AddHashtagInput {
+	name: String!
 	iconName: String
 	blessed: Boolean
 	blessedInt: Int
@@ -590,16 +663,18 @@ input AddHashtagMetaInput {
 }
 
 input AddHashtagVariantInput {
-	variantName: String!
-	hashtagMeta: HashtagMetaRef!
+	variant: String!
+	hashtag: HashtagRef!
 	skills: [SkillRef]
 	requests: [RequestRef]
+	gratitudes: [GratitudeRef]
 }
 
 input AddRequestInput {
 	owner: UserRef!
 	title: String!
 	message: String!
+	status: RequestStatus!
 	hashtagVariants: [HashtagVariantRef]!
 	createdTimestamp: DateTime
 }
@@ -621,25 +696,58 @@ input AddUserInput {
 	createdTimestamp: DateTime
 	requests: [RequestRef]
 	skills: [SkillRef]
+	gratitudeSent: [GratitudeRef]
+	gratitudeReceived: [GratitudeRef]
 }
 
-input HashtagMetaFilter {
+input GratitudeFilter {
 	id: [ID!]
-	metaName: StringExactFilter_StringRegExpFilter
+	has: [GratitudeHasFilter]
+	and: [GratitudeFilter]
+	or: [GratitudeFilter]
+	not: GratitudeFilter
+}
+
+input GratitudeOrder {
+	asc: GratitudeOrderable
+	desc: GratitudeOrderable
+	then: GratitudeOrder
+}
+
+input GratitudePatch {
+	from: UserRef
+	to: UserRef
+	message: String
+	hashtagVariants: [HashtagVariantRef]
+	createdTimestamp: DateTime
+}
+
+input GratitudeRef {
+	id: ID
+	from: UserRef
+	to: UserRef
+	message: String
+	hashtagVariants: [HashtagVariantRef]
+	createdTimestamp: DateTime
+}
+
+input HashtagFilter {
+	id: [ID!]
+	name: StringExactFilter_StringRegExpFilter
 	blessed: Boolean
-	has: [HashtagMetaHasFilter]
-	and: [HashtagMetaFilter]
-	or: [HashtagMetaFilter]
-	not: HashtagMetaFilter
+	has: [HashtagHasFilter]
+	and: [HashtagFilter]
+	or: [HashtagFilter]
+	not: HashtagFilter
 }
 
-input HashtagMetaOrder {
-	asc: HashtagMetaOrderable
-	desc: HashtagMetaOrderable
-	then: HashtagMetaOrder
+input HashtagOrder {
+	asc: HashtagOrderable
+	desc: HashtagOrderable
+	then: HashtagOrder
 }
 
-input HashtagMetaPatch {
+input HashtagPatch {
 	iconName: String
 	blessed: Boolean
 	blessedInt: Int
@@ -652,9 +760,9 @@ input HashtagMetaPatch {
 	requestCountLast1w: Int
 }
 
-input HashtagMetaRef {
+input HashtagRef {
 	id: ID
-	metaName: String
+	name: String
 	iconName: String
 	blessed: Boolean
 	blessedInt: Int
@@ -669,7 +777,7 @@ input HashtagMetaRef {
 
 input HashtagVariantFilter {
 	id: [ID!]
-	variantName: StringExactFilter_StringRegExpFilter
+	variant: StringExactFilter_StringRegExpFilter
 	has: [HashtagVariantHasFilter]
 	and: [HashtagVariantFilter]
 	or: [HashtagVariantFilter]
@@ -683,17 +791,19 @@ input HashtagVariantOrder {
 }
 
 input HashtagVariantPatch {
-	hashtagMeta: HashtagMetaRef
+	hashtag: HashtagRef
 	skills: [SkillRef]
 	requests: [RequestRef]
+	gratitudes: [GratitudeRef]
 }
 
 input HashtagVariantRef {
 	id: ID
-	variantName: String
-	hashtagMeta: HashtagMetaRef
+	variant: String
+	hashtag: HashtagRef
 	skills: [SkillRef]
 	requests: [RequestRef]
+	gratitudes: [GratitudeRef]
 }
 
 input RequestFilter {
@@ -716,6 +826,7 @@ input RequestPatch {
 	owner: UserRef
 	title: String
 	message: String
+	status: RequestStatus
 	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
@@ -725,6 +836,7 @@ input RequestRef {
 	owner: UserRef
 	title: String
 	message: String
+	status: RequestStatus
 	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
@@ -773,10 +885,16 @@ input StringExactFilter_StringRegExpFilter {
 	regexp: String
 }
 
-input UpdateHashtagMetaInput {
-	filter: HashtagMetaFilter!
-	set: HashtagMetaPatch
-	remove: HashtagMetaPatch
+input UpdateGratitudeInput {
+	filter: GratitudeFilter!
+	set: GratitudePatch
+	remove: GratitudePatch
+}
+
+input UpdateHashtagInput {
+	filter: HashtagFilter!
+	set: HashtagPatch
+	remove: HashtagPatch
 }
 
 input UpdateHashtagVariantInput {
@@ -825,6 +943,8 @@ input UserPatch {
 	createdTimestamp: DateTime
 	requests: [RequestRef]
 	skills: [SkillRef]
+	gratitudeSent: [GratitudeRef]
+	gratitudeReceived: [GratitudeRef]
 }
 
 input UserRef {
@@ -836,6 +956,8 @@ input UserRef {
 	createdTimestamp: DateTime
 	requests: [RequestRef]
 	skills: [SkillRef]
+	gratitudeSent: [GratitudeRef]
+	gratitudeReceived: [GratitudeRef]
 }
 
 #######################
@@ -852,12 +974,15 @@ type Query {
 	getSkill(id: ID!): Skill
 	querySkill(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill]
 	aggregateSkill(filter: SkillFilter): SkillAggregateResult
-	getHashtagVariant(id: ID, variantName: String): HashtagVariant
+	getGratitude(id: ID!): Gratitude
+	queryGratitude(filter: GratitudeFilter, order: GratitudeOrder, first: Int, offset: Int): [Gratitude]
+	aggregateGratitude(filter: GratitudeFilter): GratitudeAggregateResult
+	getHashtagVariant(id: ID, variant: String): HashtagVariant
 	queryHashtagVariant(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]
 	aggregateHashtagVariant(filter: HashtagVariantFilter): HashtagVariantAggregateResult
-	getHashtagMeta(id: ID, metaName: String): HashtagMeta
-	queryHashtagMeta(filter: HashtagMetaFilter, order: HashtagMetaOrder, first: Int, offset: Int): [HashtagMeta]
-	aggregateHashtagMeta(filter: HashtagMetaFilter): HashtagMetaAggregateResult
+	getHashtag(id: ID, name: String): Hashtag
+	queryHashtag(filter: HashtagFilter, order: HashtagOrder, first: Int, offset: Int): [Hashtag]
+	aggregateHashtag(filter: HashtagFilter): HashtagAggregateResult
 }
 
 #######################
@@ -874,11 +999,14 @@ type Mutation {
 	addSkill(input: [AddSkillInput!]!): AddSkillPayload
 	updateSkill(input: UpdateSkillInput!): UpdateSkillPayload
 	deleteSkill(filter: SkillFilter!): DeleteSkillPayload
+	addGratitude(input: [AddGratitudeInput!]!): AddGratitudePayload
+	updateGratitude(input: UpdateGratitudeInput!): UpdateGratitudePayload
+	deleteGratitude(filter: GratitudeFilter!): DeleteGratitudePayload
 	addHashtagVariant(input: [AddHashtagVariantInput!]!, upsert: Boolean): AddHashtagVariantPayload
 	updateHashtagVariant(input: UpdateHashtagVariantInput!): UpdateHashtagVariantPayload
 	deleteHashtagVariant(filter: HashtagVariantFilter!): DeleteHashtagVariantPayload
-	addHashtagMeta(input: [AddHashtagMetaInput!]!, upsert: Boolean): AddHashtagMetaPayload
-	updateHashtagMeta(input: UpdateHashtagMetaInput!): UpdateHashtagMetaPayload
-	deleteHashtagMeta(filter: HashtagMetaFilter!): DeleteHashtagMetaPayload
+	addHashtag(input: [AddHashtagInput!]!, upsert: Boolean): AddHashtagPayload
+	updateHashtag(input: UpdateHashtagInput!): UpdateHashtagPayload
+	deleteHashtag(filter: HashtagFilter!): DeleteHashtagPayload
 }
 

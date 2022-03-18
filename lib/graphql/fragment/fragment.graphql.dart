@@ -2,7 +2,7 @@ import 'package:gql/ast.dart';
 
 abstract class FragmentHashtagVariantFragmentData {
   String get id;
-  String get variantName;
+  String get variant;
   FragmentHashtagVariantFragmentData$skillsAggregate? get skillsAggregate;
   FragmentHashtagVariantFragmentData$requestsAggregate? get requestsAggregate;
 }
@@ -21,7 +21,7 @@ const FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA = const FragmentDefinitionNode(
           directives: [],
           selectionSet: null),
       FieldNode(
-          name: NameNode(value: 'variantName'),
+          name: NameNode(value: 'variant'),
           alias: null,
           arguments: [],
           directives: [],
@@ -80,19 +80,18 @@ abstract class FragmentHashtagVariantFragmentData$requestsAggregate {
   int? get count;
 }
 
-abstract class FragmentHashtagMetaFragmentData {
+abstract class FragmentHashtagFragmentData {
   String get id;
-  String get metaName;
+  String get name;
   String? get iconName;
   bool? get blessed;
-  List<FragmentHashtagMetaFragmentData$hashtagVariants?>? get hashtagVariants;
+  List<FragmentHashtagFragmentData$hashtagVariants?>? get hashtagVariants;
 }
 
-const FRAGMENT_HASHTAG_META_FRAGMENT_DATA = const FragmentDefinitionNode(
-    name: NameNode(value: 'HashtagMetaFragmentData'),
+const FRAGMENT_HASHTAG_FRAGMENT_DATA = const FragmentDefinitionNode(
+    name: NameNode(value: 'HashtagFragmentData'),
     typeCondition: TypeConditionNode(
-        on: NamedTypeNode(
-            name: NameNode(value: 'HashtagMeta'), isNonNull: false)),
+        on: NamedTypeNode(name: NameNode(value: 'Hashtag'), isNonNull: false)),
     directives: [],
     selectionSet: SelectionSetNode(selections: [
       FieldNode(
@@ -102,7 +101,7 @@ const FRAGMENT_HASHTAG_META_FRAGMENT_DATA = const FragmentDefinitionNode(
           directives: [],
           selectionSet: null),
       FieldNode(
-          name: NameNode(value: 'metaName'),
+          name: NameNode(value: 'name'),
           alias: null,
           arguments: [],
           directives: [],
@@ -143,22 +142,22 @@ const FRAGMENT_HASHTAG_META_FRAGMENT_DATA = const FragmentDefinitionNode(
           selectionSet: null)
     ]));
 
-abstract class FragmentHashtagMetaFragmentData$hashtagVariants
+abstract class FragmentHashtagFragmentData$hashtagVariants
     implements FragmentHashtagVariantFragmentData {
   String get id;
-  String get variantName;
-  FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate?
+  String get variant;
+  FragmentHashtagFragmentData$hashtagVariants$skillsAggregate?
       get skillsAggregate;
-  FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate?
+  FragmentHashtagFragmentData$hashtagVariants$requestsAggregate?
       get requestsAggregate;
 }
 
-abstract class FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate
+abstract class FragmentHashtagFragmentData$hashtagVariants$skillsAggregate
     implements FragmentHashtagVariantFragmentData$skillsAggregate {
   int? get count;
 }
 
-abstract class FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate
+abstract class FragmentHashtagFragmentData$hashtagVariants$requestsAggregate
     implements FragmentHashtagVariantFragmentData$requestsAggregate {
   int? get count;
 }

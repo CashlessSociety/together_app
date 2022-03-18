@@ -62,7 +62,7 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
           ),
         ],
       ),
-      body: GQLFQueryGetHashtagMetaList(
+      body: GQLFQueryGetHashtagList(
         builder: (result, {refetch, fetchMore}) {
           if (refetchFunction == null || refetchFunction != refetch) {
             refetchFunction = refetch;
@@ -78,14 +78,14 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
             return const Center(child: Text('Error loading hashtags'));
           }
           if (result.parsedData != null) {
-            List<QueryGetHashtagMetaList$queryHashtagMeta?> dataList =
-                result.parsedData!.queryHashtagMeta!;
+            List<QueryGetHashtagList$queryHashtag?> dataList =
+                result.parsedData!.queryHashtag!;
             return Stack(
               children: [
                 ListView.builder(
                     itemCount: dataList.length,
                     itemBuilder: (context, index) {
-                      QueryGetHashtagMetaList$queryHashtagMeta hashtagData =
+                      QueryGetHashtagList$queryHashtag hashtagData =
                           dataList[index]!;
                       int skillCount = hashtagData.hashtagVariants!
                           .map((e) => e!.skillsAggregate!.count ?? 0)
@@ -108,7 +108,7 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
                         ),
                         title: Row(
                           children: [
-                            Text(hashtagData.metaName),
+                            Text(hashtagData.name),
                             if (hashtagData.blessed ?? false)
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -131,7 +131,7 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
                           onGotoEditPage(
                             AdminEditHashtagScreenArguments(
                                 id: hashtagData.id,
-                                metaName: hashtagData.metaName,
+                                metaName: hashtagData.name,
                                 iconName: hashtagData.iconName,
                                 blessed: hashtagData.blessed),
                           );

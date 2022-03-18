@@ -47,9 +47,9 @@ class _SkillCardState extends State<SkillCard> {
           .replaceFirst("#", '');
       if (firstHashtagName != null) {
         var firstHashtagData = data.hashtagVariants.firstWhereOrNull(
-            (element) => element!.hashtagMeta.metaName == firstHashtagName);
+            (element) => element!.hashtag.name == firstHashtagName);
         if (firstHashtagData != null) {
-          firstIcon = firstHashtagData.hashtagMeta.iconName ?? '';
+          firstIcon = firstHashtagData.hashtag.iconName ?? '';
         }
       }
     }
@@ -88,8 +88,7 @@ class _SkillCardState extends State<SkillCard> {
                 spacing: 12.w,
                 runSpacing: 6.w,
                 children: List.generate(data.hashtagVariants.length, (index) {
-                  String tag =
-                      data.hashtagVariants[index]!.hashtagMeta.metaName;
+                  String tag = data.hashtagVariants[index]!.hashtag.name;
                   return Text(
                     '#$tag',
                     style: TextStyle(
@@ -149,7 +148,7 @@ class _SkillCardState extends State<SkillCard> {
     List<String> skillHashtagList = [];
     if (data.hashtagVariants.isNotEmpty) {
       skillHashtagList =
-          data.hashtagVariants.map((e) => e!.hashtagMeta.metaName).toList();
+          data.hashtagVariants.map((e) => e!.hashtag.name).toList();
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

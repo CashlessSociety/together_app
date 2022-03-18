@@ -34,17 +34,17 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
   double itemHeight = 60.w;
   HashtagKeyMatch? currentMatch;
   late StreamSubscription hashtagMatchStreamSubscription;
-  late StreamController<List<QuerySearchTopRequestHashtag$queryHashtagMeta>>
+  late StreamController<List<QuerySearchTopRequestHashtag$queryHashtag>>
       hashtagBuilderStreamController;
-  late Stream<List<QuerySearchTopRequestHashtag$queryHashtagMeta>>
+  late Stream<List<QuerySearchTopRequestHashtag$queryHashtag>>
       hashtagBuilderStream;
 
-  InputHashtagMetaOrder hashtagMetaOrder = InputHashtagMetaOrder(
-    desc: EnumHashtagMetaOrderable.requestCountAllTime,
-    then: InputHashtagMetaOrder(
-      desc: EnumHashtagMetaOrderable.blessedInt,
-      then: InputHashtagMetaOrder(
-        asc: EnumHashtagMetaOrderable.metaName,
+  InputHashtagOrder hashtagOrder = InputHashtagOrder(
+    desc: EnumHashtagOrderable.requestCountAllTime,
+    then: InputHashtagOrder(
+      desc: EnumHashtagOrderable.blessedInt,
+      then: InputHashtagOrder(
+        asc: EnumHashtagOrderable.name,
       ),
     ),
   );
@@ -57,7 +57,7 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
         variables: VariablesQuerySearchTopRequestHashtag(
           keywordRegex: "/^$text.*/",
-          hashtagMetaOrder: hashtagMetaOrder,
+          hashtagOrder: hashtagOrder,
         ),
       ),
     );
@@ -65,12 +65,12 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
         currentMatch != null &&
         currentMatch!.keyword == match.keyword) {
       hashtagBuilderStreamController
-          .add(result.parsedData!.queryHashtagMeta!.map((e) => e!).toList());
+          .add(result.parsedData!.queryHashtag!.map((e) => e!).toList());
     }
   }
 
   Widget buildHashtagCard(
-      QuerySearchTopRequestHashtag$queryHashtagMeta hashtagData) {
+      QuerySearchTopRequestHashtag$queryHashtag hashtagData) {
     // int counter = hashtagData.requestCountLast24h;
     // int counter = hashtagData.requestCountLast1w;
     int counter = hashtagData.requestCountAllTime ?? 0;
@@ -93,7 +93,7 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
       title: Row(
         children: [
           Text(
-            '#${hashtagData.metaName}',
+            '#${hashtagData.name}',
             style: TextStyle(
                 fontWeight: (hashtagData.blessed ?? false)
                     ? FontWeight.bold
@@ -111,7 +111,7 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
         widget.onTapHashtag(
           start,
           end,
-          hashtagData.metaName,
+          hashtagData.name,
           hashtagData.iconName ?? '',
         );
       },
@@ -119,7 +119,7 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
   }
 
   Widget buildHashtagList(
-      List<QuerySearchTopRequestHashtag$queryHashtagMeta> dataList) {
+      List<QuerySearchTopRequestHashtag$queryHashtag> dataList) {
     return SizedBox(
       height: dataList.length > widget.maxDisplayCount
           ? widget.maxDisplayCount * itemHeight
@@ -185,7 +185,7 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var data = snapshot.data
-                  as List<QuerySearchTopRequestHashtag$queryHashtagMeta>;
+                  as List<QuerySearchTopRequestHashtag$queryHashtag>;
               return buildHashtagList(data);
             } else {
               return const SizedBox.shrink();

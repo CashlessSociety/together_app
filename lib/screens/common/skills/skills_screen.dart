@@ -33,7 +33,7 @@ class SkillsScreen extends StatefulWidget {
 class _SkillsScreenState extends State<SkillsScreen>
     with AutomaticKeepAliveClientMixin {
   GraphQLClient? gqlClient;
-  List<QueryGetSkillsPageData$queryHashtagMeta?>? blessedHashtagList;
+  List<QueryGetSkillsPageData$queryHashtag?>? blessedHashtagList;
   QueryGetSkillsPageData$getUser? userData;
   String loggedInUserId = '';
 
@@ -52,18 +52,18 @@ class _SkillsScreenState extends State<SkillsScreen>
         showToast('Unable to get skill data');
       } else {
         setState(() {
-          blessedHashtagList = result.parsedData?.queryHashtagMeta;
+          blessedHashtagList = result.parsedData?.queryHashtag;
           userData = result.parsedData?.getUser;
         });
       }
     });
   }
 
-  void onCreateSkill({String? hashtagMetaId, String? hashtagMetaName}) async {
+  void onCreateSkill({String? hashtagId, String? hashtagName}) async {
     var rst = await Get.toNamed(SkillsEditScreen.routeName,
         arguments: SkillsEditScreenArguments(
-          hashtagMetaId: hashtagMetaId,
-          hashtagMetaName: hashtagMetaName,
+          hashtagId: hashtagId,
+          hashtagName: hashtagName,
         ));
     if (rst != null && rst) {
       onGetSkillPageData();
@@ -114,15 +114,15 @@ class _SkillsScreenState extends State<SkillsScreen>
   }
 
   Widget buildBlessedHashtag(
-    List<QueryGetSkillsPageData$queryHashtagMeta?> hashtagMetaList,
+    List<QueryGetSkillsPageData$queryHashtag?> hashtagList,
   ) {
     return Center(
       child: Wrap(
         alignment: WrapAlignment.center,
         spacing: 8.w,
-        children: List.generate(hashtagMetaList.length, (index) {
-          if (hashtagMetaList[index] != null) {
-            var data = hashtagMetaList[index]!;
+        children: List.generate(hashtagList.length, (index) {
+          if (hashtagList[index] != null) {
+            var data = hashtagList[index]!;
             return ActionChip(
               avatar: data.iconName == ''
                   ? null
@@ -140,7 +140,7 @@ class _SkillsScreenState extends State<SkillsScreen>
                     ),
               backgroundColor: kPrimaryOrange,
               label: Text(
-                data.metaName,
+                data.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -148,8 +148,8 @@ class _SkillsScreenState extends State<SkillsScreen>
               ),
               onPressed: () {
                 onCreateSkill(
-                  hashtagMetaId: data.id,
-                  hashtagMetaName: data.metaName,
+                  hashtagId: data.id,
+                  hashtagName: data.name,
                 );
               },
             );

@@ -62,8 +62,8 @@ class OtherProfileScreenArguments {
 }
 
 class SkillsEditScreenArguments {
-  final String? hashtagMetaId;
-  final String? hashtagMetaName;
+  final String? hashtagId;
+  final String? hashtagName;
   final String? skillId;
   final String? skillTitle;
   final String? skillMessage;
@@ -71,8 +71,8 @@ class SkillsEditScreenArguments {
   final List<String>? skillHashtagList;
 
   SkillsEditScreenArguments({
-    this.hashtagMetaId,
-    this.hashtagMetaName,
+    this.hashtagId,
+    this.hashtagName,
     this.skillId,
     this.skillTitle,
     this.skillMessage,
