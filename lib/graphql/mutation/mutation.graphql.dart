@@ -329,19 +329,19 @@ class MutationCreateUser$addUser$user extends JsonSerializable {
 }
 
 @JsonSerializable()
-class VariablesMutationAddHashtagMeta extends JsonSerializable {
-  VariablesMutationAddHashtagMeta(
-      {required this.metaName,
+class VariablesMutationAddHashtag extends JsonSerializable {
+  VariablesMutationAddHashtag(
+      {required this.name,
       this.iconName,
       this.blessed,
       this.blessedInt,
       this.defaultHashtagVariant});
 
   @override
-  factory VariablesMutationAddHashtagMeta.fromJson(Map<String, dynamic> json) =>
-      _$VariablesMutationAddHashtagMetaFromJson(json);
+  factory VariablesMutationAddHashtag.fromJson(Map<String, dynamic> json) =>
+      _$VariablesMutationAddHashtagFromJson(json);
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
@@ -352,31 +352,30 @@ class VariablesMutationAddHashtagMeta extends JsonSerializable {
   final InputHashtagVariantRef? defaultHashtagVariant;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$VariablesMutationAddHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$VariablesMutationAddHashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationAddHashtagMeta extends JsonSerializable {
-  MutationAddHashtagMeta({this.addHashtagMeta});
+class MutationAddHashtag extends JsonSerializable {
+  MutationAddHashtag({this.addHashtag});
 
   @override
-  factory MutationAddHashtagMeta.fromJson(Map<String, dynamic> json) =>
-      _$MutationAddHashtagMetaFromJson(json);
+  factory MutationAddHashtag.fromJson(Map<String, dynamic> json) =>
+      _$MutationAddHashtagFromJson(json);
 
-  final MutationAddHashtagMeta$addHashtagMeta? addHashtagMeta;
+  final MutationAddHashtag$addHashtag? addHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$MutationAddHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$MutationAddHashtagToJson(this);
 }
 
-const MUTATION_ADD_HASHTAG_META = const DocumentNode(definitions: [
+const MUTATION_ADD_HASHTAG = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
-      name: NameNode(value: 'AddHashtagMeta'),
+      name: NameNode(value: 'AddHashtag'),
       variableDefinitions: [
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'metaName')),
+            variable: VariableNode(name: NameNode(value: 'name')),
             type:
                 NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
@@ -411,15 +410,15 @@ const MUTATION_ADD_HASHTAG_META = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'addHashtagMeta'),
+            name: NameNode(value: 'addHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
                   name: NameNode(value: 'input'),
                   value: ObjectValueNode(fields: [
                     ObjectFieldNode(
-                        name: NameNode(value: 'metaName'),
-                        value: VariableNode(name: NameNode(value: 'metaName'))),
+                        name: NameNode(value: 'name'),
+                        value: VariableNode(name: NameNode(value: 'name'))),
                     ObjectFieldNode(
                         name: NameNode(value: 'iconName'),
                         value: VariableNode(name: NameNode(value: 'iconName'))),
@@ -459,13 +458,13 @@ const MUTATION_ADD_HASHTAG_META = const DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'hashtagMeta'),
+                  name: NameNode(value: 'hashtag'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
                     FragmentSpreadNode(
-                        name: NameNode(value: 'HashtagMetaFragmentData'),
+                        name: NameNode(value: 'HashtagFragmentData'),
                         directives: []),
                     FieldNode(
                         name: NameNode(value: '__typename'),
@@ -488,23 +487,23 @@ const MUTATION_ADD_HASHTAG_META = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
-typedef GQLOnMutationCompletedMutationAddHashtagMeta = FutureOr<void> Function(
-    dynamic, MutationAddHashtagMeta?);
+typedef GQLOnMutationCompletedMutationAddHashtag = FutureOr<void> Function(
+    dynamic, MutationAddHashtag?);
 
-class GQLOptionsMutationAddHashtagMeta
-    extends graphql.MutationOptions<MutationAddHashtagMeta> {
-  GQLOptionsMutationAddHashtagMeta(
+class GQLOptionsMutationAddHashtag
+    extends graphql.MutationOptions<MutationAddHashtag> {
+  GQLOptionsMutationAddHashtag(
       {String? operationName,
-      required VariablesMutationAddHashtagMeta variables,
+      required VariablesMutationAddHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationAddHashtagMeta? onCompleted,
+      GQLOnMutationCompletedMutationAddHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
       : super(
@@ -517,22 +516,19 @@ class GQLOptionsMutationAddHashtagMeta
             context: context,
             onCompleted: onCompleted == null
                 ? null
-                : (data) => onCompleted(
-                    data,
-                    data == null
-                        ? null
-                        : MutationAddHashtagMeta.fromJson(data)),
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationAddHashtag.fromJson(data)),
             update: update,
             onError: onError,
-            document: MUTATION_ADD_HASHTAG_META,
-            parserFn: (data) => MutationAddHashtagMeta.fromJson(data));
+            document: MUTATION_ADD_HASHTAG,
+            parserFn: (data) => MutationAddHashtag.fromJson(data));
 }
 
-class GQLWatchOptionsMutationAddHashtagMeta
-    extends graphql.WatchQueryOptions<MutationAddHashtagMeta> {
-  GQLWatchOptionsMutationAddHashtagMeta(
+class GQLWatchOptionsMutationAddHashtag
+    extends graphql.WatchQueryOptions<MutationAddHashtag> {
+  GQLWatchOptionsMutationAddHashtag(
       {String? operationName,
-      required VariablesMutationAddHashtagMeta variables,
+      required VariablesMutationAddHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -550,33 +546,33 @@ class GQLWatchOptionsMutationAddHashtagMeta
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: MUTATION_ADD_HASHTAG_META,
+            document: MUTATION_ADD_HASHTAG,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationAddHashtagMeta.fromJson(data));
+            parserFn: (data) => MutationAddHashtag.fromJson(data));
 }
 
-extension GQLExtensionMutationAddHashtagMeta on graphql.GraphQLClient {
-  Future<graphql.QueryResult<MutationAddHashtagMeta>> mutateAddHashtagMeta(
-          GQLOptionsMutationAddHashtagMeta options) async =>
+extension GQLExtensionMutationAddHashtag on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationAddHashtag>> mutateAddHashtag(
+          GQLOptionsMutationAddHashtag options) async =>
       await this.mutate(options);
-  graphql.ObservableQuery<MutationAddHashtagMeta> watchMutationAddHashtagMeta(
-          GQLWatchOptionsMutationAddHashtagMeta options) =>
+  graphql.ObservableQuery<MutationAddHashtag> watchMutationAddHashtag(
+          GQLWatchOptionsMutationAddHashtag options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationAddHashtagMeta
-    extends graphql.MutationOptions<MutationAddHashtagMeta> {
-  GQLFOptionsMutationAddHashtagMeta(
+class GQLFOptionsMutationAddHashtag
+    extends graphql.MutationOptions<MutationAddHashtag> {
+  GQLFOptionsMutationAddHashtag(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationAddHashtagMeta? onCompleted,
+      GQLOnMutationCompletedMutationAddHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
       : super(
@@ -588,33 +584,30 @@ class GQLFOptionsMutationAddHashtagMeta
             context: context,
             onCompleted: onCompleted == null
                 ? null
-                : (data) => onCompleted(
-                    data,
-                    data == null
-                        ? null
-                        : MutationAddHashtagMeta.fromJson(data)),
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationAddHashtag.fromJson(data)),
             update: update,
             onError: onError,
-            document: MUTATION_ADD_HASHTAG_META,
-            parserFn: (data) => MutationAddHashtagMeta.fromJson(data));
+            document: MUTATION_ADD_HASHTAG,
+            parserFn: (data) => MutationAddHashtag.fromJson(data));
 }
 
-typedef GQLFRunMutationMutationAddHashtagMeta
-    = graphql.MultiSourceResult<MutationAddHashtagMeta>
-        Function(VariablesMutationAddHashtagMeta, {Object? optimisticResult});
-typedef GQLFBuilderMutationAddHashtagMeta = widgets.Widget Function(
-    GQLFRunMutationMutationAddHashtagMeta,
-    graphql.QueryResult<MutationAddHashtagMeta>?);
+typedef GQLFRunMutationMutationAddHashtag
+    = graphql.MultiSourceResult<MutationAddHashtag>
+        Function(VariablesMutationAddHashtag, {Object? optimisticResult});
+typedef GQLFBuilderMutationAddHashtag = widgets.Widget Function(
+    GQLFRunMutationMutationAddHashtag,
+    graphql.QueryResult<MutationAddHashtag>?);
 
-class GQLFMutationAddHashtagMeta
-    extends graphql_flutter.Mutation<MutationAddHashtagMeta> {
-  GQLFMutationAddHashtagMeta(
+class GQLFMutationAddHashtag
+    extends graphql_flutter.Mutation<MutationAddHashtag> {
+  GQLFMutationAddHashtag(
       {widgets.Key? key,
-      GQLFOptionsMutationAddHashtagMeta? options,
-      required GQLFBuilderMutationAddHashtagMeta builder})
+      GQLFOptionsMutationAddHashtag? options,
+      required GQLFBuilderMutationAddHashtag builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationAddHashtagMeta(),
+            options: options ?? GQLFOptionsMutationAddHashtag(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -622,197 +615,188 @@ class GQLFMutationAddHashtagMeta
 }
 
 @JsonSerializable()
-class MutationAddHashtagMeta$addHashtagMeta extends JsonSerializable {
-  MutationAddHashtagMeta$addHashtagMeta({this.hashtagMeta});
+class MutationAddHashtag$addHashtag extends JsonSerializable {
+  MutationAddHashtag$addHashtag({this.hashtag});
 
   @override
-  factory MutationAddHashtagMeta$addHashtagMeta.fromJson(
-          Map<String, dynamic> json) =>
-      _$MutationAddHashtagMeta$addHashtagMetaFromJson(json);
+  factory MutationAddHashtag$addHashtag.fromJson(Map<String, dynamic> json) =>
+      _$MutationAddHashtag$addHashtagFromJson(json);
 
-  final List<MutationAddHashtagMeta$addHashtagMeta$hashtagMeta?>? hashtagMeta;
+  final List<MutationAddHashtag$addHashtag$hashtag?>? hashtag;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$MutationAddHashtagMeta$addHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$MutationAddHashtag$addHashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationAddHashtagMeta$addHashtagMeta$hashtagMeta extends JsonSerializable
-    implements FragmentHashtagMetaFragmentData {
-  MutationAddHashtagMeta$addHashtagMeta$hashtagMeta(
+class MutationAddHashtag$addHashtag$hashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  MutationAddHashtag$addHashtag$hashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory MutationAddHashtagMeta$addHashtagMeta$hashtagMeta.fromJson(
+  factory MutationAddHashtag$addHashtag$hashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMetaFromJson(json);
+      _$MutationAddHashtag$addHashtag$hashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<
-          MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants?>?
+  final List<MutationAddHashtag$addHashtag$hashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMetaToJson(this);
+      _$MutationAddHashtag$addHashtag$hashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants
+class MutationAddHashtag$addHashtag$hashtag$hashtagVariants
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants(
+  MutationAddHashtag$addHashtag$hashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants.fromJson(
+  factory MutationAddHashtag$addHashtag$hashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariantsFromJson(
-          json);
+      _$MutationAddHashtag$addHashtag$hashtag$hashtagVariantsFromJson(json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate?
+  final MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate?
+  final MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariantsToJson(
-          this);
+      _$MutationAddHashtag$addHashtag$hashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate
+class MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate(
+  MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate(
       {this.count});
 
   @override
-  factory MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate
+class MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate(
+  MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationAddHashtagMeta$addHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class VariablesMutationUpdateHashtagMeta extends JsonSerializable {
-  VariablesMutationUpdateHashtagMeta({required this.hashtagMetaInput});
+class VariablesMutationUpdateHashtag extends JsonSerializable {
+  VariablesMutationUpdateHashtag({required this.hashtagInput});
 
   @override
-  factory VariablesMutationUpdateHashtagMeta.fromJson(
-          Map<String, dynamic> json) =>
-      _$VariablesMutationUpdateHashtagMetaFromJson(json);
+  factory VariablesMutationUpdateHashtag.fromJson(Map<String, dynamic> json) =>
+      _$VariablesMutationUpdateHashtagFromJson(json);
 
-  final InputUpdateHashtagMetaInput hashtagMetaInput;
+  final InputUpdateHashtagInput hashtagInput;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$VariablesMutationUpdateHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$VariablesMutationUpdateHashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationUpdateHashtagMeta extends JsonSerializable {
-  MutationUpdateHashtagMeta({this.updateHashtagMeta});
+class MutationUpdateHashtag extends JsonSerializable {
+  MutationUpdateHashtag({this.updateHashtag});
 
   @override
-  factory MutationUpdateHashtagMeta.fromJson(Map<String, dynamic> json) =>
-      _$MutationUpdateHashtagMetaFromJson(json);
+  factory MutationUpdateHashtag.fromJson(Map<String, dynamic> json) =>
+      _$MutationUpdateHashtagFromJson(json);
 
-  final MutationUpdateHashtagMeta$updateHashtagMeta? updateHashtagMeta;
+  final MutationUpdateHashtag$updateHashtag? updateHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$MutationUpdateHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$MutationUpdateHashtagToJson(this);
 }
 
-const MUTATION_UPDATE_HASHTAG_META = const DocumentNode(definitions: [
+const MUTATION_UPDATE_HASHTAG = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
-      name: NameNode(value: 'UpdateHashtagMeta'),
+      name: NameNode(value: 'UpdateHashtag'),
       variableDefinitions: [
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'hashtagMetaInput')),
+            variable: VariableNode(name: NameNode(value: 'hashtagInput')),
             type: NamedTypeNode(
-                name: NameNode(value: 'UpdateHashtagMetaInput'),
-                isNonNull: true),
+                name: NameNode(value: 'UpdateHashtagInput'), isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
             directives: [])
       ],
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'updateHashtagMeta'),
+            name: NameNode(value: 'updateHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
                   name: NameNode(value: 'input'),
-                  value:
-                      VariableNode(name: NameNode(value: 'hashtagMetaInput')))
+                  value: VariableNode(name: NameNode(value: 'hashtagInput')))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'hashtagMeta'),
+                  name: NameNode(value: 'hashtag'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
                     FragmentSpreadNode(
-                        name: NameNode(value: 'HashtagMetaFragmentData'),
+                        name: NameNode(value: 'HashtagFragmentData'),
                         directives: []),
                     FieldNode(
                         name: NameNode(value: '__typename'),
@@ -835,23 +819,23 @@ const MUTATION_UPDATE_HASHTAG_META = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
-typedef GQLOnMutationCompletedMutationUpdateHashtagMeta = FutureOr<void>
-    Function(dynamic, MutationUpdateHashtagMeta?);
+typedef GQLOnMutationCompletedMutationUpdateHashtag = FutureOr<void> Function(
+    dynamic, MutationUpdateHashtag?);
 
-class GQLOptionsMutationUpdateHashtagMeta
-    extends graphql.MutationOptions<MutationUpdateHashtagMeta> {
-  GQLOptionsMutationUpdateHashtagMeta(
+class GQLOptionsMutationUpdateHashtag
+    extends graphql.MutationOptions<MutationUpdateHashtag> {
+  GQLOptionsMutationUpdateHashtag(
       {String? operationName,
-      required VariablesMutationUpdateHashtagMeta variables,
+      required VariablesMutationUpdateHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateHashtagMeta? onCompleted,
+      GQLOnMutationCompletedMutationUpdateHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
       : super(
@@ -864,22 +848,19 @@ class GQLOptionsMutationUpdateHashtagMeta
             context: context,
             onCompleted: onCompleted == null
                 ? null
-                : (data) => onCompleted(
-                    data,
-                    data == null
-                        ? null
-                        : MutationUpdateHashtagMeta.fromJson(data)),
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationUpdateHashtag.fromJson(data)),
             update: update,
             onError: onError,
-            document: MUTATION_UPDATE_HASHTAG_META,
-            parserFn: (data) => MutationUpdateHashtagMeta.fromJson(data));
+            document: MUTATION_UPDATE_HASHTAG,
+            parserFn: (data) => MutationUpdateHashtag.fromJson(data));
 }
 
-class GQLWatchOptionsMutationUpdateHashtagMeta
-    extends graphql.WatchQueryOptions<MutationUpdateHashtagMeta> {
-  GQLWatchOptionsMutationUpdateHashtagMeta(
+class GQLWatchOptionsMutationUpdateHashtag
+    extends graphql.WatchQueryOptions<MutationUpdateHashtag> {
+  GQLWatchOptionsMutationUpdateHashtag(
       {String? operationName,
-      required VariablesMutationUpdateHashtagMeta variables,
+      required VariablesMutationUpdateHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -897,35 +878,33 @@ class GQLWatchOptionsMutationUpdateHashtagMeta
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: MUTATION_UPDATE_HASHTAG_META,
+            document: MUTATION_UPDATE_HASHTAG,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationUpdateHashtagMeta.fromJson(data));
+            parserFn: (data) => MutationUpdateHashtag.fromJson(data));
 }
 
-extension GQLExtensionMutationUpdateHashtagMeta on graphql.GraphQLClient {
-  Future<graphql.QueryResult<MutationUpdateHashtagMeta>>
-      mutateUpdateHashtagMeta(
-              GQLOptionsMutationUpdateHashtagMeta options) async =>
-          await this.mutate(options);
-  graphql.ObservableQuery<MutationUpdateHashtagMeta>
-      watchMutationUpdateHashtagMeta(
-              GQLWatchOptionsMutationUpdateHashtagMeta options) =>
-          this.watchMutation(options);
+extension GQLExtensionMutationUpdateHashtag on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationUpdateHashtag>> mutateUpdateHashtag(
+          GQLOptionsMutationUpdateHashtag options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<MutationUpdateHashtag> watchMutationUpdateHashtag(
+          GQLWatchOptionsMutationUpdateHashtag options) =>
+      this.watchMutation(options);
 }
 
-class GQLFOptionsMutationUpdateHashtagMeta
-    extends graphql.MutationOptions<MutationUpdateHashtagMeta> {
-  GQLFOptionsMutationUpdateHashtagMeta(
+class GQLFOptionsMutationUpdateHashtag
+    extends graphql.MutationOptions<MutationUpdateHashtag> {
+  GQLFOptionsMutationUpdateHashtag(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateHashtagMeta? onCompleted,
+      GQLOnMutationCompletedMutationUpdateHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
       : super(
@@ -937,33 +916,30 @@ class GQLFOptionsMutationUpdateHashtagMeta
             context: context,
             onCompleted: onCompleted == null
                 ? null
-                : (data) => onCompleted(
-                    data,
-                    data == null
-                        ? null
-                        : MutationUpdateHashtagMeta.fromJson(data)),
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationUpdateHashtag.fromJson(data)),
             update: update,
             onError: onError,
-            document: MUTATION_UPDATE_HASHTAG_META,
-            parserFn: (data) => MutationUpdateHashtagMeta.fromJson(data));
+            document: MUTATION_UPDATE_HASHTAG,
+            parserFn: (data) => MutationUpdateHashtag.fromJson(data));
 }
 
-typedef GQLFRunMutationMutationUpdateHashtagMeta = graphql
-        .MultiSourceResult<MutationUpdateHashtagMeta>
-    Function(VariablesMutationUpdateHashtagMeta, {Object? optimisticResult});
-typedef GQLFBuilderMutationUpdateHashtagMeta = widgets.Widget Function(
-    GQLFRunMutationMutationUpdateHashtagMeta,
-    graphql.QueryResult<MutationUpdateHashtagMeta>?);
+typedef GQLFRunMutationMutationUpdateHashtag
+    = graphql.MultiSourceResult<MutationUpdateHashtag>
+        Function(VariablesMutationUpdateHashtag, {Object? optimisticResult});
+typedef GQLFBuilderMutationUpdateHashtag = widgets.Widget Function(
+    GQLFRunMutationMutationUpdateHashtag,
+    graphql.QueryResult<MutationUpdateHashtag>?);
 
-class GQLFMutationUpdateHashtagMeta
-    extends graphql_flutter.Mutation<MutationUpdateHashtagMeta> {
-  GQLFMutationUpdateHashtagMeta(
+class GQLFMutationUpdateHashtag
+    extends graphql_flutter.Mutation<MutationUpdateHashtag> {
+  GQLFMutationUpdateHashtag(
       {widgets.Key? key,
-      GQLFOptionsMutationUpdateHashtagMeta? options,
-      required GQLFBuilderMutationUpdateHashtagMeta builder})
+      GQLFOptionsMutationUpdateHashtag? options,
+      required GQLFBuilderMutationUpdateHashtag builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationUpdateHashtagMeta(),
+            options: options ?? GQLFOptionsMutationUpdateHashtag(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -971,186 +947,180 @@ class GQLFMutationUpdateHashtagMeta
 }
 
 @JsonSerializable()
-class MutationUpdateHashtagMeta$updateHashtagMeta extends JsonSerializable {
-  MutationUpdateHashtagMeta$updateHashtagMeta({this.hashtagMeta});
+class MutationUpdateHashtag$updateHashtag extends JsonSerializable {
+  MutationUpdateHashtag$updateHashtag({this.hashtag});
 
   @override
-  factory MutationUpdateHashtagMeta$updateHashtagMeta.fromJson(
+  factory MutationUpdateHashtag$updateHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationUpdateHashtagMeta$updateHashtagMetaFromJson(json);
+      _$MutationUpdateHashtag$updateHashtagFromJson(json);
 
-  final List<MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta?>?
-      hashtagMeta;
+  final List<MutationUpdateHashtag$updateHashtag$hashtag?>? hashtag;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationUpdateHashtagMeta$updateHashtagMetaToJson(this);
+      _$MutationUpdateHashtag$updateHashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta
-    extends JsonSerializable implements FragmentHashtagMetaFragmentData {
-  MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta(
+class MutationUpdateHashtag$updateHashtag$hashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  MutationUpdateHashtag$updateHashtag$hashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta.fromJson(
+  factory MutationUpdateHashtag$updateHashtag$hashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMetaFromJson(json);
+      _$MutationUpdateHashtag$updateHashtag$hashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<
-          MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants?>?
+  final List<MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMetaToJson(this);
+      _$MutationUpdateHashtag$updateHashtag$hashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants
+class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants(
+  MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants.fromJson(
+  factory MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariantsFromJson(
+      _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariantsFromJson(
           json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate?
+  final MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate?
+  final MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariantsToJson(
-          this);
+      _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate
+class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate(
+  MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate(
       {this.count});
 
   @override
-  factory MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate
+class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate(
+  MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationUpdateHashtagMeta$updateHashtagMeta$hashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class VariablesMutationDeleteHashtagMeta extends JsonSerializable {
-  VariablesMutationDeleteHashtagMeta({required this.hashtagMetaFilter});
+class VariablesMutationDeleteHashtag extends JsonSerializable {
+  VariablesMutationDeleteHashtag({required this.hashtagFilter});
 
   @override
-  factory VariablesMutationDeleteHashtagMeta.fromJson(
-          Map<String, dynamic> json) =>
-      _$VariablesMutationDeleteHashtagMetaFromJson(json);
+  factory VariablesMutationDeleteHashtag.fromJson(Map<String, dynamic> json) =>
+      _$VariablesMutationDeleteHashtagFromJson(json);
 
-  final InputHashtagMetaFilter hashtagMetaFilter;
+  final InputHashtagFilter hashtagFilter;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$VariablesMutationDeleteHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$VariablesMutationDeleteHashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationDeleteHashtagMeta extends JsonSerializable {
-  MutationDeleteHashtagMeta({this.deleteHashtagMeta});
+class MutationDeleteHashtag extends JsonSerializable {
+  MutationDeleteHashtag({this.deleteHashtag});
 
   @override
-  factory MutationDeleteHashtagMeta.fromJson(Map<String, dynamic> json) =>
-      _$MutationDeleteHashtagMetaFromJson(json);
+  factory MutationDeleteHashtag.fromJson(Map<String, dynamic> json) =>
+      _$MutationDeleteHashtagFromJson(json);
 
-  final MutationDeleteHashtagMeta$deleteHashtagMeta? deleteHashtagMeta;
+  final MutationDeleteHashtag$deleteHashtag? deleteHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$MutationDeleteHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$MutationDeleteHashtagToJson(this);
 }
 
-const MUTATION_DELETE_HASHTAG_META = const DocumentNode(definitions: [
+const MUTATION_DELETE_HASHTAG = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
-      name: NameNode(value: 'DeleteHashtagMeta'),
+      name: NameNode(value: 'DeleteHashtag'),
       variableDefinitions: [
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'hashtagMetaFilter')),
+            variable: VariableNode(name: NameNode(value: 'hashtagFilter')),
             type: NamedTypeNode(
-                name: NameNode(value: 'HashtagMetaFilter'), isNonNull: true),
+                name: NameNode(value: 'HashtagFilter'), isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
             directives: [])
       ],
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'deleteHashtagMeta'),
+            name: NameNode(value: 'deleteHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
                   name: NameNode(value: 'filter'),
-                  value:
-                      VariableNode(name: NameNode(value: 'hashtagMetaFilter')))
+                  value: VariableNode(name: NameNode(value: 'hashtagFilter')))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
@@ -1167,7 +1137,7 @@ const MUTATION_DELETE_HASHTAG_META = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
-                  name: NameNode(value: 'hashtagMeta'),
+                  name: NameNode(value: 'hashtag'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -1213,20 +1183,20 @@ const MUTATION_DELETE_HASHTAG_META = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationDeleteHashtagMeta = FutureOr<void>
-    Function(dynamic, MutationDeleteHashtagMeta?);
+typedef GQLOnMutationCompletedMutationDeleteHashtag = FutureOr<void> Function(
+    dynamic, MutationDeleteHashtag?);
 
-class GQLOptionsMutationDeleteHashtagMeta
-    extends graphql.MutationOptions<MutationDeleteHashtagMeta> {
-  GQLOptionsMutationDeleteHashtagMeta(
+class GQLOptionsMutationDeleteHashtag
+    extends graphql.MutationOptions<MutationDeleteHashtag> {
+  GQLOptionsMutationDeleteHashtag(
       {String? operationName,
-      required VariablesMutationDeleteHashtagMeta variables,
+      required VariablesMutationDeleteHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationDeleteHashtagMeta? onCompleted,
+      GQLOnMutationCompletedMutationDeleteHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
       : super(
@@ -1239,22 +1209,19 @@ class GQLOptionsMutationDeleteHashtagMeta
             context: context,
             onCompleted: onCompleted == null
                 ? null
-                : (data) => onCompleted(
-                    data,
-                    data == null
-                        ? null
-                        : MutationDeleteHashtagMeta.fromJson(data)),
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationDeleteHashtag.fromJson(data)),
             update: update,
             onError: onError,
-            document: MUTATION_DELETE_HASHTAG_META,
-            parserFn: (data) => MutationDeleteHashtagMeta.fromJson(data));
+            document: MUTATION_DELETE_HASHTAG,
+            parserFn: (data) => MutationDeleteHashtag.fromJson(data));
 }
 
-class GQLWatchOptionsMutationDeleteHashtagMeta
-    extends graphql.WatchQueryOptions<MutationDeleteHashtagMeta> {
-  GQLWatchOptionsMutationDeleteHashtagMeta(
+class GQLWatchOptionsMutationDeleteHashtag
+    extends graphql.WatchQueryOptions<MutationDeleteHashtag> {
+  GQLWatchOptionsMutationDeleteHashtag(
       {String? operationName,
-      required VariablesMutationDeleteHashtagMeta variables,
+      required VariablesMutationDeleteHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -1272,35 +1239,33 @@ class GQLWatchOptionsMutationDeleteHashtagMeta
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: MUTATION_DELETE_HASHTAG_META,
+            document: MUTATION_DELETE_HASHTAG,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationDeleteHashtagMeta.fromJson(data));
+            parserFn: (data) => MutationDeleteHashtag.fromJson(data));
 }
 
-extension GQLExtensionMutationDeleteHashtagMeta on graphql.GraphQLClient {
-  Future<graphql.QueryResult<MutationDeleteHashtagMeta>>
-      mutateDeleteHashtagMeta(
-              GQLOptionsMutationDeleteHashtagMeta options) async =>
-          await this.mutate(options);
-  graphql.ObservableQuery<MutationDeleteHashtagMeta>
-      watchMutationDeleteHashtagMeta(
-              GQLWatchOptionsMutationDeleteHashtagMeta options) =>
-          this.watchMutation(options);
+extension GQLExtensionMutationDeleteHashtag on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationDeleteHashtag>> mutateDeleteHashtag(
+          GQLOptionsMutationDeleteHashtag options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<MutationDeleteHashtag> watchMutationDeleteHashtag(
+          GQLWatchOptionsMutationDeleteHashtag options) =>
+      this.watchMutation(options);
 }
 
-class GQLFOptionsMutationDeleteHashtagMeta
-    extends graphql.MutationOptions<MutationDeleteHashtagMeta> {
-  GQLFOptionsMutationDeleteHashtagMeta(
+class GQLFOptionsMutationDeleteHashtag
+    extends graphql.MutationOptions<MutationDeleteHashtag> {
+  GQLFOptionsMutationDeleteHashtag(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationDeleteHashtagMeta? onCompleted,
+      GQLOnMutationCompletedMutationDeleteHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
       : super(
@@ -1312,33 +1277,30 @@ class GQLFOptionsMutationDeleteHashtagMeta
             context: context,
             onCompleted: onCompleted == null
                 ? null
-                : (data) => onCompleted(
-                    data,
-                    data == null
-                        ? null
-                        : MutationDeleteHashtagMeta.fromJson(data)),
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationDeleteHashtag.fromJson(data)),
             update: update,
             onError: onError,
-            document: MUTATION_DELETE_HASHTAG_META,
-            parserFn: (data) => MutationDeleteHashtagMeta.fromJson(data));
+            document: MUTATION_DELETE_HASHTAG,
+            parserFn: (data) => MutationDeleteHashtag.fromJson(data));
 }
 
-typedef GQLFRunMutationMutationDeleteHashtagMeta = graphql
-        .MultiSourceResult<MutationDeleteHashtagMeta>
-    Function(VariablesMutationDeleteHashtagMeta, {Object? optimisticResult});
-typedef GQLFBuilderMutationDeleteHashtagMeta = widgets.Widget Function(
-    GQLFRunMutationMutationDeleteHashtagMeta,
-    graphql.QueryResult<MutationDeleteHashtagMeta>?);
+typedef GQLFRunMutationMutationDeleteHashtag
+    = graphql.MultiSourceResult<MutationDeleteHashtag>
+        Function(VariablesMutationDeleteHashtag, {Object? optimisticResult});
+typedef GQLFBuilderMutationDeleteHashtag = widgets.Widget Function(
+    GQLFRunMutationMutationDeleteHashtag,
+    graphql.QueryResult<MutationDeleteHashtag>?);
 
-class GQLFMutationDeleteHashtagMeta
-    extends graphql_flutter.Mutation<MutationDeleteHashtagMeta> {
-  GQLFMutationDeleteHashtagMeta(
+class GQLFMutationDeleteHashtag
+    extends graphql_flutter.Mutation<MutationDeleteHashtag> {
+  GQLFMutationDeleteHashtag(
       {widgets.Key? key,
-      GQLFOptionsMutationDeleteHashtagMeta? options,
-      required GQLFBuilderMutationDeleteHashtagMeta builder})
+      GQLFOptionsMutationDeleteHashtag? options,
+      required GQLFBuilderMutationDeleteHashtag builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationDeleteHashtagMeta(),
+            options: options ?? GQLFOptionsMutationDeleteHashtag(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -1346,65 +1308,59 @@ class GQLFMutationDeleteHashtagMeta
 }
 
 @JsonSerializable()
-class MutationDeleteHashtagMeta$deleteHashtagMeta extends JsonSerializable {
-  MutationDeleteHashtagMeta$deleteHashtagMeta(
-      {this.msg, this.numUids, this.hashtagMeta});
+class MutationDeleteHashtag$deleteHashtag extends JsonSerializable {
+  MutationDeleteHashtag$deleteHashtag({this.msg, this.numUids, this.hashtag});
 
   @override
-  factory MutationDeleteHashtagMeta$deleteHashtagMeta.fromJson(
+  factory MutationDeleteHashtag$deleteHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationDeleteHashtagMeta$deleteHashtagMetaFromJson(json);
+      _$MutationDeleteHashtag$deleteHashtagFromJson(json);
 
   final String? msg;
 
   final int? numUids;
 
-  final List<MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta?>?
-      hashtagMeta;
+  final List<MutationDeleteHashtag$deleteHashtag$hashtag?>? hashtag;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationDeleteHashtagMeta$deleteHashtagMetaToJson(this);
+      _$MutationDeleteHashtag$deleteHashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta
-    extends JsonSerializable {
-  MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta(
-      {this.hashtagVariants});
+class MutationDeleteHashtag$deleteHashtag$hashtag extends JsonSerializable {
+  MutationDeleteHashtag$deleteHashtag$hashtag({this.hashtagVariants});
 
   @override
-  factory MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta.fromJson(
+  factory MutationDeleteHashtag$deleteHashtag$hashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMetaFromJson(json);
+      _$MutationDeleteHashtag$deleteHashtag$hashtagFromJson(json);
 
-  final List<
-          MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta$hashtagVariants?>?
+  final List<MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMetaToJson(this);
+      _$MutationDeleteHashtag$deleteHashtag$hashtagToJson(this);
 }
 
 @JsonSerializable()
-class MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta$hashtagVariants
+class MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants
     extends JsonSerializable {
-  MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta$hashtagVariants(
+  MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants(
       {required this.id});
 
   @override
-  factory MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta$hashtagVariants.fromJson(
+  factory MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta$hashtagVariantsFromJson(
+      _$MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariantsFromJson(
           json);
 
   final String id;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$MutationDeleteHashtagMeta$deleteHashtagMeta$hashtagMeta$hashtagVariantsToJson(
-          this);
+      _$MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
@@ -1644,13 +1600,13 @@ class MutationDeleteHashtagVariant$deleteHashtagVariant
 @JsonSerializable()
 class VariablesMutationCreateSkill extends JsonSerializable {
   VariablesMutationCreateSkill(
-      {required this.addHashtagMetaInputList, required this.addSkillInput});
+      {required this.addHashtagInputList, required this.addSkillInput});
 
   @override
   factory VariablesMutationCreateSkill.fromJson(Map<String, dynamic> json) =>
       _$VariablesMutationCreateSkillFromJson(json);
 
-  final List<InputAddHashtagMetaInput> addHashtagMetaInputList;
+  final List<InputAddHashtagInput> addHashtagInputList;
 
   final InputAddSkillInput addSkillInput;
 
@@ -1660,13 +1616,13 @@ class VariablesMutationCreateSkill extends JsonSerializable {
 
 @JsonSerializable()
 class MutationCreateSkill extends JsonSerializable {
-  MutationCreateSkill({this.addHashtagMeta, this.addSkill});
+  MutationCreateSkill({this.addHashtag, this.addSkill});
 
   @override
   factory MutationCreateSkill.fromJson(Map<String, dynamic> json) =>
       _$MutationCreateSkillFromJson(json);
 
-  final MutationCreateSkill$addHashtagMeta? addHashtagMeta;
+  final MutationCreateSkill$addHashtag? addHashtag;
 
   final MutationCreateSkill$addSkill? addSkill;
 
@@ -1681,11 +1637,10 @@ const MUTATION_CREATE_SKILL = const DocumentNode(definitions: [
       variableDefinitions: [
         VariableDefinitionNode(
             variable:
-                VariableNode(name: NameNode(value: 'addHashtagMetaInputList')),
+                VariableNode(name: NameNode(value: 'addHashtagInputList')),
             type: ListTypeNode(
                 type: NamedTypeNode(
-                    name: NameNode(value: 'AddHashtagMetaInput'),
-                    isNonNull: true),
+                    name: NameNode(value: 'AddHashtagInput'), isNonNull: true),
                 isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
             directives: []),
@@ -1699,7 +1654,7 @@ const MUTATION_CREATE_SKILL = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'addHashtagMeta'),
+            name: NameNode(value: 'addHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
@@ -1708,7 +1663,7 @@ const MUTATION_CREATE_SKILL = const DocumentNode(definitions: [
               ArgumentNode(
                   name: NameNode(value: 'input'),
                   value: VariableNode(
-                      name: NameNode(value: 'addHashtagMetaInputList')))
+                      name: NameNode(value: 'addHashtagInputList')))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
@@ -1896,19 +1851,17 @@ class GQLFMutationCreateSkill
 }
 
 @JsonSerializable()
-class MutationCreateSkill$addHashtagMeta extends JsonSerializable {
-  MutationCreateSkill$addHashtagMeta({this.numUids});
+class MutationCreateSkill$addHashtag extends JsonSerializable {
+  MutationCreateSkill$addHashtag({this.numUids});
 
   @override
-  factory MutationCreateSkill$addHashtagMeta.fromJson(
-          Map<String, dynamic> json) =>
-      _$MutationCreateSkill$addHashtagMetaFromJson(json);
+  factory MutationCreateSkill$addHashtag.fromJson(Map<String, dynamic> json) =>
+      _$MutationCreateSkill$addHashtagFromJson(json);
 
   final int? numUids;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$MutationCreateSkill$addHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$MutationCreateSkill$addHashtagToJson(this);
 }
 
 @JsonSerializable()
@@ -1945,7 +1898,7 @@ class MutationCreateSkill$addSkill$skill extends JsonSerializable {
 class VariablesMutationUpdateSkill extends JsonSerializable {
   VariablesMutationUpdateSkill(
       {required this.skillId,
-      required this.addHashtagMetaInputList,
+      required this.addHashtagInputList,
       required this.title,
       required this.message,
       required this.isAvailable,
@@ -1958,7 +1911,7 @@ class VariablesMutationUpdateSkill extends JsonSerializable {
 
   final String skillId;
 
-  final List<InputAddHashtagMetaInput> addHashtagMetaInputList;
+  final List<InputAddHashtagInput> addHashtagInputList;
 
   final String title;
 
@@ -1976,13 +1929,13 @@ class VariablesMutationUpdateSkill extends JsonSerializable {
 
 @JsonSerializable()
 class MutationUpdateSkill extends JsonSerializable {
-  MutationUpdateSkill({this.addHashtagMeta, this.updateSkill});
+  MutationUpdateSkill({this.addHashtag, this.updateSkill});
 
   @override
   factory MutationUpdateSkill.fromJson(Map<String, dynamic> json) =>
       _$MutationUpdateSkillFromJson(json);
 
-  final MutationUpdateSkill$addHashtagMeta? addHashtagMeta;
+  final MutationUpdateSkill$addHashtag? addHashtag;
 
   final MutationUpdateSkill$updateSkill? updateSkill;
 
@@ -2002,11 +1955,10 @@ const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
             directives: []),
         VariableDefinitionNode(
             variable:
-                VariableNode(name: NameNode(value: 'addHashtagMetaInputList')),
+                VariableNode(name: NameNode(value: 'addHashtagInputList')),
             type: ListTypeNode(
                 type: NamedTypeNode(
-                    name: NameNode(value: 'AddHashtagMetaInput'),
-                    isNonNull: true),
+                    name: NameNode(value: 'AddHashtagInput'), isNonNull: true),
                 isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
             directives: []),
@@ -2050,7 +2002,7 @@ const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'addHashtagMeta'),
+            name: NameNode(value: 'addHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
@@ -2059,7 +2011,7 @@ const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
               ArgumentNode(
                   name: NameNode(value: 'input'),
                   value: VariableNode(
-                      name: NameNode(value: 'addHashtagMetaInputList')))
+                      name: NameNode(value: 'addHashtagInputList')))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
@@ -2283,19 +2235,17 @@ class GQLFMutationUpdateSkill
 }
 
 @JsonSerializable()
-class MutationUpdateSkill$addHashtagMeta extends JsonSerializable {
-  MutationUpdateSkill$addHashtagMeta({this.numUids});
+class MutationUpdateSkill$addHashtag extends JsonSerializable {
+  MutationUpdateSkill$addHashtag({this.numUids});
 
   @override
-  factory MutationUpdateSkill$addHashtagMeta.fromJson(
-          Map<String, dynamic> json) =>
-      _$MutationUpdateSkill$addHashtagMetaFromJson(json);
+  factory MutationUpdateSkill$addHashtag.fromJson(Map<String, dynamic> json) =>
+      _$MutationUpdateSkill$addHashtagFromJson(json);
 
   final int? numUids;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$MutationUpdateSkill$addHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$MutationUpdateSkill$addHashtagToJson(this);
 }
 
 @JsonSerializable()

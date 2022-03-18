@@ -1,6 +1,6 @@
 fragment HashtagVariantFragmentData on HashtagVariant {
     id
-    variantName
+    variant
     skillsAggregate {
         count
     }
@@ -9,9 +9,9 @@ fragment HashtagVariantFragmentData on HashtagVariant {
     }
 }
 
-fragment HashtagMetaFragmentData on HashtagMeta {
+fragment HashtagFragmentData on Hashtag {
     id
-    metaName
+    name
     iconName
     blessed
     hashtagVariants {

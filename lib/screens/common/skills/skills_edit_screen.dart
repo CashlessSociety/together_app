@@ -77,9 +77,9 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
         firstHashtagName = hashtag;
         if (fetchMoreFunctionForIcon != null) {
           fetchMoreFunctionForIcon!(
-            GQLFetchMoreOptionsQueryGetHashtagMetaByName(
-              variables: VariablesQueryGetHashtagMetaByName(
-                metaName: firstHashtagName,
+            GQLFetchMoreOptionsQueryGetHashtagByName(
+              variables: VariablesQueryGetHashtagByName(
+                name: firstHashtagName,
               ),
               updateQuery: (previousResultData, fetchMoreResultData) {
                 return fetchMoreResultData;
@@ -192,14 +192,14 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
       GQLOptionsMutationCreateSkill(
         fetchPolicy: FetchPolicy.noCache,
         variables: VariablesMutationCreateSkill(
-          addHashtagMetaInputList: List.generate(
+          addHashtagInputList: List.generate(
             hashtagList.length,
             (index) {
-              return InputAddHashtagMetaInput(
-                metaName: hashtagList[index].toLowerCase(),
+              return InputAddHashtagInput(
+                name: hashtagList[index].toLowerCase(),
                 hashtagVariants: [
                   InputHashtagVariantRef(
-                    variantName: hashtagList[index].toLowerCase(),
+                    variant: hashtagList[index].toLowerCase(),
                   )
                 ],
               );
@@ -214,7 +214,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
               hashtagList.length,
               (index) {
                 return InputHashtagVariantRef(
-                  variantName: hashtagList[index].toLowerCase(),
+                  variant: hashtagList[index].toLowerCase(),
                 );
               },
             ),
@@ -250,14 +250,14 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
         fetchPolicy: FetchPolicy.noCache,
         variables: VariablesMutationUpdateSkill(
           skillId: skillId!,
-          addHashtagMetaInputList: List.generate(
+          addHashtagInputList: List.generate(
             hashtagList.length,
             (index) {
-              return InputAddHashtagMetaInput(
-                metaName: hashtagList[index].toLowerCase(),
+              return InputAddHashtagInput(
+                name: hashtagList[index].toLowerCase(),
                 hashtagVariants: [
                   InputHashtagVariantRef(
-                    variantName: hashtagList[index].toLowerCase(),
+                    variant: hashtagList[index].toLowerCase(),
                   )
                 ],
               );
@@ -270,7 +270,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             hashtagDeleteList.length,
             (index) {
               return InputHashtagVariantRef(
-                variantName: hashtagDeleteList[index].toLowerCase(),
+                variant: hashtagDeleteList[index].toLowerCase(),
               );
             },
           ),
@@ -278,7 +278,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
             hashtagList.length,
             (index) {
               return InputHashtagVariantRef(
-                variantName: hashtagList[index].toLowerCase(),
+                variant: hashtagList[index].toLowerCase(),
               );
             },
           ),
@@ -371,8 +371,8 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
       onFilterHashtagFromMessage(messageTextController.text);
     } else {
       titleTextController = TextEditingController();
-      if (widget.arguments.hashtagMetaName != null) {
-        String text = " #${widget.arguments.hashtagMetaName}";
+      if (widget.arguments.hashtagName != null) {
+        String text = " #${widget.arguments.hashtagName}";
         skillMessage = text;
         messageTextController = TextEditingController(text: text);
         onFilterHashtagFromMessage(messageTextController.text);
@@ -490,7 +490,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                           },
                           onTap: () {
                             /// should reset cursor position
-                            if (widget.arguments.hashtagMetaName != null &&
+                            if (widget.arguments.hashtagName != null &&
                                 !messageBoxTapped) {
                               messageTextController.selection =
                                   TextSelection.fromPosition(
@@ -535,11 +535,11 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                       style: TextStyle(height: 2),
                     ),
                     SizedBox(height: 2.w),
-                    GQLFQueryGetHashtagMetaByName(
-                      options: GQLOptionsQueryGetHashtagMetaByName(
+                    GQLFQueryGetHashtagByName(
+                      options: GQLOptionsQueryGetHashtagByName(
                         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-                        variables: VariablesQueryGetHashtagMetaByName(
-                          metaName: firstHashtagName,
+                        variables: VariablesQueryGetHashtagByName(
+                          name: firstHashtagName,
                         ),
                       ),
                       builder: (result, {refetch, fetchMore}) {
@@ -547,7 +547,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                           fetchMoreFunctionForIcon = fetchMore;
                         }
                         String iconName =
-                            result.parsedData?.getHashtagMeta?.iconName ?? '';
+                            result.parsedData?.getHashtag?.iconName ?? '';
                         return iconName != ''
                             ? Row(
                                 children: [

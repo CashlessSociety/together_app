@@ -51,13 +51,13 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
     }
   }
 
-  void onCheckHashtagMetaWithName() async {
+  void onCheckHashtagWithName() async {
     changeProcessingEditState(true);
-    final result = await gqlClient!.queryGetHashtagMetaByName(
-      GQLOptionsQueryGetHashtagMetaByName(
+    final result = await gqlClient!.queryGetHashtagByName(
+      GQLOptionsQueryGetHashtagByName(
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: VariablesQueryGetHashtagMetaByName(
-          metaName: hashtag.toLowerCase(),
+        variables: VariablesQueryGetHashtagByName(
+          name: hashtag.toLowerCase(),
         ),
       ),
     );
@@ -66,7 +66,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
       changeProcessingEditState(false);
     } else if (result.parsedData != null) {
       /// new hashtag, can create
-      if (result.parsedData!.getHashtagMeta == null) {
+      if (result.parsedData!.getHashtag == null) {
         onAddHashtag();
       }
 
@@ -83,16 +83,16 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
 
   void onAddHashtag() async {
     try {
-      gqlClient!.mutateAddHashtagMeta(
-        GQLOptionsMutationAddHashtagMeta(
+      gqlClient!.mutateAddHashtag(
+        GQLOptionsMutationAddHashtag(
             fetchPolicy: FetchPolicy.networkOnly,
-            variables: VariablesMutationAddHashtagMeta(
-              metaName: hashtag.toLowerCase(),
+            variables: VariablesMutationAddHashtag(
+              name: hashtag.toLowerCase(),
               iconName: iconName,
               blessed: blessed,
               blessedInt: blessed ? 1 : 0,
               defaultHashtagVariant: InputHashtagVariantRef(
-                variantName: hashtag.toLowerCase(),
+                variant: hashtag.toLowerCase(),
               ),
             ),
             onError: (e) {
@@ -101,8 +101,8 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
             },
             onCompleted: (rst, data) async {
               if (data != null) {
-                if (data.addHashtagMeta != null &&
-                    data.addHashtagMeta!.hashtagMeta != null) {
+                if (data.addHashtag != null &&
+                    data.addHashtag!.hashtag != null) {
                   showToast("Hashtag added!");
                   await Future.delayed(const Duration(milliseconds: 500));
                   Get.back(result: true);
@@ -125,15 +125,15 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   void onEditHashtag() async {
     try {
       changeProcessingEditState(true);
-      gqlClient!.mutateUpdateHashtagMeta(
-        GQLOptionsMutationUpdateHashtagMeta(
+      gqlClient!.mutateUpdateHashtag(
+        GQLOptionsMutationUpdateHashtag(
             fetchPolicy: FetchPolicy.noCache,
-            variables: VariablesMutationUpdateHashtagMeta(
-              hashtagMetaInput: InputUpdateHashtagMetaInput(
-                filter: InputHashtagMetaFilter(
+            variables: VariablesMutationUpdateHashtag(
+              hashtagInput: InputUpdateHashtagInput(
+                filter: InputHashtagFilter(
                   id: [widget.arguments.id!],
                 ),
-                $set: InputHashtagMetaPatch(
+                $set: InputHashtagPatch(
                   iconName: iconName,
                   blessed: blessed,
                   blessedInt: blessed ? 1 : 0,
@@ -146,8 +146,8 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
             },
             onCompleted: (rst, data) async {
               if (data != null) {
-                if (data.updateHashtagMeta != null &&
-                    data.updateHashtagMeta!.hashtagMeta != null) {
+                if (data.updateHashtag != null &&
+                    data.updateHashtag!.hashtag != null) {
                   showToast("Hashtag updated!");
                   await Future.delayed(const Duration(milliseconds: 500));
                   Get.back(result: true);
@@ -167,14 +167,14 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
     }
   }
 
-  void onDeleteHashtagMeta() {
+  void onDeleteHashtag() {
     changeProcessingDeleteState(true);
-    gqlClient!.mutateDeleteHashtagMeta(
-      GQLOptionsMutationDeleteHashtagMeta(
+    gqlClient!.mutateDeleteHashtag(
+      GQLOptionsMutationDeleteHashtag(
         fetchPolicy: FetchPolicy.noCache,
         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-        variables: VariablesMutationDeleteHashtagMeta(
-          hashtagMetaFilter: InputHashtagMetaFilter(
+        variables: VariablesMutationDeleteHashtag(
+          hashtagFilter: InputHashtagFilter(
             id: [widget.arguments.id!],
           ),
         ),
@@ -184,10 +184,10 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
         },
         onCompleted: (rst, data) async {
           if (data != null) {
-            if (data.deleteHashtagMeta != null &&
-                data.deleteHashtagMeta!.numUids != null) {
+            if (data.deleteHashtag != null &&
+                data.deleteHashtag!.numUids != null) {
               onDeleteHashtagVariant(data
-                  .deleteHashtagMeta!.hashtagMeta![0]!.hashtagVariants!
+                  .deleteHashtag!.hashtag![0]!.hashtagVariants!
                   .map((e) => e!.id)
                   .toList());
             } else {
@@ -278,7 +278,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
 
               /// check dup and add new hashtag
               else {
-                onCheckHashtagMetaWithName();
+                onCheckHashtagWithName();
               }
             }
           : null,
@@ -299,17 +299,17 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   }
 
   Widget buildDeleteFloatingButton() {
-    return GQLFQueryGetHashtagMetaById(
-        options: GQLOptionsQueryGetHashtagMetaById(
+    return GQLFQueryGetHashtagById(
+        options: GQLOptionsQueryGetHashtagById(
           fetchPolicy: FetchPolicy.networkOnly,
-          variables: VariablesQueryGetHashtagMetaById(
+          variables: VariablesQueryGetHashtagById(
             id: widget.arguments.id,
           ),
         ),
         builder: (result, {refetch, fetchMore}) {
           if (result.parsedData != null &&
-              result.parsedData!.getHashtagMeta != null) {
-            var variants = result.parsedData!.getHashtagMeta!.hashtagVariants;
+              result.parsedData!.getHashtag != null) {
+            var variants = result.parsedData!.getHashtag!.hashtagVariants;
             if (variants != null) {
               int skillCount = variants
                   .map((e) => e!.skillsAggregate!.count ?? 0)
@@ -335,7 +335,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
                             size: 30.w,
                           ),
                     onPressed: () {
-                      onDeleteHashtagMeta();
+                      onDeleteHashtag();
                     });
               } else {
                 return const SizedBox();
@@ -352,6 +352,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

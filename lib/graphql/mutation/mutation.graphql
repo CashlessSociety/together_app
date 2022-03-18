@@ -10,15 +10,15 @@ mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimesta
     }
 }
 
-mutation AddHashtagMeta(
-    $metaName: String!,
+mutation AddHashtag(
+    $name: String!,
     $iconName: String = "",
     $blessed: Boolean = false,
     $blessedInt: Int = 0,
     $defaultHashtagVariant: HashtagVariantRef
 ){
-    addHashtagMeta(input: {
-        metaName: $metaName,
+    addHashtag(input: {
+        name: $name,
         iconName: $iconName,
         blessed: $blessed,
         blessedInt: $blessedInt,
@@ -30,25 +30,25 @@ mutation AddHashtagMeta(
         requestCountLast1w: 0,
         hashtagVariants: [$defaultHashtagVariant]
     }){
-        hashtagMeta {
-            ...HashtagMetaFragmentData
+        hashtag {
+            ...HashtagFragmentData
         }
     }
 }
 
-mutation UpdateHashtagMeta($hashtagMetaInput: UpdateHashtagMetaInput!){
-    updateHashtagMeta(input: $hashtagMetaInput){
-        hashtagMeta {
-            ...HashtagMetaFragmentData
+mutation UpdateHashtag($hashtagInput: UpdateHashtagInput!){
+    updateHashtag(input: $hashtagInput){
+        hashtag {
+            ...HashtagFragmentData
         }
     }
 }
 
-mutation DeleteHashtagMeta($hashtagMetaFilter: HashtagMetaFilter!){
-    deleteHashtagMeta(filter: $hashtagMetaFilter){
+mutation DeleteHashtag($hashtagFilter: HashtagFilter!){
+    deleteHashtag(filter: $hashtagFilter){
         msg
         numUids
-        hashtagMeta {
+        hashtag {
             hashtagVariants {
                 id
             }
@@ -66,10 +66,10 @@ mutation DeleteHashtagVariant($hashtagVariantFilter: HashtagVariantFilter!){
 
 
 mutation CreateSkill(
-    $addHashtagMetaInputList: [AddHashtagMetaInput!]!,
+    $addHashtagInputList: [AddHashtagInput!]!,
     $addSkillInput: AddSkillInput!
 ){
-    addHashtagMeta(upsert: true, input: $addHashtagMetaInputList){
+    addHashtag(upsert: true, input: $addHashtagInputList){
         numUids
     }
     addSkill(input: [$addSkillInput]){
@@ -81,14 +81,14 @@ mutation CreateSkill(
 
 mutation UpdateSkill(
     $skillId: ID!,
-    $addHashtagMetaInputList: [AddHashtagMetaInput!]!,
+    $addHashtagInputList: [AddHashtagInput!]!,
     $title: String!,
     $message: String!,
     $isAvailable: Boolean!,
     $hashtagsToSave: [HashtagVariantRef!]!,
     $hashtagsToDelete: [HashtagVariantRef!]!,
 ){
-    addHashtagMeta(upsert: true, input: $addHashtagMetaInputList){
+    addHashtag(upsert: true, input: $addHashtagInputList){
         numUids
     }
     updateSkill(input: {

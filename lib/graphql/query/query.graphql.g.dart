@@ -199,440 +199,431 @@ Map<String, dynamic> _$QueryGetAllRequests$queryRequest$ownerToJson(
       'name': instance.name,
     };
 
-VariablesQueryGetHashtagMetaByName _$VariablesQueryGetHashtagMetaByNameFromJson(
+VariablesQueryGetHashtagByName _$VariablesQueryGetHashtagByNameFromJson(
     Map<String, dynamic> json) {
-  return VariablesQueryGetHashtagMetaByName(
-    metaName: json['metaName'] as String?,
+  return VariablesQueryGetHashtagByName(
+    name: json['name'] as String?,
   );
 }
 
-Map<String, dynamic> _$VariablesQueryGetHashtagMetaByNameToJson(
-        VariablesQueryGetHashtagMetaByName instance) =>
+Map<String, dynamic> _$VariablesQueryGetHashtagByNameToJson(
+        VariablesQueryGetHashtagByName instance) =>
     <String, dynamic>{
-      'metaName': instance.metaName,
+      'name': instance.name,
     };
 
-QueryGetHashtagMetaByName _$QueryGetHashtagMetaByNameFromJson(
+QueryGetHashtagByName _$QueryGetHashtagByNameFromJson(
     Map<String, dynamic> json) {
-  return QueryGetHashtagMetaByName(
-    getHashtagMeta: json['getHashtagMeta'] == null
+  return QueryGetHashtagByName(
+    getHashtag: json['getHashtag'] == null
         ? null
-        : QueryGetHashtagMetaByName$getHashtagMeta.fromJson(
-            json['getHashtagMeta'] as Map<String, dynamic>),
+        : QueryGetHashtagByName$getHashtag.fromJson(
+            json['getHashtag'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$QueryGetHashtagMetaByNameToJson(
-        QueryGetHashtagMetaByName instance) =>
+Map<String, dynamic> _$QueryGetHashtagByNameToJson(
+        QueryGetHashtagByName instance) =>
     <String, dynamic>{
-      'getHashtagMeta': instance.getHashtagMeta,
+      'getHashtag': instance.getHashtag,
     };
 
-QueryGetHashtagMetaByName$getHashtagMeta
-    _$QueryGetHashtagMetaByName$getHashtagMetaFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetHashtagMetaByName$getHashtagMeta(
+QueryGetHashtagByName$getHashtag _$QueryGetHashtagByName$getHashtagFromJson(
+    Map<String, dynamic> json) {
+  return QueryGetHashtagByName$getHashtag(
     id: json['id'] as String,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants.fromJson(
+            : QueryGetHashtagByName$getHashtag$hashtagVariants.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
   );
 }
 
-Map<String, dynamic> _$QueryGetHashtagMetaByName$getHashtagMetaToJson(
-        QueryGetHashtagMetaByName$getHashtagMeta instance) =>
+Map<String, dynamic> _$QueryGetHashtagByName$getHashtagToJson(
+        QueryGetHashtagByName$getHashtag instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
+      'name': instance.name,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
     };
 
-QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants
-    _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariantsFromJson(
+QueryGetHashtagByName$getHashtag$hashtagVariants
+    _$QueryGetHashtagByName$getHashtag$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
-  return QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants(
+  return QueryGetHashtagByName$getHashtag$hashtagVariants(
     id: json['id'] as String,
-    variantName: json['variantName'] as String,
+    variant: json['variant'] as String,
     skillsAggregate: json['skillsAggregate'] == null
         ? null
-        : QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate
+        : QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate
             .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
     requestsAggregate: json['requestsAggregate'] == null
         ? null
-        : QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate
+        : QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate
             .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
   );
 }
 
-Map<String,
-    dynamic> _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariantsToJson(
-        QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants instance) =>
+Map<String, dynamic> _$QueryGetHashtagByName$getHashtag$hashtagVariantsToJson(
+        QueryGetHashtagByName$getHashtag$hashtagVariants instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'variantName': instance.variantName,
+      'variant': instance.variant,
       'skillsAggregate': instance.skillsAggregate,
       'requestsAggregate': instance.requestsAggregate,
     };
 
-QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate
-    _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate
+    _$QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate(
+  return QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregateToJson(
-            QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate
+    _$QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregateToJson(
+            QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
         };
 
-QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate
-    _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate
+    _$QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate(
+  return QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregateToJson(
-            QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate
+    _$QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregateToJson(
+            QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
         };
 
-VariablesQueryGetHashtagMetaById _$VariablesQueryGetHashtagMetaByIdFromJson(
+VariablesQueryGetHashtagById _$VariablesQueryGetHashtagByIdFromJson(
     Map<String, dynamic> json) {
-  return VariablesQueryGetHashtagMetaById(
+  return VariablesQueryGetHashtagById(
     id: json['id'] as String?,
   );
 }
 
-Map<String, dynamic> _$VariablesQueryGetHashtagMetaByIdToJson(
-        VariablesQueryGetHashtagMetaById instance) =>
+Map<String, dynamic> _$VariablesQueryGetHashtagByIdToJson(
+        VariablesQueryGetHashtagById instance) =>
     <String, dynamic>{
       'id': instance.id,
     };
 
-QueryGetHashtagMetaById _$QueryGetHashtagMetaByIdFromJson(
-    Map<String, dynamic> json) {
-  return QueryGetHashtagMetaById(
-    getHashtagMeta: json['getHashtagMeta'] == null
+QueryGetHashtagById _$QueryGetHashtagByIdFromJson(Map<String, dynamic> json) {
+  return QueryGetHashtagById(
+    getHashtag: json['getHashtag'] == null
         ? null
-        : QueryGetHashtagMetaById$getHashtagMeta.fromJson(
-            json['getHashtagMeta'] as Map<String, dynamic>),
+        : QueryGetHashtagById$getHashtag.fromJson(
+            json['getHashtag'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$QueryGetHashtagMetaByIdToJson(
-        QueryGetHashtagMetaById instance) =>
+Map<String, dynamic> _$QueryGetHashtagByIdToJson(
+        QueryGetHashtagById instance) =>
     <String, dynamic>{
-      'getHashtagMeta': instance.getHashtagMeta,
+      'getHashtag': instance.getHashtag,
     };
 
-QueryGetHashtagMetaById$getHashtagMeta
-    _$QueryGetHashtagMetaById$getHashtagMetaFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetHashtagMetaById$getHashtagMeta(
+QueryGetHashtagById$getHashtag _$QueryGetHashtagById$getHashtagFromJson(
+    Map<String, dynamic> json) {
+  return QueryGetHashtagById$getHashtag(
     id: json['id'] as String,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants.fromJson(
+            : QueryGetHashtagById$getHashtag$hashtagVariants.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
   );
 }
 
-Map<String, dynamic> _$QueryGetHashtagMetaById$getHashtagMetaToJson(
-        QueryGetHashtagMetaById$getHashtagMeta instance) =>
+Map<String, dynamic> _$QueryGetHashtagById$getHashtagToJson(
+        QueryGetHashtagById$getHashtag instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
+      'name': instance.name,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
     };
 
-QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants
-    _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariantsFromJson(
+QueryGetHashtagById$getHashtag$hashtagVariants
+    _$QueryGetHashtagById$getHashtag$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
-  return QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants(
+  return QueryGetHashtagById$getHashtag$hashtagVariants(
     id: json['id'] as String,
-    variantName: json['variantName'] as String,
+    variant: json['variant'] as String,
     skillsAggregate: json['skillsAggregate'] == null
         ? null
-        : QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate
+        : QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate
             .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
     requestsAggregate: json['requestsAggregate'] == null
         ? null
-        : QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate
+        : QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate
             .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic>
-    _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariantsToJson(
-            QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'variantName': instance.variantName,
-          'skillsAggregate': instance.skillsAggregate,
-          'requestsAggregate': instance.requestsAggregate,
-        };
-
-QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate
-    _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregateFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate(
-    count: json['count'] as int?,
-  );
-}
-
-Map<String, dynamic>
-    _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregateToJson(
-            QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate
-                instance) =>
-        <String, dynamic>{
-          'count': instance.count,
-        };
-
-QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate
-    _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregateFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate(
-    count: json['count'] as int?,
-  );
-}
-
-Map<String, dynamic>
-    _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregateToJson(
-            QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate
-                instance) =>
-        <String, dynamic>{
-          'count': instance.count,
-        };
-
-QueryGetHashtagMetaList _$QueryGetHashtagMetaListFromJson(
-    Map<String, dynamic> json) {
-  return QueryGetHashtagMetaList(
-    queryHashtagMeta: (json['queryHashtagMeta'] as List<dynamic>?)
-        ?.map((e) => e == null
-            ? null
-            : QueryGetHashtagMetaList$queryHashtagMeta.fromJson(
-                e as Map<String, dynamic>))
-        .toList(),
-  );
-}
-
-Map<String, dynamic> _$QueryGetHashtagMetaListToJson(
-        QueryGetHashtagMetaList instance) =>
-    <String, dynamic>{
-      'queryHashtagMeta': instance.queryHashtagMeta,
-    };
-
-QueryGetHashtagMetaList$queryHashtagMeta
-    _$QueryGetHashtagMetaList$queryHashtagMetaFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetHashtagMetaList$queryHashtagMeta(
-    id: json['id'] as String,
-    metaName: json['metaName'] as String,
-    iconName: json['iconName'] as String?,
-    blessed: json['blessed'] as bool?,
-    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
-        ?.map((e) => e == null
-            ? null
-            : QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants.fromJson(
-                e as Map<String, dynamic>))
-        .toList(),
-  );
-}
-
-Map<String, dynamic> _$QueryGetHashtagMetaList$queryHashtagMetaToJson(
-        QueryGetHashtagMetaList$queryHashtagMeta instance) =>
+Map<String, dynamic> _$QueryGetHashtagById$getHashtag$hashtagVariantsToJson(
+        QueryGetHashtagById$getHashtag$hashtagVariants instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
-      'iconName': instance.iconName,
-      'blessed': instance.blessed,
-      'hashtagVariants': instance.hashtagVariants,
-    };
-
-QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants
-    _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariantsFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants(
-    id: json['id'] as String,
-    variantName: json['variantName'] as String,
-    skillsAggregate: json['skillsAggregate'] == null
-        ? null
-        : QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
-            .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
-    requestsAggregate: json['requestsAggregate'] == null
-        ? null
-        : QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
-            .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
-  );
-}
-
-Map<String,
-    dynamic> _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariantsToJson(
-        QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'variantName': instance.variantName,
+      'variant': instance.variant,
       'skillsAggregate': instance.skillsAggregate,
       'requestsAggregate': instance.requestsAggregate,
     };
 
-QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
-    _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate
+    _$QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate(
+  return QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
-            QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
+    _$QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregateToJson(
+            QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
         };
 
-QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
-    _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate
+    _$QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate(
+  return QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
-            QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
+    _$QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregateToJson(
+            QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
         };
 
-QueryGetBlessedHashtagMetaList _$QueryGetBlessedHashtagMetaListFromJson(
-    Map<String, dynamic> json) {
-  return QueryGetBlessedHashtagMetaList(
-    queryHashtagMeta: (json['queryHashtagMeta'] as List<dynamic>?)
+QueryGetHashtagList _$QueryGetHashtagListFromJson(Map<String, dynamic> json) {
+  return QueryGetHashtagList(
+    queryHashtag: (json['queryHashtag'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QueryGetBlessedHashtagMetaList$queryHashtagMeta.fromJson(
+            : QueryGetHashtagList$queryHashtag.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
   );
 }
 
-Map<String, dynamic> _$QueryGetBlessedHashtagMetaListToJson(
-        QueryGetBlessedHashtagMetaList instance) =>
+Map<String, dynamic> _$QueryGetHashtagListToJson(
+        QueryGetHashtagList instance) =>
     <String, dynamic>{
-      'queryHashtagMeta': instance.queryHashtagMeta,
+      'queryHashtag': instance.queryHashtag,
     };
 
-QueryGetBlessedHashtagMetaList$queryHashtagMeta
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMetaFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetBlessedHashtagMetaList$queryHashtagMeta(
+QueryGetHashtagList$queryHashtag _$QueryGetHashtagList$queryHashtagFromJson(
+    Map<String, dynamic> json) {
+  return QueryGetHashtagList$queryHashtag(
     id: json['id'] as String,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants
-                .fromJson(e as Map<String, dynamic>))
+            : QueryGetHashtagList$queryHashtag$hashtagVariants.fromJson(
+                e as Map<String, dynamic>))
         .toList(),
   );
 }
 
-Map<String, dynamic> _$QueryGetBlessedHashtagMetaList$queryHashtagMetaToJson(
-        QueryGetBlessedHashtagMetaList$queryHashtagMeta instance) =>
+Map<String, dynamic> _$QueryGetHashtagList$queryHashtagToJson(
+        QueryGetHashtagList$queryHashtag instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
+      'name': instance.name,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
     };
 
-QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariantsFromJson(
+QueryGetHashtagList$queryHashtag$hashtagVariants
+    _$QueryGetHashtagList$queryHashtag$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
-  return QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants(
+  return QueryGetHashtagList$queryHashtag$hashtagVariants(
     id: json['id'] as String,
-    variantName: json['variantName'] as String,
+    variant: json['variant'] as String,
     skillsAggregate: json['skillsAggregate'] == null
         ? null
-        : QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
+        : QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate
             .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
     requestsAggregate: json['requestsAggregate'] == null
         ? null
-        : QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
+        : QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate
             .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic>
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariantsToJson(
-            QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'variantName': instance.variantName,
-          'skillsAggregate': instance.skillsAggregate,
-          'requestsAggregate': instance.requestsAggregate,
-        };
+Map<String, dynamic> _$QueryGetHashtagList$queryHashtag$hashtagVariantsToJson(
+        QueryGetHashtagList$queryHashtag$hashtagVariants instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'variant': instance.variant,
+      'skillsAggregate': instance.skillsAggregate,
+      'requestsAggregate': instance.requestsAggregate,
+    };
 
-QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate
+    _$QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate(
+  return QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
-            QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
+    _$QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregateToJson(
+            QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
         };
 
-QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate
+    _$QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate(
+  return QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
-            QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
+    _$QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregateToJson(
+            QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate
+                instance) =>
+        <String, dynamic>{
+          'count': instance.count,
+        };
+
+QueryGetBlessedHashtagList _$QueryGetBlessedHashtagListFromJson(
+    Map<String, dynamic> json) {
+  return QueryGetBlessedHashtagList(
+    queryHashtag: (json['queryHashtag'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : QueryGetBlessedHashtagList$queryHashtag.fromJson(
+                e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$QueryGetBlessedHashtagListToJson(
+        QueryGetBlessedHashtagList instance) =>
+    <String, dynamic>{
+      'queryHashtag': instance.queryHashtag,
+    };
+
+QueryGetBlessedHashtagList$queryHashtag
+    _$QueryGetBlessedHashtagList$queryHashtagFromJson(
+        Map<String, dynamic> json) {
+  return QueryGetBlessedHashtagList$queryHashtag(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    iconName: json['iconName'] as String?,
+    blessed: json['blessed'] as bool?,
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : QueryGetBlessedHashtagList$queryHashtag$hashtagVariants.fromJson(
+                e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$QueryGetBlessedHashtagList$queryHashtagToJson(
+        QueryGetBlessedHashtagList$queryHashtag instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'iconName': instance.iconName,
+      'blessed': instance.blessed,
+      'hashtagVariants': instance.hashtagVariants,
+    };
+
+QueryGetBlessedHashtagList$queryHashtag$hashtagVariants
+    _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariantsFromJson(
+        Map<String, dynamic> json) {
+  return QueryGetBlessedHashtagList$queryHashtag$hashtagVariants(
+    id: json['id'] as String,
+    variant: json['variant'] as String,
+    skillsAggregate: json['skillsAggregate'] == null
+        ? null
+        : QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate
+            .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
+    requestsAggregate: json['requestsAggregate'] == null
+        ? null
+        : QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate
+            .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic>
+    _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariantsToJson(
+            QueryGetBlessedHashtagList$queryHashtag$hashtagVariants instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'variant': instance.variant,
+          'skillsAggregate': instance.skillsAggregate,
+          'requestsAggregate': instance.requestsAggregate,
+        };
+
+QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate
+    _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregateFromJson(
+        Map<String, dynamic> json) {
+  return QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate(
+    count: json['count'] as int?,
+  );
+}
+
+Map<String, dynamic>
+    _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregateToJson(
+            QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate
+                instance) =>
+        <String, dynamic>{
+          'count': instance.count,
+        };
+
+QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate
+    _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregateFromJson(
+        Map<String, dynamic> json) {
+  return QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate(
+    count: json['count'] as int?,
+  );
+}
+
+Map<String, dynamic>
+    _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregateToJson(
+            QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
@@ -736,10 +727,10 @@ QueryGetSkillsByUserId$getUser$skills$hashtagVariants
     _$QueryGetSkillsByUserId$getUser$skills$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
   return QueryGetSkillsByUserId$getUser$skills$hashtagVariants(
-    variantName: json['variantName'] as String,
-    hashtagMeta:
-        QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
-            .fromJson(json['hashtagMeta'] as Map<String, dynamic>),
+    variant: json['variant'] as String,
+    hashtag:
+        QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag.fromJson(
+            json['hashtag'] as Map<String, dynamic>),
   );
 }
 
@@ -747,26 +738,26 @@ Map<String, dynamic>
     _$QueryGetSkillsByUserId$getUser$skills$hashtagVariantsToJson(
             QueryGetSkillsByUserId$getUser$skills$hashtagVariants instance) =>
         <String, dynamic>{
-          'variantName': instance.variantName,
-          'hashtagMeta': instance.hashtagMeta,
+          'variant': instance.variant,
+          'hashtag': instance.hashtag,
         };
 
-QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
-    _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMetaFromJson(
+QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag
+    _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagFromJson(
         Map<String, dynamic> json) {
-  return QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta(
+  return QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag(
     id: json['id'] as String,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMetaToJson(
-            QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
+    _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagToJson(
+            QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
-          'metaName': instance.metaName,
+          'name': instance.name,
         };
 
 VariablesQueryGetSkillsPageData _$VariablesQueryGetSkillsPageDataFromJson(
@@ -785,10 +776,10 @@ Map<String, dynamic> _$VariablesQueryGetSkillsPageDataToJson(
 QueryGetSkillsPageData _$QueryGetSkillsPageDataFromJson(
     Map<String, dynamic> json) {
   return QueryGetSkillsPageData(
-    queryHashtagMeta: (json['queryHashtagMeta'] as List<dynamic>?)
+    queryHashtag: (json['queryHashtag'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QueryGetSkillsPageData$queryHashtagMeta.fromJson(
+            : QueryGetSkillsPageData$queryHashtag.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
     getUser: json['getUser'] == null
@@ -801,91 +792,90 @@ QueryGetSkillsPageData _$QueryGetSkillsPageDataFromJson(
 Map<String, dynamic> _$QueryGetSkillsPageDataToJson(
         QueryGetSkillsPageData instance) =>
     <String, dynamic>{
-      'queryHashtagMeta': instance.queryHashtagMeta,
+      'queryHashtag': instance.queryHashtag,
       'getUser': instance.getUser,
     };
 
-QueryGetSkillsPageData$queryHashtagMeta
-    _$QueryGetSkillsPageData$queryHashtagMetaFromJson(
-        Map<String, dynamic> json) {
-  return QueryGetSkillsPageData$queryHashtagMeta(
+QueryGetSkillsPageData$queryHashtag
+    _$QueryGetSkillsPageData$queryHashtagFromJson(Map<String, dynamic> json) {
+  return QueryGetSkillsPageData$queryHashtag(
     id: json['id'] as String,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants.fromJson(
+            : QueryGetSkillsPageData$queryHashtag$hashtagVariants.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
   );
 }
 
-Map<String, dynamic> _$QueryGetSkillsPageData$queryHashtagMetaToJson(
-        QueryGetSkillsPageData$queryHashtagMeta instance) =>
+Map<String, dynamic> _$QueryGetSkillsPageData$queryHashtagToJson(
+        QueryGetSkillsPageData$queryHashtag instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
+      'name': instance.name,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'hashtagVariants': instance.hashtagVariants,
     };
 
-QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants
-    _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariantsFromJson(
+QueryGetSkillsPageData$queryHashtag$hashtagVariants
+    _$QueryGetSkillsPageData$queryHashtag$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
-  return QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants(
+  return QueryGetSkillsPageData$queryHashtag$hashtagVariants(
     id: json['id'] as String,
-    variantName: json['variantName'] as String,
+    variant: json['variant'] as String,
     skillsAggregate: json['skillsAggregate'] == null
         ? null
-        : QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate
+        : QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate
             .fromJson(json['skillsAggregate'] as Map<String, dynamic>),
     requestsAggregate: json['requestsAggregate'] == null
         ? null
-        : QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate
+        : QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate
             .fromJson(json['requestsAggregate'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariantsToJson(
-            QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants instance) =>
+    _$QueryGetSkillsPageData$queryHashtag$hashtagVariantsToJson(
+            QueryGetSkillsPageData$queryHashtag$hashtagVariants instance) =>
         <String, dynamic>{
           'id': instance.id,
-          'variantName': instance.variantName,
+          'variant': instance.variant,
           'skillsAggregate': instance.skillsAggregate,
           'requestsAggregate': instance.requestsAggregate,
         };
 
-QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate
-    _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate
+    _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate(
+  return QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
-            QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate
+    _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregateToJson(
+            QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
         };
 
-QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate
-    _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate
+    _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregateFromJson(
         Map<String, dynamic> json) {
-  return QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate(
+  return QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate(
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
-            QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate
+    _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregateToJson(
+            QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate
                 instance) =>
         <String, dynamic>{
           'count': instance.count,
@@ -960,9 +950,9 @@ QueryGetSkillsPageData$getUser$skills$hashtagVariants
     _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsFromJson(
         Map<String, dynamic> json) {
   return QueryGetSkillsPageData$getUser$skills$hashtagVariants(
-    hashtagMeta:
-        QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
-            .fromJson(json['hashtagMeta'] as Map<String, dynamic>),
+    hashtag:
+        QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag.fromJson(
+            json['hashtag'] as Map<String, dynamic>),
   );
 }
 
@@ -970,26 +960,26 @@ Map<String, dynamic>
     _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsToJson(
             QueryGetSkillsPageData$getUser$skills$hashtagVariants instance) =>
         <String, dynamic>{
-          'hashtagMeta': instance.hashtagMeta,
+          'hashtag': instance.hashtag,
         };
 
-QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
-    _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaFromJson(
+QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag
+    _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagFromJson(
         Map<String, dynamic> json) {
-  return QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta(
+  return QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag(
     id: json['id'] as String,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
     iconName: json['iconName'] as String?,
   );
 }
 
 Map<String, dynamic>
-    _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaToJson(
-            QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
+    _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagToJson(
+            QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
-          'metaName': instance.metaName,
+          'name': instance.name,
           'iconName': instance.iconName,
         };
 
@@ -997,8 +987,8 @@ VariablesQuerySearchTopRequestHashtag
     _$VariablesQuerySearchTopRequestHashtagFromJson(Map<String, dynamic> json) {
   return VariablesQuerySearchTopRequestHashtag(
     keywordRegex: json['keywordRegex'] as String,
-    hashtagMetaOrder: InputHashtagMetaOrder.fromJson(
-        json['hashtagMetaOrder'] as Map<String, dynamic>),
+    hashtagOrder: InputHashtagOrder.fromJson(
+        json['hashtagOrder'] as Map<String, dynamic>),
     limit: json['limit'] as int?,
   );
 }
@@ -1007,17 +997,17 @@ Map<String, dynamic> _$VariablesQuerySearchTopRequestHashtagToJson(
         VariablesQuerySearchTopRequestHashtag instance) =>
     <String, dynamic>{
       'keywordRegex': instance.keywordRegex,
-      'hashtagMetaOrder': instance.hashtagMetaOrder,
+      'hashtagOrder': instance.hashtagOrder,
       'limit': instance.limit,
     };
 
 QuerySearchTopRequestHashtag _$QuerySearchTopRequestHashtagFromJson(
     Map<String, dynamic> json) {
   return QuerySearchTopRequestHashtag(
-    queryHashtagMeta: (json['queryHashtagMeta'] as List<dynamic>?)
+    queryHashtag: (json['queryHashtag'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : QuerySearchTopRequestHashtag$queryHashtagMeta.fromJson(
+            : QuerySearchTopRequestHashtag$queryHashtag.fromJson(
                 e as Map<String, dynamic>))
         .toList(),
   );
@@ -1026,16 +1016,16 @@ QuerySearchTopRequestHashtag _$QuerySearchTopRequestHashtagFromJson(
 Map<String, dynamic> _$QuerySearchTopRequestHashtagToJson(
         QuerySearchTopRequestHashtag instance) =>
     <String, dynamic>{
-      'queryHashtagMeta': instance.queryHashtagMeta,
+      'queryHashtag': instance.queryHashtag,
     };
 
-QuerySearchTopRequestHashtag$queryHashtagMeta
-    _$QuerySearchTopRequestHashtag$queryHashtagMetaFromJson(
+QuerySearchTopRequestHashtag$queryHashtag
+    _$QuerySearchTopRequestHashtag$queryHashtagFromJson(
         Map<String, dynamic> json) {
-  return QuerySearchTopRequestHashtag$queryHashtagMeta(
+  return QuerySearchTopRequestHashtag$queryHashtag(
     id: json['id'] as String,
     iconName: json['iconName'] as String?,
-    metaName: json['metaName'] as String,
+    name: json['name'] as String,
     blessed: json['blessed'] as bool?,
     skillCountAllTime: json['skillCountAllTime'] as int?,
     skillCountLast1w: json['skillCountLast1w'] as int?,
@@ -1046,12 +1036,12 @@ QuerySearchTopRequestHashtag$queryHashtagMeta
   );
 }
 
-Map<String, dynamic> _$QuerySearchTopRequestHashtag$queryHashtagMetaToJson(
-        QuerySearchTopRequestHashtag$queryHashtagMeta instance) =>
+Map<String, dynamic> _$QuerySearchTopRequestHashtag$queryHashtagToJson(
+        QuerySearchTopRequestHashtag$queryHashtag instance) =>
     <String, dynamic>{
       'id': instance.id,
       'iconName': instance.iconName,
-      'metaName': instance.metaName,
+      'name': instance.name,
       'blessed': instance.blessed,
       'skillCountAllTime': instance.skillCountAllTime,
       'skillCountLast1w': instance.skillCountLast1w,

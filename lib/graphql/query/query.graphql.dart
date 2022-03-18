@@ -838,42 +838,40 @@ class QueryGetAllRequests$queryRequest$owner extends JsonSerializable {
 }
 
 @JsonSerializable()
-class VariablesQueryGetHashtagMetaByName extends JsonSerializable {
-  VariablesQueryGetHashtagMetaByName({this.metaName});
+class VariablesQueryGetHashtagByName extends JsonSerializable {
+  VariablesQueryGetHashtagByName({this.name});
 
   @override
-  factory VariablesQueryGetHashtagMetaByName.fromJson(
-          Map<String, dynamic> json) =>
-      _$VariablesQueryGetHashtagMetaByNameFromJson(json);
+  factory VariablesQueryGetHashtagByName.fromJson(Map<String, dynamic> json) =>
+      _$VariablesQueryGetHashtagByNameFromJson(json);
 
-  final String? metaName;
+  final String? name;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$VariablesQueryGetHashtagMetaByNameToJson(this);
+  Map<String, dynamic> toJson() => _$VariablesQueryGetHashtagByNameToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaByName extends JsonSerializable {
-  QueryGetHashtagMetaByName({this.getHashtagMeta});
+class QueryGetHashtagByName extends JsonSerializable {
+  QueryGetHashtagByName({this.getHashtag});
 
   @override
-  factory QueryGetHashtagMetaByName.fromJson(Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaByNameFromJson(json);
+  factory QueryGetHashtagByName.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetHashtagByNameFromJson(json);
 
-  final QueryGetHashtagMetaByName$getHashtagMeta? getHashtagMeta;
+  final QueryGetHashtagByName$getHashtag? getHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$QueryGetHashtagMetaByNameToJson(this);
+  Map<String, dynamic> toJson() => _$QueryGetHashtagByNameToJson(this);
 }
 
-const QUERY_GET_HASHTAG_META_BY_NAME = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_BY_NAME = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
-      name: NameNode(value: 'GetHashtagMetaByName'),
+      name: NameNode(value: 'GetHashtagByName'),
       variableDefinitions: [
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'metaName')),
+            variable: VariableNode(name: NameNode(value: 'name')),
             type: NamedTypeNode(
                 name: NameNode(value: 'String'), isNonNull: false),
             defaultValue: DefaultValueNode(value: null),
@@ -882,18 +880,17 @@ const QUERY_GET_HASHTAG_META_BY_NAME = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'getHashtagMeta'),
+            name: NameNode(value: 'getHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
-                  name: NameNode(value: 'metaName'),
-                  value: VariableNode(name: NameNode(value: 'metaName')))
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name')))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
-                  name: NameNode(value: 'HashtagMetaFragmentData'),
-                  directives: []),
+                  name: NameNode(value: 'HashtagFragmentData'), directives: []),
               FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
@@ -908,15 +905,15 @@ const QUERY_GET_HASHTAG_META_BY_NAME = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
 
-class GQLOptionsQueryGetHashtagMetaByName
-    extends graphql.QueryOptions<QueryGetHashtagMetaByName> {
-  GQLOptionsQueryGetHashtagMetaByName(
+class GQLOptionsQueryGetHashtagByName
+    extends graphql.QueryOptions<QueryGetHashtagByName> {
+  GQLOptionsQueryGetHashtagByName(
       {String? operationName,
-      VariablesQueryGetHashtagMetaByName? variables,
+      VariablesQueryGetHashtagByName? variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -932,15 +929,15 @@ class GQLOptionsQueryGetHashtagMetaByName
             optimisticResult: optimisticResult,
             pollInterval: pollInterval,
             context: context,
-            document: QUERY_GET_HASHTAG_META_BY_NAME,
-            parserFn: (data) => QueryGetHashtagMetaByName.fromJson(data));
+            document: QUERY_GET_HASHTAG_BY_NAME,
+            parserFn: (data) => QueryGetHashtagByName.fromJson(data));
 }
 
-class GQLWatchOptionsQueryGetHashtagMetaByName
-    extends graphql.WatchQueryOptions<QueryGetHashtagMetaByName> {
-  GQLWatchOptionsQueryGetHashtagMetaByName(
+class GQLWatchOptionsQueryGetHashtagByName
+    extends graphql.WatchQueryOptions<QueryGetHashtagByName> {
+  GQLWatchOptionsQueryGetHashtagByName(
       {String? operationName,
-      VariablesQueryGetHashtagMetaByName? variables,
+      VariablesQueryGetHashtagByName? variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -958,191 +955,186 @@ class GQLWatchOptionsQueryGetHashtagMetaByName
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: QUERY_GET_HASHTAG_META_BY_NAME,
+            document: QUERY_GET_HASHTAG_BY_NAME,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetHashtagMetaByName.fromJson(data));
+            parserFn: (data) => QueryGetHashtagByName.fromJson(data));
 }
 
-class GQLFetchMoreOptionsQueryGetHashtagMetaByName
+class GQLFetchMoreOptionsQueryGetHashtagByName
     extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetHashtagMetaByName(
+  GQLFetchMoreOptionsQueryGetHashtagByName(
       {required graphql.UpdateQuery updateQuery,
-      VariablesQueryGetHashtagMetaByName? variables})
+      VariablesQueryGetHashtagByName? variables})
       : super(
             updateQuery: updateQuery,
             variables: variables?.toJson() ?? {},
-            document: QUERY_GET_HASHTAG_META_BY_NAME);
+            document: QUERY_GET_HASHTAG_BY_NAME);
 }
 
-extension GQLExtensionQueryGetHashtagMetaByName on graphql.GraphQLClient {
-  Future<graphql.QueryResult<QueryGetHashtagMetaByName>>
-      queryGetHashtagMetaByName(
-              [GQLOptionsQueryGetHashtagMetaByName? options]) async =>
-          await this.query(options ?? GQLOptionsQueryGetHashtagMetaByName());
-  graphql.ObservableQuery<
-      QueryGetHashtagMetaByName> watchQueryGetHashtagMetaByName(
-          [GQLWatchOptionsQueryGetHashtagMetaByName? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagMetaByName());
+extension GQLExtensionQueryGetHashtagByName on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetHashtagByName>> queryGetHashtagByName(
+          [GQLOptionsQueryGetHashtagByName? options]) async =>
+      await this.query(options ?? GQLOptionsQueryGetHashtagByName());
+  graphql.ObservableQuery<QueryGetHashtagByName> watchQueryGetHashtagByName(
+          [GQLWatchOptionsQueryGetHashtagByName? options]) =>
+      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagByName());
 }
 
-class GQLFQueryGetHashtagMetaByName
-    extends graphql_flutter.Query<QueryGetHashtagMetaByName> {
-  GQLFQueryGetHashtagMetaByName(
+class GQLFQueryGetHashtagByName
+    extends graphql_flutter.Query<QueryGetHashtagByName> {
+  GQLFQueryGetHashtagByName(
       {widgets.Key? key,
-      GQLOptionsQueryGetHashtagMetaByName? options,
-      required graphql_flutter.QueryBuilder<QueryGetHashtagMetaByName> builder})
+      GQLOptionsQueryGetHashtagByName? options,
+      required graphql_flutter.QueryBuilder<QueryGetHashtagByName> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetHashtagMetaByName(),
+            options: options ?? GQLOptionsQueryGetHashtagByName(),
             builder: builder);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaByName$getHashtagMeta extends JsonSerializable
-    implements FragmentHashtagMetaFragmentData {
-  QueryGetHashtagMetaByName$getHashtagMeta(
+class QueryGetHashtagByName$getHashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  QueryGetHashtagByName$getHashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory QueryGetHashtagMetaByName$getHashtagMeta.fromJson(
+  factory QueryGetHashtagByName$getHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaByName$getHashtagMetaFromJson(json);
+      _$QueryGetHashtagByName$getHashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants?>?
+  final List<QueryGetHashtagByName$getHashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaByName$getHashtagMetaToJson(this);
+      _$QueryGetHashtagByName$getHashtagToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants
-    extends JsonSerializable
+class QueryGetHashtagByName$getHashtag$hashtagVariants extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants(
+  QueryGetHashtagByName$getHashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants.fromJson(
+  factory QueryGetHashtagByName$getHashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariantsFromJson(json);
+      _$QueryGetHashtagByName$getHashtag$hashtagVariantsFromJson(json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate?
+  final QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate?
+  final QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariantsToJson(this);
+      _$QueryGetHashtagByName$getHashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate
+class QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate(
+  QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate(
       {this.count});
 
   @override
-  factory QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate
+class QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate(
+  QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaByName$getHashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class VariablesQueryGetHashtagMetaById extends JsonSerializable {
-  VariablesQueryGetHashtagMetaById({this.id});
+class VariablesQueryGetHashtagById extends JsonSerializable {
+  VariablesQueryGetHashtagById({this.id});
 
   @override
-  factory VariablesQueryGetHashtagMetaById.fromJson(
-          Map<String, dynamic> json) =>
-      _$VariablesQueryGetHashtagMetaByIdFromJson(json);
+  factory VariablesQueryGetHashtagById.fromJson(Map<String, dynamic> json) =>
+      _$VariablesQueryGetHashtagByIdFromJson(json);
 
   final String? id;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$VariablesQueryGetHashtagMetaByIdToJson(this);
+  Map<String, dynamic> toJson() => _$VariablesQueryGetHashtagByIdToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaById extends JsonSerializable {
-  QueryGetHashtagMetaById({this.getHashtagMeta});
+class QueryGetHashtagById extends JsonSerializable {
+  QueryGetHashtagById({this.getHashtag});
 
   @override
-  factory QueryGetHashtagMetaById.fromJson(Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaByIdFromJson(json);
+  factory QueryGetHashtagById.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetHashtagByIdFromJson(json);
 
-  final QueryGetHashtagMetaById$getHashtagMeta? getHashtagMeta;
+  final QueryGetHashtagById$getHashtag? getHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$QueryGetHashtagMetaByIdToJson(this);
+  Map<String, dynamic> toJson() => _$QueryGetHashtagByIdToJson(this);
 }
 
-const QUERY_GET_HASHTAG_META_BY_ID = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_BY_ID = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
-      name: NameNode(value: 'GetHashtagMetaById'),
+      name: NameNode(value: 'GetHashtagById'),
       variableDefinitions: [
         VariableDefinitionNode(
             variable: VariableNode(name: NameNode(value: 'id')),
@@ -1153,7 +1145,7 @@ const QUERY_GET_HASHTAG_META_BY_ID = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'getHashtagMeta'),
+            name: NameNode(value: 'getHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
@@ -1163,8 +1155,7 @@ const QUERY_GET_HASHTAG_META_BY_ID = const DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
-                  name: NameNode(value: 'HashtagMetaFragmentData'),
-                  directives: []),
+                  name: NameNode(value: 'HashtagFragmentData'), directives: []),
               FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
@@ -1179,15 +1170,15 @@ const QUERY_GET_HASHTAG_META_BY_ID = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
 
-class GQLOptionsQueryGetHashtagMetaById
-    extends graphql.QueryOptions<QueryGetHashtagMetaById> {
-  GQLOptionsQueryGetHashtagMetaById(
+class GQLOptionsQueryGetHashtagById
+    extends graphql.QueryOptions<QueryGetHashtagById> {
+  GQLOptionsQueryGetHashtagById(
       {String? operationName,
-      VariablesQueryGetHashtagMetaById? variables,
+      VariablesQueryGetHashtagById? variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -1203,15 +1194,15 @@ class GQLOptionsQueryGetHashtagMetaById
             optimisticResult: optimisticResult,
             pollInterval: pollInterval,
             context: context,
-            document: QUERY_GET_HASHTAG_META_BY_ID,
-            parserFn: (data) => QueryGetHashtagMetaById.fromJson(data));
+            document: QUERY_GET_HASHTAG_BY_ID,
+            parserFn: (data) => QueryGetHashtagById.fromJson(data));
 }
 
-class GQLWatchOptionsQueryGetHashtagMetaById
-    extends graphql.WatchQueryOptions<QueryGetHashtagMetaById> {
-  GQLWatchOptionsQueryGetHashtagMetaById(
+class GQLWatchOptionsQueryGetHashtagById
+    extends graphql.WatchQueryOptions<QueryGetHashtagById> {
+  GQLWatchOptionsQueryGetHashtagById(
       {String? operationName,
-      VariablesQueryGetHashtagMetaById? variables,
+      VariablesQueryGetHashtagById? variables,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
@@ -1229,178 +1220,172 @@ class GQLWatchOptionsQueryGetHashtagMetaById
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: QUERY_GET_HASHTAG_META_BY_ID,
+            document: QUERY_GET_HASHTAG_BY_ID,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetHashtagMetaById.fromJson(data));
+            parserFn: (data) => QueryGetHashtagById.fromJson(data));
 }
 
-class GQLFetchMoreOptionsQueryGetHashtagMetaById
-    extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetHashtagMetaById(
+class GQLFetchMoreOptionsQueryGetHashtagById extends graphql.FetchMoreOptions {
+  GQLFetchMoreOptionsQueryGetHashtagById(
       {required graphql.UpdateQuery updateQuery,
-      VariablesQueryGetHashtagMetaById? variables})
+      VariablesQueryGetHashtagById? variables})
       : super(
             updateQuery: updateQuery,
             variables: variables?.toJson() ?? {},
-            document: QUERY_GET_HASHTAG_META_BY_ID);
+            document: QUERY_GET_HASHTAG_BY_ID);
 }
 
-extension GQLExtensionQueryGetHashtagMetaById on graphql.GraphQLClient {
-  Future<graphql.QueryResult<QueryGetHashtagMetaById>> queryGetHashtagMetaById(
-          [GQLOptionsQueryGetHashtagMetaById? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetHashtagMetaById());
-  graphql.ObservableQuery<QueryGetHashtagMetaById> watchQueryGetHashtagMetaById(
-          [GQLWatchOptionsQueryGetHashtagMetaById? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagMetaById());
+extension GQLExtensionQueryGetHashtagById on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetHashtagById>> queryGetHashtagById(
+          [GQLOptionsQueryGetHashtagById? options]) async =>
+      await this.query(options ?? GQLOptionsQueryGetHashtagById());
+  graphql.ObservableQuery<QueryGetHashtagById> watchQueryGetHashtagById(
+          [GQLWatchOptionsQueryGetHashtagById? options]) =>
+      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagById());
 }
 
-class GQLFQueryGetHashtagMetaById
-    extends graphql_flutter.Query<QueryGetHashtagMetaById> {
-  GQLFQueryGetHashtagMetaById(
+class GQLFQueryGetHashtagById
+    extends graphql_flutter.Query<QueryGetHashtagById> {
+  GQLFQueryGetHashtagById(
       {widgets.Key? key,
-      GQLOptionsQueryGetHashtagMetaById? options,
-      required graphql_flutter.QueryBuilder<QueryGetHashtagMetaById> builder})
+      GQLOptionsQueryGetHashtagById? options,
+      required graphql_flutter.QueryBuilder<QueryGetHashtagById> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetHashtagMetaById(),
+            options: options ?? GQLOptionsQueryGetHashtagById(),
             builder: builder);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaById$getHashtagMeta extends JsonSerializable
-    implements FragmentHashtagMetaFragmentData {
-  QueryGetHashtagMetaById$getHashtagMeta(
+class QueryGetHashtagById$getHashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  QueryGetHashtagById$getHashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory QueryGetHashtagMetaById$getHashtagMeta.fromJson(
-          Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaById$getHashtagMetaFromJson(json);
+  factory QueryGetHashtagById$getHashtag.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetHashtagById$getHashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants?>?
-      hashtagVariants;
+  final List<QueryGetHashtagById$getHashtag$hashtagVariants?>? hashtagVariants;
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaById$getHashtagMetaToJson(this);
+  Map<String, dynamic> toJson() => _$QueryGetHashtagById$getHashtagToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants
-    extends JsonSerializable
+class QueryGetHashtagById$getHashtag$hashtagVariants extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants(
+  QueryGetHashtagById$getHashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants.fromJson(
+  factory QueryGetHashtagById$getHashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariantsFromJson(json);
+      _$QueryGetHashtagById$getHashtag$hashtagVariantsFromJson(json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate?
+  final QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate?
+  final QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariantsToJson(this);
+      _$QueryGetHashtagById$getHashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate
+class QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate(
-      {this.count});
+  QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate({this.count});
 
   @override
-  factory QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate
+class QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate(
+  QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaById$getHashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaList extends JsonSerializable {
-  QueryGetHashtagMetaList({this.queryHashtagMeta});
+class QueryGetHashtagList extends JsonSerializable {
+  QueryGetHashtagList({this.queryHashtag});
 
   @override
-  factory QueryGetHashtagMetaList.fromJson(Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaListFromJson(json);
+  factory QueryGetHashtagList.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetHashtagListFromJson(json);
 
-  final List<QueryGetHashtagMetaList$queryHashtagMeta?>? queryHashtagMeta;
+  final List<QueryGetHashtagList$queryHashtag?>? queryHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$QueryGetHashtagMetaListToJson(this);
+  Map<String, dynamic> toJson() => _$QueryGetHashtagListToJson(this);
 }
 
-const QUERY_GET_HASHTAG_META_LIST = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_LIST = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
-      name: NameNode(value: 'GetHashtagMetaList'),
+      name: NameNode(value: 'GetHashtagList'),
       variableDefinitions: [],
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'queryHashtagMeta'),
+            name: NameNode(value: 'queryHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
@@ -1408,14 +1393,13 @@ const QUERY_GET_HASHTAG_META_LIST = const DocumentNode(definitions: [
                   value: ObjectValueNode(fields: [
                     ObjectFieldNode(
                         name: NameNode(value: 'asc'),
-                        value: EnumValueNode(name: NameNode(value: 'metaName')))
+                        value: EnumValueNode(name: NameNode(value: 'name')))
                   ]))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
-                  name: NameNode(value: 'HashtagMetaFragmentData'),
-                  directives: []),
+                  name: NameNode(value: 'HashtagFragmentData'), directives: []),
               FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
@@ -1430,13 +1414,13 @@ const QUERY_GET_HASHTAG_META_LIST = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
 
-class GQLOptionsQueryGetHashtagMetaList
-    extends graphql.QueryOptions<QueryGetHashtagMetaList> {
-  GQLOptionsQueryGetHashtagMetaList(
+class GQLOptionsQueryGetHashtagList
+    extends graphql.QueryOptions<QueryGetHashtagList> {
+  GQLOptionsQueryGetHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1452,13 +1436,13 @@ class GQLOptionsQueryGetHashtagMetaList
             optimisticResult: optimisticResult,
             pollInterval: pollInterval,
             context: context,
-            document: QUERY_GET_HASHTAG_META_LIST,
-            parserFn: (data) => QueryGetHashtagMetaList.fromJson(data));
+            document: QUERY_GET_HASHTAG_LIST,
+            parserFn: (data) => QueryGetHashtagList.fromJson(data));
 }
 
-class GQLWatchOptionsQueryGetHashtagMetaList
-    extends graphql.WatchQueryOptions<QueryGetHashtagMetaList> {
-  GQLWatchOptionsQueryGetHashtagMetaList(
+class GQLWatchOptionsQueryGetHashtagList
+    extends graphql.WatchQueryOptions<QueryGetHashtagList> {
+  GQLWatchOptionsQueryGetHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1476,175 +1460,172 @@ class GQLWatchOptionsQueryGetHashtagMetaList
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: QUERY_GET_HASHTAG_META_LIST,
+            document: QUERY_GET_HASHTAG_LIST,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetHashtagMetaList.fromJson(data));
+            parserFn: (data) => QueryGetHashtagList.fromJson(data));
 }
 
-class GQLFetchMoreOptionsQueryGetHashtagMetaList
-    extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetHashtagMetaList(
+class GQLFetchMoreOptionsQueryGetHashtagList extends graphql.FetchMoreOptions {
+  GQLFetchMoreOptionsQueryGetHashtagList(
       {required graphql.UpdateQuery updateQuery})
-      : super(updateQuery: updateQuery, document: QUERY_GET_HASHTAG_META_LIST);
+      : super(updateQuery: updateQuery, document: QUERY_GET_HASHTAG_LIST);
 }
 
-extension GQLExtensionQueryGetHashtagMetaList on graphql.GraphQLClient {
-  Future<graphql.QueryResult<QueryGetHashtagMetaList>> queryGetHashtagMetaList(
-          [GQLOptionsQueryGetHashtagMetaList? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetHashtagMetaList());
-  graphql.ObservableQuery<QueryGetHashtagMetaList> watchQueryGetHashtagMetaList(
-          [GQLWatchOptionsQueryGetHashtagMetaList? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagMetaList());
+extension GQLExtensionQueryGetHashtagList on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetHashtagList>> queryGetHashtagList(
+          [GQLOptionsQueryGetHashtagList? options]) async =>
+      await this.query(options ?? GQLOptionsQueryGetHashtagList());
+  graphql.ObservableQuery<QueryGetHashtagList> watchQueryGetHashtagList(
+          [GQLWatchOptionsQueryGetHashtagList? options]) =>
+      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagList());
 }
 
-class GQLFQueryGetHashtagMetaList
-    extends graphql_flutter.Query<QueryGetHashtagMetaList> {
-  GQLFQueryGetHashtagMetaList(
+class GQLFQueryGetHashtagList
+    extends graphql_flutter.Query<QueryGetHashtagList> {
+  GQLFQueryGetHashtagList(
       {widgets.Key? key,
-      GQLOptionsQueryGetHashtagMetaList? options,
-      required graphql_flutter.QueryBuilder<QueryGetHashtagMetaList> builder})
+      GQLOptionsQueryGetHashtagList? options,
+      required graphql_flutter.QueryBuilder<QueryGetHashtagList> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetHashtagMetaList(),
+            options: options ?? GQLOptionsQueryGetHashtagList(),
             builder: builder);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaList$queryHashtagMeta extends JsonSerializable
-    implements FragmentHashtagMetaFragmentData {
-  QueryGetHashtagMetaList$queryHashtagMeta(
+class QueryGetHashtagList$queryHashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  QueryGetHashtagList$queryHashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory QueryGetHashtagMetaList$queryHashtagMeta.fromJson(
+  factory QueryGetHashtagList$queryHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaList$queryHashtagMetaFromJson(json);
+      _$QueryGetHashtagList$queryHashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants?>?
+  final List<QueryGetHashtagList$queryHashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaList$queryHashtagMetaToJson(this);
+      _$QueryGetHashtagList$queryHashtagToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants
-    extends JsonSerializable
+class QueryGetHashtagList$queryHashtag$hashtagVariants extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants(
+  QueryGetHashtagList$queryHashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants.fromJson(
+  factory QueryGetHashtagList$queryHashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariantsFromJson(json);
+      _$QueryGetHashtagList$queryHashtag$hashtagVariantsFromJson(json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate?
+  final QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate?
+  final QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariantsToJson(this);
+      _$QueryGetHashtagList$queryHashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
+class QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate(
+  QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate(
       {this.count});
 
   @override
-  factory QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
+class QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate(
+  QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetBlessedHashtagMetaList extends JsonSerializable {
-  QueryGetBlessedHashtagMetaList({this.queryHashtagMeta});
+class QueryGetBlessedHashtagList extends JsonSerializable {
+  QueryGetBlessedHashtagList({this.queryHashtag});
 
   @override
-  factory QueryGetBlessedHashtagMetaList.fromJson(Map<String, dynamic> json) =>
-      _$QueryGetBlessedHashtagMetaListFromJson(json);
+  factory QueryGetBlessedHashtagList.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetBlessedHashtagListFromJson(json);
 
-  final List<QueryGetBlessedHashtagMetaList$queryHashtagMeta?>?
-      queryHashtagMeta;
+  final List<QueryGetBlessedHashtagList$queryHashtag?>? queryHashtag;
 
   @override
-  Map<String, dynamic> toJson() => _$QueryGetBlessedHashtagMetaListToJson(this);
+  Map<String, dynamic> toJson() => _$QueryGetBlessedHashtagListToJson(this);
 }
 
-const QUERY_GET_BLESSED_HASHTAG_META_LIST = const DocumentNode(definitions: [
+const QUERY_GET_BLESSED_HASHTAG_LIST = const DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
-      name: NameNode(value: 'GetBlessedHashtagMetaList'),
+      name: NameNode(value: 'GetBlessedHashtagList'),
       variableDefinitions: [],
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'queryHashtagMeta'),
+            name: NameNode(value: 'queryHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
@@ -1652,7 +1633,7 @@ const QUERY_GET_BLESSED_HASHTAG_META_LIST = const DocumentNode(definitions: [
                   value: ObjectValueNode(fields: [
                     ObjectFieldNode(
                         name: NameNode(value: 'asc'),
-                        value: EnumValueNode(name: NameNode(value: 'metaName')))
+                        value: EnumValueNode(name: NameNode(value: 'name')))
                   ])),
               ArgumentNode(
                   name: NameNode(value: 'filter'),
@@ -1665,8 +1646,7 @@ const QUERY_GET_BLESSED_HASHTAG_META_LIST = const DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
-                  name: NameNode(value: 'HashtagMetaFragmentData'),
-                  directives: []),
+                  name: NameNode(value: 'HashtagFragmentData'), directives: []),
               FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
@@ -1681,13 +1661,13 @@ const QUERY_GET_BLESSED_HASHTAG_META_LIST = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
 
-class GQLOptionsQueryGetBlessedHashtagMetaList
-    extends graphql.QueryOptions<QueryGetBlessedHashtagMetaList> {
-  GQLOptionsQueryGetBlessedHashtagMetaList(
+class GQLOptionsQueryGetBlessedHashtagList
+    extends graphql.QueryOptions<QueryGetBlessedHashtagList> {
+  GQLOptionsQueryGetBlessedHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1703,13 +1683,13 @@ class GQLOptionsQueryGetBlessedHashtagMetaList
             optimisticResult: optimisticResult,
             pollInterval: pollInterval,
             context: context,
-            document: QUERY_GET_BLESSED_HASHTAG_META_LIST,
-            parserFn: (data) => QueryGetBlessedHashtagMetaList.fromJson(data));
+            document: QUERY_GET_BLESSED_HASHTAG_LIST,
+            parserFn: (data) => QueryGetBlessedHashtagList.fromJson(data));
 }
 
-class GQLWatchOptionsQueryGetBlessedHashtagMetaList
-    extends graphql.WatchQueryOptions<QueryGetBlessedHashtagMetaList> {
-  GQLWatchOptionsQueryGetBlessedHashtagMetaList(
+class GQLWatchOptionsQueryGetBlessedHashtagList
+    extends graphql.WatchQueryOptions<QueryGetBlessedHashtagList> {
+  GQLWatchOptionsQueryGetBlessedHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1727,157 +1707,152 @@ class GQLWatchOptionsQueryGetBlessedHashtagMetaList
             cacheRereadPolicy: cacheRereadPolicy,
             optimisticResult: optimisticResult,
             context: context,
-            document: QUERY_GET_BLESSED_HASHTAG_META_LIST,
+            document: QUERY_GET_BLESSED_HASHTAG_LIST,
             pollInterval: pollInterval,
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetBlessedHashtagMetaList.fromJson(data));
+            parserFn: (data) => QueryGetBlessedHashtagList.fromJson(data));
 }
 
-class GQLFetchMoreOptionsQueryGetBlessedHashtagMetaList
+class GQLFetchMoreOptionsQueryGetBlessedHashtagList
     extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetBlessedHashtagMetaList(
+  GQLFetchMoreOptionsQueryGetBlessedHashtagList(
       {required graphql.UpdateQuery updateQuery})
       : super(
-            updateQuery: updateQuery,
-            document: QUERY_GET_BLESSED_HASHTAG_META_LIST);
+            updateQuery: updateQuery, document: QUERY_GET_BLESSED_HASHTAG_LIST);
 }
 
-extension GQLExtensionQueryGetBlessedHashtagMetaList on graphql.GraphQLClient {
-  Future<graphql.QueryResult<QueryGetBlessedHashtagMetaList>>
-      queryGetBlessedHashtagMetaList(
-              [GQLOptionsQueryGetBlessedHashtagMetaList? options]) async =>
-          await this
-              .query(options ?? GQLOptionsQueryGetBlessedHashtagMetaList());
-  graphql.ObservableQuery<QueryGetBlessedHashtagMetaList>
-      watchQueryGetBlessedHashtagMetaList(
-              [GQLWatchOptionsQueryGetBlessedHashtagMetaList? options]) =>
-          this.watchQuery(
-              options ?? GQLWatchOptionsQueryGetBlessedHashtagMetaList());
+extension GQLExtensionQueryGetBlessedHashtagList on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetBlessedHashtagList>>
+      queryGetBlessedHashtagList(
+              [GQLOptionsQueryGetBlessedHashtagList? options]) async =>
+          await this.query(options ?? GQLOptionsQueryGetBlessedHashtagList());
+  graphql.ObservableQuery<
+      QueryGetBlessedHashtagList> watchQueryGetBlessedHashtagList(
+          [GQLWatchOptionsQueryGetBlessedHashtagList? options]) =>
+      this.watchQuery(options ?? GQLWatchOptionsQueryGetBlessedHashtagList());
 }
 
-class GQLFQueryGetBlessedHashtagMetaList
-    extends graphql_flutter.Query<QueryGetBlessedHashtagMetaList> {
-  GQLFQueryGetBlessedHashtagMetaList(
+class GQLFQueryGetBlessedHashtagList
+    extends graphql_flutter.Query<QueryGetBlessedHashtagList> {
+  GQLFQueryGetBlessedHashtagList(
       {widgets.Key? key,
-      GQLOptionsQueryGetBlessedHashtagMetaList? options,
-      required graphql_flutter.QueryBuilder<QueryGetBlessedHashtagMetaList>
+      GQLOptionsQueryGetBlessedHashtagList? options,
+      required graphql_flutter.QueryBuilder<QueryGetBlessedHashtagList>
           builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetBlessedHashtagMetaList(),
+            options: options ?? GQLOptionsQueryGetBlessedHashtagList(),
             builder: builder);
 }
 
 @JsonSerializable()
-class QueryGetBlessedHashtagMetaList$queryHashtagMeta extends JsonSerializable
-    implements FragmentHashtagMetaFragmentData {
-  QueryGetBlessedHashtagMetaList$queryHashtagMeta(
+class QueryGetBlessedHashtagList$queryHashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  QueryGetBlessedHashtagList$queryHashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta.fromJson(
+  factory QueryGetBlessedHashtagList$queryHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMetaFromJson(json);
+      _$QueryGetBlessedHashtagList$queryHashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants?>?
+  final List<QueryGetBlessedHashtagList$queryHashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMetaToJson(this);
+      _$QueryGetBlessedHashtagList$queryHashtagToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants
+class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants(
+  QueryGetBlessedHashtagList$queryHashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants.fromJson(
+  factory QueryGetBlessedHashtagList$queryHashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariantsFromJson(
-          json);
+      _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariantsFromJson(json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate?
+  final QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate?
+  final QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariantsToJson(
-          this);
+      _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate
+class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate(
+  QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate(
       {this.count});
 
   @override
-  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate
+class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate(
+  QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetBlessedHashtagMetaList$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
@@ -1992,13 +1967,13 @@ const QUERY_GET_SKILLS_BY_USER_ID = const DocumentNode(definitions: [
                         directives: [],
                         selectionSet: SelectionSetNode(selections: [
                           FieldNode(
-                              name: NameNode(value: 'variantName'),
+                              name: NameNode(value: 'variant'),
                               alias: null,
                               arguments: [],
                               directives: [],
                               selectionSet: null),
                           FieldNode(
-                              name: NameNode(value: 'hashtagMeta'),
+                              name: NameNode(value: 'hashtag'),
                               alias: null,
                               arguments: [],
                               directives: [],
@@ -2010,7 +1985,7 @@ const QUERY_GET_SKILLS_BY_USER_ID = const DocumentNode(definitions: [
                                     directives: [],
                                     selectionSet: null),
                                 FieldNode(
-                                    name: NameNode(value: 'metaName'),
+                                    name: NameNode(value: 'name'),
                                     alias: null,
                                     arguments: [],
                                     directives: [],
@@ -2219,17 +2194,16 @@ class QueryGetSkillsByUserId$getUser$skills extends JsonSerializable {
 class QueryGetSkillsByUserId$getUser$skills$hashtagVariants
     extends JsonSerializable {
   QueryGetSkillsByUserId$getUser$skills$hashtagVariants(
-      {required this.variantName, required this.hashtagMeta});
+      {required this.variant, required this.hashtag});
 
   @override
   factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
       _$QueryGetSkillsByUserId$getUser$skills$hashtagVariantsFromJson(json);
 
-  final String variantName;
+  final String variant;
 
-  final QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
-      hashtagMeta;
+  final QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag hashtag;
 
   @override
   Map<String, dynamic> toJson() =>
@@ -2237,24 +2211,24 @@ class QueryGetSkillsByUserId$getUser$skills$hashtagVariants
 }
 
 @JsonSerializable()
-class QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta
+class QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag
     extends JsonSerializable {
-  QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta(
-      {required this.id, required this.metaName});
+  QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag(
+      {required this.id, required this.name});
 
   @override
-  factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMeta.fromJson(
+  factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMetaFromJson(
+      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagFromJson(
           json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagMetaToJson(
+      _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagToJson(
           this);
 }
 
@@ -2275,13 +2249,13 @@ class VariablesQueryGetSkillsPageData extends JsonSerializable {
 
 @JsonSerializable()
 class QueryGetSkillsPageData extends JsonSerializable {
-  QueryGetSkillsPageData({this.queryHashtagMeta, this.getUser});
+  QueryGetSkillsPageData({this.queryHashtag, this.getUser});
 
   @override
   factory QueryGetSkillsPageData.fromJson(Map<String, dynamic> json) =>
       _$QueryGetSkillsPageDataFromJson(json);
 
-  final List<QueryGetSkillsPageData$queryHashtagMeta?>? queryHashtagMeta;
+  final List<QueryGetSkillsPageData$queryHashtag?>? queryHashtag;
 
   final QueryGetSkillsPageData$getUser? getUser;
 
@@ -2303,7 +2277,7 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'queryHashtagMeta'),
+            name: NameNode(value: 'queryHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
@@ -2311,7 +2285,7 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                   value: ObjectValueNode(fields: [
                     ObjectFieldNode(
                         name: NameNode(value: 'asc'),
-                        value: EnumValueNode(name: NameNode(value: 'metaName')))
+                        value: EnumValueNode(name: NameNode(value: 'name')))
                   ])),
               ArgumentNode(
                   name: NameNode(value: 'filter'),
@@ -2324,8 +2298,7 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
-                  name: NameNode(value: 'HashtagMetaFragmentData'),
-                  directives: []),
+                  name: NameNode(value: 'HashtagFragmentData'), directives: []),
               FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
@@ -2410,11 +2383,20 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                     FieldNode(
                         name: NameNode(value: 'hashtagVariants'),
                         alias: null,
-                        arguments: [],
+                        arguments: [
+                          ArgumentNode(
+                              name: NameNode(value: 'order'),
+                              value: ObjectValueNode(fields: [
+                                ObjectFieldNode(
+                                    name: NameNode(value: 'asc'),
+                                    value: EnumValueNode(
+                                        name: NameNode(value: 'variant')))
+                              ]))
+                        ],
                         directives: [],
                         selectionSet: SelectionSetNode(selections: [
                           FieldNode(
-                              name: NameNode(value: 'hashtagMeta'),
+                              name: NameNode(value: 'hashtag'),
                               alias: null,
                               arguments: [],
                               directives: [],
@@ -2426,7 +2408,7 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
                                     directives: [],
                                     selectionSet: null),
                                 FieldNode(
-                                    name: NameNode(value: 'metaName'),
+                                    name: NameNode(value: 'name'),
                                     alias: null,
                                     arguments: [],
                                     directives: [],
@@ -2472,7 +2454,7 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
             directives: [],
             selectionSet: null)
       ])),
-  FRAGMENT_HASHTAG_META_FRAGMENT_DATA,
+  FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
 
@@ -2563,111 +2545,111 @@ class GQLFQueryGetSkillsPageData
 }
 
 @JsonSerializable()
-class QueryGetSkillsPageData$queryHashtagMeta extends JsonSerializable
-    implements FragmentHashtagMetaFragmentData {
-  QueryGetSkillsPageData$queryHashtagMeta(
+class QueryGetSkillsPageData$queryHashtag extends JsonSerializable
+    implements FragmentHashtagFragmentData {
+  QueryGetSkillsPageData$queryHashtag(
       {required this.id,
-      required this.metaName,
+      required this.name,
       this.iconName,
       this.blessed,
       this.hashtagVariants});
 
   @override
-  factory QueryGetSkillsPageData$queryHashtagMeta.fromJson(
+  factory QueryGetSkillsPageData$queryHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetSkillsPageData$queryHashtagMetaFromJson(json);
+      _$QueryGetSkillsPageData$queryHashtagFromJson(json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   final bool? blessed;
 
-  final List<QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants?>?
+  final List<QueryGetSkillsPageData$queryHashtag$hashtagVariants?>?
       hashtagVariants;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetSkillsPageData$queryHashtagMetaToJson(this);
+      _$QueryGetSkillsPageData$queryHashtagToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants
+class QueryGetSkillsPageData$queryHashtag$hashtagVariants
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants,
+        FragmentHashtagFragmentData$hashtagVariants,
         FragmentHashtagVariantFragmentData {
-  QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants(
+  QueryGetSkillsPageData$queryHashtag$hashtagVariants(
       {required this.id,
-      required this.variantName,
+      required this.variant,
       this.skillsAggregate,
       this.requestsAggregate});
 
   @override
-  factory QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants.fromJson(
+  factory QueryGetSkillsPageData$queryHashtag$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariantsFromJson(json);
+      _$QueryGetSkillsPageData$queryHashtag$hashtagVariantsFromJson(json);
 
   final String id;
 
-  final String variantName;
+  final String variant;
 
-  final QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate?
+  final QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate?
       skillsAggregate;
 
-  final QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate?
+  final QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariantsToJson(this);
+      _$QueryGetSkillsPageData$queryHashtag$hashtagVariantsToJson(this);
 }
 
 @JsonSerializable()
-class QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate
+class QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$skillsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate(
+  QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate(
       {this.count});
 
   @override
-  factory QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregate.fromJson(
+  factory QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregateFromJson(
+      _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$skillsAggregateToJson(
+      _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregateToJson(
           this);
 }
 
 @JsonSerializable()
-class QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate
+class QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate
     extends JsonSerializable
     implements
-        FragmentHashtagMetaFragmentData$hashtagVariants$requestsAggregate,
+        FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
-  QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate(
+  QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate(
       {this.count});
 
   @override
-  factory QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregate.fromJson(
+  factory QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregateFromJson(
+      _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregateFromJson(
           json);
 
   final int? count;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetSkillsPageData$queryHashtagMeta$hashtagVariants$requestsAggregateToJson(
+      _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregateToJson(
           this);
 }
 
@@ -2740,15 +2722,14 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
 class QueryGetSkillsPageData$getUser$skills$hashtagVariants
     extends JsonSerializable {
   QueryGetSkillsPageData$getUser$skills$hashtagVariants(
-      {required this.hashtagMeta});
+      {required this.hashtag});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills$hashtagVariants.fromJson(
           Map<String, dynamic> json) =>
       _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsFromJson(json);
 
-  final QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
-      hashtagMeta;
+  final QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag hashtag;
 
   @override
   Map<String, dynamic> toJson() =>
@@ -2756,33 +2737,33 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants
 }
 
 @JsonSerializable()
-class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta
+class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag
     extends JsonSerializable {
-  QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta(
-      {required this.id, required this.metaName, this.iconName});
+  QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag(
+      {required this.id, required this.name, this.iconName});
 
   @override
-  factory QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMeta.fromJson(
+  factory QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaFromJson(
+      _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagFromJson(
           json);
 
   final String id;
 
-  final String metaName;
+  final String name;
 
   final String? iconName;
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagMetaToJson(
+      _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagToJson(
           this);
 }
 
 @JsonSerializable()
 class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
   VariablesQuerySearchTopRequestHashtag(
-      {required this.keywordRegex, required this.hashtagMetaOrder, this.limit});
+      {required this.keywordRegex, required this.hashtagOrder, this.limit});
 
   @override
   factory VariablesQuerySearchTopRequestHashtag.fromJson(
@@ -2791,7 +2772,7 @@ class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
 
   final String keywordRegex;
 
-  final InputHashtagMetaOrder hashtagMetaOrder;
+  final InputHashtagOrder hashtagOrder;
 
   final int? limit;
 
@@ -2802,13 +2783,13 @@ class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
 
 @JsonSerializable()
 class QuerySearchTopRequestHashtag extends JsonSerializable {
-  QuerySearchTopRequestHashtag({this.queryHashtagMeta});
+  QuerySearchTopRequestHashtag({this.queryHashtag});
 
   @override
   factory QuerySearchTopRequestHashtag.fromJson(Map<String, dynamic> json) =>
       _$QuerySearchTopRequestHashtagFromJson(json);
 
-  final List<QuerySearchTopRequestHashtag$queryHashtagMeta?>? queryHashtagMeta;
+  final List<QuerySearchTopRequestHashtag$queryHashtag?>? queryHashtag;
 
   @override
   Map<String, dynamic> toJson() => _$QuerySearchTopRequestHashtagToJson(this);
@@ -2826,9 +2807,9 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
             defaultValue: DefaultValueNode(value: null),
             directives: []),
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'hashtagMetaOrder')),
+            variable: VariableNode(name: NameNode(value: 'hashtagOrder')),
             type: NamedTypeNode(
-                name: NameNode(value: 'HashtagMetaOrder'), isNonNull: true),
+                name: NameNode(value: 'HashtagOrder'), isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
             directives: []),
         VariableDefinitionNode(
@@ -2840,14 +2821,14 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'queryHashtagMeta'),
+            name: NameNode(value: 'queryHashtag'),
             alias: null,
             arguments: [
               ArgumentNode(
                   name: NameNode(value: 'filter'),
                   value: ObjectValueNode(fields: [
                     ObjectFieldNode(
-                        name: NameNode(value: 'metaName'),
+                        name: NameNode(value: 'name'),
                         value: ObjectValueNode(fields: [
                           ObjectFieldNode(
                               name: NameNode(value: 'regexp'),
@@ -2857,8 +2838,7 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
                   ])),
               ArgumentNode(
                   name: NameNode(value: 'order'),
-                  value:
-                      VariableNode(name: NameNode(value: 'hashtagMetaOrder'))),
+                  value: VariableNode(name: NameNode(value: 'hashtagOrder'))),
               ArgumentNode(
                   name: NameNode(value: 'first'),
                   value: VariableNode(name: NameNode(value: 'limit')))
@@ -2878,7 +2858,7 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
-                  name: NameNode(value: 'metaName'),
+                  name: NameNode(value: 'name'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -3028,11 +3008,11 @@ class GQLFQuerySearchTopRequestHashtag
 }
 
 @JsonSerializable()
-class QuerySearchTopRequestHashtag$queryHashtagMeta extends JsonSerializable {
-  QuerySearchTopRequestHashtag$queryHashtagMeta(
+class QuerySearchTopRequestHashtag$queryHashtag extends JsonSerializable {
+  QuerySearchTopRequestHashtag$queryHashtag(
       {required this.id,
       this.iconName,
-      required this.metaName,
+      required this.name,
       this.blessed,
       this.skillCountAllTime,
       this.skillCountLast1w,
@@ -3042,15 +3022,15 @@ class QuerySearchTopRequestHashtag$queryHashtagMeta extends JsonSerializable {
       this.requestCountLast24h});
 
   @override
-  factory QuerySearchTopRequestHashtag$queryHashtagMeta.fromJson(
+  factory QuerySearchTopRequestHashtag$queryHashtag.fromJson(
           Map<String, dynamic> json) =>
-      _$QuerySearchTopRequestHashtag$queryHashtagMetaFromJson(json);
+      _$QuerySearchTopRequestHashtag$queryHashtagFromJson(json);
 
   final String id;
 
   final String? iconName;
 
-  final String metaName;
+  final String name;
 
   final bool? blessed;
 
@@ -3068,5 +3048,5 @@ class QuerySearchTopRequestHashtag$queryHashtagMeta extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() =>
-      _$QuerySearchTopRequestHashtag$queryHashtagMetaToJson(this);
+      _$QuerySearchTopRequestHashtag$queryHashtagToJson(this);
 }

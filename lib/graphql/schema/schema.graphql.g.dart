@@ -572,10 +572,34 @@ Map<String, dynamic> _$InputStringHashFilterToJson(
       'in': instance.$in,
     };
 
-InputAddHashtagMetaInput _$InputAddHashtagMetaInputFromJson(
+InputAddGratitudeInput _$InputAddGratitudeInputFromJson(
     Map<String, dynamic> json) {
-  return InputAddHashtagMetaInput(
-    metaName: json['metaName'] as String,
+  return InputAddGratitudeInput(
+    from: InputUserRef.fromJson(json['from'] as Map<String, dynamic>),
+    to: InputUserRef.fromJson(json['to'] as Map<String, dynamic>),
+    message: json['message'] as String?,
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
+        .map((e) => e == null
+            ? null
+            : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    createdTimestamp: json['createdTimestamp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputAddGratitudeInputToJson(
+        InputAddGratitudeInput instance) =>
+    <String, dynamic>{
+      'from': instance.from,
+      'to': instance.to,
+      'message': instance.message,
+      'hashtagVariants': instance.hashtagVariants,
+      'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputAddHashtagInput _$InputAddHashtagInputFromJson(Map<String, dynamic> json) {
+  return InputAddHashtagInput(
+    name: json['name'] as String,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     blessedInt: json['blessedInt'] as int?,
@@ -593,10 +617,10 @@ InputAddHashtagMetaInput _$InputAddHashtagMetaInputFromJson(
   );
 }
 
-Map<String, dynamic> _$InputAddHashtagMetaInputToJson(
-        InputAddHashtagMetaInput instance) =>
+Map<String, dynamic> _$InputAddHashtagInputToJson(
+        InputAddHashtagInput instance) =>
     <String, dynamic>{
-      'metaName': instance.metaName,
+      'name': instance.name,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'blessedInt': instance.blessedInt,
@@ -612,9 +636,8 @@ Map<String, dynamic> _$InputAddHashtagMetaInputToJson(
 InputAddHashtagVariantInput _$InputAddHashtagVariantInputFromJson(
     Map<String, dynamic> json) {
   return InputAddHashtagVariantInput(
-    variantName: json['variantName'] as String,
-    hashtagMeta: InputHashtagMetaRef.fromJson(
-        json['hashtagMeta'] as Map<String, dynamic>),
+    variant: json['variant'] as String,
+    hashtag: InputHashtagRef.fromJson(json['hashtag'] as Map<String, dynamic>),
     skills: (json['skills'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
@@ -625,16 +648,22 @@ InputAddHashtagVariantInput _$InputAddHashtagVariantInputFromJson(
             ? null
             : InputRequestRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    gratitudes: (json['gratitudes'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$InputAddHashtagVariantInputToJson(
         InputAddHashtagVariantInput instance) =>
     <String, dynamic>{
-      'variantName': instance.variantName,
-      'hashtagMeta': instance.hashtagMeta,
+      'variant': instance.variant,
+      'hashtag': instance.hashtag,
       'skills': instance.skills,
       'requests': instance.requests,
+      'gratitudes': instance.gratitudes,
     };
 
 InputAddRequestInput _$InputAddRequestInputFromJson(Map<String, dynamic> json) {
@@ -642,6 +671,8 @@ InputAddRequestInput _$InputAddRequestInputFromJson(Map<String, dynamic> json) {
     owner: InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String,
     message: json['message'] as String,
+    status: _$enumDecode(_$EnumRequestStatusEnumMap, json['status'],
+        unknownValue: EnumRequestStatus.$unknown),
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
         .map((e) => e == null
             ? null
@@ -657,9 +688,18 @@ Map<String, dynamic> _$InputAddRequestInputToJson(
       'owner': instance.owner,
       'title': instance.title,
       'message': instance.message,
+      'status': _$EnumRequestStatusEnumMap[instance.status],
       'hashtagVariants': instance.hashtagVariants,
       'createdTimestamp': instance.createdTimestamp,
     };
+
+const _$EnumRequestStatusEnumMap = {
+  EnumRequestStatus.open: 'OPEN',
+  EnumRequestStatus.tentative: 'TENTATIVE',
+  EnumRequestStatus.filled: 'FILLED',
+  EnumRequestStatus.done: 'DONE',
+  EnumRequestStatus.$unknown: r'$unknown',
+};
 
 InputAddSkillInput _$InputAddSkillInputFromJson(Map<String, dynamic> json) {
   return InputAddSkillInput(
@@ -703,6 +743,16 @@ InputAddUserInput _$InputAddUserInputFromJson(Map<String, dynamic> json) {
             ? null
             : InputSkillRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    gratitudeSent: (json['gratitudeSent'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gratitudeReceived: (json['gratitudeReceived'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -715,103 +765,225 @@ Map<String, dynamic> _$InputAddUserInputToJson(InputAddUserInput instance) =>
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
       'skills': instance.skills,
+      'gratitudeSent': instance.gratitudeSent,
+      'gratitudeReceived': instance.gratitudeReceived,
     };
 
-InputHashtagMetaFilter _$InputHashtagMetaFilterFromJson(
-    Map<String, dynamic> json) {
-  return InputHashtagMetaFilter(
+InputGratitudeFilter _$InputGratitudeFilterFromJson(Map<String, dynamic> json) {
+  return InputGratitudeFilter(
     id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    metaName: json['metaName'] == null
-        ? null
-        : InputStringExactFilterStringRegExpFilter.fromJson(
-            json['metaName'] as Map<String, dynamic>),
-    blessed: json['blessed'] as bool?,
     has: (json['has'] as List<dynamic>?)
-        ?.map((e) => _$enumDecodeNullable(_$EnumHashtagMetaHasFilterEnumMap, e,
-            unknownValue: EnumHashtagMetaHasFilter.$unknown))
+        ?.map((e) => _$enumDecodeNullable(_$EnumGratitudeHasFilterEnumMap, e,
+            unknownValue: EnumGratitudeHasFilter.$unknown))
         .toList(),
     and: (json['and'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : InputHashtagMetaFilter.fromJson(e as Map<String, dynamic>))
+            : InputGratitudeFilter.fromJson(e as Map<String, dynamic>))
         .toList(),
     or: (json['or'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : InputHashtagMetaFilter.fromJson(e as Map<String, dynamic>))
+            : InputGratitudeFilter.fromJson(e as Map<String, dynamic>))
         .toList(),
     not: json['not'] == null
         ? null
-        : InputHashtagMetaFilter.fromJson(json['not'] as Map<String, dynamic>),
+        : InputGratitudeFilter.fromJson(json['not'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$InputHashtagMetaFilterToJson(
-        InputHashtagMetaFilter instance) =>
+Map<String, dynamic> _$InputGratitudeFilterToJson(
+        InputGratitudeFilter instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
-      'blessed': instance.blessed,
-      'has': instance.has
-          ?.map((e) => _$EnumHashtagMetaHasFilterEnumMap[e])
-          .toList(),
+      'has':
+          instance.has?.map((e) => _$EnumGratitudeHasFilterEnumMap[e]).toList(),
       'and': instance.and,
       'or': instance.or,
       'not': instance.not,
     };
 
-const _$EnumHashtagMetaHasFilterEnumMap = {
-  EnumHashtagMetaHasFilter.metaName: 'metaName',
-  EnumHashtagMetaHasFilter.iconName: 'iconName',
-  EnumHashtagMetaHasFilter.blessed: 'blessed',
-  EnumHashtagMetaHasFilter.blessedInt: 'blessedInt',
-  EnumHashtagMetaHasFilter.hashtagVariants: 'hashtagVariants',
-  EnumHashtagMetaHasFilter.skillCountAllTime: 'skillCountAllTime',
-  EnumHashtagMetaHasFilter.requestCountAllTime: 'requestCountAllTime',
-  EnumHashtagMetaHasFilter.skillCountLast24h: 'skillCountLast24h',
-  EnumHashtagMetaHasFilter.requestCountLast24h: 'requestCountLast24h',
-  EnumHashtagMetaHasFilter.skillCountLast1w: 'skillCountLast1w',
-  EnumHashtagMetaHasFilter.requestCountLast1w: 'requestCountLast1w',
-  EnumHashtagMetaHasFilter.$unknown: r'$unknown',
+const _$EnumGratitudeHasFilterEnumMap = {
+  EnumGratitudeHasFilter.from: 'from',
+  EnumGratitudeHasFilter.to: 'to',
+  EnumGratitudeHasFilter.message: 'message',
+  EnumGratitudeHasFilter.hashtagVariants: 'hashtagVariants',
+  EnumGratitudeHasFilter.createdTimestamp: 'createdTimestamp',
+  EnumGratitudeHasFilter.$unknown: r'$unknown',
 };
 
-InputHashtagMetaOrder _$InputHashtagMetaOrderFromJson(
-    Map<String, dynamic> json) {
-  return InputHashtagMetaOrder(
-    asc: _$enumDecodeNullable(_$EnumHashtagMetaOrderableEnumMap, json['asc'],
-        unknownValue: EnumHashtagMetaOrderable.$unknown),
-    desc: _$enumDecodeNullable(_$EnumHashtagMetaOrderableEnumMap, json['desc'],
-        unknownValue: EnumHashtagMetaOrderable.$unknown),
+InputGratitudeOrder _$InputGratitudeOrderFromJson(Map<String, dynamic> json) {
+  return InputGratitudeOrder(
+    asc: _$enumDecodeNullable(_$EnumGratitudeOrderableEnumMap, json['asc'],
+        unknownValue: EnumGratitudeOrderable.$unknown),
+    desc: _$enumDecodeNullable(_$EnumGratitudeOrderableEnumMap, json['desc'],
+        unknownValue: EnumGratitudeOrderable.$unknown),
     then: json['then'] == null
         ? null
-        : InputHashtagMetaOrder.fromJson(json['then'] as Map<String, dynamic>),
+        : InputGratitudeOrder.fromJson(json['then'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$InputHashtagMetaOrderToJson(
-        InputHashtagMetaOrder instance) =>
+Map<String, dynamic> _$InputGratitudeOrderToJson(
+        InputGratitudeOrder instance) =>
     <String, dynamic>{
-      'asc': _$EnumHashtagMetaOrderableEnumMap[instance.asc],
-      'desc': _$EnumHashtagMetaOrderableEnumMap[instance.desc],
+      'asc': _$EnumGratitudeOrderableEnumMap[instance.asc],
+      'desc': _$EnumGratitudeOrderableEnumMap[instance.desc],
       'then': instance.then,
     };
 
-const _$EnumHashtagMetaOrderableEnumMap = {
-  EnumHashtagMetaOrderable.metaName: 'metaName',
-  EnumHashtagMetaOrderable.iconName: 'iconName',
-  EnumHashtagMetaOrderable.blessedInt: 'blessedInt',
-  EnumHashtagMetaOrderable.skillCountAllTime: 'skillCountAllTime',
-  EnumHashtagMetaOrderable.requestCountAllTime: 'requestCountAllTime',
-  EnumHashtagMetaOrderable.skillCountLast24h: 'skillCountLast24h',
-  EnumHashtagMetaOrderable.requestCountLast24h: 'requestCountLast24h',
-  EnumHashtagMetaOrderable.skillCountLast1w: 'skillCountLast1w',
-  EnumHashtagMetaOrderable.requestCountLast1w: 'requestCountLast1w',
-  EnumHashtagMetaOrderable.$unknown: r'$unknown',
+const _$EnumGratitudeOrderableEnumMap = {
+  EnumGratitudeOrderable.message: 'message',
+  EnumGratitudeOrderable.createdTimestamp: 'createdTimestamp',
+  EnumGratitudeOrderable.$unknown: r'$unknown',
 };
 
-InputHashtagMetaPatch _$InputHashtagMetaPatchFromJson(
-    Map<String, dynamic> json) {
-  return InputHashtagMetaPatch(
+InputGratitudePatch _$InputGratitudePatchFromJson(Map<String, dynamic> json) {
+  return InputGratitudePatch(
+    from: json['from'] == null
+        ? null
+        : InputUserRef.fromJson(json['from'] as Map<String, dynamic>),
+    to: json['to'] == null
+        ? null
+        : InputUserRef.fromJson(json['to'] as Map<String, dynamic>),
+    message: json['message'] as String?,
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    createdTimestamp: json['createdTimestamp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputGratitudePatchToJson(
+        InputGratitudePatch instance) =>
+    <String, dynamic>{
+      'from': instance.from,
+      'to': instance.to,
+      'message': instance.message,
+      'hashtagVariants': instance.hashtagVariants,
+      'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputGratitudeRef _$InputGratitudeRefFromJson(Map<String, dynamic> json) {
+  return InputGratitudeRef(
+    id: json['id'] as String?,
+    from: json['from'] == null
+        ? null
+        : InputUserRef.fromJson(json['from'] as Map<String, dynamic>),
+    to: json['to'] == null
+        ? null
+        : InputUserRef.fromJson(json['to'] as Map<String, dynamic>),
+    message: json['message'] as String?,
+    hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagVariantRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    createdTimestamp: json['createdTimestamp'] as String?,
+  );
+}
+
+Map<String, dynamic> _$InputGratitudeRefToJson(InputGratitudeRef instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'from': instance.from,
+      'to': instance.to,
+      'message': instance.message,
+      'hashtagVariants': instance.hashtagVariants,
+      'createdTimestamp': instance.createdTimestamp,
+    };
+
+InputHashtagFilter _$InputHashtagFilterFromJson(Map<String, dynamic> json) {
+  return InputHashtagFilter(
+    id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    name: json['name'] == null
+        ? null
+        : InputStringExactFilterStringRegExpFilter.fromJson(
+            json['name'] as Map<String, dynamic>),
+    blessed: json['blessed'] as bool?,
+    has: (json['has'] as List<dynamic>?)
+        ?.map((e) => _$enumDecodeNullable(_$EnumHashtagHasFilterEnumMap, e,
+            unknownValue: EnumHashtagHasFilter.$unknown))
+        .toList(),
+    and: (json['and'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    or: (json['or'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputHashtagFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    not: json['not'] == null
+        ? null
+        : InputHashtagFilter.fromJson(json['not'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputHashtagFilterToJson(InputHashtagFilter instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'blessed': instance.blessed,
+      'has':
+          instance.has?.map((e) => _$EnumHashtagHasFilterEnumMap[e]).toList(),
+      'and': instance.and,
+      'or': instance.or,
+      'not': instance.not,
+    };
+
+const _$EnumHashtagHasFilterEnumMap = {
+  EnumHashtagHasFilter.name: 'name',
+  EnumHashtagHasFilter.iconName: 'iconName',
+  EnumHashtagHasFilter.blessed: 'blessed',
+  EnumHashtagHasFilter.blessedInt: 'blessedInt',
+  EnumHashtagHasFilter.hashtagVariants: 'hashtagVariants',
+  EnumHashtagHasFilter.skillCountAllTime: 'skillCountAllTime',
+  EnumHashtagHasFilter.requestCountAllTime: 'requestCountAllTime',
+  EnumHashtagHasFilter.skillCountLast24h: 'skillCountLast24h',
+  EnumHashtagHasFilter.requestCountLast24h: 'requestCountLast24h',
+  EnumHashtagHasFilter.skillCountLast1w: 'skillCountLast1w',
+  EnumHashtagHasFilter.requestCountLast1w: 'requestCountLast1w',
+  EnumHashtagHasFilter.$unknown: r'$unknown',
+};
+
+InputHashtagOrder _$InputHashtagOrderFromJson(Map<String, dynamic> json) {
+  return InputHashtagOrder(
+    asc: _$enumDecodeNullable(_$EnumHashtagOrderableEnumMap, json['asc'],
+        unknownValue: EnumHashtagOrderable.$unknown),
+    desc: _$enumDecodeNullable(_$EnumHashtagOrderableEnumMap, json['desc'],
+        unknownValue: EnumHashtagOrderable.$unknown),
+    then: json['then'] == null
+        ? null
+        : InputHashtagOrder.fromJson(json['then'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputHashtagOrderToJson(InputHashtagOrder instance) =>
+    <String, dynamic>{
+      'asc': _$EnumHashtagOrderableEnumMap[instance.asc],
+      'desc': _$EnumHashtagOrderableEnumMap[instance.desc],
+      'then': instance.then,
+    };
+
+const _$EnumHashtagOrderableEnumMap = {
+  EnumHashtagOrderable.name: 'name',
+  EnumHashtagOrderable.iconName: 'iconName',
+  EnumHashtagOrderable.blessedInt: 'blessedInt',
+  EnumHashtagOrderable.skillCountAllTime: 'skillCountAllTime',
+  EnumHashtagOrderable.requestCountAllTime: 'requestCountAllTime',
+  EnumHashtagOrderable.skillCountLast24h: 'skillCountLast24h',
+  EnumHashtagOrderable.requestCountLast24h: 'requestCountLast24h',
+  EnumHashtagOrderable.skillCountLast1w: 'skillCountLast1w',
+  EnumHashtagOrderable.requestCountLast1w: 'requestCountLast1w',
+  EnumHashtagOrderable.$unknown: r'$unknown',
+};
+
+InputHashtagPatch _$InputHashtagPatchFromJson(Map<String, dynamic> json) {
+  return InputHashtagPatch(
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     blessedInt: json['blessedInt'] as int?,
@@ -829,8 +1001,7 @@ InputHashtagMetaPatch _$InputHashtagMetaPatchFromJson(
   );
 }
 
-Map<String, dynamic> _$InputHashtagMetaPatchToJson(
-        InputHashtagMetaPatch instance) =>
+Map<String, dynamic> _$InputHashtagPatchToJson(InputHashtagPatch instance) =>
     <String, dynamic>{
       'iconName': instance.iconName,
       'blessed': instance.blessed,
@@ -844,10 +1015,10 @@ Map<String, dynamic> _$InputHashtagMetaPatchToJson(
       'requestCountLast1w': instance.requestCountLast1w,
     };
 
-InputHashtagMetaRef _$InputHashtagMetaRefFromJson(Map<String, dynamic> json) {
-  return InputHashtagMetaRef(
+InputHashtagRef _$InputHashtagRefFromJson(Map<String, dynamic> json) {
+  return InputHashtagRef(
     id: json['id'] as String?,
-    metaName: json['metaName'] as String?,
+    name: json['name'] as String?,
     iconName: json['iconName'] as String?,
     blessed: json['blessed'] as bool?,
     blessedInt: json['blessedInt'] as int?,
@@ -865,11 +1036,10 @@ InputHashtagMetaRef _$InputHashtagMetaRefFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$InputHashtagMetaRefToJson(
-        InputHashtagMetaRef instance) =>
+Map<String, dynamic> _$InputHashtagRefToJson(InputHashtagRef instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'metaName': instance.metaName,
+      'name': instance.name,
       'iconName': instance.iconName,
       'blessed': instance.blessed,
       'blessedInt': instance.blessedInt,
@@ -886,10 +1056,10 @@ InputHashtagVariantFilter _$InputHashtagVariantFilterFromJson(
     Map<String, dynamic> json) {
   return InputHashtagVariantFilter(
     id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    variantName: json['variantName'] == null
+    variant: json['variant'] == null
         ? null
         : InputStringExactFilterStringRegExpFilter.fromJson(
-            json['variantName'] as Map<String, dynamic>),
+            json['variant'] as Map<String, dynamic>),
     has: (json['has'] as List<dynamic>?)
         ?.map((e) => _$enumDecodeNullable(
             _$EnumHashtagVariantHasFilterEnumMap, e,
@@ -916,7 +1086,7 @@ Map<String, dynamic> _$InputHashtagVariantFilterToJson(
         InputHashtagVariantFilter instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'variantName': instance.variantName,
+      'variant': instance.variant,
       'has': instance.has
           ?.map((e) => _$EnumHashtagVariantHasFilterEnumMap[e])
           .toList(),
@@ -926,10 +1096,11 @@ Map<String, dynamic> _$InputHashtagVariantFilterToJson(
     };
 
 const _$EnumHashtagVariantHasFilterEnumMap = {
-  EnumHashtagVariantHasFilter.variantName: 'variantName',
-  EnumHashtagVariantHasFilter.hashtagMeta: 'hashtagMeta',
+  EnumHashtagVariantHasFilter.variant: 'variant',
+  EnumHashtagVariantHasFilter.hashtag: 'hashtag',
   EnumHashtagVariantHasFilter.skills: 'skills',
   EnumHashtagVariantHasFilter.requests: 'requests',
+  EnumHashtagVariantHasFilter.gratitudes: 'gratitudes',
   EnumHashtagVariantHasFilter.$unknown: r'$unknown',
 };
 
@@ -957,17 +1128,16 @@ Map<String, dynamic> _$InputHashtagVariantOrderToJson(
     };
 
 const _$EnumHashtagVariantOrderableEnumMap = {
-  EnumHashtagVariantOrderable.variantName: 'variantName',
+  EnumHashtagVariantOrderable.variant: 'variant',
   EnumHashtagVariantOrderable.$unknown: r'$unknown',
 };
 
 InputHashtagVariantPatch _$InputHashtagVariantPatchFromJson(
     Map<String, dynamic> json) {
   return InputHashtagVariantPatch(
-    hashtagMeta: json['hashtagMeta'] == null
+    hashtag: json['hashtag'] == null
         ? null
-        : InputHashtagMetaRef.fromJson(
-            json['hashtagMeta'] as Map<String, dynamic>),
+        : InputHashtagRef.fromJson(json['hashtag'] as Map<String, dynamic>),
     skills: (json['skills'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
@@ -977,6 +1147,11 @@ InputHashtagVariantPatch _$InputHashtagVariantPatchFromJson(
         ?.map((e) => e == null
             ? null
             : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gratitudes: (json['gratitudes'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -984,20 +1159,20 @@ InputHashtagVariantPatch _$InputHashtagVariantPatchFromJson(
 Map<String, dynamic> _$InputHashtagVariantPatchToJson(
         InputHashtagVariantPatch instance) =>
     <String, dynamic>{
-      'hashtagMeta': instance.hashtagMeta,
+      'hashtag': instance.hashtag,
       'skills': instance.skills,
       'requests': instance.requests,
+      'gratitudes': instance.gratitudes,
     };
 
 InputHashtagVariantRef _$InputHashtagVariantRefFromJson(
     Map<String, dynamic> json) {
   return InputHashtagVariantRef(
     id: json['id'] as String?,
-    variantName: json['variantName'] as String?,
-    hashtagMeta: json['hashtagMeta'] == null
+    variant: json['variant'] as String?,
+    hashtag: json['hashtag'] == null
         ? null
-        : InputHashtagMetaRef.fromJson(
-            json['hashtagMeta'] as Map<String, dynamic>),
+        : InputHashtagRef.fromJson(json['hashtag'] as Map<String, dynamic>),
     skills: (json['skills'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
@@ -1007,6 +1182,11 @@ InputHashtagVariantRef _$InputHashtagVariantRefFromJson(
         ?.map((e) => e == null
             ? null
             : InputRequestRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gratitudes: (json['gratitudes'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -1015,10 +1195,11 @@ Map<String, dynamic> _$InputHashtagVariantRefToJson(
         InputHashtagVariantRef instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'variantName': instance.variantName,
-      'hashtagMeta': instance.hashtagMeta,
+      'variant': instance.variant,
+      'hashtag': instance.hashtag,
       'skills': instance.skills,
       'requests': instance.requests,
+      'gratitudes': instance.gratitudes,
     };
 
 InputRequestFilter _$InputRequestFilterFromJson(Map<String, dynamic> json) {
@@ -1067,6 +1248,7 @@ const _$EnumRequestHasFilterEnumMap = {
   EnumRequestHasFilter.owner: 'owner',
   EnumRequestHasFilter.title: 'title',
   EnumRequestHasFilter.message: 'message',
+  EnumRequestHasFilter.status: 'status',
   EnumRequestHasFilter.hashtagVariants: 'hashtagVariants',
   EnumRequestHasFilter.createdTimestamp: 'createdTimestamp',
   EnumRequestHasFilter.$unknown: r'$unknown',
@@ -1105,6 +1287,8 @@ InputRequestPatch _$InputRequestPatchFromJson(Map<String, dynamic> json) {
         : InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String?,
     message: json['message'] as String?,
+    status: _$enumDecodeNullable(_$EnumRequestStatusEnumMap, json['status'],
+        unknownValue: EnumRequestStatus.$unknown),
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
@@ -1119,6 +1303,7 @@ Map<String, dynamic> _$InputRequestPatchToJson(InputRequestPatch instance) =>
       'owner': instance.owner,
       'title': instance.title,
       'message': instance.message,
+      'status': _$EnumRequestStatusEnumMap[instance.status],
       'hashtagVariants': instance.hashtagVariants,
       'createdTimestamp': instance.createdTimestamp,
     };
@@ -1131,6 +1316,8 @@ InputRequestRef _$InputRequestRefFromJson(Map<String, dynamic> json) {
         : InputUserRef.fromJson(json['owner'] as Map<String, dynamic>),
     title: json['title'] as String?,
     message: json['message'] as String?,
+    status: _$enumDecodeNullable(_$EnumRequestStatusEnumMap, json['status'],
+        unknownValue: EnumRequestStatus.$unknown),
     hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
@@ -1146,6 +1333,7 @@ Map<String, dynamic> _$InputRequestRefToJson(InputRequestRef instance) =>
       'owner': instance.owner,
       'title': instance.title,
       'message': instance.message,
+      'status': _$EnumRequestStatusEnumMap[instance.status],
       'hashtagVariants': instance.hashtagVariants,
       'createdTimestamp': instance.createdTimestamp,
     };
@@ -1304,23 +1492,43 @@ Map<String, dynamic> _$InputStringExactFilterStringRegExpFilterToJson(
       'regexp': instance.regexp,
     };
 
-InputUpdateHashtagMetaInput _$InputUpdateHashtagMetaInputFromJson(
+InputUpdateGratitudeInput _$InputUpdateGratitudeInputFromJson(
     Map<String, dynamic> json) {
-  return InputUpdateHashtagMetaInput(
+  return InputUpdateGratitudeInput(
     filter:
-        InputHashtagMetaFilter.fromJson(json['filter'] as Map<String, dynamic>),
+        InputGratitudeFilter.fromJson(json['filter'] as Map<String, dynamic>),
     $set: json['set'] == null
         ? null
-        : InputHashtagMetaPatch.fromJson(json['set'] as Map<String, dynamic>),
+        : InputGratitudePatch.fromJson(json['set'] as Map<String, dynamic>),
     remove: json['remove'] == null
         ? null
-        : InputHashtagMetaPatch.fromJson(
-            json['remove'] as Map<String, dynamic>),
+        : InputGratitudePatch.fromJson(json['remove'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$InputUpdateHashtagMetaInputToJson(
-        InputUpdateHashtagMetaInput instance) =>
+Map<String, dynamic> _$InputUpdateGratitudeInputToJson(
+        InputUpdateGratitudeInput instance) =>
+    <String, dynamic>{
+      'filter': instance.filter,
+      'set': instance.$set,
+      'remove': instance.remove,
+    };
+
+InputUpdateHashtagInput _$InputUpdateHashtagInputFromJson(
+    Map<String, dynamic> json) {
+  return InputUpdateHashtagInput(
+    filter: InputHashtagFilter.fromJson(json['filter'] as Map<String, dynamic>),
+    $set: json['set'] == null
+        ? null
+        : InputHashtagPatch.fromJson(json['set'] as Map<String, dynamic>),
+    remove: json['remove'] == null
+        ? null
+        : InputHashtagPatch.fromJson(json['remove'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InputUpdateHashtagInputToJson(
+        InputUpdateHashtagInput instance) =>
     <String, dynamic>{
       'filter': instance.filter,
       'set': instance.$set,
@@ -1457,6 +1665,8 @@ const _$EnumUserHasFilterEnumMap = {
   EnumUserHasFilter.createdTimestamp: 'createdTimestamp',
   EnumUserHasFilter.requests: 'requests',
   EnumUserHasFilter.skills: 'skills',
+  EnumUserHasFilter.gratitudeSent: 'gratitudeSent',
+  EnumUserHasFilter.gratitudeReceived: 'gratitudeReceived',
   EnumUserHasFilter.$unknown: r'$unknown',
 };
 
@@ -1503,6 +1713,16 @@ InputUserPatch _$InputUserPatchFromJson(Map<String, dynamic> json) {
             ? null
             : InputSkillRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    gratitudeSent: (json['gratitudeSent'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gratitudeReceived: (json['gratitudeReceived'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1514,6 +1734,8 @@ Map<String, dynamic> _$InputUserPatchToJson(InputUserPatch instance) =>
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
       'skills': instance.skills,
+      'gratitudeSent': instance.gratitudeSent,
+      'gratitudeReceived': instance.gratitudeReceived,
     };
 
 InputUserRef _$InputUserRefFromJson(Map<String, dynamic> json) {
@@ -1534,6 +1756,16 @@ InputUserRef _$InputUserRefFromJson(Map<String, dynamic> json) {
             ? null
             : InputSkillRef.fromJson(e as Map<String, dynamic>))
         .toList(),
+    gratitudeSent: (json['gratitudeSent'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gratitudeReceived: (json['gratitudeReceived'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : InputGratitudeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1547,4 +1779,6 @@ Map<String, dynamic> _$InputUserRefToJson(InputUserRef instance) =>
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
       'skills': instance.skills,
+      'gratitudeSent': instance.gratitudeSent,
+      'gratitudeReceived': instance.gratitudeReceived,
     };

@@ -47,29 +47,29 @@ query GetAllRequests {
 
 
 
-query GetHashtagMetaByName ($metaName: String) {
-    getHashtagMeta(metaName: $metaName){
-        ...HashtagMetaFragmentData
+query GetHashtagByName ($name: String) {
+    getHashtag(name: $name){
+        ...HashtagFragmentData
     }
 }
 
 
-query GetHashtagMetaById ($id: ID) {
-    getHashtagMeta(id: $id){
-        ...HashtagMetaFragmentData
+query GetHashtagById ($id: ID) {
+    getHashtag(id: $id){
+        ...HashtagFragmentData
     }
 }
 
 
-query GetHashtagMetaList{
-    queryHashtagMeta(order: {asc: metaName}){
-        ...HashtagMetaFragmentData
+query GetHashtagList{
+    queryHashtag(order: {asc: name}){
+        ...HashtagFragmentData
     }
 }
 
-query GetBlessedHashtagMetaList{
-    queryHashtagMeta(order: {asc: metaName}, filter: {blessed: true}){
-        ...HashtagMetaFragmentData
+query GetBlessedHashtagList{
+    queryHashtag(order: {asc: name}, filter: {blessed: true}){
+        ...HashtagFragmentData
     }
 }
 
@@ -83,10 +83,10 @@ query GetSkillsByUserId($id: ID){
             title
             message
             hashtagVariants{
-                variantName
-                hashtagMeta{
+                variant
+                hashtag{
                     id
-                    metaName
+                    name
                 }
             }
             isAvailable
@@ -96,8 +96,8 @@ query GetSkillsByUserId($id: ID){
 }
 
 query GetSkillsPageData($id: ID){
-    queryHashtagMeta(order: {asc: metaName}, filter: {blessed: true}){
-        ...HashtagMetaFragmentData
+    queryHashtag(order: {asc: name}, filter: {blessed: true}){
+        ...HashtagFragmentData
     }
     getUser(id: $id){
         skillsAggregate{
@@ -109,10 +109,10 @@ query GetSkillsPageData($id: ID){
             message
             isAvailable
             createdTimestamp
-            hashtagVariants(order: {asc: variantName}){
-                hashtagMeta{
+            hashtagVariants(order: {asc: variant}){
+                hashtag{
                     id
-                    metaName
+                    name
                     iconName
                 }
             }
@@ -121,15 +121,15 @@ query GetSkillsPageData($id: ID){
     }
 }
 
-query SearchTopRequestHashtag($keywordRegex: String!, $hashtagMetaOrder:HashtagMetaOrder!, $limit: Int = 12){
-    queryHashtagMeta(
-        filter: {metaName: {regexp: $keywordRegex}},
-        order: $hashtagMetaOrder,
+query SearchTopRequestHashtag($keywordRegex: String!, $hashtagOrder:HashtagOrder!, $limit: Int = 12){
+    queryHashtag(
+        filter: {name: {regexp: $keywordRegex}},
+        order: $hashtagOrder,
         first: $limit
     ){
         id
         iconName
-        metaName
+        name
         blessed
         skillCountAllTime
         skillCountLast1w
