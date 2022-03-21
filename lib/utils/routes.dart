@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:together_app/screens/common/profile/my_profile_screen.dart';
 import 'package:together_app/screens/common/profile/other_profile_screen.dart';
+import 'package:together_app/screens/common/profile/profile_edit_screen.dart';
 import 'package:together_app/screens/common/skills/skills_edit_screen.dart';
 import 'package:together_app/screens/main_entry/main_entry_screen.dart';
 import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_screen.dart';
@@ -36,6 +37,10 @@ Map<String, WidgetBuilder> getRoutes(BuildContext context) {
           arguments: ModalRoute.of(context)!.settings.arguments!
               as OtherProfileScreenArguments,
         ),
+    '/profile_edit_screen': (context) => ProfileEditScreen(
+          arguments: ModalRoute.of(context)!.settings.arguments!
+              as ProfileEditScreenArguments,
+        ),
   };
 }
 
@@ -58,6 +63,14 @@ class OtherProfileScreenArguments {
 
   OtherProfileScreenArguments({
     required this.otherUserId,
+  });
+}
+
+class ProfileEditScreenArguments {
+  final String userId;
+
+  ProfileEditScreenArguments({
+    required this.userId,
   });
 }
 

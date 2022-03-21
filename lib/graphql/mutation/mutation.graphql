@@ -10,6 +10,18 @@ mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimesta
     }
 }
 
+mutation UpdateUser($id: ID!, $name: String!, $bio: String!){
+    updateUser(input: {
+        filter: {id: [$id]}, set: {name: $name, bio: $bio}}
+    ){
+        user {
+            id
+            name
+            bio
+        }
+    }
+}
+
 mutation AddHashtag(
     $name: String!,
     $iconName: String = "",

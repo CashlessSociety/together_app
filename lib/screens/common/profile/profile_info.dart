@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
-import 'package:provider/provider.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/common/gratitude/gratitude_screen.dart';
+import 'package:together_app/screens/common/profile/profile_edit_screen.dart';
 import 'package:together_app/screens/common/requests/requests_screen.dart';
 import 'package:together_app/screens/common/skills/skills_screen.dart';
 import 'package:together_app/screens/main_entry/main_entry_drawer.dart';
 import 'package:together_app/utils/constants.dart';
-import 'package:together_app/utils/providers.dart';
+import 'package:together_app/utils/routes.dart';
 
 class ProfileInfo extends StatefulWidget {
   final String userId;
@@ -38,9 +38,22 @@ class _ProfileInfoState extends State<ProfileInfo>
   ];
   final double tabHeight = 45.w;
   final double collapsedHeight = 100.w;
-  final double expandedHeight = 240.w;
+  final double expandedHeight = 300.w;
   final double indicatorWeight = 2.w;
   late double tabViewHeight;
+  Function? refetchFunction;
+
+  void onGotoProfileEdit() async {
+    var rst = await Get.toNamed(
+      ProfileEditScreen.routeName,
+      arguments: ProfileEditScreenArguments(userId: widget.userId),
+    );
+    if (rst != null && rst) {
+      if (refetchFunction != null) {
+        refetchFunction!();
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -66,7 +79,10 @@ class _ProfileInfoState extends State<ProfileInfo>
       body: GQLFQueryGetUserWithId(
         options: GQLOptionsQueryGetUserWithId(
             variables: VariablesQueryGetUserWithId(id: widget.userId)),
-        builder: ((result, {fetchMore, refetch}) {
+        builder: ((result, {refetch, fetchMore}) {
+          if (refetchFunction != refetch) {
+            refetchFunction = refetch;
+          }
           return DefaultTabController(
             length: 3,
             initialIndex: widget.focusedTab ?? 0,
@@ -107,6 +123,17 @@ class _ProfileInfoState extends State<ProfileInfo>
                             }
                           },
                         ),
+                        actions: [
+                          IconButton(
+                            onPressed: () {
+                              onGotoProfileEdit();
+                            },
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
                         backgroundColor: Colors.white,
                         bottom: TabBar(
                           indicatorColor: kPrimaryOrange,
@@ -128,57 +155,8 @@ class _ProfileInfoState extends State<ProfileInfo>
                             ),
                           ],
                         ),
-                        flexibleSpace: FlexibleSpaceBar(
-                          expandedTitleScale: 1,
-                          centerTitle: true,
-                          titlePadding: EdgeInsets.zero,
-                          title: Stack(
-                            children: [
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: tabHeight,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Colors.blueAccent
-                                            .withOpacity(1 - scrollPercent),
-                                        Colors.redAccent
-                                            .withOpacity(1 - scrollPercent)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: SafeArea(
-                                  bottom: false,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: tabHeight),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(width: 20.w),
-                                        Expanded(
-                                          flex: 4,
-                                          child: buildUserAvatarSection(),
-                                        ),
-                                        SizedBox(width: scrollPercent * 20.w),
-                                        Expanded(
-                                          flex: 5,
-                                          child: buildUserInfoSection(result),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        flexibleSpace:
+                            buildProfileSection(scrollPercent, result),
                       );
                     }),
                   ),
@@ -224,17 +202,97 @@ class _ProfileInfoState extends State<ProfileInfo>
     );
   }
 
+  Widget buildProfileSection(
+      double scrollPercent, QueryResult<QueryGetUserWithId> result) {
+    return FlexibleSpaceBar(
+      expandedTitleScale: 1,
+      centerTitle: true,
+      titlePadding: EdgeInsets.zero,
+      title: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: tabHeight,
+            child: Container(
+              decoration: BoxDecoration(
+                color: kWhiteTeal,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular((1 - scrollPercent) * 40.w),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(1.5.w, 2.w),
+                    blurRadius: 2.w,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: tabHeight,
+                  left: 30.w,
+                  right: 30.w,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 100.w + (1 - scrollPercent) * 90.w,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 7,
+                            child: buildUserInfoSection(result),
+                          ),
+                          SizedBox(width: scrollPercent * 20.w),
+                          Expanded(
+                            flex: 5,
+                            child: buildUserAvatarSection(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: (1 - scrollPercent) * 60.w,
+                      child: Text(
+                        result.parsedData?.getUser?.bio ?? "",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildUserAvatarSection() {
     return Padding(
-      padding: EdgeInsets.all(15.w),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.grey),
-        ),
-        child: const FittedBox(
-          child: Icon(
+      padding: EdgeInsets.symmetric(vertical: 15.w),
+      child: FittedBox(
+        alignment: Alignment.centerRight,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.grey, width: 1),
+          ),
+          child: const Icon(
             Icons.person,
             color: Colors.grey,
           ),
@@ -263,19 +321,19 @@ class _ProfileInfoState extends State<ProfileInfo>
                 ),
               ],
             ),
-            if (widget.isOwner)
-              IconButton(
-                onPressed: () async {
-                  const FlutterSecureStorage storage = FlutterSecureStorage();
-                  await storage.delete(key: 'userId');
-                  Provider.of<LoginStateRefresher>(context, listen: false)
-                      .refresh();
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.grey,
-                ),
-              )
+            // if (widget.isOwner)
+            //   IconButton(
+            //     onPressed: () async {
+            //       const FlutterSecureStorage storage = FlutterSecureStorage();
+            //       await storage.delete(key: 'userId');
+            //       Provider.of<LoginStateRefresher>(context, listen: false)
+            //           .refresh();
+            //     },
+            //     icon: const Icon(
+            //       Icons.logout,
+            //       color: Colors.grey,
+            //     ),
+            //   )
           ],
         );
       } else {
