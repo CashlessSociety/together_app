@@ -708,6 +708,7 @@ class InputAddUserInput extends JsonSerializable {
       {required this.email,
       required this.name,
       this.age,
+      this.bio,
       this.isAdmin,
       this.createdTimestamp,
       this.requests,
@@ -724,6 +725,8 @@ class InputAddUserInput extends JsonSerializable {
   final String name;
 
   final int? age;
+
+  final String? bio;
 
   final bool? isAdmin;
 
@@ -1511,6 +1514,7 @@ class InputUserPatch extends JsonSerializable {
   InputUserPatch(
       {this.name,
       this.age,
+      this.bio,
       this.isAdmin,
       this.createdTimestamp,
       this.requests,
@@ -1525,6 +1529,8 @@ class InputUserPatch extends JsonSerializable {
   final String? name;
 
   final int? age;
+
+  final String? bio;
 
   final bool? isAdmin;
 
@@ -1549,6 +1555,7 @@ class InputUserRef extends JsonSerializable {
       this.email,
       this.name,
       this.age,
+      this.bio,
       this.isAdmin,
       this.createdTimestamp,
       this.requests,
@@ -1567,6 +1574,8 @@ class InputUserRef extends JsonSerializable {
   final String? name;
 
   final int? age;
+
+  final String? bio;
 
   final bool? isAdmin;
 
@@ -1787,6 +1796,8 @@ enum EnumUserHasFilter {
   name,
   @JsonValue('age')
   age,
+  @JsonValue('bio')
+  bio,
   @JsonValue('isAdmin')
   isAdmin,
   @JsonValue('createdTimestamp')
@@ -1808,6 +1819,8 @@ enum EnumUserOrderable {
   name,
   @JsonValue('age')
   age,
+  @JsonValue('bio')
+  bio,
   @JsonValue('createdTimestamp')
   createdTimestamp,
   $unknown

@@ -7,6 +7,7 @@ type User {
 	email: String! @id
 	name: String!
 	age: Int
+	bio: String
 	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "owner")
@@ -528,6 +529,8 @@ type UserAggregateResult {
 	ageMax: Int
 	ageSum: Int
 	ageAvg: Float
+	bioMin: String
+	bioMax: String
 	createdTimestampMin: DateTime
 	createdTimestampMax: DateTime
 }
@@ -621,6 +624,7 @@ enum UserHasFilter {
 	email
 	name
 	age
+	bio
 	isAdmin
 	createdTimestamp
 	requests
@@ -633,6 +637,7 @@ enum UserOrderable {
 	email
 	name
 	age
+	bio
 	createdTimestamp
 }
 
@@ -692,6 +697,7 @@ input AddUserInput {
 	email: String!
 	name: String!
 	age: Int
+	bio: String
 	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
@@ -939,6 +945,7 @@ input UserOrder {
 input UserPatch {
 	name: String
 	age: Int
+	bio: String
 	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
@@ -952,6 +959,7 @@ input UserRef {
 	email: String
 	name: String
 	age: Int
+	bio: String
 	isAdmin: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]

@@ -78,6 +78,72 @@ Map<String, dynamic> _$MutationCreateUser$addUser$userToJson(
       'createdTimestamp': instance.createdTimestamp,
     };
 
+VariablesMutationUpdateUser _$VariablesMutationUpdateUserFromJson(
+    Map<String, dynamic> json) {
+  return VariablesMutationUpdateUser(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    bio: json['bio'] as String,
+  );
+}
+
+Map<String, dynamic> _$VariablesMutationUpdateUserToJson(
+        VariablesMutationUpdateUser instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'bio': instance.bio,
+    };
+
+MutationUpdateUser _$MutationUpdateUserFromJson(Map<String, dynamic> json) {
+  return MutationUpdateUser(
+    updateUser: json['updateUser'] == null
+        ? null
+        : MutationUpdateUser$updateUser.fromJson(
+            json['updateUser'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$MutationUpdateUserToJson(MutationUpdateUser instance) =>
+    <String, dynamic>{
+      'updateUser': instance.updateUser,
+    };
+
+MutationUpdateUser$updateUser _$MutationUpdateUser$updateUserFromJson(
+    Map<String, dynamic> json) {
+  return MutationUpdateUser$updateUser(
+    user: (json['user'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : MutationUpdateUser$updateUser$user.fromJson(
+                e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$MutationUpdateUser$updateUserToJson(
+        MutationUpdateUser$updateUser instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+MutationUpdateUser$updateUser$user _$MutationUpdateUser$updateUser$userFromJson(
+    Map<String, dynamic> json) {
+  return MutationUpdateUser$updateUser$user(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    bio: json['bio'] as String?,
+  );
+}
+
+Map<String, dynamic> _$MutationUpdateUser$updateUser$userToJson(
+        MutationUpdateUser$updateUser$user instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'bio': instance.bio,
+    };
+
 VariablesMutationAddHashtag _$VariablesMutationAddHashtagFromJson(
     Map<String, dynamic> json) {
   return VariablesMutationAddHashtag(

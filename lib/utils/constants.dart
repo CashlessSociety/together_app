@@ -8,6 +8,7 @@ Color kPrimaryBlue = const Color(0xff1b9eca);
 Color kPrimaryRed = const Color(0xffF7581E);
 Color kPrimaryOrange = const Color(0xffFF8427);
 Color kDeepBlue = const Color(0xff134074);
+Color kWhiteTeal = const Color(0xffF4FFFE);
 
 FaIcon faHashtagPlaceholderIcon = FaIcon(
   FontAwesomeIcons.hashtag,

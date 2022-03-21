@@ -329,6 +329,300 @@ class MutationCreateUser$addUser$user extends JsonSerializable {
 }
 
 @JsonSerializable()
+class VariablesMutationUpdateUser extends JsonSerializable {
+  VariablesMutationUpdateUser(
+      {required this.id, required this.name, required this.bio});
+
+  @override
+  factory VariablesMutationUpdateUser.fromJson(Map<String, dynamic> json) =>
+      _$VariablesMutationUpdateUserFromJson(json);
+
+  final String id;
+
+  final String name;
+
+  final String bio;
+
+  @override
+  Map<String, dynamic> toJson() => _$VariablesMutationUpdateUserToJson(this);
+}
+
+@JsonSerializable()
+class MutationUpdateUser extends JsonSerializable {
+  MutationUpdateUser({this.updateUser});
+
+  @override
+  factory MutationUpdateUser.fromJson(Map<String, dynamic> json) =>
+      _$MutationUpdateUserFromJson(json);
+
+  final MutationUpdateUser$updateUser? updateUser;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationUpdateUserToJson(this);
+}
+
+const MUTATION_UPDATE_USER = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'UpdateUser'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'bio')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'updateUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'filter'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'id'),
+                              value: ListValueNode(values: [
+                                VariableNode(name: NameNode(value: 'id'))
+                              ]))
+                        ])),
+                    ObjectFieldNode(
+                        name: NameNode(value: 'set'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'name'),
+                              value:
+                                  VariableNode(name: NameNode(value: 'name'))),
+                          ObjectFieldNode(
+                              name: NameNode(value: 'bio'),
+                              value: VariableNode(name: NameNode(value: 'bio')))
+                        ]))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'bio'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+typedef GQLOnMutationCompletedMutationUpdateUser = FutureOr<void> Function(
+    dynamic, MutationUpdateUser?);
+
+class GQLOptionsMutationUpdateUser
+    extends graphql.MutationOptions<MutationUpdateUser> {
+  GQLOptionsMutationUpdateUser(
+      {String? operationName,
+      required VariablesMutationUpdateUser variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      GQLOnMutationCompletedMutationUpdateUser? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationUpdateUser.fromJson(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_UPDATE_USER,
+            parserFn: (data) => MutationUpdateUser.fromJson(data));
+}
+
+class GQLWatchOptionsMutationUpdateUser
+    extends graphql.WatchQueryOptions<MutationUpdateUser> {
+  GQLWatchOptionsMutationUpdateUser(
+      {String? operationName,
+      required VariablesMutationUpdateUser variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: MUTATION_UPDATE_USER,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: (data) => MutationUpdateUser.fromJson(data));
+}
+
+extension GQLExtensionMutationUpdateUser on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationUpdateUser>> mutateUpdateUser(
+          GQLOptionsMutationUpdateUser options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<MutationUpdateUser> watchMutationUpdateUser(
+          GQLWatchOptionsMutationUpdateUser options) =>
+      this.watchMutation(options);
+}
+
+class GQLFOptionsMutationUpdateUser
+    extends graphql.MutationOptions<MutationUpdateUser> {
+  GQLFOptionsMutationUpdateUser(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      GQLOnMutationCompletedMutationUpdateUser? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : MutationUpdateUser.fromJson(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_UPDATE_USER,
+            parserFn: (data) => MutationUpdateUser.fromJson(data));
+}
+
+typedef GQLFRunMutationMutationUpdateUser
+    = graphql.MultiSourceResult<MutationUpdateUser>
+        Function(VariablesMutationUpdateUser, {Object? optimisticResult});
+typedef GQLFBuilderMutationUpdateUser = widgets.Widget Function(
+    GQLFRunMutationMutationUpdateUser,
+    graphql.QueryResult<MutationUpdateUser>?);
+
+class GQLFMutationUpdateUser
+    extends graphql_flutter.Mutation<MutationUpdateUser> {
+  GQLFMutationUpdateUser(
+      {widgets.Key? key,
+      GQLFOptionsMutationUpdateUser? options,
+      required GQLFBuilderMutationUpdateUser builder})
+      : super(
+            key: key,
+            options: options ?? GQLFOptionsMutationUpdateUser(),
+            builder: (run, result) => builder(
+                (variables, {optimisticResult}) =>
+                    run(variables.toJson(), optimisticResult: optimisticResult),
+                result));
+}
+
+@JsonSerializable()
+class MutationUpdateUser$updateUser extends JsonSerializable {
+  MutationUpdateUser$updateUser({this.user});
+
+  @override
+  factory MutationUpdateUser$updateUser.fromJson(Map<String, dynamic> json) =>
+      _$MutationUpdateUser$updateUserFromJson(json);
+
+  final List<MutationUpdateUser$updateUser$user?>? user;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationUpdateUser$updateUserToJson(this);
+}
+
+@JsonSerializable()
+class MutationUpdateUser$updateUser$user extends JsonSerializable {
+  MutationUpdateUser$updateUser$user(
+      {required this.id, required this.name, this.bio});
+
+  @override
+  factory MutationUpdateUser$updateUser$user.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationUpdateUser$updateUser$userFromJson(json);
+
+  final String id;
+
+  final String name;
+
+  final String? bio;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationUpdateUser$updateUser$userToJson(this);
+}
+
+@JsonSerializable()
 class VariablesMutationAddHashtag extends JsonSerializable {
   VariablesMutationAddHashtag(
       {required this.name,

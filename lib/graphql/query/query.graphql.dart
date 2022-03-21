@@ -263,6 +263,12 @@ const QUERY_GET_USER_WITH_EMAIL = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'bio'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'email'),
                   alias: null,
                   arguments: [],
@@ -388,6 +394,7 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
       {required this.id,
       required this.name,
       this.age,
+      this.bio,
       required this.email,
       this.isAdmin,
       this.createdTimestamp});
@@ -401,6 +408,8 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
   final String name;
 
   final int? age;
+
+  final String? bio;
 
   final String email;
 
@@ -477,6 +486,12 @@ const QUERY_GET_USER_WITH_ID = const DocumentNode(definitions: [
                   selectionSet: null),
               FieldNode(
                   name: NameNode(value: 'age'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'bio'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -605,6 +620,7 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
       {required this.id,
       required this.name,
       this.age,
+      this.bio,
       required this.email,
       this.isAdmin,
       this.createdTimestamp});
@@ -618,6 +634,8 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
   final String name;
 
   final int? age;
+
+  final String? bio;
 
   final String email;
 

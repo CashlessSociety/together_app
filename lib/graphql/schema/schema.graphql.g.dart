@@ -731,6 +731,7 @@ InputAddUserInput _$InputAddUserInputFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     name: json['name'] as String,
     age: json['age'] as int?,
+    bio: json['bio'] as String?,
     isAdmin: json['isAdmin'] as bool?,
     createdTimestamp: json['createdTimestamp'] as String?,
     requests: (json['requests'] as List<dynamic>?)
@@ -761,6 +762,7 @@ Map<String, dynamic> _$InputAddUserInputToJson(InputAddUserInput instance) =>
       'email': instance.email,
       'name': instance.name,
       'age': instance.age,
+      'bio': instance.bio,
       'isAdmin': instance.isAdmin,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
@@ -1661,6 +1663,7 @@ const _$EnumUserHasFilterEnumMap = {
   EnumUserHasFilter.email: 'email',
   EnumUserHasFilter.name: 'name',
   EnumUserHasFilter.age: 'age',
+  EnumUserHasFilter.bio: 'bio',
   EnumUserHasFilter.isAdmin: 'isAdmin',
   EnumUserHasFilter.createdTimestamp: 'createdTimestamp',
   EnumUserHasFilter.requests: 'requests',
@@ -1693,6 +1696,7 @@ const _$EnumUserOrderableEnumMap = {
   EnumUserOrderable.email: 'email',
   EnumUserOrderable.name: 'name',
   EnumUserOrderable.age: 'age',
+  EnumUserOrderable.bio: 'bio',
   EnumUserOrderable.createdTimestamp: 'createdTimestamp',
   EnumUserOrderable.$unknown: r'$unknown',
 };
@@ -1701,6 +1705,7 @@ InputUserPatch _$InputUserPatchFromJson(Map<String, dynamic> json) {
   return InputUserPatch(
     name: json['name'] as String?,
     age: json['age'] as int?,
+    bio: json['bio'] as String?,
     isAdmin: json['isAdmin'] as bool?,
     createdTimestamp: json['createdTimestamp'] as String?,
     requests: (json['requests'] as List<dynamic>?)
@@ -1730,6 +1735,7 @@ Map<String, dynamic> _$InputUserPatchToJson(InputUserPatch instance) =>
     <String, dynamic>{
       'name': instance.name,
       'age': instance.age,
+      'bio': instance.bio,
       'isAdmin': instance.isAdmin,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
@@ -1744,6 +1750,7 @@ InputUserRef _$InputUserRefFromJson(Map<String, dynamic> json) {
     email: json['email'] as String?,
     name: json['name'] as String?,
     age: json['age'] as int?,
+    bio: json['bio'] as String?,
     isAdmin: json['isAdmin'] as bool?,
     createdTimestamp: json['createdTimestamp'] as String?,
     requests: (json['requests'] as List<dynamic>?)
@@ -1775,6 +1782,7 @@ Map<String, dynamic> _$InputUserRefToJson(InputUserRef instance) =>
       'email': instance.email,
       'name': instance.name,
       'age': instance.age,
+      'bio': instance.bio,
       'isAdmin': instance.isAdmin,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
