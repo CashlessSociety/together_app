@@ -39,16 +39,20 @@ dependencies:
   url_launcher: ^6.0.20
   detectable_text_field: ^2.0.3
   readmore: ^2.1.0
-
+  path_provider: ^2.0.9
+  amplify_flutter: ^0.4.0
+  amplify_auth_cognito: ^0.4.0
+  amplify_storage_s3: ^0.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  json_serializable: ^4.1.2
-  graphql_codegen: ^0.6.0
+  json_serializable: ^6.0.0
+  graphql_codegen: ^0.7.0-beta.6
   build_runner: ^2.0.3
-  analyzer: ^1.7.0
+  analyzer: ^2.0.0
+
 
 dependency_overrides:
   font_awesome_flutter:
