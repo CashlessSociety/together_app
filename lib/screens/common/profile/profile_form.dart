@@ -31,7 +31,7 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
 
   Future<MutationCreateUser?> createUser() async {
     final result = await gqlClient!.mutateCreateUser(
-      GQLOptionsMutationCreateUser(
+      OptionsMutationCreateUser(
         variables: VariablesMutationCreateUser(
           name: name,
           email: email,
@@ -48,7 +48,7 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
 
   Future<QueryGetUserWithEmail$getUser?> checkIfUserExists() async {
     final result = await gqlClient!.queryGetUserWithEmail(
-      GQLOptionsQueryGetUserWithEmail(
+      OptionsQueryGetUserWithEmail(
         variables: VariablesQueryGetUserWithEmail(email: email),
       ),
     );

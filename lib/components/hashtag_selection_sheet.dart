@@ -52,7 +52,7 @@ class _HashtagSelectionSheetState extends State<HashtagSelectionSheet> {
   void onSearchHashtag(HashtagKeyMatch match) async {
     String text = match.keyword.toLowerCase();
     var result = await gqlClient!.querySearchTopRequestHashtag(
-      GQLOptionsQuerySearchTopRequestHashtag(
+      OptionsQuerySearchTopRequestHashtag(
         fetchPolicy: FetchPolicy.noCache,
         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
         variables: VariablesQuerySearchTopRequestHashtag(

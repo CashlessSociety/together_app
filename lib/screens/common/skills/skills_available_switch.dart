@@ -25,7 +25,7 @@ class _SkillAvailableSwitchState extends State<SkillAvailableSwitch> {
 
   void onUpdateSkillAvailable(bool value) {
     gqlClient!.mutateUpdateSkillAvailable(
-      GQLOptionsMutationUpdateSkillAvailable(
+      OptionsMutationUpdateSkillAvailable(
           variables: VariablesMutationUpdateSkillAvailable(
             isAvailable: value,
             skillId: widget.skillId,

@@ -5,6 +5,7 @@ abstract class FragmentHashtagVariantFragmentData {
   String get variant;
   FragmentHashtagVariantFragmentData$skillsAggregate? get skillsAggregate;
   FragmentHashtagVariantFragmentData$requestsAggregate? get requestsAggregate;
+  String get $__typename;
 }
 
 const FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA = const FragmentDefinitionNode(
@@ -74,10 +75,12 @@ const FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA = const FragmentDefinitionNode(
 
 abstract class FragmentHashtagVariantFragmentData$skillsAggregate {
   int? get count;
+  String get $__typename;
 }
 
 abstract class FragmentHashtagVariantFragmentData$requestsAggregate {
   int? get count;
+  String get $__typename;
 }
 
 abstract class FragmentHashtagFragmentData {
@@ -86,6 +89,7 @@ abstract class FragmentHashtagFragmentData {
   String? get iconName;
   bool? get blessed;
   List<FragmentHashtagFragmentData$hashtagVariants?>? get hashtagVariants;
+  String get $__typename;
 }
 
 const FRAGMENT_HASHTAG_FRAGMENT_DATA = const FragmentDefinitionNode(
@@ -150,14 +154,17 @@ abstract class FragmentHashtagFragmentData$hashtagVariants
       get skillsAggregate;
   FragmentHashtagFragmentData$hashtagVariants$requestsAggregate?
       get requestsAggregate;
+  String get $__typename;
 }
 
 abstract class FragmentHashtagFragmentData$hashtagVariants$skillsAggregate
     implements FragmentHashtagVariantFragmentData$skillsAggregate {
   int? get count;
+  String get $__typename;
 }
 
 abstract class FragmentHashtagFragmentData$hashtagVariants$requestsAggregate
     implements FragmentHashtagVariantFragmentData$requestsAggregate {
   int? get count;
+  String get $__typename;
 }

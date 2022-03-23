@@ -43,6 +43,9 @@ dependencies:
   amplify_flutter: ^0.4.0
   amplify_auth_cognito: ^0.4.0
   amplify_storage_s3: ^0.4.0
+  image_picker: ^0.8.4+11
+  image_cropper: ^1.5.0
+  cached_network_image: ^3.2.0
 
 dev_dependencies:
   flutter_test:

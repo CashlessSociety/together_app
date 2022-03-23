@@ -4,6 +4,7 @@ query GetAllUsers {
         email
         name
         age
+        avatar
         isAdmin
         createdTimestamp
     }
@@ -15,6 +16,7 @@ query GetUserWithEmail($email: String) {
         name
         age
         bio
+        avatar
         email
         isAdmin
         createdTimestamp
@@ -28,6 +30,7 @@ query GetUserWithId($id: ID) {
         name
         age
         bio
+        avatar
         email
         isAdmin
         createdTimestamp

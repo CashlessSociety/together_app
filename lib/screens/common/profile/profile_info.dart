@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,8 +77,8 @@ class _ProfileInfoState extends State<ProfileInfo>
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: widget.isOwner ? const MainEntryDrawer() : null,
-      body: GQLFQueryGetUserWithId(
-        options: GQLOptionsQueryGetUserWithId(
+      body: QueryGetUserWithIdWidget(
+        options: OptionsQueryGetUserWithId(
             variables: VariablesQueryGetUserWithId(id: widget.userId)),
         builder: ((result, {refetch, fetchMore}) {
           if (refetchFunction != refetch) {
@@ -252,11 +253,11 @@ class _ProfileInfoState extends State<ProfileInfo>
                             flex: 7,
                             child: buildUserInfoSection(result),
                           ),
-                          SizedBox(width: scrollPercent * 20.w),
                           Expanded(
                             flex: 5,
-                            child: buildUserAvatarSection(),
+                            child: buildUserAvatarSection(result),
                           ),
+                          SizedBox(width: 10.w),
                         ],
                       ),
                     ),
@@ -281,21 +282,35 @@ class _ProfileInfoState extends State<ProfileInfo>
     );
   }
 
-  Widget buildUserAvatarSection() {
+  Widget buildUserAvatarSection(QueryResult<QueryGetUserWithId> result) {
+    String avatar = result.parsedData?.getUser?.avatar ?? "";
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.w),
       child: FittedBox(
         alignment: Alignment.centerRight,
         child: Container(
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey, width: 1),
+            border: Border.all(color: Colors.grey, width: 0.5.w),
           ),
-          child: const Icon(
-            Icons.person,
-            color: Colors.grey,
-          ),
+          child: avatar == ""
+              ? const Icon(
+                  Icons.person,
+                  color: Colors.grey,
+                )
+              : CachedNetworkImage(
+                  fadeInDuration: const Duration(milliseconds: 200),
+                  fadeOutDuration: const Duration(milliseconds: 200),
+                  imageUrl: toCdnUrl(avatar),
+                  placeholder: (context, url) => CircularProgressIndicator(
+                    strokeWidth: 2.w,
+                  ),
+                  errorWidget: (context, url, error) {
+                    return const Icon(Icons.error);
+                  },
+                ),
         ),
       ),
     );
