@@ -40,7 +40,7 @@ class _SkillsScreenState extends State<SkillsScreen>
   void onGetSkillPageData() {
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) async {
       var result = await gqlClient!.queryGetSkillsPageData(
-        GQLOptionsQueryGetSkillsPageData(
+        OptionsQueryGetSkillsPageData(
           fetchPolicy: FetchPolicy.networkOnly,
           cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
           variables: VariablesQueryGetSkillsPageData(
@@ -98,7 +98,7 @@ class _SkillsScreenState extends State<SkillsScreen>
         userData!.skills!.removeWhere((element) => element!.id == skillId);
       });
       gqlClient!.mutateRemoveSkill(
-        GQLOptionsMutationRemoveSkill(
+        OptionsMutationRemoveSkill(
             variables: VariablesMutationRemoveSkill(
               skillId: skillId,
             ),

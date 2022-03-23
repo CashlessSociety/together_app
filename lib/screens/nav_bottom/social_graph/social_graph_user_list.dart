@@ -18,7 +18,7 @@ class SocialGraphUserList extends StatefulWidget {
 class _SocialGraphUserListState extends State<SocialGraphUserList> {
   @override
   Widget build(BuildContext context) {
-    return GQLFQueryGetAllUsers(
+    return QueryGetAllUsersWidget(
       builder: (result, {fetchMore, refetch}) {
         if (result.isLoading) {
           return const Text('Loading user list info');

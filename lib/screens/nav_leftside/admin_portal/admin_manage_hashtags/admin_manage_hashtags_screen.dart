@@ -62,7 +62,7 @@ class _AdminManageHashtagsScreenState extends State<AdminManageHashtagsScreen> {
           ),
         ],
       ),
-      body: GQLFQueryGetHashtagList(
+      body: QueryGetHashtagListWidget(
         builder: (result, {refetch, fetchMore}) {
           if (refetchFunction == null || refetchFunction != refetch) {
             refetchFunction = refetch;

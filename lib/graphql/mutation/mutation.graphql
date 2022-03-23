@@ -10,9 +10,9 @@ mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimesta
     }
 }
 
-mutation UpdateUser($id: ID!, $name: String!, $bio: String!){
+mutation UpdateUser($id: ID!, $name: String!, $bio: String!, $avatar: String!){
     updateUser(input: {
-        filter: {id: [$id]}, set: {name: $name, bio: $bio}}
+        filter: {id: [$id]}, set: {name: $name, bio: $bio, avatar: $avatar}}
     ){
         user {
             id

@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:together_app/components/avatar_picker.dart';
 import 'package:together_app/components/buttons.dart';
 import 'package:together_app/components/text_fields.dart';
 import 'package:together_app/graphql/mutation/mutation.graphql.dart';
@@ -30,12 +33,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   String userName = "";
   String userEmail = "";
   String userBio = "";
+  String userAvatar = "";
   bool hasLoaded = false;
   bool isProcessing = false;
 
   void onGetUserInfo() async {
     var rst = await gqlClient!.queryGetUserWithId(
-      GQLOptionsQueryGetUserWithId(
+      OptionsQueryGetUserWithId(
         variables: VariablesQueryGetUserWithId(
           id: widget.arguments.userId,
         ),
@@ -48,6 +52,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         userName = rst.parsedData?.getUser?.name ?? "";
         userEmail = rst.parsedData?.getUser?.email ?? "";
         userBio = rst.parsedData?.getUser?.bio ?? "";
+        userAvatar = rst.parsedData?.getUser?.avatar ?? "";
       });
       nameTextController.text = userName;
       bioTextController.text = userBio;
@@ -63,12 +68,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     setState(() {
       isProcessing = true;
     });
-    gqlClient!.mutateUpdateUser(GQLOptionsMutationUpdateUser(
+    gqlClient!.mutateUpdateUser(OptionsMutationUpdateUser(
         fetchPolicy: FetchPolicy.noCache,
         variables: VariablesMutationUpdateUser(
           id: widget.arguments.userId,
           name: userName,
           bio: userBio,
+          avatar: userAvatar,
         ),
         onCompleted: (result, MutationUpdateUser? data) async {
           print(result);
@@ -114,7 +120,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Edit Profile"),
         leading: const AppBarBackButton(),
@@ -147,6 +153,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           ? Padding(
               padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 25.w),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   OutlineTextField(
                     controller: nameTextController,
@@ -172,6 +179,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     onChanged: (value) {
                       setState(() {
                         userBio = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 25.w,
+                  ),
+                  AvatarPicker(
+                    fileKey: userAvatar,
+                    onUploaded: (file, key) {
+                      setState(() {
+                        userAvatar = key;
                       });
                     },
                   ),

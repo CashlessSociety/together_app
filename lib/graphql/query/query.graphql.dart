@@ -9,7 +9,7 @@ part 'query.graphql.g.dart';
 
 @JsonSerializable()
 class QueryGetAllUsers extends JsonSerializable {
-  QueryGetAllUsers({this.queryUser});
+  QueryGetAllUsers({this.queryUser, required this.$__typename});
 
   @override
   factory QueryGetAllUsers.fromJson(Map<String, dynamic> json) =>
@@ -17,8 +17,43 @@ class QueryGetAllUsers extends JsonSerializable {
 
   final List<QueryGetAllUsers$queryUser?>? queryUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetAllUsersToJson(this);
+  int get hashCode {
+    final l$queryUser = queryUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryUser == null ? null : Object.hashAll(l$queryUser.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetAllUsers) || runtimeType != other.runtimeType)
+      return false;
+    final l$queryUser = queryUser;
+    final lOther$queryUser = other.queryUser;
+    if (l$queryUser != null && lOther$queryUser != null) {
+      if (l$queryUser.length != lOther$queryUser.length) return false;
+      for (int i = 0; i < l$queryUser.length; i++) {
+        final l$queryUser$entry = l$queryUser[i];
+        final lOther$queryUser$entry = lOther$queryUser[i];
+        if (l$queryUser$entry != lOther$queryUser$entry) return false;
+      }
+    } else if (l$queryUser != lOther$queryUser) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_ALL_USERS = const DocumentNode(definitions: [
@@ -59,6 +94,12 @@ const QUERY_GET_ALL_USERS = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'avatar'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'isAdmin'),
                   alias: null,
                   arguments: [],
@@ -85,10 +126,11 @@ const QUERY_GET_ALL_USERS = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
+QueryGetAllUsers _parserFnQueryGetAllUsers(Map<String, dynamic> data) =>
+    QueryGetAllUsers.fromJson(data);
 
-class GQLOptionsQueryGetAllUsers
-    extends graphql.QueryOptions<QueryGetAllUsers> {
-  GQLOptionsQueryGetAllUsers(
+class OptionsQueryGetAllUsers extends graphql.QueryOptions<QueryGetAllUsers> {
+  OptionsQueryGetAllUsers(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -105,12 +147,12 @@ class GQLOptionsQueryGetAllUsers
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_ALL_USERS,
-            parserFn: (data) => QueryGetAllUsers.fromJson(data));
+            parserFn: _parserFnQueryGetAllUsers);
 }
 
-class GQLWatchOptionsQueryGetAllUsers
+class WatchOptionsQueryGetAllUsers
     extends graphql.WatchQueryOptions<QueryGetAllUsers> {
-  GQLWatchOptionsQueryGetAllUsers(
+  WatchOptionsQueryGetAllUsers(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -133,32 +175,38 @@ class GQLWatchOptionsQueryGetAllUsers
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetAllUsers.fromJson(data));
+            parserFn: _parserFnQueryGetAllUsers);
 }
 
-class GQLFetchMoreOptionsQueryGetAllUsers extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetAllUsers(
-      {required graphql.UpdateQuery updateQuery})
+class FetchMoreOptionsQueryGetAllUsers extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetAllUsers({required graphql.UpdateQuery updateQuery})
       : super(updateQuery: updateQuery, document: QUERY_GET_ALL_USERS);
 }
 
-extension GQLExtensionQueryGetAllUsers on graphql.GraphQLClient {
+extension ClientExtensionQueryGetAllUsers on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetAllUsers>> queryGetAllUsers(
-          [GQLOptionsQueryGetAllUsers? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetAllUsers());
+          [OptionsQueryGetAllUsers? options]) async =>
+      await this.query(options ?? OptionsQueryGetAllUsers());
   graphql.ObservableQuery<QueryGetAllUsers> watchQueryGetAllUsers(
-          [GQLWatchOptionsQueryGetAllUsers? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetAllUsers());
+          [WatchOptionsQueryGetAllUsers? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetAllUsers());
 }
 
-class GQLFQueryGetAllUsers extends graphql_flutter.Query<QueryGetAllUsers> {
-  GQLFQueryGetAllUsers(
+graphql_flutter.QueryHookResult<QueryGetAllUsers> useQueryGetAllUsers(
+        [OptionsQueryGetAllUsers? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetAllUsers());
+graphql.ObservableQuery<QueryGetAllUsers> useWatchQueryGetAllUsers(
+        [WatchOptionsQueryGetAllUsers? options]) =>
+    graphql_flutter.useWatchQuery(options ?? WatchOptionsQueryGetAllUsers());
+
+class QueryGetAllUsersWidget extends graphql_flutter.Query<QueryGetAllUsers> {
+  QueryGetAllUsersWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetAllUsers? options,
+      OptionsQueryGetAllUsers? options,
       required graphql_flutter.QueryBuilder<QueryGetAllUsers> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetAllUsers(),
+            options: options ?? OptionsQueryGetAllUsers(),
             builder: builder);
 }
 
@@ -169,8 +217,10 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
       required this.email,
       required this.name,
       this.age,
+      this.avatar,
       this.isAdmin,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.$__typename});
 
   @override
   factory QueryGetAllUsers$queryUser.fromJson(Map<String, dynamic> json) =>
@@ -184,12 +234,69 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
 
   final int? age;
 
+  final String? avatar;
+
   final bool? isAdmin;
 
   final String? createdTimestamp;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetAllUsers$queryUserToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$email = email;
+    final l$name = name;
+    final l$age = age;
+    final l$avatar = avatar;
+    final l$isAdmin = isAdmin;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$email,
+      l$name,
+      l$age,
+      l$avatar,
+      l$isAdmin,
+      l$createdTimestamp,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetAllUsers$queryUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$age = age;
+    final lOther$age = other.age;
+    if (l$age != lOther$age) return false;
+    final l$avatar = avatar;
+    final lOther$avatar = other.avatar;
+    if (l$avatar != lOther$avatar) return false;
+    final l$isAdmin = isAdmin;
+    final lOther$isAdmin = other.isAdmin;
+    if (l$isAdmin != lOther$isAdmin) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -204,11 +311,26 @@ class VariablesQueryGetUserWithEmail extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesQueryGetUserWithEmailToJson(this);
+  int get hashCode {
+    final l$email = email;
+    return Object.hashAll([l$email]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQueryGetUserWithEmail) ||
+        runtimeType != other.runtimeType) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetUserWithEmail extends JsonSerializable {
-  QueryGetUserWithEmail({this.getUser});
+  QueryGetUserWithEmail({this.getUser, required this.$__typename});
 
   @override
   factory QueryGetUserWithEmail.fromJson(Map<String, dynamic> json) =>
@@ -216,8 +338,30 @@ class QueryGetUserWithEmail extends JsonSerializable {
 
   final QueryGetUserWithEmail$getUser? getUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetUserWithEmailToJson(this);
+  int get hashCode {
+    final l$getUser = getUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$getUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetUserWithEmail) || runtimeType != other.runtimeType)
+      return false;
+    final l$getUser = getUser;
+    final lOther$getUser = other.getUser;
+    if (l$getUser != lOther$getUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_USER_WITH_EMAIL = const DocumentNode(definitions: [
@@ -269,6 +413,12 @@ const QUERY_GET_USER_WITH_EMAIL = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'avatar'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'email'),
                   alias: null,
                   arguments: [],
@@ -301,10 +451,13 @@ const QUERY_GET_USER_WITH_EMAIL = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
+QueryGetUserWithEmail _parserFnQueryGetUserWithEmail(
+        Map<String, dynamic> data) =>
+    QueryGetUserWithEmail.fromJson(data);
 
-class GQLOptionsQueryGetUserWithEmail
+class OptionsQueryGetUserWithEmail
     extends graphql.QueryOptions<QueryGetUserWithEmail> {
-  GQLOptionsQueryGetUserWithEmail(
+  OptionsQueryGetUserWithEmail(
       {String? operationName,
       VariablesQueryGetUserWithEmail? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -323,12 +476,12 @@ class GQLOptionsQueryGetUserWithEmail
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_USER_WITH_EMAIL,
-            parserFn: (data) => QueryGetUserWithEmail.fromJson(data));
+            parserFn: _parserFnQueryGetUserWithEmail);
 }
 
-class GQLWatchOptionsQueryGetUserWithEmail
+class WatchOptionsQueryGetUserWithEmail
     extends graphql.WatchQueryOptions<QueryGetUserWithEmail> {
-  GQLWatchOptionsQueryGetUserWithEmail(
+  WatchOptionsQueryGetUserWithEmail(
       {String? operationName,
       VariablesQueryGetUserWithEmail? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -353,12 +506,11 @@ class GQLWatchOptionsQueryGetUserWithEmail
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetUserWithEmail.fromJson(data));
+            parserFn: _parserFnQueryGetUserWithEmail);
 }
 
-class GQLFetchMoreOptionsQueryGetUserWithEmail
-    extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetUserWithEmail(
+class FetchMoreOptionsQueryGetUserWithEmail extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetUserWithEmail(
       {required graphql.UpdateQuery updateQuery,
       VariablesQueryGetUserWithEmail? variables})
       : super(
@@ -367,24 +519,32 @@ class GQLFetchMoreOptionsQueryGetUserWithEmail
             document: QUERY_GET_USER_WITH_EMAIL);
 }
 
-extension GQLExtensionQueryGetUserWithEmail on graphql.GraphQLClient {
+extension ClientExtensionQueryGetUserWithEmail on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetUserWithEmail>> queryGetUserWithEmail(
-          [GQLOptionsQueryGetUserWithEmail? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetUserWithEmail());
+          [OptionsQueryGetUserWithEmail? options]) async =>
+      await this.query(options ?? OptionsQueryGetUserWithEmail());
   graphql.ObservableQuery<QueryGetUserWithEmail> watchQueryGetUserWithEmail(
-          [GQLWatchOptionsQueryGetUserWithEmail? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetUserWithEmail());
+          [WatchOptionsQueryGetUserWithEmail? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetUserWithEmail());
 }
 
-class GQLFQueryGetUserWithEmail
+graphql_flutter.QueryHookResult<QueryGetUserWithEmail> useQueryGetUserWithEmail(
+        [OptionsQueryGetUserWithEmail? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetUserWithEmail());
+graphql.ObservableQuery<QueryGetUserWithEmail> useWatchQueryGetUserWithEmail(
+        [WatchOptionsQueryGetUserWithEmail? options]) =>
+    graphql_flutter
+        .useWatchQuery(options ?? WatchOptionsQueryGetUserWithEmail());
+
+class QueryGetUserWithEmailWidget
     extends graphql_flutter.Query<QueryGetUserWithEmail> {
-  GQLFQueryGetUserWithEmail(
+  QueryGetUserWithEmailWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetUserWithEmail? options,
+      OptionsQueryGetUserWithEmail? options,
       required graphql_flutter.QueryBuilder<QueryGetUserWithEmail> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetUserWithEmail(),
+            options: options ?? OptionsQueryGetUserWithEmail(),
             builder: builder);
 }
 
@@ -395,9 +555,11 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
       required this.name,
       this.age,
       this.bio,
+      this.avatar,
       required this.email,
       this.isAdmin,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.$__typename});
 
   @override
   factory QueryGetUserWithEmail$getUser.fromJson(Map<String, dynamic> json) =>
@@ -411,14 +573,76 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
 
   final String? bio;
 
+  final String? avatar;
+
   final String email;
 
   final bool? isAdmin;
 
   final String? createdTimestamp;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetUserWithEmail$getUserToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$age = age;
+    final l$bio = bio;
+    final l$avatar = avatar;
+    final l$email = email;
+    final l$isAdmin = isAdmin;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$age,
+      l$bio,
+      l$avatar,
+      l$email,
+      l$isAdmin,
+      l$createdTimestamp,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetUserWithEmail$getUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$age = age;
+    final lOther$age = other.age;
+    if (l$age != lOther$age) return false;
+    final l$bio = bio;
+    final lOther$bio = other.bio;
+    if (l$bio != lOther$bio) return false;
+    final l$avatar = avatar;
+    final lOther$avatar = other.avatar;
+    if (l$avatar != lOther$avatar) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$isAdmin = isAdmin;
+    final lOther$isAdmin = other.isAdmin;
+    if (l$isAdmin != lOther$isAdmin) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -433,11 +657,26 @@ class VariablesQueryGetUserWithId extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesQueryGetUserWithIdToJson(this);
+  int get hashCode {
+    final l$id = id;
+    return Object.hashAll([l$id]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQueryGetUserWithId) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetUserWithId extends JsonSerializable {
-  QueryGetUserWithId({this.getUser});
+  QueryGetUserWithId({this.getUser, required this.$__typename});
 
   @override
   factory QueryGetUserWithId.fromJson(Map<String, dynamic> json) =>
@@ -445,8 +684,30 @@ class QueryGetUserWithId extends JsonSerializable {
 
   final QueryGetUserWithId$getUser? getUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetUserWithIdToJson(this);
+  int get hashCode {
+    final l$getUser = getUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$getUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetUserWithId) || runtimeType != other.runtimeType)
+      return false;
+    final l$getUser = getUser;
+    final lOther$getUser = other.getUser;
+    if (l$getUser != lOther$getUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_USER_WITH_ID = const DocumentNode(definitions: [
@@ -497,6 +758,12 @@ const QUERY_GET_USER_WITH_ID = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'avatar'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'email'),
                   alias: null,
                   arguments: [],
@@ -529,10 +796,12 @@ const QUERY_GET_USER_WITH_ID = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
+QueryGetUserWithId _parserFnQueryGetUserWithId(Map<String, dynamic> data) =>
+    QueryGetUserWithId.fromJson(data);
 
-class GQLOptionsQueryGetUserWithId
+class OptionsQueryGetUserWithId
     extends graphql.QueryOptions<QueryGetUserWithId> {
-  GQLOptionsQueryGetUserWithId(
+  OptionsQueryGetUserWithId(
       {String? operationName,
       VariablesQueryGetUserWithId? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -551,12 +820,12 @@ class GQLOptionsQueryGetUserWithId
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_USER_WITH_ID,
-            parserFn: (data) => QueryGetUserWithId.fromJson(data));
+            parserFn: _parserFnQueryGetUserWithId);
 }
 
-class GQLWatchOptionsQueryGetUserWithId
+class WatchOptionsQueryGetUserWithId
     extends graphql.WatchQueryOptions<QueryGetUserWithId> {
-  GQLWatchOptionsQueryGetUserWithId(
+  WatchOptionsQueryGetUserWithId(
       {String? operationName,
       VariablesQueryGetUserWithId? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -581,11 +850,11 @@ class GQLWatchOptionsQueryGetUserWithId
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetUserWithId.fromJson(data));
+            parserFn: _parserFnQueryGetUserWithId);
 }
 
-class GQLFetchMoreOptionsQueryGetUserWithId extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetUserWithId(
+class FetchMoreOptionsQueryGetUserWithId extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetUserWithId(
       {required graphql.UpdateQuery updateQuery,
       VariablesQueryGetUserWithId? variables})
       : super(
@@ -594,23 +863,31 @@ class GQLFetchMoreOptionsQueryGetUserWithId extends graphql.FetchMoreOptions {
             document: QUERY_GET_USER_WITH_ID);
 }
 
-extension GQLExtensionQueryGetUserWithId on graphql.GraphQLClient {
+extension ClientExtensionQueryGetUserWithId on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetUserWithId>> queryGetUserWithId(
-          [GQLOptionsQueryGetUserWithId? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetUserWithId());
+          [OptionsQueryGetUserWithId? options]) async =>
+      await this.query(options ?? OptionsQueryGetUserWithId());
   graphql.ObservableQuery<QueryGetUserWithId> watchQueryGetUserWithId(
-          [GQLWatchOptionsQueryGetUserWithId? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetUserWithId());
+          [WatchOptionsQueryGetUserWithId? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetUserWithId());
 }
 
-class GQLFQueryGetUserWithId extends graphql_flutter.Query<QueryGetUserWithId> {
-  GQLFQueryGetUserWithId(
+graphql_flutter.QueryHookResult<QueryGetUserWithId> useQueryGetUserWithId(
+        [OptionsQueryGetUserWithId? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetUserWithId());
+graphql.ObservableQuery<QueryGetUserWithId> useWatchQueryGetUserWithId(
+        [WatchOptionsQueryGetUserWithId? options]) =>
+    graphql_flutter.useWatchQuery(options ?? WatchOptionsQueryGetUserWithId());
+
+class QueryGetUserWithIdWidget
+    extends graphql_flutter.Query<QueryGetUserWithId> {
+  QueryGetUserWithIdWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetUserWithId? options,
+      OptionsQueryGetUserWithId? options,
       required graphql_flutter.QueryBuilder<QueryGetUserWithId> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetUserWithId(),
+            options: options ?? OptionsQueryGetUserWithId(),
             builder: builder);
 }
 
@@ -621,9 +898,11 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
       required this.name,
       this.age,
       this.bio,
+      this.avatar,
       required this.email,
       this.isAdmin,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.$__typename});
 
   @override
   factory QueryGetUserWithId$getUser.fromJson(Map<String, dynamic> json) =>
@@ -637,19 +916,81 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
 
   final String? bio;
 
+  final String? avatar;
+
   final String email;
 
   final bool? isAdmin;
 
   final String? createdTimestamp;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetUserWithId$getUserToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$age = age;
+    final l$bio = bio;
+    final l$avatar = avatar;
+    final l$email = email;
+    final l$isAdmin = isAdmin;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$age,
+      l$bio,
+      l$avatar,
+      l$email,
+      l$isAdmin,
+      l$createdTimestamp,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetUserWithId$getUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$age = age;
+    final lOther$age = other.age;
+    if (l$age != lOther$age) return false;
+    final l$bio = bio;
+    final lOther$bio = other.bio;
+    if (l$bio != lOther$bio) return false;
+    final l$avatar = avatar;
+    final lOther$avatar = other.avatar;
+    if (l$avatar != lOther$avatar) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$isAdmin = isAdmin;
+    final lOther$isAdmin = other.isAdmin;
+    if (l$isAdmin != lOther$isAdmin) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetAllRequests extends JsonSerializable {
-  QueryGetAllRequests({this.queryRequest});
+  QueryGetAllRequests({this.queryRequest, required this.$__typename});
 
   @override
   factory QueryGetAllRequests.fromJson(Map<String, dynamic> json) =>
@@ -657,8 +998,45 @@ class QueryGetAllRequests extends JsonSerializable {
 
   final List<QueryGetAllRequests$queryRequest?>? queryRequest;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetAllRequestsToJson(this);
+  int get hashCode {
+    final l$queryRequest = queryRequest;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryRequest == null
+          ? null
+          : Object.hashAll(l$queryRequest.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetAllRequests) || runtimeType != other.runtimeType)
+      return false;
+    final l$queryRequest = queryRequest;
+    final lOther$queryRequest = other.queryRequest;
+    if (l$queryRequest != null && lOther$queryRequest != null) {
+      if (l$queryRequest.length != lOther$queryRequest.length) return false;
+      for (int i = 0; i < l$queryRequest.length; i++) {
+        final l$queryRequest$entry = l$queryRequest[i];
+        final lOther$queryRequest$entry = lOther$queryRequest[i];
+        if (l$queryRequest$entry != lOther$queryRequest$entry) return false;
+      }
+    } else if (l$queryRequest != lOther$queryRequest) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_ALL_REQUESTS = const DocumentNode(definitions: [
@@ -732,10 +1110,12 @@ const QUERY_GET_ALL_REQUESTS = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
+QueryGetAllRequests _parserFnQueryGetAllRequests(Map<String, dynamic> data) =>
+    QueryGetAllRequests.fromJson(data);
 
-class GQLOptionsQueryGetAllRequests
+class OptionsQueryGetAllRequests
     extends graphql.QueryOptions<QueryGetAllRequests> {
-  GQLOptionsQueryGetAllRequests(
+  OptionsQueryGetAllRequests(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -752,12 +1132,12 @@ class GQLOptionsQueryGetAllRequests
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_ALL_REQUESTS,
-            parserFn: (data) => QueryGetAllRequests.fromJson(data));
+            parserFn: _parserFnQueryGetAllRequests);
 }
 
-class GQLWatchOptionsQueryGetAllRequests
+class WatchOptionsQueryGetAllRequests
     extends graphql.WatchQueryOptions<QueryGetAllRequests> {
-  GQLWatchOptionsQueryGetAllRequests(
+  WatchOptionsQueryGetAllRequests(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -780,33 +1160,40 @@ class GQLWatchOptionsQueryGetAllRequests
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetAllRequests.fromJson(data));
+            parserFn: _parserFnQueryGetAllRequests);
 }
 
-class GQLFetchMoreOptionsQueryGetAllRequests extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetAllRequests(
+class FetchMoreOptionsQueryGetAllRequests extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetAllRequests(
       {required graphql.UpdateQuery updateQuery})
       : super(updateQuery: updateQuery, document: QUERY_GET_ALL_REQUESTS);
 }
 
-extension GQLExtensionQueryGetAllRequests on graphql.GraphQLClient {
+extension ClientExtensionQueryGetAllRequests on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetAllRequests>> queryGetAllRequests(
-          [GQLOptionsQueryGetAllRequests? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetAllRequests());
+          [OptionsQueryGetAllRequests? options]) async =>
+      await this.query(options ?? OptionsQueryGetAllRequests());
   graphql.ObservableQuery<QueryGetAllRequests> watchQueryGetAllRequests(
-          [GQLWatchOptionsQueryGetAllRequests? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetAllRequests());
+          [WatchOptionsQueryGetAllRequests? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetAllRequests());
 }
 
-class GQLFQueryGetAllRequests
+graphql_flutter.QueryHookResult<QueryGetAllRequests> useQueryGetAllRequests(
+        [OptionsQueryGetAllRequests? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetAllRequests());
+graphql.ObservableQuery<QueryGetAllRequests> useWatchQueryGetAllRequests(
+        [WatchOptionsQueryGetAllRequests? options]) =>
+    graphql_flutter.useWatchQuery(options ?? WatchOptionsQueryGetAllRequests());
+
+class QueryGetAllRequestsWidget
     extends graphql_flutter.Query<QueryGetAllRequests> {
-  GQLFQueryGetAllRequests(
+  QueryGetAllRequestsWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetAllRequests? options,
+      OptionsQueryGetAllRequests? options,
       required graphql_flutter.QueryBuilder<QueryGetAllRequests> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetAllRequests(),
+            options: options ?? OptionsQueryGetAllRequests(),
             builder: builder);
 }
 
@@ -817,7 +1204,8 @@ class QueryGetAllRequests$queryRequest extends JsonSerializable {
       required this.owner,
       required this.title,
       required this.message,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.$__typename});
 
   @override
   factory QueryGetAllRequests$queryRequest.fromJson(
@@ -834,14 +1222,54 @@ class QueryGetAllRequests$queryRequest extends JsonSerializable {
 
   final String? createdTimestamp;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetAllRequests$queryRequestToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$owner = owner;
+    final l$title = title;
+    final l$message = message;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll(
+        [l$id, l$owner, l$title, l$message, l$createdTimestamp, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetAllRequests$queryRequest) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$owner = owner;
+    final lOther$owner = other.owner;
+    if (l$owner != lOther$owner) return false;
+    final l$title = title;
+    final lOther$title = other.title;
+    if (l$title != lOther$title) return false;
+    final l$message = message;
+    final lOther$message = other.message;
+    if (l$message != lOther$message) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetAllRequests$queryRequest$owner extends JsonSerializable {
-  QueryGetAllRequests$queryRequest$owner({required this.name});
+  QueryGetAllRequests$queryRequest$owner(
+      {required this.name, required this.$__typename});
 
   @override
   factory QueryGetAllRequests$queryRequest$owner.fromJson(
@@ -850,9 +1278,31 @@ class QueryGetAllRequests$queryRequest$owner extends JsonSerializable {
 
   final String name;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetAllRequests$queryRequest$ownerToJson(this);
+  int get hashCode {
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetAllRequests$queryRequest$owner) ||
+        runtimeType != other.runtimeType) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -867,11 +1317,26 @@ class VariablesQueryGetHashtagByName extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesQueryGetHashtagByNameToJson(this);
+  int get hashCode {
+    final l$name = name;
+    return Object.hashAll([l$name]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQueryGetHashtagByName) ||
+        runtimeType != other.runtimeType) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetHashtagByName extends JsonSerializable {
-  QueryGetHashtagByName({this.getHashtag});
+  QueryGetHashtagByName({this.getHashtag, required this.$__typename});
 
   @override
   factory QueryGetHashtagByName.fromJson(Map<String, dynamic> json) =>
@@ -879,8 +1344,30 @@ class QueryGetHashtagByName extends JsonSerializable {
 
   final QueryGetHashtagByName$getHashtag? getHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetHashtagByNameToJson(this);
+  int get hashCode {
+    final l$getHashtag = getHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$getHashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagByName) || runtimeType != other.runtimeType)
+      return false;
+    final l$getHashtag = getHashtag;
+    final lOther$getHashtag = other.getHashtag;
+    if (l$getHashtag != lOther$getHashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_HASHTAG_BY_NAME = const DocumentNode(definitions: [
@@ -926,10 +1413,13 @@ const QUERY_GET_HASHTAG_BY_NAME = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
+QueryGetHashtagByName _parserFnQueryGetHashtagByName(
+        Map<String, dynamic> data) =>
+    QueryGetHashtagByName.fromJson(data);
 
-class GQLOptionsQueryGetHashtagByName
+class OptionsQueryGetHashtagByName
     extends graphql.QueryOptions<QueryGetHashtagByName> {
-  GQLOptionsQueryGetHashtagByName(
+  OptionsQueryGetHashtagByName(
       {String? operationName,
       VariablesQueryGetHashtagByName? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -948,12 +1438,12 @@ class GQLOptionsQueryGetHashtagByName
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_HASHTAG_BY_NAME,
-            parserFn: (data) => QueryGetHashtagByName.fromJson(data));
+            parserFn: _parserFnQueryGetHashtagByName);
 }
 
-class GQLWatchOptionsQueryGetHashtagByName
+class WatchOptionsQueryGetHashtagByName
     extends graphql.WatchQueryOptions<QueryGetHashtagByName> {
-  GQLWatchOptionsQueryGetHashtagByName(
+  WatchOptionsQueryGetHashtagByName(
       {String? operationName,
       VariablesQueryGetHashtagByName? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -978,12 +1468,11 @@ class GQLWatchOptionsQueryGetHashtagByName
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetHashtagByName.fromJson(data));
+            parserFn: _parserFnQueryGetHashtagByName);
 }
 
-class GQLFetchMoreOptionsQueryGetHashtagByName
-    extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetHashtagByName(
+class FetchMoreOptionsQueryGetHashtagByName extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetHashtagByName(
       {required graphql.UpdateQuery updateQuery,
       VariablesQueryGetHashtagByName? variables})
       : super(
@@ -992,24 +1481,32 @@ class GQLFetchMoreOptionsQueryGetHashtagByName
             document: QUERY_GET_HASHTAG_BY_NAME);
 }
 
-extension GQLExtensionQueryGetHashtagByName on graphql.GraphQLClient {
+extension ClientExtensionQueryGetHashtagByName on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetHashtagByName>> queryGetHashtagByName(
-          [GQLOptionsQueryGetHashtagByName? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetHashtagByName());
+          [OptionsQueryGetHashtagByName? options]) async =>
+      await this.query(options ?? OptionsQueryGetHashtagByName());
   graphql.ObservableQuery<QueryGetHashtagByName> watchQueryGetHashtagByName(
-          [GQLWatchOptionsQueryGetHashtagByName? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagByName());
+          [WatchOptionsQueryGetHashtagByName? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetHashtagByName());
 }
 
-class GQLFQueryGetHashtagByName
+graphql_flutter.QueryHookResult<QueryGetHashtagByName> useQueryGetHashtagByName(
+        [OptionsQueryGetHashtagByName? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetHashtagByName());
+graphql.ObservableQuery<QueryGetHashtagByName> useWatchQueryGetHashtagByName(
+        [WatchOptionsQueryGetHashtagByName? options]) =>
+    graphql_flutter
+        .useWatchQuery(options ?? WatchOptionsQueryGetHashtagByName());
+
+class QueryGetHashtagByNameWidget
     extends graphql_flutter.Query<QueryGetHashtagByName> {
-  GQLFQueryGetHashtagByName(
+  QueryGetHashtagByNameWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetHashtagByName? options,
+      OptionsQueryGetHashtagByName? options,
       required graphql_flutter.QueryBuilder<QueryGetHashtagByName> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetHashtagByName(),
+            options: options ?? OptionsQueryGetHashtagByName(),
             builder: builder);
 }
 
@@ -1021,7 +1518,8 @@ class QueryGetHashtagByName$getHashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory QueryGetHashtagByName$getHashtag.fromJson(
@@ -1039,9 +1537,68 @@ class QueryGetHashtagByName$getHashtag extends JsonSerializable
   final List<QueryGetHashtagByName$getHashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagByName$getHashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagByName$getHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1053,7 +1610,8 @@ class QueryGetHashtagByName$getHashtag$hashtagVariants extends JsonSerializable
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory QueryGetHashtagByName$getHashtag$hashtagVariants.fromJson(
@@ -1070,9 +1628,49 @@ class QueryGetHashtagByName$getHashtag$hashtagVariants extends JsonSerializable
   final QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagByName$getHashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagByName$getHashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1082,7 +1680,7 @@ class QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
   QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -1092,10 +1690,33 @@ class QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetHashtagByName$getHashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1105,7 +1726,7 @@ class QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -1115,10 +1736,33 @@ class QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetHashtagByName$getHashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1133,11 +1777,26 @@ class VariablesQueryGetHashtagById extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesQueryGetHashtagByIdToJson(this);
+  int get hashCode {
+    final l$id = id;
+    return Object.hashAll([l$id]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQueryGetHashtagById) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetHashtagById extends JsonSerializable {
-  QueryGetHashtagById({this.getHashtag});
+  QueryGetHashtagById({this.getHashtag, required this.$__typename});
 
   @override
   factory QueryGetHashtagById.fromJson(Map<String, dynamic> json) =>
@@ -1145,8 +1804,30 @@ class QueryGetHashtagById extends JsonSerializable {
 
   final QueryGetHashtagById$getHashtag? getHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetHashtagByIdToJson(this);
+  int get hashCode {
+    final l$getHashtag = getHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$getHashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagById) || runtimeType != other.runtimeType)
+      return false;
+    final l$getHashtag = getHashtag;
+    final lOther$getHashtag = other.getHashtag;
+    if (l$getHashtag != lOther$getHashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_HASHTAG_BY_ID = const DocumentNode(definitions: [
@@ -1191,10 +1872,12 @@ const QUERY_GET_HASHTAG_BY_ID = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
+QueryGetHashtagById _parserFnQueryGetHashtagById(Map<String, dynamic> data) =>
+    QueryGetHashtagById.fromJson(data);
 
-class GQLOptionsQueryGetHashtagById
+class OptionsQueryGetHashtagById
     extends graphql.QueryOptions<QueryGetHashtagById> {
-  GQLOptionsQueryGetHashtagById(
+  OptionsQueryGetHashtagById(
       {String? operationName,
       VariablesQueryGetHashtagById? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1213,12 +1896,12 @@ class GQLOptionsQueryGetHashtagById
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_HASHTAG_BY_ID,
-            parserFn: (data) => QueryGetHashtagById.fromJson(data));
+            parserFn: _parserFnQueryGetHashtagById);
 }
 
-class GQLWatchOptionsQueryGetHashtagById
+class WatchOptionsQueryGetHashtagById
     extends graphql.WatchQueryOptions<QueryGetHashtagById> {
-  GQLWatchOptionsQueryGetHashtagById(
+  WatchOptionsQueryGetHashtagById(
       {String? operationName,
       VariablesQueryGetHashtagById? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1243,11 +1926,11 @@ class GQLWatchOptionsQueryGetHashtagById
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetHashtagById.fromJson(data));
+            parserFn: _parserFnQueryGetHashtagById);
 }
 
-class GQLFetchMoreOptionsQueryGetHashtagById extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetHashtagById(
+class FetchMoreOptionsQueryGetHashtagById extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetHashtagById(
       {required graphql.UpdateQuery updateQuery,
       VariablesQueryGetHashtagById? variables})
       : super(
@@ -1256,24 +1939,31 @@ class GQLFetchMoreOptionsQueryGetHashtagById extends graphql.FetchMoreOptions {
             document: QUERY_GET_HASHTAG_BY_ID);
 }
 
-extension GQLExtensionQueryGetHashtagById on graphql.GraphQLClient {
+extension ClientExtensionQueryGetHashtagById on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetHashtagById>> queryGetHashtagById(
-          [GQLOptionsQueryGetHashtagById? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetHashtagById());
+          [OptionsQueryGetHashtagById? options]) async =>
+      await this.query(options ?? OptionsQueryGetHashtagById());
   graphql.ObservableQuery<QueryGetHashtagById> watchQueryGetHashtagById(
-          [GQLWatchOptionsQueryGetHashtagById? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagById());
+          [WatchOptionsQueryGetHashtagById? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetHashtagById());
 }
 
-class GQLFQueryGetHashtagById
+graphql_flutter.QueryHookResult<QueryGetHashtagById> useQueryGetHashtagById(
+        [OptionsQueryGetHashtagById? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetHashtagById());
+graphql.ObservableQuery<QueryGetHashtagById> useWatchQueryGetHashtagById(
+        [WatchOptionsQueryGetHashtagById? options]) =>
+    graphql_flutter.useWatchQuery(options ?? WatchOptionsQueryGetHashtagById());
+
+class QueryGetHashtagByIdWidget
     extends graphql_flutter.Query<QueryGetHashtagById> {
-  GQLFQueryGetHashtagById(
+  QueryGetHashtagByIdWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetHashtagById? options,
+      OptionsQueryGetHashtagById? options,
       required graphql_flutter.QueryBuilder<QueryGetHashtagById> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetHashtagById(),
+            options: options ?? OptionsQueryGetHashtagById(),
             builder: builder);
 }
 
@@ -1285,7 +1975,8 @@ class QueryGetHashtagById$getHashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory QueryGetHashtagById$getHashtag.fromJson(Map<String, dynamic> json) =>
@@ -1301,8 +1992,67 @@ class QueryGetHashtagById$getHashtag extends JsonSerializable
 
   final List<QueryGetHashtagById$getHashtag$hashtagVariants?>? hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetHashtagById$getHashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagById$getHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1314,7 +2064,8 @@ class QueryGetHashtagById$getHashtag$hashtagVariants extends JsonSerializable
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory QueryGetHashtagById$getHashtag$hashtagVariants.fromJson(
@@ -1331,9 +2082,49 @@ class QueryGetHashtagById$getHashtag$hashtagVariants extends JsonSerializable
   final QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagById$getHashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagById$getHashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1342,7 +2133,8 @@ class QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate
     implements
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
-  QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate({this.count});
+  QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate(
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -1352,10 +2144,33 @@ class QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetHashtagById$getHashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1365,7 +2180,7 @@ class QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -1375,15 +2190,38 @@ class QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetHashtagById$getHashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetHashtagList extends JsonSerializable {
-  QueryGetHashtagList({this.queryHashtag});
+  QueryGetHashtagList({this.queryHashtag, required this.$__typename});
 
   @override
   factory QueryGetHashtagList.fromJson(Map<String, dynamic> json) =>
@@ -1391,8 +2229,45 @@ class QueryGetHashtagList extends JsonSerializable {
 
   final List<QueryGetHashtagList$queryHashtag?>? queryHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetHashtagListToJson(this);
+  int get hashCode {
+    final l$queryHashtag = queryHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryHashtag == null
+          ? null
+          : Object.hashAll(l$queryHashtag.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagList) || runtimeType != other.runtimeType)
+      return false;
+    final l$queryHashtag = queryHashtag;
+    final lOther$queryHashtag = other.queryHashtag;
+    if (l$queryHashtag != null && lOther$queryHashtag != null) {
+      if (l$queryHashtag.length != lOther$queryHashtag.length) return false;
+      for (int i = 0; i < l$queryHashtag.length; i++) {
+        final l$queryHashtag$entry = l$queryHashtag[i];
+        final lOther$queryHashtag$entry = lOther$queryHashtag[i];
+        if (l$queryHashtag$entry != lOther$queryHashtag$entry) return false;
+      }
+    } else if (l$queryHashtag != lOther$queryHashtag) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_HASHTAG_LIST = const DocumentNode(definitions: [
@@ -1435,10 +2310,12 @@ const QUERY_GET_HASHTAG_LIST = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
+QueryGetHashtagList _parserFnQueryGetHashtagList(Map<String, dynamic> data) =>
+    QueryGetHashtagList.fromJson(data);
 
-class GQLOptionsQueryGetHashtagList
+class OptionsQueryGetHashtagList
     extends graphql.QueryOptions<QueryGetHashtagList> {
-  GQLOptionsQueryGetHashtagList(
+  OptionsQueryGetHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1455,12 +2332,12 @@ class GQLOptionsQueryGetHashtagList
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_HASHTAG_LIST,
-            parserFn: (data) => QueryGetHashtagList.fromJson(data));
+            parserFn: _parserFnQueryGetHashtagList);
 }
 
-class GQLWatchOptionsQueryGetHashtagList
+class WatchOptionsQueryGetHashtagList
     extends graphql.WatchQueryOptions<QueryGetHashtagList> {
-  GQLWatchOptionsQueryGetHashtagList(
+  WatchOptionsQueryGetHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1483,33 +2360,40 @@ class GQLWatchOptionsQueryGetHashtagList
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetHashtagList.fromJson(data));
+            parserFn: _parserFnQueryGetHashtagList);
 }
 
-class GQLFetchMoreOptionsQueryGetHashtagList extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetHashtagList(
+class FetchMoreOptionsQueryGetHashtagList extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetHashtagList(
       {required graphql.UpdateQuery updateQuery})
       : super(updateQuery: updateQuery, document: QUERY_GET_HASHTAG_LIST);
 }
 
-extension GQLExtensionQueryGetHashtagList on graphql.GraphQLClient {
+extension ClientExtensionQueryGetHashtagList on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetHashtagList>> queryGetHashtagList(
-          [GQLOptionsQueryGetHashtagList? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetHashtagList());
+          [OptionsQueryGetHashtagList? options]) async =>
+      await this.query(options ?? OptionsQueryGetHashtagList());
   graphql.ObservableQuery<QueryGetHashtagList> watchQueryGetHashtagList(
-          [GQLWatchOptionsQueryGetHashtagList? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetHashtagList());
+          [WatchOptionsQueryGetHashtagList? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetHashtagList());
 }
 
-class GQLFQueryGetHashtagList
+graphql_flutter.QueryHookResult<QueryGetHashtagList> useQueryGetHashtagList(
+        [OptionsQueryGetHashtagList? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetHashtagList());
+graphql.ObservableQuery<QueryGetHashtagList> useWatchQueryGetHashtagList(
+        [WatchOptionsQueryGetHashtagList? options]) =>
+    graphql_flutter.useWatchQuery(options ?? WatchOptionsQueryGetHashtagList());
+
+class QueryGetHashtagListWidget
     extends graphql_flutter.Query<QueryGetHashtagList> {
-  GQLFQueryGetHashtagList(
+  QueryGetHashtagListWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetHashtagList? options,
+      OptionsQueryGetHashtagList? options,
       required graphql_flutter.QueryBuilder<QueryGetHashtagList> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetHashtagList(),
+            options: options ?? OptionsQueryGetHashtagList(),
             builder: builder);
 }
 
@@ -1521,7 +2405,8 @@ class QueryGetHashtagList$queryHashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory QueryGetHashtagList$queryHashtag.fromJson(
@@ -1539,9 +2424,68 @@ class QueryGetHashtagList$queryHashtag extends JsonSerializable
   final List<QueryGetHashtagList$queryHashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagList$queryHashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagList$queryHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1553,7 +2497,8 @@ class QueryGetHashtagList$queryHashtag$hashtagVariants extends JsonSerializable
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory QueryGetHashtagList$queryHashtag$hashtagVariants.fromJson(
@@ -1570,9 +2515,49 @@ class QueryGetHashtagList$queryHashtag$hashtagVariants extends JsonSerializable
   final QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagList$queryHashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetHashtagList$queryHashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1582,7 +2567,7 @@ class QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
   QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -1592,10 +2577,33 @@ class QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetHashtagList$queryHashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1605,7 +2613,7 @@ class QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -1615,15 +2623,38 @@ class QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetHashtagList$queryHashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetBlessedHashtagList extends JsonSerializable {
-  QueryGetBlessedHashtagList({this.queryHashtag});
+  QueryGetBlessedHashtagList({this.queryHashtag, required this.$__typename});
 
   @override
   factory QueryGetBlessedHashtagList.fromJson(Map<String, dynamic> json) =>
@@ -1631,8 +2662,45 @@ class QueryGetBlessedHashtagList extends JsonSerializable {
 
   final List<QueryGetBlessedHashtagList$queryHashtag?>? queryHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetBlessedHashtagListToJson(this);
+  int get hashCode {
+    final l$queryHashtag = queryHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryHashtag == null
+          ? null
+          : Object.hashAll(l$queryHashtag.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetBlessedHashtagList) ||
+        runtimeType != other.runtimeType) return false;
+    final l$queryHashtag = queryHashtag;
+    final lOther$queryHashtag = other.queryHashtag;
+    if (l$queryHashtag != null && lOther$queryHashtag != null) {
+      if (l$queryHashtag.length != lOther$queryHashtag.length) return false;
+      for (int i = 0; i < l$queryHashtag.length; i++) {
+        final l$queryHashtag$entry = l$queryHashtag[i];
+        final lOther$queryHashtag$entry = lOther$queryHashtag[i];
+        if (l$queryHashtag$entry != lOther$queryHashtag$entry) return false;
+      }
+    } else if (l$queryHashtag != lOther$queryHashtag) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_BLESSED_HASHTAG_LIST = const DocumentNode(definitions: [
@@ -1682,10 +2750,13 @@ const QUERY_GET_BLESSED_HASHTAG_LIST = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
+QueryGetBlessedHashtagList _parserFnQueryGetBlessedHashtagList(
+        Map<String, dynamic> data) =>
+    QueryGetBlessedHashtagList.fromJson(data);
 
-class GQLOptionsQueryGetBlessedHashtagList
+class OptionsQueryGetBlessedHashtagList
     extends graphql.QueryOptions<QueryGetBlessedHashtagList> {
-  GQLOptionsQueryGetBlessedHashtagList(
+  OptionsQueryGetBlessedHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1702,12 +2773,12 @@ class GQLOptionsQueryGetBlessedHashtagList
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_BLESSED_HASHTAG_LIST,
-            parserFn: (data) => QueryGetBlessedHashtagList.fromJson(data));
+            parserFn: _parserFnQueryGetBlessedHashtagList);
 }
 
-class GQLWatchOptionsQueryGetBlessedHashtagList
+class WatchOptionsQueryGetBlessedHashtagList
     extends graphql.WatchQueryOptions<QueryGetBlessedHashtagList> {
-  GQLWatchOptionsQueryGetBlessedHashtagList(
+  WatchOptionsQueryGetBlessedHashtagList(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
@@ -1730,38 +2801,48 @@ class GQLWatchOptionsQueryGetBlessedHashtagList
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetBlessedHashtagList.fromJson(data));
+            parserFn: _parserFnQueryGetBlessedHashtagList);
 }
 
-class GQLFetchMoreOptionsQueryGetBlessedHashtagList
+class FetchMoreOptionsQueryGetBlessedHashtagList
     extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetBlessedHashtagList(
+  FetchMoreOptionsQueryGetBlessedHashtagList(
       {required graphql.UpdateQuery updateQuery})
       : super(
             updateQuery: updateQuery, document: QUERY_GET_BLESSED_HASHTAG_LIST);
 }
 
-extension GQLExtensionQueryGetBlessedHashtagList on graphql.GraphQLClient {
+extension ClientExtensionQueryGetBlessedHashtagList on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetBlessedHashtagList>>
       queryGetBlessedHashtagList(
-              [GQLOptionsQueryGetBlessedHashtagList? options]) async =>
-          await this.query(options ?? GQLOptionsQueryGetBlessedHashtagList());
-  graphql.ObservableQuery<
-      QueryGetBlessedHashtagList> watchQueryGetBlessedHashtagList(
-          [GQLWatchOptionsQueryGetBlessedHashtagList? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetBlessedHashtagList());
+              [OptionsQueryGetBlessedHashtagList? options]) async =>
+          await this.query(options ?? OptionsQueryGetBlessedHashtagList());
+  graphql.ObservableQuery<QueryGetBlessedHashtagList>
+      watchQueryGetBlessedHashtagList(
+              [WatchOptionsQueryGetBlessedHashtagList? options]) =>
+          this.watchQuery(options ?? WatchOptionsQueryGetBlessedHashtagList());
 }
 
-class GQLFQueryGetBlessedHashtagList
+graphql_flutter
+    .QueryHookResult<QueryGetBlessedHashtagList> useQueryGetBlessedHashtagList(
+        [OptionsQueryGetBlessedHashtagList? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetBlessedHashtagList());
+graphql.ObservableQuery<QueryGetBlessedHashtagList>
+    useWatchQueryGetBlessedHashtagList(
+            [WatchOptionsQueryGetBlessedHashtagList? options]) =>
+        graphql_flutter
+            .useWatchQuery(options ?? WatchOptionsQueryGetBlessedHashtagList());
+
+class QueryGetBlessedHashtagListWidget
     extends graphql_flutter.Query<QueryGetBlessedHashtagList> {
-  GQLFQueryGetBlessedHashtagList(
+  QueryGetBlessedHashtagListWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetBlessedHashtagList? options,
+      OptionsQueryGetBlessedHashtagList? options,
       required graphql_flutter.QueryBuilder<QueryGetBlessedHashtagList>
           builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetBlessedHashtagList(),
+            options: options ?? OptionsQueryGetBlessedHashtagList(),
             builder: builder);
 }
 
@@ -1773,7 +2854,8 @@ class QueryGetBlessedHashtagList$queryHashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory QueryGetBlessedHashtagList$queryHashtag.fromJson(
@@ -1791,9 +2873,68 @@ class QueryGetBlessedHashtagList$queryHashtag extends JsonSerializable
   final List<QueryGetBlessedHashtagList$queryHashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetBlessedHashtagList$queryHashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetBlessedHashtagList$queryHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1806,7 +2947,8 @@ class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory QueryGetBlessedHashtagList$queryHashtag$hashtagVariants.fromJson(
@@ -1823,9 +2965,49 @@ class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants
   final QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetBlessedHashtagList$queryHashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1835,7 +3017,7 @@ class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
   QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -1845,10 +3027,33 @@ class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1858,7 +3063,7 @@ class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -1868,10 +3073,33 @@ class QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetBlessedHashtagList$queryHashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1887,11 +3115,26 @@ class VariablesQueryGetSkillsByUserId extends JsonSerializable {
   @override
   Map<String, dynamic> toJson() =>
       _$VariablesQueryGetSkillsByUserIdToJson(this);
+  int get hashCode {
+    final l$id = id;
+    return Object.hashAll([l$id]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQueryGetSkillsByUserId) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsByUserId extends JsonSerializable {
-  QueryGetSkillsByUserId({this.getUser});
+  QueryGetSkillsByUserId({this.getUser, required this.$__typename});
 
   @override
   factory QueryGetSkillsByUserId.fromJson(Map<String, dynamic> json) =>
@@ -1899,8 +3142,30 @@ class QueryGetSkillsByUserId extends JsonSerializable {
 
   final QueryGetSkillsByUserId$getUser? getUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetSkillsByUserIdToJson(this);
+  int get hashCode {
+    final l$getUser = getUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$getUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsByUserId) || runtimeType != other.runtimeType)
+      return false;
+    final l$getUser = getUser;
+    final lOther$getUser = other.getUser;
+    if (l$getUser != lOther$getUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_SKILLS_BY_USER_ID = const DocumentNode(definitions: [
@@ -2056,10 +3321,13 @@ const QUERY_GET_SKILLS_BY_USER_ID = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
+QueryGetSkillsByUserId _parserFnQueryGetSkillsByUserId(
+        Map<String, dynamic> data) =>
+    QueryGetSkillsByUserId.fromJson(data);
 
-class GQLOptionsQueryGetSkillsByUserId
+class OptionsQueryGetSkillsByUserId
     extends graphql.QueryOptions<QueryGetSkillsByUserId> {
-  GQLOptionsQueryGetSkillsByUserId(
+  OptionsQueryGetSkillsByUserId(
       {String? operationName,
       VariablesQueryGetSkillsByUserId? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2078,12 +3346,12 @@ class GQLOptionsQueryGetSkillsByUserId
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_SKILLS_BY_USER_ID,
-            parserFn: (data) => QueryGetSkillsByUserId.fromJson(data));
+            parserFn: _parserFnQueryGetSkillsByUserId);
 }
 
-class GQLWatchOptionsQueryGetSkillsByUserId
+class WatchOptionsQueryGetSkillsByUserId
     extends graphql.WatchQueryOptions<QueryGetSkillsByUserId> {
-  GQLWatchOptionsQueryGetSkillsByUserId(
+  WatchOptionsQueryGetSkillsByUserId(
       {String? operationName,
       VariablesQueryGetSkillsByUserId? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2108,12 +3376,11 @@ class GQLWatchOptionsQueryGetSkillsByUserId
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetSkillsByUserId.fromJson(data));
+            parserFn: _parserFnQueryGetSkillsByUserId);
 }
 
-class GQLFetchMoreOptionsQueryGetSkillsByUserId
-    extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetSkillsByUserId(
+class FetchMoreOptionsQueryGetSkillsByUserId extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetSkillsByUserId(
       {required graphql.UpdateQuery updateQuery,
       VariablesQueryGetSkillsByUserId? variables})
       : super(
@@ -2122,30 +3389,39 @@ class GQLFetchMoreOptionsQueryGetSkillsByUserId
             document: QUERY_GET_SKILLS_BY_USER_ID);
 }
 
-extension GQLExtensionQueryGetSkillsByUserId on graphql.GraphQLClient {
+extension ClientExtensionQueryGetSkillsByUserId on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetSkillsByUserId>> queryGetSkillsByUserId(
-          [GQLOptionsQueryGetSkillsByUserId? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetSkillsByUserId());
+          [OptionsQueryGetSkillsByUserId? options]) async =>
+      await this.query(options ?? OptionsQueryGetSkillsByUserId());
   graphql.ObservableQuery<QueryGetSkillsByUserId> watchQueryGetSkillsByUserId(
-          [GQLWatchOptionsQueryGetSkillsByUserId? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetSkillsByUserId());
+          [WatchOptionsQueryGetSkillsByUserId? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetSkillsByUserId());
 }
 
-class GQLFQueryGetSkillsByUserId
+graphql_flutter.QueryHookResult<QueryGetSkillsByUserId>
+    useQueryGetSkillsByUserId([OptionsQueryGetSkillsByUserId? options]) =>
+        graphql_flutter.useQuery(options ?? OptionsQueryGetSkillsByUserId());
+graphql.ObservableQuery<QueryGetSkillsByUserId> useWatchQueryGetSkillsByUserId(
+        [WatchOptionsQueryGetSkillsByUserId? options]) =>
+    graphql_flutter
+        .useWatchQuery(options ?? WatchOptionsQueryGetSkillsByUserId());
+
+class QueryGetSkillsByUserIdWidget
     extends graphql_flutter.Query<QueryGetSkillsByUserId> {
-  GQLFQueryGetSkillsByUserId(
+  QueryGetSkillsByUserIdWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetSkillsByUserId? options,
+      OptionsQueryGetSkillsByUserId? options,
       required graphql_flutter.QueryBuilder<QueryGetSkillsByUserId> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetSkillsByUserId(),
+            options: options ?? OptionsQueryGetSkillsByUserId(),
             builder: builder);
 }
 
 @JsonSerializable()
 class QueryGetSkillsByUserId$getUser extends JsonSerializable {
-  QueryGetSkillsByUserId$getUser({this.skillsAggregate, this.skills});
+  QueryGetSkillsByUserId$getUser(
+      {this.skillsAggregate, this.skills, required this.$__typename});
 
   @override
   factory QueryGetSkillsByUserId$getUser.fromJson(Map<String, dynamic> json) =>
@@ -2155,13 +3431,54 @@ class QueryGetSkillsByUserId$getUser extends JsonSerializable {
 
   final List<QueryGetSkillsByUserId$getUser$skills?>? skills;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetSkillsByUserId$getUserToJson(this);
+  int get hashCode {
+    final l$skillsAggregate = skillsAggregate;
+    final l$skills = skills;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$skillsAggregate,
+      l$skills == null ? null : Object.hashAll(l$skills.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsByUserId$getUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$skills = skills;
+    final lOther$skills = other.skills;
+    if (l$skills != null && lOther$skills != null) {
+      if (l$skills.length != lOther$skills.length) return false;
+      for (int i = 0; i < l$skills.length; i++) {
+        final l$skills$entry = l$skills[i];
+        final lOther$skills$entry = lOther$skills[i];
+        if (l$skills$entry != lOther$skills$entry) return false;
+      }
+    } else if (l$skills != lOther$skills) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsByUserId$getUser$skillsAggregate extends JsonSerializable {
-  QueryGetSkillsByUserId$getUser$skillsAggregate({this.count});
+  QueryGetSkillsByUserId$getUser$skillsAggregate(
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetSkillsByUserId$getUser$skillsAggregate.fromJson(
@@ -2170,9 +3487,31 @@ class QueryGetSkillsByUserId$getUser$skillsAggregate extends JsonSerializable {
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsByUserId$getUser$skillsAggregateToJson(this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsByUserId$getUser$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2183,7 +3522,8 @@ class QueryGetSkillsByUserId$getUser$skills extends JsonSerializable {
       this.message,
       required this.hashtagVariants,
       this.isAvailable,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.$__typename});
 
   @override
   factory QueryGetSkillsByUserId$getUser$skills.fromJson(
@@ -2203,16 +3543,74 @@ class QueryGetSkillsByUserId$getUser$skills extends JsonSerializable {
 
   final String? createdTimestamp;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsByUserId$getUser$skillsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$title = title;
+    final l$message = message;
+    final l$hashtagVariants = hashtagVariants;
+    final l$isAvailable = isAvailable;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$title,
+      l$message,
+      Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$isAvailable,
+      l$createdTimestamp,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsByUserId$getUser$skills) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$title = title;
+    final lOther$title = other.title;
+    if (l$title != lOther$title) return false;
+    final l$message = message;
+    final lOther$message = other.message;
+    if (l$message != lOther$message) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants.length != lOther$hashtagVariants.length) return false;
+    for (int i = 0; i < l$hashtagVariants.length; i++) {
+      final l$hashtagVariants$entry = l$hashtagVariants[i];
+      final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+      if (l$hashtagVariants$entry != lOther$hashtagVariants$entry) return false;
+    }
+
+    final l$isAvailable = isAvailable;
+    final lOther$isAvailable = other.isAvailable;
+    if (l$isAvailable != lOther$isAvailable) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsByUserId$getUser$skills$hashtagVariants
     extends JsonSerializable {
   QueryGetSkillsByUserId$getUser$skills$hashtagVariants(
-      {required this.variant, required this.hashtag});
+      {required this.variant,
+      required this.hashtag,
+      required this.$__typename});
 
   @override
   factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants.fromJson(
@@ -2223,16 +3621,42 @@ class QueryGetSkillsByUserId$getUser$skills$hashtagVariants
 
   final QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag hashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsByUserId$getUser$skills$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$variant = variant;
+    final l$hashtag = hashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$variant, l$hashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsByUserId$getUser$skills$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$hashtag = hashtag;
+    final lOther$hashtag = other.hashtag;
+    if (l$hashtag != lOther$hashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag
     extends JsonSerializable {
   QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag(
-      {required this.id, required this.name});
+      {required this.id, required this.name, required this.$__typename});
 
   @override
   factory QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag.fromJson(
@@ -2244,10 +3668,37 @@ class QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag
 
   final String name;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtagToJson(
           this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetSkillsByUserId$getUser$skills$hashtagVariants$hashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2263,11 +3714,27 @@ class VariablesQueryGetSkillsPageData extends JsonSerializable {
   @override
   Map<String, dynamic> toJson() =>
       _$VariablesQueryGetSkillsPageDataToJson(this);
+  int get hashCode {
+    final l$id = id;
+    return Object.hashAll([l$id]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQueryGetSkillsPageData) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsPageData extends JsonSerializable {
-  QueryGetSkillsPageData({this.queryHashtag, this.getUser});
+  QueryGetSkillsPageData(
+      {this.queryHashtag, this.getUser, required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData.fromJson(Map<String, dynamic> json) =>
@@ -2277,8 +3744,50 @@ class QueryGetSkillsPageData extends JsonSerializable {
 
   final QueryGetSkillsPageData$getUser? getUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetSkillsPageDataToJson(this);
+  int get hashCode {
+    final l$queryHashtag = queryHashtag;
+    final l$getUser = getUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryHashtag == null
+          ? null
+          : Object.hashAll(l$queryHashtag.map((v) => v)),
+      l$getUser,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData) || runtimeType != other.runtimeType)
+      return false;
+    final l$queryHashtag = queryHashtag;
+    final lOther$queryHashtag = other.queryHashtag;
+    if (l$queryHashtag != null && lOther$queryHashtag != null) {
+      if (l$queryHashtag.length != lOther$queryHashtag.length) return false;
+      for (int i = 0; i < l$queryHashtag.length; i++) {
+        final l$queryHashtag$entry = l$queryHashtag[i];
+        final lOther$queryHashtag$entry = lOther$queryHashtag[i];
+        if (l$queryHashtag$entry != lOther$queryHashtag$entry) return false;
+      }
+    } else if (l$queryHashtag != lOther$queryHashtag) {
+      return false;
+    }
+
+    final l$getUser = getUser;
+    final lOther$getUser = other.getUser;
+    if (l$getUser != lOther$getUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
@@ -2475,10 +3984,13 @@ const QUERY_GET_SKILLS_PAGE_DATA = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
+QueryGetSkillsPageData _parserFnQueryGetSkillsPageData(
+        Map<String, dynamic> data) =>
+    QueryGetSkillsPageData.fromJson(data);
 
-class GQLOptionsQueryGetSkillsPageData
+class OptionsQueryGetSkillsPageData
     extends graphql.QueryOptions<QueryGetSkillsPageData> {
-  GQLOptionsQueryGetSkillsPageData(
+  OptionsQueryGetSkillsPageData(
       {String? operationName,
       VariablesQueryGetSkillsPageData? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2497,12 +4009,12 @@ class GQLOptionsQueryGetSkillsPageData
             pollInterval: pollInterval,
             context: context,
             document: QUERY_GET_SKILLS_PAGE_DATA,
-            parserFn: (data) => QueryGetSkillsPageData.fromJson(data));
+            parserFn: _parserFnQueryGetSkillsPageData);
 }
 
-class GQLWatchOptionsQueryGetSkillsPageData
+class WatchOptionsQueryGetSkillsPageData
     extends graphql.WatchQueryOptions<QueryGetSkillsPageData> {
-  GQLWatchOptionsQueryGetSkillsPageData(
+  WatchOptionsQueryGetSkillsPageData(
       {String? operationName,
       VariablesQueryGetSkillsPageData? variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2527,12 +4039,11 @@ class GQLWatchOptionsQueryGetSkillsPageData
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QueryGetSkillsPageData.fromJson(data));
+            parserFn: _parserFnQueryGetSkillsPageData);
 }
 
-class GQLFetchMoreOptionsQueryGetSkillsPageData
-    extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQueryGetSkillsPageData(
+class FetchMoreOptionsQueryGetSkillsPageData extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetSkillsPageData(
       {required graphql.UpdateQuery updateQuery,
       VariablesQueryGetSkillsPageData? variables})
       : super(
@@ -2541,24 +4052,32 @@ class GQLFetchMoreOptionsQueryGetSkillsPageData
             document: QUERY_GET_SKILLS_PAGE_DATA);
 }
 
-extension GQLExtensionQueryGetSkillsPageData on graphql.GraphQLClient {
+extension ClientExtensionQueryGetSkillsPageData on graphql.GraphQLClient {
   Future<graphql.QueryResult<QueryGetSkillsPageData>> queryGetSkillsPageData(
-          [GQLOptionsQueryGetSkillsPageData? options]) async =>
-      await this.query(options ?? GQLOptionsQueryGetSkillsPageData());
+          [OptionsQueryGetSkillsPageData? options]) async =>
+      await this.query(options ?? OptionsQueryGetSkillsPageData());
   graphql.ObservableQuery<QueryGetSkillsPageData> watchQueryGetSkillsPageData(
-          [GQLWatchOptionsQueryGetSkillsPageData? options]) =>
-      this.watchQuery(options ?? GQLWatchOptionsQueryGetSkillsPageData());
+          [WatchOptionsQueryGetSkillsPageData? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetSkillsPageData());
 }
 
-class GQLFQueryGetSkillsPageData
+graphql_flutter.QueryHookResult<QueryGetSkillsPageData>
+    useQueryGetSkillsPageData([OptionsQueryGetSkillsPageData? options]) =>
+        graphql_flutter.useQuery(options ?? OptionsQueryGetSkillsPageData());
+graphql.ObservableQuery<QueryGetSkillsPageData> useWatchQueryGetSkillsPageData(
+        [WatchOptionsQueryGetSkillsPageData? options]) =>
+    graphql_flutter
+        .useWatchQuery(options ?? WatchOptionsQueryGetSkillsPageData());
+
+class QueryGetSkillsPageDataWidget
     extends graphql_flutter.Query<QueryGetSkillsPageData> {
-  GQLFQueryGetSkillsPageData(
+  QueryGetSkillsPageDataWidget(
       {widgets.Key? key,
-      GQLOptionsQueryGetSkillsPageData? options,
+      OptionsQueryGetSkillsPageData? options,
       required graphql_flutter.QueryBuilder<QueryGetSkillsPageData> builder})
       : super(
             key: key,
-            options: options ?? GQLOptionsQueryGetSkillsPageData(),
+            options: options ?? OptionsQueryGetSkillsPageData(),
             builder: builder);
 }
 
@@ -2570,7 +4089,8 @@ class QueryGetSkillsPageData$queryHashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$queryHashtag.fromJson(
@@ -2588,9 +4108,68 @@ class QueryGetSkillsPageData$queryHashtag extends JsonSerializable
   final List<QueryGetSkillsPageData$queryHashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$queryHashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData$queryHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2603,7 +4182,8 @@ class QueryGetSkillsPageData$queryHashtag$hashtagVariants
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$queryHashtag$hashtagVariants.fromJson(
@@ -2620,9 +4200,49 @@ class QueryGetSkillsPageData$queryHashtag$hashtagVariants
   final QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$queryHashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData$queryHashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2632,7 +4252,7 @@ class QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
   QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -2642,10 +4262,33 @@ class QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetSkillsPageData$queryHashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2655,7 +4298,7 @@ class QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -2665,15 +4308,39 @@ class QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetSkillsPageData$queryHashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsPageData$getUser extends JsonSerializable {
-  QueryGetSkillsPageData$getUser({this.skillsAggregate, this.skills});
+  QueryGetSkillsPageData$getUser(
+      {this.skillsAggregate, this.skills, required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$getUser.fromJson(Map<String, dynamic> json) =>
@@ -2683,13 +4350,54 @@ class QueryGetSkillsPageData$getUser extends JsonSerializable {
 
   final List<QueryGetSkillsPageData$getUser$skills?>? skills;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QueryGetSkillsPageData$getUserToJson(this);
+  int get hashCode {
+    final l$skillsAggregate = skillsAggregate;
+    final l$skills = skills;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$skillsAggregate,
+      l$skills == null ? null : Object.hashAll(l$skills.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData$getUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$skills = skills;
+    final lOther$skills = other.skills;
+    if (l$skills != null && lOther$skills != null) {
+      if (l$skills.length != lOther$skills.length) return false;
+      for (int i = 0; i < l$skills.length; i++) {
+        final l$skills$entry = l$skills[i];
+        final lOther$skills$entry = lOther$skills[i];
+        if (l$skills$entry != lOther$skills$entry) return false;
+      }
+    } else if (l$skills != lOther$skills) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsPageData$getUser$skillsAggregate extends JsonSerializable {
-  QueryGetSkillsPageData$getUser$skillsAggregate({this.count});
+  QueryGetSkillsPageData$getUser$skillsAggregate(
+      {this.count, required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$getUser$skillsAggregate.fromJson(
@@ -2698,9 +4406,31 @@ class QueryGetSkillsPageData$getUser$skillsAggregate extends JsonSerializable {
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$getUser$skillsAggregateToJson(this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData$getUser$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2711,7 +4441,8 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
       this.message,
       this.isAvailable,
       this.createdTimestamp,
-      required this.hashtagVariants});
+      required this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills.fromJson(
@@ -2731,16 +4462,72 @@ class QueryGetSkillsPageData$getUser$skills extends JsonSerializable {
   final List<QueryGetSkillsPageData$getUser$skills$hashtagVariants?>
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$getUser$skillsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$title = title;
+    final l$message = message;
+    final l$isAvailable = isAvailable;
+    final l$createdTimestamp = createdTimestamp;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$title,
+      l$message,
+      l$isAvailable,
+      l$createdTimestamp,
+      Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData$getUser$skills) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$title = title;
+    final lOther$title = other.title;
+    if (l$title != lOther$title) return false;
+    final l$message = message;
+    final lOther$message = other.message;
+    if (l$message != lOther$message) return false;
+    final l$isAvailable = isAvailable;
+    final lOther$isAvailable = other.isAvailable;
+    if (l$isAvailable != lOther$isAvailable) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants.length != lOther$hashtagVariants.length) return false;
+    for (int i = 0; i < l$hashtagVariants.length; i++) {
+      final l$hashtagVariants$entry = l$hashtagVariants[i];
+      final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+      if (l$hashtagVariants$entry != lOther$hashtagVariants$entry) return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsPageData$getUser$skills$hashtagVariants
     extends JsonSerializable {
   QueryGetSkillsPageData$getUser$skills$hashtagVariants(
-      {required this.hashtag});
+      {required this.hashtag, required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills$hashtagVariants.fromJson(
@@ -2749,16 +4536,41 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants
 
   final QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag hashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$getUser$skills$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$hashtag = hashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$hashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetSkillsPageData$getUser$skills$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtag = hashtag;
+    final lOther$hashtag = other.hashtag;
+    if (l$hashtag != lOther$hashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag
     extends JsonSerializable {
   QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag(
-      {required this.id, required this.name, this.iconName});
+      {required this.id,
+      required this.name,
+      this.iconName,
+      required this.$__typename});
 
   @override
   factory QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag.fromJson(
@@ -2772,10 +4584,41 @@ class QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag
 
   final String? iconName;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtagToJson(
           this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$iconName, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is QueryGetSkillsPageData$getUser$skills$hashtagVariants$hashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2797,11 +4640,34 @@ class VariablesQuerySearchTopRequestHashtag extends JsonSerializable {
   @override
   Map<String, dynamic> toJson() =>
       _$VariablesQuerySearchTopRequestHashtagToJson(this);
+  int get hashCode {
+    final l$keywordRegex = keywordRegex;
+    final l$hashtagOrder = hashtagOrder;
+    final l$limit = limit;
+    return Object.hashAll([l$keywordRegex, l$hashtagOrder, l$limit]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesQuerySearchTopRequestHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$keywordRegex = keywordRegex;
+    final lOther$keywordRegex = other.keywordRegex;
+    if (l$keywordRegex != lOther$keywordRegex) return false;
+    final l$hashtagOrder = hashtagOrder;
+    final lOther$hashtagOrder = other.hashtagOrder;
+    if (l$hashtagOrder != lOther$hashtagOrder) return false;
+    final l$limit = limit;
+    final lOther$limit = other.limit;
+    if (l$limit != lOther$limit) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class QuerySearchTopRequestHashtag extends JsonSerializable {
-  QuerySearchTopRequestHashtag({this.queryHashtag});
+  QuerySearchTopRequestHashtag({this.queryHashtag, required this.$__typename});
 
   @override
   factory QuerySearchTopRequestHashtag.fromJson(Map<String, dynamic> json) =>
@@ -2809,8 +4675,45 @@ class QuerySearchTopRequestHashtag extends JsonSerializable {
 
   final List<QuerySearchTopRequestHashtag$queryHashtag?>? queryHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$QuerySearchTopRequestHashtagToJson(this);
+  int get hashCode {
+    final l$queryHashtag = queryHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryHashtag == null
+          ? null
+          : Object.hashAll(l$queryHashtag.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QuerySearchTopRequestHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$queryHashtag = queryHashtag;
+    final lOther$queryHashtag = other.queryHashtag;
+    if (l$queryHashtag != null && lOther$queryHashtag != null) {
+      if (l$queryHashtag.length != lOther$queryHashtag.length) return false;
+      for (int i = 0; i < l$queryHashtag.length; i++) {
+        final l$queryHashtag$entry = l$queryHashtag[i];
+        final lOther$queryHashtag$entry = lOther$queryHashtag[i];
+        if (l$queryHashtag$entry != lOther$queryHashtag$entry) return false;
+      }
+    } else if (l$queryHashtag != lOther$queryHashtag) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
@@ -2938,10 +4841,13 @@ const QUERY_SEARCH_TOP_REQUEST_HASHTAG = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
+QuerySearchTopRequestHashtag _parserFnQuerySearchTopRequestHashtag(
+        Map<String, dynamic> data) =>
+    QuerySearchTopRequestHashtag.fromJson(data);
 
-class GQLOptionsQuerySearchTopRequestHashtag
+class OptionsQuerySearchTopRequestHashtag
     extends graphql.QueryOptions<QuerySearchTopRequestHashtag> {
-  GQLOptionsQuerySearchTopRequestHashtag(
+  OptionsQuerySearchTopRequestHashtag(
       {String? operationName,
       required VariablesQuerySearchTopRequestHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2960,12 +4866,12 @@ class GQLOptionsQuerySearchTopRequestHashtag
             pollInterval: pollInterval,
             context: context,
             document: QUERY_SEARCH_TOP_REQUEST_HASHTAG,
-            parserFn: (data) => QuerySearchTopRequestHashtag.fromJson(data));
+            parserFn: _parserFnQuerySearchTopRequestHashtag);
 }
 
-class GQLWatchOptionsQuerySearchTopRequestHashtag
+class WatchOptionsQuerySearchTopRequestHashtag
     extends graphql.WatchQueryOptions<QuerySearchTopRequestHashtag> {
-  GQLWatchOptionsQuerySearchTopRequestHashtag(
+  WatchOptionsQuerySearchTopRequestHashtag(
       {String? operationName,
       required VariablesQuerySearchTopRequestHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2990,12 +4896,12 @@ class GQLWatchOptionsQuerySearchTopRequestHashtag
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => QuerySearchTopRequestHashtag.fromJson(data));
+            parserFn: _parserFnQuerySearchTopRequestHashtag);
 }
 
-class GQLFetchMoreOptionsQuerySearchTopRequestHashtag
+class FetchMoreOptionsQuerySearchTopRequestHashtag
     extends graphql.FetchMoreOptions {
-  GQLFetchMoreOptionsQuerySearchTopRequestHashtag(
+  FetchMoreOptionsQuerySearchTopRequestHashtag(
       {required graphql.UpdateQuery updateQuery,
       required VariablesQuerySearchTopRequestHashtag variables})
       : super(
@@ -3004,22 +4910,31 @@ class GQLFetchMoreOptionsQuerySearchTopRequestHashtag
             document: QUERY_SEARCH_TOP_REQUEST_HASHTAG);
 }
 
-extension GQLExtensionQuerySearchTopRequestHashtag on graphql.GraphQLClient {
+extension ClientExtensionQuerySearchTopRequestHashtag on graphql.GraphQLClient {
   Future<graphql.QueryResult<QuerySearchTopRequestHashtag>>
       querySearchTopRequestHashtag(
-              GQLOptionsQuerySearchTopRequestHashtag options) async =>
+              OptionsQuerySearchTopRequestHashtag options) async =>
           await this.query(options);
   graphql.ObservableQuery<QuerySearchTopRequestHashtag>
       watchQuerySearchTopRequestHashtag(
-              GQLWatchOptionsQuerySearchTopRequestHashtag options) =>
+              WatchOptionsQuerySearchTopRequestHashtag options) =>
           this.watchQuery(options);
 }
 
-class GQLFQuerySearchTopRequestHashtag
+graphql_flutter.QueryHookResult<QuerySearchTopRequestHashtag>
+    useQuerySearchTopRequestHashtag(
+            OptionsQuerySearchTopRequestHashtag options) =>
+        graphql_flutter.useQuery(options);
+graphql.ObservableQuery<QuerySearchTopRequestHashtag>
+    useWatchQuerySearchTopRequestHashtag(
+            WatchOptionsQuerySearchTopRequestHashtag options) =>
+        graphql_flutter.useWatchQuery(options);
+
+class QuerySearchTopRequestHashtagWidget
     extends graphql_flutter.Query<QuerySearchTopRequestHashtag> {
-  GQLFQuerySearchTopRequestHashtag(
+  QuerySearchTopRequestHashtagWidget(
       {widgets.Key? key,
-      required GQLOptionsQuerySearchTopRequestHashtag options,
+      required OptionsQuerySearchTopRequestHashtag options,
       required graphql_flutter.QueryBuilder<QuerySearchTopRequestHashtag>
           builder})
       : super(key: key, options: options, builder: builder);
@@ -3037,7 +4952,8 @@ class QuerySearchTopRequestHashtag$queryHashtag extends JsonSerializable {
       this.skillCountLast24h,
       this.requestCountAllTime,
       this.requestCountLast1w,
-      this.requestCountLast24h});
+      this.requestCountLast24h,
+      required this.$__typename});
 
   @override
   factory QuerySearchTopRequestHashtag$queryHashtag.fromJson(
@@ -3064,7 +4980,77 @@ class QuerySearchTopRequestHashtag$queryHashtag extends JsonSerializable {
 
   final int? requestCountLast24h;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$QuerySearchTopRequestHashtag$queryHashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$iconName = iconName;
+    final l$name = name;
+    final l$blessed = blessed;
+    final l$skillCountAllTime = skillCountAllTime;
+    final l$skillCountLast1w = skillCountLast1w;
+    final l$skillCountLast24h = skillCountLast24h;
+    final l$requestCountAllTime = requestCountAllTime;
+    final l$requestCountLast1w = requestCountLast1w;
+    final l$requestCountLast24h = requestCountLast24h;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$iconName,
+      l$name,
+      l$blessed,
+      l$skillCountAllTime,
+      l$skillCountLast1w,
+      l$skillCountLast24h,
+      l$requestCountAllTime,
+      l$requestCountLast1w,
+      l$requestCountLast24h,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QuerySearchTopRequestHashtag$queryHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$skillCountAllTime = skillCountAllTime;
+    final lOther$skillCountAllTime = other.skillCountAllTime;
+    if (l$skillCountAllTime != lOther$skillCountAllTime) return false;
+    final l$skillCountLast1w = skillCountLast1w;
+    final lOther$skillCountLast1w = other.skillCountLast1w;
+    if (l$skillCountLast1w != lOther$skillCountLast1w) return false;
+    final l$skillCountLast24h = skillCountLast24h;
+    final lOther$skillCountLast24h = other.skillCountLast24h;
+    if (l$skillCountLast24h != lOther$skillCountLast24h) return false;
+    final l$requestCountAllTime = requestCountAllTime;
+    final lOther$requestCountAllTime = other.requestCountAllTime;
+    if (l$requestCountAllTime != lOther$requestCountAllTime) return false;
+    final l$requestCountLast1w = requestCountLast1w;
+    final lOther$requestCountLast1w = other.requestCountLast1w;
+    if (l$requestCountLast1w != lOther$requestCountLast1w) return false;
+    final l$requestCountLast24h = requestCountLast24h;
+    final lOther$requestCountLast24h = other.requestCountLast24h;
+    if (l$requestCountLast24h != lOther$requestCountLast24h) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }

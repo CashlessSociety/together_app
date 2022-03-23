@@ -30,11 +30,38 @@ class VariablesMutationCreateUser extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationCreateUserToJson(this);
+  int get hashCode {
+    final l$email = email;
+    final l$name = name;
+    final l$age = age;
+    final l$createdTimestamp = createdTimestamp;
+    return Object.hashAll([l$email, l$name, l$age, l$createdTimestamp]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationCreateUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$age = age;
+    final lOther$age = other.age;
+    if (l$age != lOther$age) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationCreateUser extends JsonSerializable {
-  MutationCreateUser({this.addUser});
+  MutationCreateUser({this.addUser, required this.$__typename});
 
   @override
   factory MutationCreateUser.fromJson(Map<String, dynamic> json) =>
@@ -42,8 +69,30 @@ class MutationCreateUser extends JsonSerializable {
 
   final MutationCreateUser$addUser? addUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationCreateUserToJson(this);
+  int get hashCode {
+    final l$addUser = addUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$addUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateUser) || runtimeType != other.runtimeType)
+      return false;
+    final l$addUser = addUser;
+    final lOther$addUser = other.addUser;
+    if (l$addUser != lOther$addUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_CREATE_USER = const DocumentNode(definitions: [
@@ -162,12 +211,14 @@ const MUTATION_CREATE_USER = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationCreateUser = FutureOr<void> Function(
+MutationCreateUser _parserFnMutationCreateUser(Map<String, dynamic> data) =>
+    MutationCreateUser.fromJson(data);
+typedef OnMutationCompletedMutationCreateUser = FutureOr<void> Function(
     dynamic, MutationCreateUser?);
 
-class GQLOptionsMutationCreateUser
+class OptionsMutationCreateUser
     extends graphql.MutationOptions<MutationCreateUser> {
-  GQLOptionsMutationCreateUser(
+  OptionsMutationCreateUser(
       {String? operationName,
       required VariablesMutationCreateUser variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -175,10 +226,11 @@ class GQLOptionsMutationCreateUser
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationCreateUser? onCompleted,
+      OnMutationCompletedMutationCreateUser? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -189,16 +241,26 @@ class GQLOptionsMutationCreateUser
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationCreateUser.fromJson(data)),
+                    data == null ? null : _parserFnMutationCreateUser(data)),
             update: update,
             onError: onError,
             document: MUTATION_CREATE_USER,
-            parserFn: (data) => MutationCreateUser.fromJson(data));
+            parserFn: _parserFnMutationCreateUser);
+
+  final OnMutationCompletedMutationCreateUser? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationCreateUser
+class WatchOptionsMutationCreateUser
     extends graphql.WatchQueryOptions<MutationCreateUser> {
-  GQLWatchOptionsMutationCreateUser(
+  WatchOptionsMutationCreateUser(
       {String? operationName,
       required VariablesMutationCreateUser variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -223,31 +285,57 @@ class GQLWatchOptionsMutationCreateUser
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationCreateUser.fromJson(data));
+            parserFn: _parserFnMutationCreateUser);
 }
 
-extension GQLExtensionMutationCreateUser on graphql.GraphQLClient {
+extension ClientExtensionMutationCreateUser on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationCreateUser>> mutateCreateUser(
-          GQLOptionsMutationCreateUser options) async =>
+          OptionsMutationCreateUser options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationCreateUser> watchMutationCreateUser(
-          GQLWatchOptionsMutationCreateUser options) =>
+          WatchOptionsMutationCreateUser options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationCreateUser
+class MutationCreateUserHookResult {
+  MutationCreateUserHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationCreateUser runMutation;
+
+  final graphql.QueryResult<MutationCreateUser> result;
+}
+
+MutationCreateUserHookResult useMutationCreateUser(
+    [WidgetOptionsMutationCreateUser? options]) {
+  final result =
+      graphql_flutter.useMutation(options ?? WidgetOptionsMutationCreateUser());
+  return MutationCreateUserHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationCreateUser> useWatchMutationCreateUser(
+        WatchOptionsMutationCreateUser options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationCreateUser
     extends graphql.MutationOptions<MutationCreateUser> {
-  GQLFOptionsMutationCreateUser(
+  WidgetOptionsMutationCreateUser(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationCreateUser? onCompleted,
+      OnMutationCompletedMutationCreateUser? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -257,29 +345,38 @@ class GQLFOptionsMutationCreateUser
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationCreateUser.fromJson(data)),
+                    data == null ? null : _parserFnMutationCreateUser(data)),
             update: update,
             onError: onError,
             document: MUTATION_CREATE_USER,
-            parserFn: (data) => MutationCreateUser.fromJson(data));
+            parserFn: _parserFnMutationCreateUser);
+
+  final OnMutationCompletedMutationCreateUser? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationCreateUser
+typedef RunMutationMutationCreateUser
     = graphql.MultiSourceResult<MutationCreateUser>
         Function(VariablesMutationCreateUser, {Object? optimisticResult});
-typedef GQLFBuilderMutationCreateUser = widgets.Widget Function(
-    GQLFRunMutationMutationCreateUser,
-    graphql.QueryResult<MutationCreateUser>?);
+typedef BuilderMutationCreateUser = widgets.Widget Function(
+    RunMutationMutationCreateUser, graphql.QueryResult<MutationCreateUser>?);
 
-class GQLFMutationCreateUser
+class MutationCreateUserWidget
     extends graphql_flutter.Mutation<MutationCreateUser> {
-  GQLFMutationCreateUser(
+  MutationCreateUserWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationCreateUser? options,
-      required GQLFBuilderMutationCreateUser builder})
+      WidgetOptionsMutationCreateUser? options,
+      required BuilderMutationCreateUser builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationCreateUser(),
+            options: options ?? WidgetOptionsMutationCreateUser(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -288,7 +385,7 @@ class GQLFMutationCreateUser
 
 @JsonSerializable()
 class MutationCreateUser$addUser extends JsonSerializable {
-  MutationCreateUser$addUser({this.user});
+  MutationCreateUser$addUser({this.user, required this.$__typename});
 
   @override
   factory MutationCreateUser$addUser.fromJson(Map<String, dynamic> json) =>
@@ -296,8 +393,43 @@ class MutationCreateUser$addUser extends JsonSerializable {
 
   final List<MutationCreateUser$addUser$user?>? user;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationCreateUser$addUserToJson(this);
+  int get hashCode {
+    final l$user = user;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$user == null ? null : Object.hashAll(l$user.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateUser$addUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$user = user;
+    final lOther$user = other.user;
+    if (l$user != null && lOther$user != null) {
+      if (l$user.length != lOther$user.length) return false;
+      for (int i = 0; i < l$user.length; i++) {
+        final l$user$entry = l$user[i];
+        final lOther$user$entry = lOther$user[i];
+        if (l$user$entry != lOther$user$entry) return false;
+      }
+    } else if (l$user != lOther$user) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -307,7 +439,8 @@ class MutationCreateUser$addUser$user extends JsonSerializable {
       required this.name,
       required this.email,
       this.isAdmin,
-      this.createdTimestamp});
+      this.createdTimestamp,
+      required this.$__typename});
 
   @override
   factory MutationCreateUser$addUser$user.fromJson(Map<String, dynamic> json) =>
@@ -323,15 +456,57 @@ class MutationCreateUser$addUser$user extends JsonSerializable {
 
   final String? createdTimestamp;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationCreateUser$addUser$userToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$email = email;
+    final l$isAdmin = isAdmin;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll(
+        [l$id, l$name, l$email, l$isAdmin, l$createdTimestamp, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateUser$addUser$user) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$isAdmin = isAdmin;
+    final lOther$isAdmin = other.isAdmin;
+    if (l$isAdmin != lOther$isAdmin) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class VariablesMutationUpdateUser extends JsonSerializable {
   VariablesMutationUpdateUser(
-      {required this.id, required this.name, required this.bio});
+      {required this.id,
+      required this.name,
+      required this.bio,
+      required this.avatar});
 
   @override
   factory VariablesMutationUpdateUser.fromJson(Map<String, dynamic> json) =>
@@ -343,13 +518,42 @@ class VariablesMutationUpdateUser extends JsonSerializable {
 
   final String bio;
 
+  final String avatar;
+
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationUpdateUserToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$bio = bio;
+    final l$avatar = avatar;
+    return Object.hashAll([l$id, l$name, l$bio, l$avatar]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationUpdateUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$bio = bio;
+    final lOther$bio = other.bio;
+    if (l$bio != lOther$bio) return false;
+    final l$avatar = avatar;
+    final lOther$avatar = other.avatar;
+    if (l$avatar != lOther$avatar) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateUser extends JsonSerializable {
-  MutationUpdateUser({this.updateUser});
+  MutationUpdateUser({this.updateUser, required this.$__typename});
 
   @override
   factory MutationUpdateUser.fromJson(Map<String, dynamic> json) =>
@@ -357,8 +561,30 @@ class MutationUpdateUser extends JsonSerializable {
 
   final MutationUpdateUser$updateUser? updateUser;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationUpdateUserToJson(this);
+  int get hashCode {
+    final l$updateUser = updateUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$updateUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateUser) || runtimeType != other.runtimeType)
+      return false;
+    final l$updateUser = updateUser;
+    final lOther$updateUser = other.updateUser;
+    if (l$updateUser != lOther$updateUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_UPDATE_USER = const DocumentNode(definitions: [
@@ -379,6 +605,12 @@ const MUTATION_UPDATE_USER = const DocumentNode(definitions: [
             directives: []),
         VariableDefinitionNode(
             variable: VariableNode(name: NameNode(value: 'bio')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'avatar')),
             type:
                 NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
@@ -411,7 +643,12 @@ const MUTATION_UPDATE_USER = const DocumentNode(definitions: [
                                   VariableNode(name: NameNode(value: 'name'))),
                           ObjectFieldNode(
                               name: NameNode(value: 'bio'),
-                              value: VariableNode(name: NameNode(value: 'bio')))
+                              value:
+                                  VariableNode(name: NameNode(value: 'bio'))),
+                          ObjectFieldNode(
+                              name: NameNode(value: 'avatar'),
+                              value:
+                                  VariableNode(name: NameNode(value: 'avatar')))
                         ]))
                   ]))
             ],
@@ -463,12 +700,14 @@ const MUTATION_UPDATE_USER = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationUpdateUser = FutureOr<void> Function(
+MutationUpdateUser _parserFnMutationUpdateUser(Map<String, dynamic> data) =>
+    MutationUpdateUser.fromJson(data);
+typedef OnMutationCompletedMutationUpdateUser = FutureOr<void> Function(
     dynamic, MutationUpdateUser?);
 
-class GQLOptionsMutationUpdateUser
+class OptionsMutationUpdateUser
     extends graphql.MutationOptions<MutationUpdateUser> {
-  GQLOptionsMutationUpdateUser(
+  OptionsMutationUpdateUser(
       {String? operationName,
       required VariablesMutationUpdateUser variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -476,10 +715,11 @@ class GQLOptionsMutationUpdateUser
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateUser? onCompleted,
+      OnMutationCompletedMutationUpdateUser? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -490,16 +730,26 @@ class GQLOptionsMutationUpdateUser
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationUpdateUser.fromJson(data)),
+                    data == null ? null : _parserFnMutationUpdateUser(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_USER,
-            parserFn: (data) => MutationUpdateUser.fromJson(data));
+            parserFn: _parserFnMutationUpdateUser);
+
+  final OnMutationCompletedMutationUpdateUser? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationUpdateUser
+class WatchOptionsMutationUpdateUser
     extends graphql.WatchQueryOptions<MutationUpdateUser> {
-  GQLWatchOptionsMutationUpdateUser(
+  WatchOptionsMutationUpdateUser(
       {String? operationName,
       required VariablesMutationUpdateUser variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -524,31 +774,57 @@ class GQLWatchOptionsMutationUpdateUser
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationUpdateUser.fromJson(data));
+            parserFn: _parserFnMutationUpdateUser);
 }
 
-extension GQLExtensionMutationUpdateUser on graphql.GraphQLClient {
+extension ClientExtensionMutationUpdateUser on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationUpdateUser>> mutateUpdateUser(
-          GQLOptionsMutationUpdateUser options) async =>
+          OptionsMutationUpdateUser options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationUpdateUser> watchMutationUpdateUser(
-          GQLWatchOptionsMutationUpdateUser options) =>
+          WatchOptionsMutationUpdateUser options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationUpdateUser
+class MutationUpdateUserHookResult {
+  MutationUpdateUserHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationUpdateUser runMutation;
+
+  final graphql.QueryResult<MutationUpdateUser> result;
+}
+
+MutationUpdateUserHookResult useMutationUpdateUser(
+    [WidgetOptionsMutationUpdateUser? options]) {
+  final result =
+      graphql_flutter.useMutation(options ?? WidgetOptionsMutationUpdateUser());
+  return MutationUpdateUserHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationUpdateUser> useWatchMutationUpdateUser(
+        WatchOptionsMutationUpdateUser options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationUpdateUser
     extends graphql.MutationOptions<MutationUpdateUser> {
-  GQLFOptionsMutationUpdateUser(
+  WidgetOptionsMutationUpdateUser(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateUser? onCompleted,
+      OnMutationCompletedMutationUpdateUser? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -558,29 +834,38 @@ class GQLFOptionsMutationUpdateUser
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationUpdateUser.fromJson(data)),
+                    data == null ? null : _parserFnMutationUpdateUser(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_USER,
-            parserFn: (data) => MutationUpdateUser.fromJson(data));
+            parserFn: _parserFnMutationUpdateUser);
+
+  final OnMutationCompletedMutationUpdateUser? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationUpdateUser
+typedef RunMutationMutationUpdateUser
     = graphql.MultiSourceResult<MutationUpdateUser>
         Function(VariablesMutationUpdateUser, {Object? optimisticResult});
-typedef GQLFBuilderMutationUpdateUser = widgets.Widget Function(
-    GQLFRunMutationMutationUpdateUser,
-    graphql.QueryResult<MutationUpdateUser>?);
+typedef BuilderMutationUpdateUser = widgets.Widget Function(
+    RunMutationMutationUpdateUser, graphql.QueryResult<MutationUpdateUser>?);
 
-class GQLFMutationUpdateUser
+class MutationUpdateUserWidget
     extends graphql_flutter.Mutation<MutationUpdateUser> {
-  GQLFMutationUpdateUser(
+  MutationUpdateUserWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationUpdateUser? options,
-      required GQLFBuilderMutationUpdateUser builder})
+      WidgetOptionsMutationUpdateUser? options,
+      required BuilderMutationUpdateUser builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationUpdateUser(),
+            options: options ?? WidgetOptionsMutationUpdateUser(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -589,7 +874,7 @@ class GQLFMutationUpdateUser
 
 @JsonSerializable()
 class MutationUpdateUser$updateUser extends JsonSerializable {
-  MutationUpdateUser$updateUser({this.user});
+  MutationUpdateUser$updateUser({this.user, required this.$__typename});
 
   @override
   factory MutationUpdateUser$updateUser.fromJson(Map<String, dynamic> json) =>
@@ -597,14 +882,52 @@ class MutationUpdateUser$updateUser extends JsonSerializable {
 
   final List<MutationUpdateUser$updateUser$user?>? user;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationUpdateUser$updateUserToJson(this);
+  int get hashCode {
+    final l$user = user;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$user == null ? null : Object.hashAll(l$user.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateUser$updateUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$user = user;
+    final lOther$user = other.user;
+    if (l$user != null && lOther$user != null) {
+      if (l$user.length != lOther$user.length) return false;
+      for (int i = 0; i < l$user.length; i++) {
+        final l$user$entry = l$user[i];
+        final lOther$user$entry = lOther$user[i];
+        if (l$user$entry != lOther$user$entry) return false;
+      }
+    } else if (l$user != lOther$user) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateUser$updateUser$user extends JsonSerializable {
   MutationUpdateUser$updateUser$user(
-      {required this.id, required this.name, this.bio});
+      {required this.id,
+      required this.name,
+      this.bio,
+      required this.$__typename});
 
   @override
   factory MutationUpdateUser$updateUser$user.fromJson(
@@ -617,9 +940,39 @@ class MutationUpdateUser$updateUser$user extends JsonSerializable {
 
   final String? bio;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateUser$updateUser$userToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$bio = bio;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$bio, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateUser$updateUser$user) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$bio = bio;
+    final lOther$bio = other.bio;
+    if (l$bio != lOther$bio) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -647,11 +1000,43 @@ class VariablesMutationAddHashtag extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationAddHashtagToJson(this);
+  int get hashCode {
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$blessedInt = blessedInt;
+    final l$defaultHashtagVariant = defaultHashtagVariant;
+    return Object.hashAll(
+        [l$name, l$iconName, l$blessed, l$blessedInt, l$defaultHashtagVariant]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationAddHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$blessedInt = blessedInt;
+    final lOther$blessedInt = other.blessedInt;
+    if (l$blessedInt != lOther$blessedInt) return false;
+    final l$defaultHashtagVariant = defaultHashtagVariant;
+    final lOther$defaultHashtagVariant = other.defaultHashtagVariant;
+    if (l$defaultHashtagVariant != lOther$defaultHashtagVariant) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationAddHashtag extends JsonSerializable {
-  MutationAddHashtag({this.addHashtag});
+  MutationAddHashtag({this.addHashtag, required this.$__typename});
 
   @override
   factory MutationAddHashtag.fromJson(Map<String, dynamic> json) =>
@@ -659,8 +1044,30 @@ class MutationAddHashtag extends JsonSerializable {
 
   final MutationAddHashtag$addHashtag? addHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationAddHashtagToJson(this);
+  int get hashCode {
+    final l$addHashtag = addHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$addHashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationAddHashtag) || runtimeType != other.runtimeType)
+      return false;
+    final l$addHashtag = addHashtag;
+    final lOther$addHashtag = other.addHashtag;
+    if (l$addHashtag != lOther$addHashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_ADD_HASHTAG = const DocumentNode(definitions: [
@@ -784,12 +1191,14 @@ const MUTATION_ADD_HASHTAG = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
-typedef GQLOnMutationCompletedMutationAddHashtag = FutureOr<void> Function(
+MutationAddHashtag _parserFnMutationAddHashtag(Map<String, dynamic> data) =>
+    MutationAddHashtag.fromJson(data);
+typedef OnMutationCompletedMutationAddHashtag = FutureOr<void> Function(
     dynamic, MutationAddHashtag?);
 
-class GQLOptionsMutationAddHashtag
+class OptionsMutationAddHashtag
     extends graphql.MutationOptions<MutationAddHashtag> {
-  GQLOptionsMutationAddHashtag(
+  OptionsMutationAddHashtag(
       {String? operationName,
       required VariablesMutationAddHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -797,10 +1206,11 @@ class GQLOptionsMutationAddHashtag
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationAddHashtag? onCompleted,
+      OnMutationCompletedMutationAddHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -811,16 +1221,26 @@ class GQLOptionsMutationAddHashtag
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationAddHashtag.fromJson(data)),
+                    data == null ? null : _parserFnMutationAddHashtag(data)),
             update: update,
             onError: onError,
             document: MUTATION_ADD_HASHTAG,
-            parserFn: (data) => MutationAddHashtag.fromJson(data));
+            parserFn: _parserFnMutationAddHashtag);
+
+  final OnMutationCompletedMutationAddHashtag? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationAddHashtag
+class WatchOptionsMutationAddHashtag
     extends graphql.WatchQueryOptions<MutationAddHashtag> {
-  GQLWatchOptionsMutationAddHashtag(
+  WatchOptionsMutationAddHashtag(
       {String? operationName,
       required VariablesMutationAddHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -845,31 +1265,57 @@ class GQLWatchOptionsMutationAddHashtag
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationAddHashtag.fromJson(data));
+            parserFn: _parserFnMutationAddHashtag);
 }
 
-extension GQLExtensionMutationAddHashtag on graphql.GraphQLClient {
+extension ClientExtensionMutationAddHashtag on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationAddHashtag>> mutateAddHashtag(
-          GQLOptionsMutationAddHashtag options) async =>
+          OptionsMutationAddHashtag options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationAddHashtag> watchMutationAddHashtag(
-          GQLWatchOptionsMutationAddHashtag options) =>
+          WatchOptionsMutationAddHashtag options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationAddHashtag
+class MutationAddHashtagHookResult {
+  MutationAddHashtagHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationAddHashtag runMutation;
+
+  final graphql.QueryResult<MutationAddHashtag> result;
+}
+
+MutationAddHashtagHookResult useMutationAddHashtag(
+    [WidgetOptionsMutationAddHashtag? options]) {
+  final result =
+      graphql_flutter.useMutation(options ?? WidgetOptionsMutationAddHashtag());
+  return MutationAddHashtagHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationAddHashtag> useWatchMutationAddHashtag(
+        WatchOptionsMutationAddHashtag options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationAddHashtag
     extends graphql.MutationOptions<MutationAddHashtag> {
-  GQLFOptionsMutationAddHashtag(
+  WidgetOptionsMutationAddHashtag(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationAddHashtag? onCompleted,
+      OnMutationCompletedMutationAddHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -879,29 +1325,38 @@ class GQLFOptionsMutationAddHashtag
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationAddHashtag.fromJson(data)),
+                    data == null ? null : _parserFnMutationAddHashtag(data)),
             update: update,
             onError: onError,
             document: MUTATION_ADD_HASHTAG,
-            parserFn: (data) => MutationAddHashtag.fromJson(data));
+            parserFn: _parserFnMutationAddHashtag);
+
+  final OnMutationCompletedMutationAddHashtag? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationAddHashtag
+typedef RunMutationMutationAddHashtag
     = graphql.MultiSourceResult<MutationAddHashtag>
         Function(VariablesMutationAddHashtag, {Object? optimisticResult});
-typedef GQLFBuilderMutationAddHashtag = widgets.Widget Function(
-    GQLFRunMutationMutationAddHashtag,
-    graphql.QueryResult<MutationAddHashtag>?);
+typedef BuilderMutationAddHashtag = widgets.Widget Function(
+    RunMutationMutationAddHashtag, graphql.QueryResult<MutationAddHashtag>?);
 
-class GQLFMutationAddHashtag
+class MutationAddHashtagWidget
     extends graphql_flutter.Mutation<MutationAddHashtag> {
-  GQLFMutationAddHashtag(
+  MutationAddHashtagWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationAddHashtag? options,
-      required GQLFBuilderMutationAddHashtag builder})
+      WidgetOptionsMutationAddHashtag? options,
+      required BuilderMutationAddHashtag builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationAddHashtag(),
+            options: options ?? WidgetOptionsMutationAddHashtag(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -910,7 +1365,7 @@ class GQLFMutationAddHashtag
 
 @JsonSerializable()
 class MutationAddHashtag$addHashtag extends JsonSerializable {
-  MutationAddHashtag$addHashtag({this.hashtag});
+  MutationAddHashtag$addHashtag({this.hashtag, required this.$__typename});
 
   @override
   factory MutationAddHashtag$addHashtag.fromJson(Map<String, dynamic> json) =>
@@ -918,8 +1373,43 @@ class MutationAddHashtag$addHashtag extends JsonSerializable {
 
   final List<MutationAddHashtag$addHashtag$hashtag?>? hashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationAddHashtag$addHashtagToJson(this);
+  int get hashCode {
+    final l$hashtag = hashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$hashtag == null ? null : Object.hashAll(l$hashtag.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationAddHashtag$addHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtag = hashtag;
+    final lOther$hashtag = other.hashtag;
+    if (l$hashtag != null && lOther$hashtag != null) {
+      if (l$hashtag.length != lOther$hashtag.length) return false;
+      for (int i = 0; i < l$hashtag.length; i++) {
+        final l$hashtag$entry = l$hashtag[i];
+        final lOther$hashtag$entry = lOther$hashtag[i];
+        if (l$hashtag$entry != lOther$hashtag$entry) return false;
+      }
+    } else if (l$hashtag != lOther$hashtag) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -930,7 +1420,8 @@ class MutationAddHashtag$addHashtag$hashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory MutationAddHashtag$addHashtag$hashtag.fromJson(
@@ -948,9 +1439,68 @@ class MutationAddHashtag$addHashtag$hashtag extends JsonSerializable
   final List<MutationAddHashtag$addHashtag$hashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationAddHashtag$addHashtag$hashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationAddHashtag$addHashtag$hashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -963,7 +1513,8 @@ class MutationAddHashtag$addHashtag$hashtag$hashtagVariants
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory MutationAddHashtag$addHashtag$hashtag$hashtagVariants.fromJson(
@@ -980,9 +1531,49 @@ class MutationAddHashtag$addHashtag$hashtag$hashtagVariants
   final MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationAddHashtag$addHashtag$hashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationAddHashtag$addHashtag$hashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -992,7 +1583,7 @@ class MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
   MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -1002,10 +1593,33 @@ class MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is MutationAddHashtag$addHashtag$hashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1015,7 +1629,7 @@ class MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -1025,10 +1639,33 @@ class MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is MutationAddHashtag$addHashtag$hashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1043,11 +1680,26 @@ class VariablesMutationUpdateHashtag extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationUpdateHashtagToJson(this);
+  int get hashCode {
+    final l$hashtagInput = hashtagInput;
+    return Object.hashAll([l$hashtagInput]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationUpdateHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtagInput = hashtagInput;
+    final lOther$hashtagInput = other.hashtagInput;
+    if (l$hashtagInput != lOther$hashtagInput) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateHashtag extends JsonSerializable {
-  MutationUpdateHashtag({this.updateHashtag});
+  MutationUpdateHashtag({this.updateHashtag, required this.$__typename});
 
   @override
   factory MutationUpdateHashtag.fromJson(Map<String, dynamic> json) =>
@@ -1055,8 +1707,30 @@ class MutationUpdateHashtag extends JsonSerializable {
 
   final MutationUpdateHashtag$updateHashtag? updateHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationUpdateHashtagToJson(this);
+  int get hashCode {
+    final l$updateHashtag = updateHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$updateHashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateHashtag) || runtimeType != other.runtimeType)
+      return false;
+    final l$updateHashtag = updateHashtag;
+    final lOther$updateHashtag = other.updateHashtag;
+    if (l$updateHashtag != lOther$updateHashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_UPDATE_HASHTAG = const DocumentNode(definitions: [
@@ -1116,12 +1790,15 @@ const MUTATION_UPDATE_HASHTAG = const DocumentNode(definitions: [
   FRAGMENT_HASHTAG_FRAGMENT_DATA,
   FRAGMENT_HASHTAG_VARIANT_FRAGMENT_DATA,
 ]);
-typedef GQLOnMutationCompletedMutationUpdateHashtag = FutureOr<void> Function(
+MutationUpdateHashtag _parserFnMutationUpdateHashtag(
+        Map<String, dynamic> data) =>
+    MutationUpdateHashtag.fromJson(data);
+typedef OnMutationCompletedMutationUpdateHashtag = FutureOr<void> Function(
     dynamic, MutationUpdateHashtag?);
 
-class GQLOptionsMutationUpdateHashtag
+class OptionsMutationUpdateHashtag
     extends graphql.MutationOptions<MutationUpdateHashtag> {
-  GQLOptionsMutationUpdateHashtag(
+  OptionsMutationUpdateHashtag(
       {String? operationName,
       required VariablesMutationUpdateHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1129,10 +1806,11 @@ class GQLOptionsMutationUpdateHashtag
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateHashtag? onCompleted,
+      OnMutationCompletedMutationUpdateHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -1143,16 +1821,26 @@ class GQLOptionsMutationUpdateHashtag
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationUpdateHashtag.fromJson(data)),
+                    data == null ? null : _parserFnMutationUpdateHashtag(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_HASHTAG,
-            parserFn: (data) => MutationUpdateHashtag.fromJson(data));
+            parserFn: _parserFnMutationUpdateHashtag);
+
+  final OnMutationCompletedMutationUpdateHashtag? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationUpdateHashtag
+class WatchOptionsMutationUpdateHashtag
     extends graphql.WatchQueryOptions<MutationUpdateHashtag> {
-  GQLWatchOptionsMutationUpdateHashtag(
+  WatchOptionsMutationUpdateHashtag(
       {String? operationName,
       required VariablesMutationUpdateHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1177,31 +1865,57 @@ class GQLWatchOptionsMutationUpdateHashtag
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationUpdateHashtag.fromJson(data));
+            parserFn: _parserFnMutationUpdateHashtag);
 }
 
-extension GQLExtensionMutationUpdateHashtag on graphql.GraphQLClient {
+extension ClientExtensionMutationUpdateHashtag on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationUpdateHashtag>> mutateUpdateHashtag(
-          GQLOptionsMutationUpdateHashtag options) async =>
+          OptionsMutationUpdateHashtag options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationUpdateHashtag> watchMutationUpdateHashtag(
-          GQLWatchOptionsMutationUpdateHashtag options) =>
+          WatchOptionsMutationUpdateHashtag options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationUpdateHashtag
+class MutationUpdateHashtagHookResult {
+  MutationUpdateHashtagHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationUpdateHashtag runMutation;
+
+  final graphql.QueryResult<MutationUpdateHashtag> result;
+}
+
+MutationUpdateHashtagHookResult useMutationUpdateHashtag(
+    [WidgetOptionsMutationUpdateHashtag? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationUpdateHashtag());
+  return MutationUpdateHashtagHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationUpdateHashtag> useWatchMutationUpdateHashtag(
+        WatchOptionsMutationUpdateHashtag options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationUpdateHashtag
     extends graphql.MutationOptions<MutationUpdateHashtag> {
-  GQLFOptionsMutationUpdateHashtag(
+  WidgetOptionsMutationUpdateHashtag(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateHashtag? onCompleted,
+      OnMutationCompletedMutationUpdateHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -1211,29 +1925,39 @@ class GQLFOptionsMutationUpdateHashtag
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationUpdateHashtag.fromJson(data)),
+                    data == null ? null : _parserFnMutationUpdateHashtag(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_HASHTAG,
-            parserFn: (data) => MutationUpdateHashtag.fromJson(data));
+            parserFn: _parserFnMutationUpdateHashtag);
+
+  final OnMutationCompletedMutationUpdateHashtag? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationUpdateHashtag
+typedef RunMutationMutationUpdateHashtag
     = graphql.MultiSourceResult<MutationUpdateHashtag>
         Function(VariablesMutationUpdateHashtag, {Object? optimisticResult});
-typedef GQLFBuilderMutationUpdateHashtag = widgets.Widget Function(
-    GQLFRunMutationMutationUpdateHashtag,
+typedef BuilderMutationUpdateHashtag = widgets.Widget Function(
+    RunMutationMutationUpdateHashtag,
     graphql.QueryResult<MutationUpdateHashtag>?);
 
-class GQLFMutationUpdateHashtag
+class MutationUpdateHashtagWidget
     extends graphql_flutter.Mutation<MutationUpdateHashtag> {
-  GQLFMutationUpdateHashtag(
+  MutationUpdateHashtagWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationUpdateHashtag? options,
-      required GQLFBuilderMutationUpdateHashtag builder})
+      WidgetOptionsMutationUpdateHashtag? options,
+      required BuilderMutationUpdateHashtag builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationUpdateHashtag(),
+            options: options ?? WidgetOptionsMutationUpdateHashtag(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -1242,7 +1966,8 @@ class GQLFMutationUpdateHashtag
 
 @JsonSerializable()
 class MutationUpdateHashtag$updateHashtag extends JsonSerializable {
-  MutationUpdateHashtag$updateHashtag({this.hashtag});
+  MutationUpdateHashtag$updateHashtag(
+      {this.hashtag, required this.$__typename});
 
   @override
   factory MutationUpdateHashtag$updateHashtag.fromJson(
@@ -1251,9 +1976,44 @@ class MutationUpdateHashtag$updateHashtag extends JsonSerializable {
 
   final List<MutationUpdateHashtag$updateHashtag$hashtag?>? hashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateHashtag$updateHashtagToJson(this);
+  int get hashCode {
+    final l$hashtag = hashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$hashtag == null ? null : Object.hashAll(l$hashtag.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateHashtag$updateHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtag = hashtag;
+    final lOther$hashtag = other.hashtag;
+    if (l$hashtag != null && lOther$hashtag != null) {
+      if (l$hashtag.length != lOther$hashtag.length) return false;
+      for (int i = 0; i < l$hashtag.length; i++) {
+        final l$hashtag$entry = l$hashtag[i];
+        final lOther$hashtag$entry = lOther$hashtag[i];
+        if (l$hashtag$entry != lOther$hashtag$entry) return false;
+      }
+    } else if (l$hashtag != lOther$hashtag) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1264,7 +2024,8 @@ class MutationUpdateHashtag$updateHashtag$hashtag extends JsonSerializable
       required this.name,
       this.iconName,
       this.blessed,
-      this.hashtagVariants});
+      this.hashtagVariants,
+      required this.$__typename});
 
   @override
   factory MutationUpdateHashtag$updateHashtag$hashtag.fromJson(
@@ -1282,9 +2043,68 @@ class MutationUpdateHashtag$updateHashtag$hashtag extends JsonSerializable
   final List<MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateHashtag$updateHashtag$hashtagToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$iconName = iconName;
+    final l$blessed = blessed;
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$iconName,
+      l$blessed,
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateHashtag$updateHashtag$hashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$iconName = iconName;
+    final lOther$iconName = other.iconName;
+    if (l$iconName != lOther$iconName) return false;
+    final l$blessed = blessed;
+    final lOther$blessed = other.blessed;
+    if (l$blessed != lOther$blessed) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1297,7 +2117,8 @@ class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants
       {required this.id,
       required this.variant,
       this.skillsAggregate,
-      this.requestsAggregate});
+      this.requestsAggregate,
+      required this.$__typename});
 
   @override
   factory MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants.fromJson(
@@ -1315,9 +2136,50 @@ class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants
   final MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate?
       requestsAggregate;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$variant = variant;
+    final l$skillsAggregate = skillsAggregate;
+    final l$requestsAggregate = requestsAggregate;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$variant,
+      l$skillsAggregate,
+      l$requestsAggregate,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$variant = variant;
+    final lOther$variant = other.variant;
+    if (l$variant != lOther$variant) return false;
+    final l$skillsAggregate = skillsAggregate;
+    final lOther$skillsAggregate = other.skillsAggregate;
+    if (l$skillsAggregate != lOther$skillsAggregate) return false;
+    final l$requestsAggregate = requestsAggregate;
+    final lOther$requestsAggregate = other.requestsAggregate;
+    if (l$requestsAggregate != lOther$requestsAggregate) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1327,7 +2189,7 @@ class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregat
         FragmentHashtagFragmentData$hashtagVariants$skillsAggregate,
         FragmentHashtagVariantFragmentData$skillsAggregate {
   MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate.fromJson(
@@ -1337,10 +2199,33 @@ class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregat
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$skillsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1350,7 +2235,7 @@ class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggreg
         FragmentHashtagFragmentData$hashtagVariants$requestsAggregate,
         FragmentHashtagVariantFragmentData$requestsAggregate {
   MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate(
-      {this.count});
+      {this.count, required this.$__typename});
 
   @override
   factory MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate.fromJson(
@@ -1360,10 +2245,33 @@ class MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggreg
 
   final int? count;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregateToJson(
           this);
+  int get hashCode {
+    final l$count = count;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$count, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is MutationUpdateHashtag$updateHashtag$hashtag$hashtagVariants$requestsAggregate) ||
+        runtimeType != other.runtimeType) return false;
+    final l$count = count;
+    final lOther$count = other.count;
+    if (l$count != lOther$count) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1378,11 +2286,26 @@ class VariablesMutationDeleteHashtag extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationDeleteHashtagToJson(this);
+  int get hashCode {
+    final l$hashtagFilter = hashtagFilter;
+    return Object.hashAll([l$hashtagFilter]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationDeleteHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtagFilter = hashtagFilter;
+    final lOther$hashtagFilter = other.hashtagFilter;
+    if (l$hashtagFilter != lOther$hashtagFilter) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationDeleteHashtag extends JsonSerializable {
-  MutationDeleteHashtag({this.deleteHashtag});
+  MutationDeleteHashtag({this.deleteHashtag, required this.$__typename});
 
   @override
   factory MutationDeleteHashtag.fromJson(Map<String, dynamic> json) =>
@@ -1390,8 +2313,30 @@ class MutationDeleteHashtag extends JsonSerializable {
 
   final MutationDeleteHashtag$deleteHashtag? deleteHashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationDeleteHashtagToJson(this);
+  int get hashCode {
+    final l$deleteHashtag = deleteHashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$deleteHashtag, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteHashtag) || runtimeType != other.runtimeType)
+      return false;
+    final l$deleteHashtag = deleteHashtag;
+    final lOther$deleteHashtag = other.deleteHashtag;
+    if (l$deleteHashtag != lOther$deleteHashtag) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_DELETE_HASHTAG = const DocumentNode(definitions: [
@@ -1477,12 +2422,15 @@ const MUTATION_DELETE_HASHTAG = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationDeleteHashtag = FutureOr<void> Function(
+MutationDeleteHashtag _parserFnMutationDeleteHashtag(
+        Map<String, dynamic> data) =>
+    MutationDeleteHashtag.fromJson(data);
+typedef OnMutationCompletedMutationDeleteHashtag = FutureOr<void> Function(
     dynamic, MutationDeleteHashtag?);
 
-class GQLOptionsMutationDeleteHashtag
+class OptionsMutationDeleteHashtag
     extends graphql.MutationOptions<MutationDeleteHashtag> {
-  GQLOptionsMutationDeleteHashtag(
+  OptionsMutationDeleteHashtag(
       {String? operationName,
       required VariablesMutationDeleteHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1490,10 +2438,11 @@ class GQLOptionsMutationDeleteHashtag
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationDeleteHashtag? onCompleted,
+      OnMutationCompletedMutationDeleteHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -1504,16 +2453,26 @@ class GQLOptionsMutationDeleteHashtag
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationDeleteHashtag.fromJson(data)),
+                    data == null ? null : _parserFnMutationDeleteHashtag(data)),
             update: update,
             onError: onError,
             document: MUTATION_DELETE_HASHTAG,
-            parserFn: (data) => MutationDeleteHashtag.fromJson(data));
+            parserFn: _parserFnMutationDeleteHashtag);
+
+  final OnMutationCompletedMutationDeleteHashtag? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationDeleteHashtag
+class WatchOptionsMutationDeleteHashtag
     extends graphql.WatchQueryOptions<MutationDeleteHashtag> {
-  GQLWatchOptionsMutationDeleteHashtag(
+  WatchOptionsMutationDeleteHashtag(
       {String? operationName,
       required VariablesMutationDeleteHashtag variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1538,31 +2497,57 @@ class GQLWatchOptionsMutationDeleteHashtag
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationDeleteHashtag.fromJson(data));
+            parserFn: _parserFnMutationDeleteHashtag);
 }
 
-extension GQLExtensionMutationDeleteHashtag on graphql.GraphQLClient {
+extension ClientExtensionMutationDeleteHashtag on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationDeleteHashtag>> mutateDeleteHashtag(
-          GQLOptionsMutationDeleteHashtag options) async =>
+          OptionsMutationDeleteHashtag options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationDeleteHashtag> watchMutationDeleteHashtag(
-          GQLWatchOptionsMutationDeleteHashtag options) =>
+          WatchOptionsMutationDeleteHashtag options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationDeleteHashtag
+class MutationDeleteHashtagHookResult {
+  MutationDeleteHashtagHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationDeleteHashtag runMutation;
+
+  final graphql.QueryResult<MutationDeleteHashtag> result;
+}
+
+MutationDeleteHashtagHookResult useMutationDeleteHashtag(
+    [WidgetOptionsMutationDeleteHashtag? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationDeleteHashtag());
+  return MutationDeleteHashtagHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationDeleteHashtag> useWatchMutationDeleteHashtag(
+        WatchOptionsMutationDeleteHashtag options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationDeleteHashtag
     extends graphql.MutationOptions<MutationDeleteHashtag> {
-  GQLFOptionsMutationDeleteHashtag(
+  WidgetOptionsMutationDeleteHashtag(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationDeleteHashtag? onCompleted,
+      OnMutationCompletedMutationDeleteHashtag? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -1572,29 +2557,39 @@ class GQLFOptionsMutationDeleteHashtag
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationDeleteHashtag.fromJson(data)),
+                    data == null ? null : _parserFnMutationDeleteHashtag(data)),
             update: update,
             onError: onError,
             document: MUTATION_DELETE_HASHTAG,
-            parserFn: (data) => MutationDeleteHashtag.fromJson(data));
+            parserFn: _parserFnMutationDeleteHashtag);
+
+  final OnMutationCompletedMutationDeleteHashtag? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationDeleteHashtag
+typedef RunMutationMutationDeleteHashtag
     = graphql.MultiSourceResult<MutationDeleteHashtag>
         Function(VariablesMutationDeleteHashtag, {Object? optimisticResult});
-typedef GQLFBuilderMutationDeleteHashtag = widgets.Widget Function(
-    GQLFRunMutationMutationDeleteHashtag,
+typedef BuilderMutationDeleteHashtag = widgets.Widget Function(
+    RunMutationMutationDeleteHashtag,
     graphql.QueryResult<MutationDeleteHashtag>?);
 
-class GQLFMutationDeleteHashtag
+class MutationDeleteHashtagWidget
     extends graphql_flutter.Mutation<MutationDeleteHashtag> {
-  GQLFMutationDeleteHashtag(
+  MutationDeleteHashtagWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationDeleteHashtag? options,
-      required GQLFBuilderMutationDeleteHashtag builder})
+      WidgetOptionsMutationDeleteHashtag? options,
+      required BuilderMutationDeleteHashtag builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationDeleteHashtag(),
+            options: options ?? WidgetOptionsMutationDeleteHashtag(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -1603,7 +2598,8 @@ class GQLFMutationDeleteHashtag
 
 @JsonSerializable()
 class MutationDeleteHashtag$deleteHashtag extends JsonSerializable {
-  MutationDeleteHashtag$deleteHashtag({this.msg, this.numUids, this.hashtag});
+  MutationDeleteHashtag$deleteHashtag(
+      {this.msg, this.numUids, this.hashtag, required this.$__typename});
 
   @override
   factory MutationDeleteHashtag$deleteHashtag.fromJson(
@@ -1616,14 +2612,60 @@ class MutationDeleteHashtag$deleteHashtag extends JsonSerializable {
 
   final List<MutationDeleteHashtag$deleteHashtag$hashtag?>? hashtag;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationDeleteHashtag$deleteHashtagToJson(this);
+  int get hashCode {
+    final l$msg = msg;
+    final l$numUids = numUids;
+    final l$hashtag = hashtag;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$msg,
+      l$numUids,
+      l$hashtag == null ? null : Object.hashAll(l$hashtag.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteHashtag$deleteHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$msg = msg;
+    final lOther$msg = other.msg;
+    if (l$msg != lOther$msg) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
+    final l$hashtag = hashtag;
+    final lOther$hashtag = other.hashtag;
+    if (l$hashtag != null && lOther$hashtag != null) {
+      if (l$hashtag.length != lOther$hashtag.length) return false;
+      for (int i = 0; i < l$hashtag.length; i++) {
+        final l$hashtag$entry = l$hashtag[i];
+        final lOther$hashtag$entry = lOther$hashtag[i];
+        if (l$hashtag$entry != lOther$hashtag$entry) return false;
+      }
+    } else if (l$hashtag != lOther$hashtag) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationDeleteHashtag$deleteHashtag$hashtag extends JsonSerializable {
-  MutationDeleteHashtag$deleteHashtag$hashtag({this.hashtagVariants});
+  MutationDeleteHashtag$deleteHashtag$hashtag(
+      {this.hashtagVariants, required this.$__typename});
 
   @override
   factory MutationDeleteHashtag$deleteHashtag$hashtag.fromJson(
@@ -1633,16 +2675,55 @@ class MutationDeleteHashtag$deleteHashtag$hashtag extends JsonSerializable {
   final List<MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants?>?
       hashtagVariants;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationDeleteHashtag$deleteHashtag$hashtagToJson(this);
+  int get hashCode {
+    final l$hashtagVariants = hashtagVariants;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$hashtagVariants == null
+          ? null
+          : Object.hashAll(l$hashtagVariants.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteHashtag$deleteHashtag$hashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtagVariants = hashtagVariants;
+    final lOther$hashtagVariants = other.hashtagVariants;
+    if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
+      if (l$hashtagVariants.length != lOther$hashtagVariants.length)
+        return false;
+      for (int i = 0; i < l$hashtagVariants.length; i++) {
+        final l$hashtagVariants$entry = l$hashtagVariants[i];
+        final lOther$hashtagVariants$entry = lOther$hashtagVariants[i];
+        if (l$hashtagVariants$entry != lOther$hashtagVariants$entry)
+          return false;
+      }
+    } else if (l$hashtagVariants != lOther$hashtagVariants) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants
     extends JsonSerializable {
   MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants(
-      {required this.id});
+      {required this.id, required this.$__typename});
 
   @override
   factory MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants.fromJson(
@@ -1652,9 +2733,32 @@ class MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants
 
   final String id;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariantsToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other
+            is MutationDeleteHashtag$deleteHashtag$hashtag$hashtagVariants) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1671,11 +2775,27 @@ class VariablesMutationDeleteHashtagVariant extends JsonSerializable {
   @override
   Map<String, dynamic> toJson() =>
       _$VariablesMutationDeleteHashtagVariantToJson(this);
+  int get hashCode {
+    final l$hashtagVariantFilter = hashtagVariantFilter;
+    return Object.hashAll([l$hashtagVariantFilter]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationDeleteHashtagVariant) ||
+        runtimeType != other.runtimeType) return false;
+    final l$hashtagVariantFilter = hashtagVariantFilter;
+    final lOther$hashtagVariantFilter = other.hashtagVariantFilter;
+    if (l$hashtagVariantFilter != lOther$hashtagVariantFilter) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationDeleteHashtagVariant extends JsonSerializable {
-  MutationDeleteHashtagVariant({this.deleteHashtagVariant});
+  MutationDeleteHashtagVariant(
+      {this.deleteHashtagVariant, required this.$__typename});
 
   @override
   factory MutationDeleteHashtagVariant.fromJson(Map<String, dynamic> json) =>
@@ -1683,8 +2803,30 @@ class MutationDeleteHashtagVariant extends JsonSerializable {
 
   final MutationDeleteHashtagVariant$deleteHashtagVariant? deleteHashtagVariant;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationDeleteHashtagVariantToJson(this);
+  int get hashCode {
+    final l$deleteHashtagVariant = deleteHashtagVariant;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$deleteHashtagVariant, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteHashtagVariant) ||
+        runtimeType != other.runtimeType) return false;
+    final l$deleteHashtagVariant = deleteHashtagVariant;
+    final lOther$deleteHashtagVariant = other.deleteHashtagVariant;
+    if (l$deleteHashtagVariant != lOther$deleteHashtagVariant) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_DELETE_HASHTAG_VARIANT = const DocumentNode(definitions: [
@@ -1740,12 +2882,15 @@ const MUTATION_DELETE_HASHTAG_VARIANT = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationDeleteHashtagVariant = FutureOr<void>
+MutationDeleteHashtagVariant _parserFnMutationDeleteHashtagVariant(
+        Map<String, dynamic> data) =>
+    MutationDeleteHashtagVariant.fromJson(data);
+typedef OnMutationCompletedMutationDeleteHashtagVariant = FutureOr<void>
     Function(dynamic, MutationDeleteHashtagVariant?);
 
-class GQLOptionsMutationDeleteHashtagVariant
+class OptionsMutationDeleteHashtagVariant
     extends graphql.MutationOptions<MutationDeleteHashtagVariant> {
-  GQLOptionsMutationDeleteHashtagVariant(
+  OptionsMutationDeleteHashtagVariant(
       {String? operationName,
       required VariablesMutationDeleteHashtagVariant variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1753,10 +2898,11 @@ class GQLOptionsMutationDeleteHashtagVariant
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationDeleteHashtagVariant? onCompleted,
+      OnMutationCompletedMutationDeleteHashtagVariant? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -1770,16 +2916,26 @@ class GQLOptionsMutationDeleteHashtagVariant
                     data,
                     data == null
                         ? null
-                        : MutationDeleteHashtagVariant.fromJson(data)),
+                        : _parserFnMutationDeleteHashtagVariant(data)),
             update: update,
             onError: onError,
             document: MUTATION_DELETE_HASHTAG_VARIANT,
-            parserFn: (data) => MutationDeleteHashtagVariant.fromJson(data));
+            parserFn: _parserFnMutationDeleteHashtagVariant);
+
+  final OnMutationCompletedMutationDeleteHashtagVariant? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationDeleteHashtagVariant
+class WatchOptionsMutationDeleteHashtagVariant
     extends graphql.WatchQueryOptions<MutationDeleteHashtagVariant> {
-  GQLWatchOptionsMutationDeleteHashtagVariant(
+  WatchOptionsMutationDeleteHashtagVariant(
       {String? operationName,
       required VariablesMutationDeleteHashtagVariant variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -1804,33 +2960,60 @@ class GQLWatchOptionsMutationDeleteHashtagVariant
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationDeleteHashtagVariant.fromJson(data));
+            parserFn: _parserFnMutationDeleteHashtagVariant);
 }
 
-extension GQLExtensionMutationDeleteHashtagVariant on graphql.GraphQLClient {
+extension ClientExtensionMutationDeleteHashtagVariant on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationDeleteHashtagVariant>>
       mutateDeleteHashtagVariant(
-              GQLOptionsMutationDeleteHashtagVariant options) async =>
+              OptionsMutationDeleteHashtagVariant options) async =>
           await this.mutate(options);
   graphql.ObservableQuery<MutationDeleteHashtagVariant>
       watchMutationDeleteHashtagVariant(
-              GQLWatchOptionsMutationDeleteHashtagVariant options) =>
+              WatchOptionsMutationDeleteHashtagVariant options) =>
           this.watchMutation(options);
 }
 
-class GQLFOptionsMutationDeleteHashtagVariant
+class MutationDeleteHashtagVariantHookResult {
+  MutationDeleteHashtagVariantHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationDeleteHashtagVariant runMutation;
+
+  final graphql.QueryResult<MutationDeleteHashtagVariant> result;
+}
+
+MutationDeleteHashtagVariantHookResult useMutationDeleteHashtagVariant(
+    [WidgetOptionsMutationDeleteHashtagVariant? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationDeleteHashtagVariant());
+  return MutationDeleteHashtagVariantHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationDeleteHashtagVariant>
+    useWatchMutationDeleteHashtagVariant(
+            WatchOptionsMutationDeleteHashtagVariant options) =>
+        graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationDeleteHashtagVariant
     extends graphql.MutationOptions<MutationDeleteHashtagVariant> {
-  GQLFOptionsMutationDeleteHashtagVariant(
+  WidgetOptionsMutationDeleteHashtagVariant(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationDeleteHashtagVariant? onCompleted,
+      OnMutationCompletedMutationDeleteHashtagVariant? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -1843,29 +3026,39 @@ class GQLFOptionsMutationDeleteHashtagVariant
                     data,
                     data == null
                         ? null
-                        : MutationDeleteHashtagVariant.fromJson(data)),
+                        : _parserFnMutationDeleteHashtagVariant(data)),
             update: update,
             onError: onError,
             document: MUTATION_DELETE_HASHTAG_VARIANT,
-            parserFn: (data) => MutationDeleteHashtagVariant.fromJson(data));
+            parserFn: _parserFnMutationDeleteHashtagVariant);
+
+  final OnMutationCompletedMutationDeleteHashtagVariant? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationDeleteHashtagVariant = graphql
+typedef RunMutationMutationDeleteHashtagVariant = graphql
         .MultiSourceResult<MutationDeleteHashtagVariant>
     Function(VariablesMutationDeleteHashtagVariant, {Object? optimisticResult});
-typedef GQLFBuilderMutationDeleteHashtagVariant = widgets.Widget Function(
-    GQLFRunMutationMutationDeleteHashtagVariant,
+typedef BuilderMutationDeleteHashtagVariant = widgets.Widget Function(
+    RunMutationMutationDeleteHashtagVariant,
     graphql.QueryResult<MutationDeleteHashtagVariant>?);
 
-class GQLFMutationDeleteHashtagVariant
+class MutationDeleteHashtagVariantWidget
     extends graphql_flutter.Mutation<MutationDeleteHashtagVariant> {
-  GQLFMutationDeleteHashtagVariant(
+  MutationDeleteHashtagVariantWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationDeleteHashtagVariant? options,
-      required GQLFBuilderMutationDeleteHashtagVariant builder})
+      WidgetOptionsMutationDeleteHashtagVariant? options,
+      required BuilderMutationDeleteHashtagVariant builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationDeleteHashtagVariant(),
+            options: options ?? WidgetOptionsMutationDeleteHashtagVariant(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -1875,7 +3068,8 @@ class GQLFMutationDeleteHashtagVariant
 @JsonSerializable()
 class MutationDeleteHashtagVariant$deleteHashtagVariant
     extends JsonSerializable {
-  MutationDeleteHashtagVariant$deleteHashtagVariant({this.msg, this.numUids});
+  MutationDeleteHashtagVariant$deleteHashtagVariant(
+      {this.msg, this.numUids, required this.$__typename});
 
   @override
   factory MutationDeleteHashtagVariant$deleteHashtagVariant.fromJson(
@@ -1886,9 +3080,35 @@ class MutationDeleteHashtagVariant$deleteHashtagVariant
 
   final int? numUids;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationDeleteHashtagVariant$deleteHashtagVariantToJson(this);
+  int get hashCode {
+    final l$msg = msg;
+    final l$numUids = numUids;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$msg, l$numUids, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteHashtagVariant$deleteHashtagVariant) ||
+        runtimeType != other.runtimeType) return false;
+    final l$msg = msg;
+    final lOther$msg = other.msg;
+    if (l$msg != lOther$msg) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -1906,11 +3126,40 @@ class VariablesMutationCreateSkill extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationCreateSkillToJson(this);
+  int get hashCode {
+    final l$addHashtagInputList = addHashtagInputList;
+    final l$addSkillInput = addSkillInput;
+    return Object.hashAll(
+        [Object.hashAll(l$addHashtagInputList.map((v) => v)), l$addSkillInput]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationCreateSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$addHashtagInputList = addHashtagInputList;
+    final lOther$addHashtagInputList = other.addHashtagInputList;
+    if (l$addHashtagInputList.length != lOther$addHashtagInputList.length)
+      return false;
+    for (int i = 0; i < l$addHashtagInputList.length; i++) {
+      final l$addHashtagInputList$entry = l$addHashtagInputList[i];
+      final lOther$addHashtagInputList$entry = lOther$addHashtagInputList[i];
+      if (l$addHashtagInputList$entry != lOther$addHashtagInputList$entry)
+        return false;
+    }
+
+    final l$addSkillInput = addSkillInput;
+    final lOther$addSkillInput = other.addSkillInput;
+    if (l$addSkillInput != lOther$addSkillInput) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationCreateSkill extends JsonSerializable {
-  MutationCreateSkill({this.addHashtag, this.addSkill});
+  MutationCreateSkill(
+      {this.addHashtag, this.addSkill, required this.$__typename});
 
   @override
   factory MutationCreateSkill.fromJson(Map<String, dynamic> json) =>
@@ -1920,8 +3169,34 @@ class MutationCreateSkill extends JsonSerializable {
 
   final MutationCreateSkill$addSkill? addSkill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationCreateSkillToJson(this);
+  int get hashCode {
+    final l$addHashtag = addHashtag;
+    final l$addSkill = addSkill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$addHashtag, l$addSkill, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateSkill) || runtimeType != other.runtimeType)
+      return false;
+    final l$addHashtag = addHashtag;
+    final lOther$addHashtag = other.addHashtag;
+    if (l$addHashtag != lOther$addHashtag) return false;
+    final l$addSkill = addSkill;
+    final lOther$addSkill = other.addSkill;
+    if (l$addSkill != lOther$addSkill) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_CREATE_SKILL = const DocumentNode(definitions: [
@@ -2020,12 +3295,14 @@ const MUTATION_CREATE_SKILL = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationCreateSkill = FutureOr<void> Function(
+MutationCreateSkill _parserFnMutationCreateSkill(Map<String, dynamic> data) =>
+    MutationCreateSkill.fromJson(data);
+typedef OnMutationCompletedMutationCreateSkill = FutureOr<void> Function(
     dynamic, MutationCreateSkill?);
 
-class GQLOptionsMutationCreateSkill
+class OptionsMutationCreateSkill
     extends graphql.MutationOptions<MutationCreateSkill> {
-  GQLOptionsMutationCreateSkill(
+  OptionsMutationCreateSkill(
       {String? operationName,
       required VariablesMutationCreateSkill variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2033,10 +3310,11 @@ class GQLOptionsMutationCreateSkill
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationCreateSkill? onCompleted,
+      OnMutationCompletedMutationCreateSkill? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -2047,16 +3325,26 @@ class GQLOptionsMutationCreateSkill
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationCreateSkill.fromJson(data)),
+                    data == null ? null : _parserFnMutationCreateSkill(data)),
             update: update,
             onError: onError,
             document: MUTATION_CREATE_SKILL,
-            parserFn: (data) => MutationCreateSkill.fromJson(data));
+            parserFn: _parserFnMutationCreateSkill);
+
+  final OnMutationCompletedMutationCreateSkill? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationCreateSkill
+class WatchOptionsMutationCreateSkill
     extends graphql.WatchQueryOptions<MutationCreateSkill> {
-  GQLWatchOptionsMutationCreateSkill(
+  WatchOptionsMutationCreateSkill(
       {String? operationName,
       required VariablesMutationCreateSkill variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2081,31 +3369,57 @@ class GQLWatchOptionsMutationCreateSkill
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationCreateSkill.fromJson(data));
+            parserFn: _parserFnMutationCreateSkill);
 }
 
-extension GQLExtensionMutationCreateSkill on graphql.GraphQLClient {
+extension ClientExtensionMutationCreateSkill on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationCreateSkill>> mutateCreateSkill(
-          GQLOptionsMutationCreateSkill options) async =>
+          OptionsMutationCreateSkill options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationCreateSkill> watchMutationCreateSkill(
-          GQLWatchOptionsMutationCreateSkill options) =>
+          WatchOptionsMutationCreateSkill options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationCreateSkill
+class MutationCreateSkillHookResult {
+  MutationCreateSkillHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationCreateSkill runMutation;
+
+  final graphql.QueryResult<MutationCreateSkill> result;
+}
+
+MutationCreateSkillHookResult useMutationCreateSkill(
+    [WidgetOptionsMutationCreateSkill? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationCreateSkill());
+  return MutationCreateSkillHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationCreateSkill> useWatchMutationCreateSkill(
+        WatchOptionsMutationCreateSkill options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationCreateSkill
     extends graphql.MutationOptions<MutationCreateSkill> {
-  GQLFOptionsMutationCreateSkill(
+  WidgetOptionsMutationCreateSkill(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationCreateSkill? onCompleted,
+      OnMutationCompletedMutationCreateSkill? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -2115,29 +3429,38 @@ class GQLFOptionsMutationCreateSkill
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationCreateSkill.fromJson(data)),
+                    data == null ? null : _parserFnMutationCreateSkill(data)),
             update: update,
             onError: onError,
             document: MUTATION_CREATE_SKILL,
-            parserFn: (data) => MutationCreateSkill.fromJson(data));
+            parserFn: _parserFnMutationCreateSkill);
+
+  final OnMutationCompletedMutationCreateSkill? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationCreateSkill
+typedef RunMutationMutationCreateSkill
     = graphql.MultiSourceResult<MutationCreateSkill>
         Function(VariablesMutationCreateSkill, {Object? optimisticResult});
-typedef GQLFBuilderMutationCreateSkill = widgets.Widget Function(
-    GQLFRunMutationMutationCreateSkill,
-    graphql.QueryResult<MutationCreateSkill>?);
+typedef BuilderMutationCreateSkill = widgets.Widget Function(
+    RunMutationMutationCreateSkill, graphql.QueryResult<MutationCreateSkill>?);
 
-class GQLFMutationCreateSkill
+class MutationCreateSkillWidget
     extends graphql_flutter.Mutation<MutationCreateSkill> {
-  GQLFMutationCreateSkill(
+  MutationCreateSkillWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationCreateSkill? options,
-      required GQLFBuilderMutationCreateSkill builder})
+      WidgetOptionsMutationCreateSkill? options,
+      required BuilderMutationCreateSkill builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationCreateSkill(),
+            options: options ?? WidgetOptionsMutationCreateSkill(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -2146,7 +3469,7 @@ class GQLFMutationCreateSkill
 
 @JsonSerializable()
 class MutationCreateSkill$addHashtag extends JsonSerializable {
-  MutationCreateSkill$addHashtag({this.numUids});
+  MutationCreateSkill$addHashtag({this.numUids, required this.$__typename});
 
   @override
   factory MutationCreateSkill$addHashtag.fromJson(Map<String, dynamic> json) =>
@@ -2154,13 +3477,35 @@ class MutationCreateSkill$addHashtag extends JsonSerializable {
 
   final int? numUids;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationCreateSkill$addHashtagToJson(this);
+  int get hashCode {
+    final l$numUids = numUids;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$numUids, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateSkill$addHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationCreateSkill$addSkill extends JsonSerializable {
-  MutationCreateSkill$addSkill({this.skill});
+  MutationCreateSkill$addSkill({this.skill, required this.$__typename});
 
   @override
   factory MutationCreateSkill$addSkill.fromJson(Map<String, dynamic> json) =>
@@ -2168,13 +3513,49 @@ class MutationCreateSkill$addSkill extends JsonSerializable {
 
   final List<MutationCreateSkill$addSkill$skill?>? skill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationCreateSkill$addSkillToJson(this);
+  int get hashCode {
+    final l$skill = skill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$skill == null ? null : Object.hashAll(l$skill.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateSkill$addSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skill = skill;
+    final lOther$skill = other.skill;
+    if (l$skill != null && lOther$skill != null) {
+      if (l$skill.length != lOther$skill.length) return false;
+      for (int i = 0; i < l$skill.length; i++) {
+        final l$skill$entry = l$skill[i];
+        final lOther$skill$entry = lOther$skill[i];
+        if (l$skill$entry != lOther$skill$entry) return false;
+      }
+    } else if (l$skill != lOther$skill) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationCreateSkill$addSkill$skill extends JsonSerializable {
-  MutationCreateSkill$addSkill$skill({required this.id});
+  MutationCreateSkill$addSkill$skill(
+      {required this.id, required this.$__typename});
 
   @override
   factory MutationCreateSkill$addSkill$skill.fromJson(
@@ -2183,9 +3564,31 @@ class MutationCreateSkill$addSkill$skill extends JsonSerializable {
 
   final String id;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationCreateSkill$addSkill$skillToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateSkill$addSkill$skill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2219,11 +3622,81 @@ class VariablesMutationUpdateSkill extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationUpdateSkillToJson(this);
+  int get hashCode {
+    final l$skillId = skillId;
+    final l$addHashtagInputList = addHashtagInputList;
+    final l$title = title;
+    final l$message = message;
+    final l$isAvailable = isAvailable;
+    final l$hashtagsToSave = hashtagsToSave;
+    final l$hashtagsToDelete = hashtagsToDelete;
+    return Object.hashAll([
+      l$skillId,
+      Object.hashAll(l$addHashtagInputList.map((v) => v)),
+      l$title,
+      l$message,
+      l$isAvailable,
+      Object.hashAll(l$hashtagsToSave.map((v) => v)),
+      Object.hashAll(l$hashtagsToDelete.map((v) => v))
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationUpdateSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skillId = skillId;
+    final lOther$skillId = other.skillId;
+    if (l$skillId != lOther$skillId) return false;
+    final l$addHashtagInputList = addHashtagInputList;
+    final lOther$addHashtagInputList = other.addHashtagInputList;
+    if (l$addHashtagInputList.length != lOther$addHashtagInputList.length)
+      return false;
+    for (int i = 0; i < l$addHashtagInputList.length; i++) {
+      final l$addHashtagInputList$entry = l$addHashtagInputList[i];
+      final lOther$addHashtagInputList$entry = lOther$addHashtagInputList[i];
+      if (l$addHashtagInputList$entry != lOther$addHashtagInputList$entry)
+        return false;
+    }
+
+    final l$title = title;
+    final lOther$title = other.title;
+    if (l$title != lOther$title) return false;
+    final l$message = message;
+    final lOther$message = other.message;
+    if (l$message != lOther$message) return false;
+    final l$isAvailable = isAvailable;
+    final lOther$isAvailable = other.isAvailable;
+    if (l$isAvailable != lOther$isAvailable) return false;
+    final l$hashtagsToSave = hashtagsToSave;
+    final lOther$hashtagsToSave = other.hashtagsToSave;
+    if (l$hashtagsToSave.length != lOther$hashtagsToSave.length) return false;
+    for (int i = 0; i < l$hashtagsToSave.length; i++) {
+      final l$hashtagsToSave$entry = l$hashtagsToSave[i];
+      final lOther$hashtagsToSave$entry = lOther$hashtagsToSave[i];
+      if (l$hashtagsToSave$entry != lOther$hashtagsToSave$entry) return false;
+    }
+
+    final l$hashtagsToDelete = hashtagsToDelete;
+    final lOther$hashtagsToDelete = other.hashtagsToDelete;
+    if (l$hashtagsToDelete.length != lOther$hashtagsToDelete.length)
+      return false;
+    for (int i = 0; i < l$hashtagsToDelete.length; i++) {
+      final l$hashtagsToDelete$entry = l$hashtagsToDelete[i];
+      final lOther$hashtagsToDelete$entry = lOther$hashtagsToDelete[i];
+      if (l$hashtagsToDelete$entry != lOther$hashtagsToDelete$entry)
+        return false;
+    }
+
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateSkill extends JsonSerializable {
-  MutationUpdateSkill({this.addHashtag, this.updateSkill});
+  MutationUpdateSkill(
+      {this.addHashtag, this.updateSkill, required this.$__typename});
 
   @override
   factory MutationUpdateSkill.fromJson(Map<String, dynamic> json) =>
@@ -2233,8 +3706,34 @@ class MutationUpdateSkill extends JsonSerializable {
 
   final MutationUpdateSkill$updateSkill? updateSkill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationUpdateSkillToJson(this);
+  int get hashCode {
+    final l$addHashtag = addHashtag;
+    final l$updateSkill = updateSkill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$addHashtag, l$updateSkill, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkill) || runtimeType != other.runtimeType)
+      return false;
+    final l$addHashtag = addHashtag;
+    final lOther$addHashtag = other.addHashtag;
+    if (l$addHashtag != lOther$addHashtag) return false;
+    final l$updateSkill = updateSkill;
+    final lOther$updateSkill = other.updateSkill;
+    if (l$updateSkill != lOther$updateSkill) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
@@ -2404,12 +3903,14 @@ const MUTATION_UPDATE_SKILL = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationUpdateSkill = FutureOr<void> Function(
+MutationUpdateSkill _parserFnMutationUpdateSkill(Map<String, dynamic> data) =>
+    MutationUpdateSkill.fromJson(data);
+typedef OnMutationCompletedMutationUpdateSkill = FutureOr<void> Function(
     dynamic, MutationUpdateSkill?);
 
-class GQLOptionsMutationUpdateSkill
+class OptionsMutationUpdateSkill
     extends graphql.MutationOptions<MutationUpdateSkill> {
-  GQLOptionsMutationUpdateSkill(
+  OptionsMutationUpdateSkill(
       {String? operationName,
       required VariablesMutationUpdateSkill variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2417,10 +3918,11 @@ class GQLOptionsMutationUpdateSkill
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateSkill? onCompleted,
+      OnMutationCompletedMutationUpdateSkill? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -2431,16 +3933,26 @@ class GQLOptionsMutationUpdateSkill
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationUpdateSkill.fromJson(data)),
+                    data == null ? null : _parserFnMutationUpdateSkill(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_SKILL,
-            parserFn: (data) => MutationUpdateSkill.fromJson(data));
+            parserFn: _parserFnMutationUpdateSkill);
+
+  final OnMutationCompletedMutationUpdateSkill? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationUpdateSkill
+class WatchOptionsMutationUpdateSkill
     extends graphql.WatchQueryOptions<MutationUpdateSkill> {
-  GQLWatchOptionsMutationUpdateSkill(
+  WatchOptionsMutationUpdateSkill(
       {String? operationName,
       required VariablesMutationUpdateSkill variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2465,31 +3977,57 @@ class GQLWatchOptionsMutationUpdateSkill
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationUpdateSkill.fromJson(data));
+            parserFn: _parserFnMutationUpdateSkill);
 }
 
-extension GQLExtensionMutationUpdateSkill on graphql.GraphQLClient {
+extension ClientExtensionMutationUpdateSkill on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationUpdateSkill>> mutateUpdateSkill(
-          GQLOptionsMutationUpdateSkill options) async =>
+          OptionsMutationUpdateSkill options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationUpdateSkill> watchMutationUpdateSkill(
-          GQLWatchOptionsMutationUpdateSkill options) =>
+          WatchOptionsMutationUpdateSkill options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationUpdateSkill
+class MutationUpdateSkillHookResult {
+  MutationUpdateSkillHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationUpdateSkill runMutation;
+
+  final graphql.QueryResult<MutationUpdateSkill> result;
+}
+
+MutationUpdateSkillHookResult useMutationUpdateSkill(
+    [WidgetOptionsMutationUpdateSkill? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationUpdateSkill());
+  return MutationUpdateSkillHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationUpdateSkill> useWatchMutationUpdateSkill(
+        WatchOptionsMutationUpdateSkill options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationUpdateSkill
     extends graphql.MutationOptions<MutationUpdateSkill> {
-  GQLFOptionsMutationUpdateSkill(
+  WidgetOptionsMutationUpdateSkill(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateSkill? onCompleted,
+      OnMutationCompletedMutationUpdateSkill? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -2499,29 +4037,38 @@ class GQLFOptionsMutationUpdateSkill
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationUpdateSkill.fromJson(data)),
+                    data == null ? null : _parserFnMutationUpdateSkill(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_SKILL,
-            parserFn: (data) => MutationUpdateSkill.fromJson(data));
+            parserFn: _parserFnMutationUpdateSkill);
+
+  final OnMutationCompletedMutationUpdateSkill? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationUpdateSkill
+typedef RunMutationMutationUpdateSkill
     = graphql.MultiSourceResult<MutationUpdateSkill>
         Function(VariablesMutationUpdateSkill, {Object? optimisticResult});
-typedef GQLFBuilderMutationUpdateSkill = widgets.Widget Function(
-    GQLFRunMutationMutationUpdateSkill,
-    graphql.QueryResult<MutationUpdateSkill>?);
+typedef BuilderMutationUpdateSkill = widgets.Widget Function(
+    RunMutationMutationUpdateSkill, graphql.QueryResult<MutationUpdateSkill>?);
 
-class GQLFMutationUpdateSkill
+class MutationUpdateSkillWidget
     extends graphql_flutter.Mutation<MutationUpdateSkill> {
-  GQLFMutationUpdateSkill(
+  MutationUpdateSkillWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationUpdateSkill? options,
-      required GQLFBuilderMutationUpdateSkill builder})
+      WidgetOptionsMutationUpdateSkill? options,
+      required BuilderMutationUpdateSkill builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationUpdateSkill(),
+            options: options ?? WidgetOptionsMutationUpdateSkill(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -2530,7 +4077,7 @@ class GQLFMutationUpdateSkill
 
 @JsonSerializable()
 class MutationUpdateSkill$addHashtag extends JsonSerializable {
-  MutationUpdateSkill$addHashtag({this.numUids});
+  MutationUpdateSkill$addHashtag({this.numUids, required this.$__typename});
 
   @override
   factory MutationUpdateSkill$addHashtag.fromJson(Map<String, dynamic> json) =>
@@ -2538,13 +4085,35 @@ class MutationUpdateSkill$addHashtag extends JsonSerializable {
 
   final int? numUids;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationUpdateSkill$addHashtagToJson(this);
+  int get hashCode {
+    final l$numUids = numUids;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$numUids, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkill$addHashtag) ||
+        runtimeType != other.runtimeType) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateSkill$updateSkill extends JsonSerializable {
-  MutationUpdateSkill$updateSkill({this.skill});
+  MutationUpdateSkill$updateSkill({this.skill, required this.$__typename});
 
   @override
   factory MutationUpdateSkill$updateSkill.fromJson(Map<String, dynamic> json) =>
@@ -2552,14 +4121,50 @@ class MutationUpdateSkill$updateSkill extends JsonSerializable {
 
   final List<MutationUpdateSkill$updateSkill$skill?>? skill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateSkill$updateSkillToJson(this);
+  int get hashCode {
+    final l$skill = skill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$skill == null ? null : Object.hashAll(l$skill.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkill$updateSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skill = skill;
+    final lOther$skill = other.skill;
+    if (l$skill != null && lOther$skill != null) {
+      if (l$skill.length != lOther$skill.length) return false;
+      for (int i = 0; i < l$skill.length; i++) {
+        final l$skill$entry = l$skill[i];
+        final lOther$skill$entry = lOther$skill[i];
+        if (l$skill$entry != lOther$skill$entry) return false;
+      }
+    } else if (l$skill != lOther$skill) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateSkill$updateSkill$skill extends JsonSerializable {
-  MutationUpdateSkill$updateSkill$skill({required this.id});
+  MutationUpdateSkill$updateSkill$skill(
+      {required this.id, required this.$__typename});
 
   @override
   factory MutationUpdateSkill$updateSkill$skill.fromJson(
@@ -2568,9 +4173,31 @@ class MutationUpdateSkill$updateSkill$skill extends JsonSerializable {
 
   final String id;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateSkill$updateSkill$skillToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkill$updateSkill$skill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2590,11 +4217,30 @@ class VariablesMutationUpdateSkillAvailable extends JsonSerializable {
   @override
   Map<String, dynamic> toJson() =>
       _$VariablesMutationUpdateSkillAvailableToJson(this);
+  int get hashCode {
+    final l$skillId = skillId;
+    final l$isAvailable = isAvailable;
+    return Object.hashAll([l$skillId, l$isAvailable]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationUpdateSkillAvailable) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skillId = skillId;
+    final lOther$skillId = other.skillId;
+    if (l$skillId != lOther$skillId) return false;
+    final l$isAvailable = isAvailable;
+    final lOther$isAvailable = other.isAvailable;
+    if (l$isAvailable != lOther$isAvailable) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateSkillAvailable extends JsonSerializable {
-  MutationUpdateSkillAvailable({this.updateSkill});
+  MutationUpdateSkillAvailable({this.updateSkill, required this.$__typename});
 
   @override
   factory MutationUpdateSkillAvailable.fromJson(Map<String, dynamic> json) =>
@@ -2602,8 +4248,30 @@ class MutationUpdateSkillAvailable extends JsonSerializable {
 
   final MutationUpdateSkillAvailable$updateSkill? updateSkill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationUpdateSkillAvailableToJson(this);
+  int get hashCode {
+    final l$updateSkill = updateSkill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$updateSkill, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkillAvailable) ||
+        runtimeType != other.runtimeType) return false;
+    final l$updateSkill = updateSkill;
+    final lOther$updateSkill = other.updateSkill;
+    if (l$updateSkill != lOther$updateSkill) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_UPDATE_SKILL_AVAILABLE = const DocumentNode(definitions: [
@@ -2687,12 +4355,15 @@ const MUTATION_UPDATE_SKILL_AVAILABLE = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationUpdateSkillAvailable = FutureOr<void>
+MutationUpdateSkillAvailable _parserFnMutationUpdateSkillAvailable(
+        Map<String, dynamic> data) =>
+    MutationUpdateSkillAvailable.fromJson(data);
+typedef OnMutationCompletedMutationUpdateSkillAvailable = FutureOr<void>
     Function(dynamic, MutationUpdateSkillAvailable?);
 
-class GQLOptionsMutationUpdateSkillAvailable
+class OptionsMutationUpdateSkillAvailable
     extends graphql.MutationOptions<MutationUpdateSkillAvailable> {
-  GQLOptionsMutationUpdateSkillAvailable(
+  OptionsMutationUpdateSkillAvailable(
       {String? operationName,
       required VariablesMutationUpdateSkillAvailable variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2700,10 +4371,11 @@ class GQLOptionsMutationUpdateSkillAvailable
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateSkillAvailable? onCompleted,
+      OnMutationCompletedMutationUpdateSkillAvailable? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -2717,16 +4389,26 @@ class GQLOptionsMutationUpdateSkillAvailable
                     data,
                     data == null
                         ? null
-                        : MutationUpdateSkillAvailable.fromJson(data)),
+                        : _parserFnMutationUpdateSkillAvailable(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_SKILL_AVAILABLE,
-            parserFn: (data) => MutationUpdateSkillAvailable.fromJson(data));
+            parserFn: _parserFnMutationUpdateSkillAvailable);
+
+  final OnMutationCompletedMutationUpdateSkillAvailable? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationUpdateSkillAvailable
+class WatchOptionsMutationUpdateSkillAvailable
     extends graphql.WatchQueryOptions<MutationUpdateSkillAvailable> {
-  GQLWatchOptionsMutationUpdateSkillAvailable(
+  WatchOptionsMutationUpdateSkillAvailable(
       {String? operationName,
       required VariablesMutationUpdateSkillAvailable variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2751,33 +4433,60 @@ class GQLWatchOptionsMutationUpdateSkillAvailable
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationUpdateSkillAvailable.fromJson(data));
+            parserFn: _parserFnMutationUpdateSkillAvailable);
 }
 
-extension GQLExtensionMutationUpdateSkillAvailable on graphql.GraphQLClient {
+extension ClientExtensionMutationUpdateSkillAvailable on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationUpdateSkillAvailable>>
       mutateUpdateSkillAvailable(
-              GQLOptionsMutationUpdateSkillAvailable options) async =>
+              OptionsMutationUpdateSkillAvailable options) async =>
           await this.mutate(options);
   graphql.ObservableQuery<MutationUpdateSkillAvailable>
       watchMutationUpdateSkillAvailable(
-              GQLWatchOptionsMutationUpdateSkillAvailable options) =>
+              WatchOptionsMutationUpdateSkillAvailable options) =>
           this.watchMutation(options);
 }
 
-class GQLFOptionsMutationUpdateSkillAvailable
+class MutationUpdateSkillAvailableHookResult {
+  MutationUpdateSkillAvailableHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationUpdateSkillAvailable runMutation;
+
+  final graphql.QueryResult<MutationUpdateSkillAvailable> result;
+}
+
+MutationUpdateSkillAvailableHookResult useMutationUpdateSkillAvailable(
+    [WidgetOptionsMutationUpdateSkillAvailable? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationUpdateSkillAvailable());
+  return MutationUpdateSkillAvailableHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationUpdateSkillAvailable>
+    useWatchMutationUpdateSkillAvailable(
+            WatchOptionsMutationUpdateSkillAvailable options) =>
+        graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationUpdateSkillAvailable
     extends graphql.MutationOptions<MutationUpdateSkillAvailable> {
-  GQLFOptionsMutationUpdateSkillAvailable(
+  WidgetOptionsMutationUpdateSkillAvailable(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationUpdateSkillAvailable? onCompleted,
+      OnMutationCompletedMutationUpdateSkillAvailable? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -2790,29 +4499,39 @@ class GQLFOptionsMutationUpdateSkillAvailable
                     data,
                     data == null
                         ? null
-                        : MutationUpdateSkillAvailable.fromJson(data)),
+                        : _parserFnMutationUpdateSkillAvailable(data)),
             update: update,
             onError: onError,
             document: MUTATION_UPDATE_SKILL_AVAILABLE,
-            parserFn: (data) => MutationUpdateSkillAvailable.fromJson(data));
+            parserFn: _parserFnMutationUpdateSkillAvailable);
+
+  final OnMutationCompletedMutationUpdateSkillAvailable? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationUpdateSkillAvailable = graphql
+typedef RunMutationMutationUpdateSkillAvailable = graphql
         .MultiSourceResult<MutationUpdateSkillAvailable>
     Function(VariablesMutationUpdateSkillAvailable, {Object? optimisticResult});
-typedef GQLFBuilderMutationUpdateSkillAvailable = widgets.Widget Function(
-    GQLFRunMutationMutationUpdateSkillAvailable,
+typedef BuilderMutationUpdateSkillAvailable = widgets.Widget Function(
+    RunMutationMutationUpdateSkillAvailable,
     graphql.QueryResult<MutationUpdateSkillAvailable>?);
 
-class GQLFMutationUpdateSkillAvailable
+class MutationUpdateSkillAvailableWidget
     extends graphql_flutter.Mutation<MutationUpdateSkillAvailable> {
-  GQLFMutationUpdateSkillAvailable(
+  MutationUpdateSkillAvailableWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationUpdateSkillAvailable? options,
-      required GQLFBuilderMutationUpdateSkillAvailable builder})
+      WidgetOptionsMutationUpdateSkillAvailable? options,
+      required BuilderMutationUpdateSkillAvailable builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationUpdateSkillAvailable(),
+            options: options ?? WidgetOptionsMutationUpdateSkillAvailable(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -2821,7 +4540,8 @@ class GQLFMutationUpdateSkillAvailable
 
 @JsonSerializable()
 class MutationUpdateSkillAvailable$updateSkill extends JsonSerializable {
-  MutationUpdateSkillAvailable$updateSkill({this.skill});
+  MutationUpdateSkillAvailable$updateSkill(
+      {this.skill, required this.$__typename});
 
   @override
   factory MutationUpdateSkillAvailable$updateSkill.fromJson(
@@ -2830,14 +4550,50 @@ class MutationUpdateSkillAvailable$updateSkill extends JsonSerializable {
 
   final List<MutationUpdateSkillAvailable$updateSkill$skill?>? skill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateSkillAvailable$updateSkillToJson(this);
+  int get hashCode {
+    final l$skill = skill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$skill == null ? null : Object.hashAll(l$skill.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkillAvailable$updateSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skill = skill;
+    final lOther$skill = other.skill;
+    if (l$skill != null && lOther$skill != null) {
+      if (l$skill.length != lOther$skill.length) return false;
+      for (int i = 0; i < l$skill.length; i++) {
+        final l$skill$entry = l$skill[i];
+        final lOther$skill$entry = lOther$skill[i];
+        if (l$skill$entry != lOther$skill$entry) return false;
+      }
+    } else if (l$skill != lOther$skill) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationUpdateSkillAvailable$updateSkill$skill extends JsonSerializable {
-  MutationUpdateSkillAvailable$updateSkill$skill({this.isAvailable});
+  MutationUpdateSkillAvailable$updateSkill$skill(
+      {this.isAvailable, required this.$__typename});
 
   @override
   factory MutationUpdateSkillAvailable$updateSkill$skill.fromJson(
@@ -2846,9 +4602,31 @@ class MutationUpdateSkillAvailable$updateSkill$skill extends JsonSerializable {
 
   final bool? isAvailable;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationUpdateSkillAvailable$updateSkill$skillToJson(this);
+  int get hashCode {
+    final l$isAvailable = isAvailable;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$isAvailable, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationUpdateSkillAvailable$updateSkill$skill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$isAvailable = isAvailable;
+    final lOther$isAvailable = other.isAvailable;
+    if (l$isAvailable != lOther$isAvailable) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
@@ -2863,11 +4641,26 @@ class VariablesMutationRemoveSkill extends JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$VariablesMutationRemoveSkillToJson(this);
+  int get hashCode {
+    final l$skillId = skillId;
+    return Object.hashAll([l$skillId]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationRemoveSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skillId = skillId;
+    final lOther$skillId = other.skillId;
+    if (l$skillId != lOther$skillId) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationRemoveSkill extends JsonSerializable {
-  MutationRemoveSkill({this.deleteSkill});
+  MutationRemoveSkill({this.deleteSkill, required this.$__typename});
 
   @override
   factory MutationRemoveSkill.fromJson(Map<String, dynamic> json) =>
@@ -2875,8 +4668,30 @@ class MutationRemoveSkill extends JsonSerializable {
 
   final MutationRemoveSkill$deleteSkill? deleteSkill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() => _$MutationRemoveSkillToJson(this);
+  int get hashCode {
+    final l$deleteSkill = deleteSkill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$deleteSkill, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationRemoveSkill) || runtimeType != other.runtimeType)
+      return false;
+    final l$deleteSkill = deleteSkill;
+    final lOther$deleteSkill = other.deleteSkill;
+    if (l$deleteSkill != lOther$deleteSkill) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 const MUTATION_REMOVE_SKILL = const DocumentNode(definitions: [
@@ -2942,12 +4757,14 @@ const MUTATION_REMOVE_SKILL = const DocumentNode(definitions: [
             selectionSet: null)
       ])),
 ]);
-typedef GQLOnMutationCompletedMutationRemoveSkill = FutureOr<void> Function(
+MutationRemoveSkill _parserFnMutationRemoveSkill(Map<String, dynamic> data) =>
+    MutationRemoveSkill.fromJson(data);
+typedef OnMutationCompletedMutationRemoveSkill = FutureOr<void> Function(
     dynamic, MutationRemoveSkill?);
 
-class GQLOptionsMutationRemoveSkill
+class OptionsMutationRemoveSkill
     extends graphql.MutationOptions<MutationRemoveSkill> {
-  GQLOptionsMutationRemoveSkill(
+  OptionsMutationRemoveSkill(
       {String? operationName,
       required VariablesMutationRemoveSkill variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -2955,10 +4772,11 @@ class GQLOptionsMutationRemoveSkill
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationRemoveSkill? onCompleted,
+      OnMutationCompletedMutationRemoveSkill? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             variables: variables.toJson(),
             operationName: operationName,
             fetchPolicy: fetchPolicy,
@@ -2969,16 +4787,26 @@ class GQLOptionsMutationRemoveSkill
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationRemoveSkill.fromJson(data)),
+                    data == null ? null : _parserFnMutationRemoveSkill(data)),
             update: update,
             onError: onError,
             document: MUTATION_REMOVE_SKILL,
-            parserFn: (data) => MutationRemoveSkill.fromJson(data));
+            parserFn: _parserFnMutationRemoveSkill);
+
+  final OnMutationCompletedMutationRemoveSkill? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-class GQLWatchOptionsMutationRemoveSkill
+class WatchOptionsMutationRemoveSkill
     extends graphql.WatchQueryOptions<MutationRemoveSkill> {
-  GQLWatchOptionsMutationRemoveSkill(
+  WatchOptionsMutationRemoveSkill(
       {String? operationName,
       required VariablesMutationRemoveSkill variables,
       graphql.FetchPolicy? fetchPolicy,
@@ -3003,31 +4831,57 @@ class GQLWatchOptionsMutationRemoveSkill
             eagerlyFetchResults: eagerlyFetchResults,
             carryForwardDataOnException: carryForwardDataOnException,
             fetchResults: fetchResults,
-            parserFn: (data) => MutationRemoveSkill.fromJson(data));
+            parserFn: _parserFnMutationRemoveSkill);
 }
 
-extension GQLExtensionMutationRemoveSkill on graphql.GraphQLClient {
+extension ClientExtensionMutationRemoveSkill on graphql.GraphQLClient {
   Future<graphql.QueryResult<MutationRemoveSkill>> mutateRemoveSkill(
-          GQLOptionsMutationRemoveSkill options) async =>
+          OptionsMutationRemoveSkill options) async =>
       await this.mutate(options);
   graphql.ObservableQuery<MutationRemoveSkill> watchMutationRemoveSkill(
-          GQLWatchOptionsMutationRemoveSkill options) =>
+          WatchOptionsMutationRemoveSkill options) =>
       this.watchMutation(options);
 }
 
-class GQLFOptionsMutationRemoveSkill
+class MutationRemoveSkillHookResult {
+  MutationRemoveSkillHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationRemoveSkill runMutation;
+
+  final graphql.QueryResult<MutationRemoveSkill> result;
+}
+
+MutationRemoveSkillHookResult useMutationRemoveSkill(
+    [WidgetOptionsMutationRemoveSkill? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationRemoveSkill());
+  return MutationRemoveSkillHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationRemoveSkill> useWatchMutationRemoveSkill(
+        WatchOptionsMutationRemoveSkill options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationRemoveSkill
     extends graphql.MutationOptions<MutationRemoveSkill> {
-  GQLFOptionsMutationRemoveSkill(
+  WidgetOptionsMutationRemoveSkill(
       {String? operationName,
       graphql.FetchPolicy? fetchPolicy,
       graphql.ErrorPolicy? errorPolicy,
       graphql.CacheRereadPolicy? cacheRereadPolicy,
       Object? optimisticResult,
       graphql.Context? context,
-      GQLOnMutationCompletedMutationRemoveSkill? onCompleted,
+      OnMutationCompletedMutationRemoveSkill? onCompleted,
       graphql.OnMutationUpdate? update,
       graphql.OnError? onError})
-      : super(
+      : onCompletedWithParsed = onCompleted,
+        super(
             operationName: operationName,
             fetchPolicy: fetchPolicy,
             errorPolicy: errorPolicy,
@@ -3037,29 +4891,38 @@ class GQLFOptionsMutationRemoveSkill
             onCompleted: onCompleted == null
                 ? null
                 : (data) => onCompleted(data,
-                    data == null ? null : MutationRemoveSkill.fromJson(data)),
+                    data == null ? null : _parserFnMutationRemoveSkill(data)),
             update: update,
             onError: onError,
             document: MUTATION_REMOVE_SKILL,
-            parserFn: (data) => MutationRemoveSkill.fromJson(data));
+            parserFn: _parserFnMutationRemoveSkill);
+
+  final OnMutationCompletedMutationRemoveSkill? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
 }
 
-typedef GQLFRunMutationMutationRemoveSkill
+typedef RunMutationMutationRemoveSkill
     = graphql.MultiSourceResult<MutationRemoveSkill>
         Function(VariablesMutationRemoveSkill, {Object? optimisticResult});
-typedef GQLFBuilderMutationRemoveSkill = widgets.Widget Function(
-    GQLFRunMutationMutationRemoveSkill,
-    graphql.QueryResult<MutationRemoveSkill>?);
+typedef BuilderMutationRemoveSkill = widgets.Widget Function(
+    RunMutationMutationRemoveSkill, graphql.QueryResult<MutationRemoveSkill>?);
 
-class GQLFMutationRemoveSkill
+class MutationRemoveSkillWidget
     extends graphql_flutter.Mutation<MutationRemoveSkill> {
-  GQLFMutationRemoveSkill(
+  MutationRemoveSkillWidget(
       {widgets.Key? key,
-      GQLFOptionsMutationRemoveSkill? options,
-      required GQLFBuilderMutationRemoveSkill builder})
+      WidgetOptionsMutationRemoveSkill? options,
+      required BuilderMutationRemoveSkill builder})
       : super(
             key: key,
-            options: options ?? GQLFOptionsMutationRemoveSkill(),
+            options: options ?? WidgetOptionsMutationRemoveSkill(),
             builder: (run, result) => builder(
                 (variables, {optimisticResult}) =>
                     run(variables.toJson(), optimisticResult: optimisticResult),
@@ -3068,7 +4931,7 @@ class GQLFMutationRemoveSkill
 
 @JsonSerializable()
 class MutationRemoveSkill$deleteSkill extends JsonSerializable {
-  MutationRemoveSkill$deleteSkill({this.skill});
+  MutationRemoveSkill$deleteSkill({this.skill, required this.$__typename});
 
   @override
   factory MutationRemoveSkill$deleteSkill.fromJson(Map<String, dynamic> json) =>
@@ -3076,14 +4939,50 @@ class MutationRemoveSkill$deleteSkill extends JsonSerializable {
 
   final List<MutationRemoveSkill$deleteSkill$skill?>? skill;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationRemoveSkill$deleteSkillToJson(this);
+  int get hashCode {
+    final l$skill = skill;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$skill == null ? null : Object.hashAll(l$skill.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationRemoveSkill$deleteSkill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$skill = skill;
+    final lOther$skill = other.skill;
+    if (l$skill != null && lOther$skill != null) {
+      if (l$skill.length != lOther$skill.length) return false;
+      for (int i = 0; i < l$skill.length; i++) {
+        final l$skill$entry = l$skill[i];
+        final lOther$skill$entry = lOther$skill[i];
+        if (l$skill$entry != lOther$skill$entry) return false;
+      }
+    } else if (l$skill != lOther$skill) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }
 
 @JsonSerializable()
 class MutationRemoveSkill$deleteSkill$skill extends JsonSerializable {
-  MutationRemoveSkill$deleteSkill$skill({required this.id});
+  MutationRemoveSkill$deleteSkill$skill(
+      {required this.id, required this.$__typename});
 
   @override
   factory MutationRemoveSkill$deleteSkill$skill.fromJson(
@@ -3092,7 +4991,29 @@ class MutationRemoveSkill$deleteSkill$skill extends JsonSerializable {
 
   final String id;
 
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutationRemoveSkill$deleteSkill$skillToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationRemoveSkill$deleteSkill$skill) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
 }

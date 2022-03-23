@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_portal_screen.dart';
 import 'package:together_app/screens/nav_leftside/notifications/notifications_screen.dart';
@@ -39,6 +40,11 @@ List<Map<String, dynamic>> kGetNavSideMenuInfoList(
   });
   // }
   return menuList;
+}
+
+String toCdnUrl(String fileKey) {
+  String domainName = dotenv.get('AWS_CLOUDFRONT_DOMAIN');
+  return "https://$domainName/$fileKey";
 }
 
 List<BottomNavigationBarItem> kBottomNavigationBarItems = [

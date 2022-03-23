@@ -54,7 +54,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   void onCheckHashtagWithName() async {
     changeProcessingEditState(true);
     final result = await gqlClient!.queryGetHashtagByName(
-      GQLOptionsQueryGetHashtagByName(
+      OptionsQueryGetHashtagByName(
         fetchPolicy: FetchPolicy.networkOnly,
         variables: VariablesQueryGetHashtagByName(
           name: hashtag.toLowerCase(),
@@ -84,7 +84,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   void onAddHashtag() async {
     try {
       gqlClient!.mutateAddHashtag(
-        GQLOptionsMutationAddHashtag(
+        OptionsMutationAddHashtag(
             fetchPolicy: FetchPolicy.networkOnly,
             variables: VariablesMutationAddHashtag(
               name: hashtag.toLowerCase(),
@@ -126,7 +126,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
     try {
       changeProcessingEditState(true);
       gqlClient!.mutateUpdateHashtag(
-        GQLOptionsMutationUpdateHashtag(
+        OptionsMutationUpdateHashtag(
             fetchPolicy: FetchPolicy.noCache,
             variables: VariablesMutationUpdateHashtag(
               hashtagInput: InputUpdateHashtagInput(
@@ -170,7 +170,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   void onDeleteHashtag() {
     changeProcessingDeleteState(true);
     gqlClient!.mutateDeleteHashtag(
-      GQLOptionsMutationDeleteHashtag(
+      OptionsMutationDeleteHashtag(
         fetchPolicy: FetchPolicy.noCache,
         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
         variables: VariablesMutationDeleteHashtag(
@@ -205,7 +205,7 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
 
   void onDeleteHashtagVariant(List<String> variantIdList) {
     gqlClient!.mutateDeleteHashtagVariant(
-      GQLOptionsMutationDeleteHashtagVariant(
+      OptionsMutationDeleteHashtagVariant(
         fetchPolicy: FetchPolicy.noCache,
         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
         variables: VariablesMutationDeleteHashtagVariant(
@@ -299,8 +299,8 @@ class _AdminEditHashtagScreenState extends State<AdminEditHashtagScreen> {
   }
 
   Widget buildDeleteFloatingButton() {
-    return GQLFQueryGetHashtagById(
-        options: GQLOptionsQueryGetHashtagById(
+    return QueryGetHashtagByIdWidget(
+        options: OptionsQueryGetHashtagById(
           fetchPolicy: FetchPolicy.networkOnly,
           variables: VariablesQueryGetHashtagById(
             id: widget.arguments.id,

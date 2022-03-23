@@ -77,7 +77,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
         firstHashtagName = hashtag;
         if (fetchMoreFunctionForIcon != null) {
           fetchMoreFunctionForIcon!(
-            GQLFetchMoreOptionsQueryGetHashtagByName(
+            FetchMoreOptionsQueryGetHashtagByName(
               variables: VariablesQueryGetHashtagByName(
                 name: firstHashtagName,
               ),
@@ -189,7 +189,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
       isProcessing = true;
     });
     gqlClient!.mutateCreateSkill(
-      GQLOptionsMutationCreateSkill(
+      OptionsMutationCreateSkill(
         fetchPolicy: FetchPolicy.noCache,
         variables: VariablesMutationCreateSkill(
           addHashtagInputList: List.generate(
@@ -246,7 +246,7 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
     List<String> hashtagDeleteList =
         skillHashtagList.toSet().difference(hashtagList.toSet()).toList();
     gqlClient!.mutateUpdateSkill(
-      GQLOptionsMutationUpdateSkill(
+      OptionsMutationUpdateSkill(
         fetchPolicy: FetchPolicy.noCache,
         variables: VariablesMutationUpdateSkill(
           skillId: skillId!,
@@ -535,8 +535,8 @@ class _SkillsEditScreenState extends State<SkillsEditScreen> {
                       style: TextStyle(height: 2),
                     ),
                     SizedBox(height: 2.w),
-                    GQLFQueryGetHashtagByName(
-                      options: GQLOptionsQueryGetHashtagByName(
+                    QueryGetHashtagByNameWidget(
+                      options: OptionsQueryGetHashtagByName(
                         cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
                         variables: VariablesQueryGetHashtagByName(
                           name: firstHashtagName,
