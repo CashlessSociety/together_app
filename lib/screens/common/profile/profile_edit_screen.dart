@@ -40,6 +40,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   void onGetUserInfo() async {
     var rst = await gqlClient!.queryGetUserWithId(
       OptionsQueryGetUserWithId(
+        fetchPolicy: FetchPolicy.cacheAndNetwork,
         variables: VariablesQueryGetUserWithId(
           id: widget.arguments.userId,
         ),

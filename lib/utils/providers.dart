@@ -19,3 +19,38 @@ class LoginStateRefresher with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class UserInfoNotifier with ChangeNotifier {
+  String? _userId;
+  String? get userId => _userId;
+
+  String? _userName;
+  String? get userName => _userName;
+
+  String? _userEmail;
+  String? get userEmail => _userEmail;
+
+  String? _userAvatar;
+  String? get userAvatar => _userAvatar;
+
+  void updateInfo({
+    required String id,
+    required String name,
+    required String email,
+    required String avatar,
+  }) {
+    _userId = id;
+    _userName = name;
+    _userEmail = email;
+    _userAvatar = avatar;
+    notifyListeners();
+  }
+
+  void reset() {
+    _userId = null;
+    _userName = null;
+    _userEmail = null;
+    _userAvatar = null;
+    notifyListeners();
+  }
+}

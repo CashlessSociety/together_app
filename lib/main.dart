@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (context) => BottomNavNotifier()),
             ChangeNotifierProvider(create: (context) => LoginStateRefresher()),
+            ChangeNotifierProvider(create: (context) => UserInfoNotifier()),
           ],
           child: KeyboardDismisser(
             child: OKToast(

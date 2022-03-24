@@ -49,6 +49,7 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
   Future<QueryGetUserWithEmail$getUser?> checkIfUserExists() async {
     final result = await gqlClient!.queryGetUserWithEmail(
       OptionsQueryGetUserWithEmail(
+        fetchPolicy: FetchPolicy.noCache,
         variables: VariablesQueryGetUserWithEmail(email: email),
       ),
     );
@@ -134,10 +135,19 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
         MutationCreateUser? data = await createUser();
         if (data != null) {
           String userId = data.addUser!.user![0]!.id;
+          String userName = data.addUser!.user![0]!.name;
+          String userEmail = data.addUser!.user![0]!.email;
+          String userAvatar = "";
           saveIdToStorage(userId);
           setState(() {
             buttonText = "Done!";
           });
+          onRefreshUserInfo(
+            id: userId,
+            name: userName,
+            email: userEmail,
+            avatar: userAvatar,
+          );
           await Future.delayed(const Duration(milliseconds: 500));
           onRefreshLoginState();
         } else {
@@ -146,18 +156,41 @@ class _ProfileTestFormState extends State<ProfileTestForm> {
         }
       } else {
         String userId = data.id;
+        String userName = data.name;
+        String userEmail = data.email;
+        String userAvatar = data.avatar ?? "";
         saveIdToStorage(userId);
         setState(() {
           buttonText = "Done!";
         });
+        onRefreshUserInfo(
+          id: userId,
+          name: userName,
+          email: userEmail,
+          avatar: userAvatar,
+        );
         await Future.delayed(const Duration(milliseconds: 500));
         onRefreshLoginState();
       }
     }
   }
 
-  onRefreshLoginState() {
+  void onRefreshLoginState() {
     Provider.of<LoginStateRefresher>(context, listen: false).refresh();
+  }
+
+  void onRefreshUserInfo({
+    required String id,
+    required String name,
+    required String email,
+    required String avatar,
+  }) {
+    Provider.of<UserInfoNotifier>(context, listen: false).updateInfo(
+      id: id,
+      name: name,
+      email: email,
+      avatar: avatar,
+    );
   }
 
   @override

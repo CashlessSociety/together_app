@@ -4,11 +4,12 @@ import 'dart:math';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:together_app/utils/constants.dart';
 
 class AvatarPicker extends StatefulWidget {
@@ -36,18 +37,30 @@ class _AvatarPickerState extends State<AvatarPicker> {
   late Stream<double> uploadStream;
 
   void onCaptureImage() async {
-    final XFile? image =
-        await imagePicker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      onCropImage(image.path);
+    if (await Permission.camera.request().isGranted) {
+      final XFile? image =
+          await imagePicker.pickImage(source: ImageSource.camera);
+      if (image != null) {
+        onCropImage(image.path);
+      }
+    } else {
+      showToast("Need camera access.");
+      await Future.delayed(const Duration(milliseconds: 500));
+      openAppSettings();
     }
   }
 
   void onPickImage() async {
-    final XFile? image =
-        await imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      onCropImage(image.path);
+    if (await Permission.photos.request().isGranted) {
+      final XFile? image =
+          await imagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        onCropImage(image.path);
+      }
+    } else {
+      showToast("Need photo library access.");
+      await Future.delayed(const Duration(milliseconds: 500));
+      openAppSettings();
     }
   }
 
@@ -69,7 +82,10 @@ class _AvatarPickerState extends State<AvatarPicker> {
         lockAspectRatio: true,
       ),
       iosUiSettings: const IOSUiSettings(
+        title: 'Avatar Cropper',
         minimumAspectRatio: 1.0,
+        aspectRatioLockEnabled: true,
+        resetAspectRatioEnabled: false,
       ),
     );
     if (croppedFile != null) {
@@ -97,7 +113,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
       );
       uploadStreamController.add(1.0);
       showToast("Upload Success");
-      await Future.delayed(const Duration(milliseconds: 250));
+      await Future.delayed(const Duration(milliseconds: 100));
       setState(() {
         isUploading = false;
         uploadedFile = imageFile;
@@ -121,54 +137,44 @@ class _AvatarPickerState extends State<AvatarPicker> {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Pick one from gallery'),
-                onTap: () {
-                  Navigator.pop(context);
-                  onPickImage();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Capture a new photo'),
-                onTap: () {
-                  Navigator.pop(context);
-                  onCaptureImage();
-                },
-              ),
-            ],
+          return SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Capture a new photo'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onCaptureImage();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Pick one from gallery'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onPickImage();
+                  },
+                ),
+              ],
+            ),
           );
         });
   }
 
   void onDownloadImage() async {
     if (widget.fileKey != "") {
-      final documentsDir = await getApplicationDocumentsDirectory();
-      final filepath = documentsDir.path + widget.fileKey;
-      final file = File(filepath);
-      bool fileExists = await file.exists();
-      if (fileExists) {
+      try {
+        final File file = await DefaultCacheManager().getSingleFile(
+          toCdnUrl(widget.fileKey),
+        );
         setState(() {
           uploadedFile = file;
           uploadedFileKey = widget.fileKey;
         });
-      } else {
-        try {
-          await Amplify.Storage.downloadFile(
-            key: widget.fileKey,
-            local: file,
-          );
-          setState(() {
-            uploadedFile = file;
-            uploadedFileKey = widget.fileKey;
-          });
-        } on StorageException catch (e) {
-          print('Error downloading file: $e');
-        }
+      } catch (e) {
+        print(e);
       }
     }
   }
@@ -197,9 +203,10 @@ class _AvatarPickerState extends State<AvatarPicker> {
             width: 130.w,
             height: 130.w,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6.w),
+              shape: BoxShape.circle,
               border: Border.all(width: 1.w, color: Colors.grey),
             ),
+            clipBehavior: Clip.hardEdge,
             child: uploadedFile == null
                 ? isUploading
                     ? Column(

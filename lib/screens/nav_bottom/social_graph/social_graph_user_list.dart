@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:graphql/client.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/common/profile/other_profile_screen.dart';
+import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
 
 class SocialGraphUserList extends StatefulWidget {
@@ -19,6 +23,9 @@ class _SocialGraphUserListState extends State<SocialGraphUserList> {
   @override
   Widget build(BuildContext context) {
     return QueryGetAllUsersWidget(
+      options: OptionsQueryGetAllUsers(
+        fetchPolicy: FetchPolicy.cacheAndNetwork,
+      ),
       builder: (result, {fetchMore, refetch}) {
         if (result.isLoading) {
           return const Text('Loading user list info');
@@ -37,8 +44,24 @@ class _SocialGraphUserListState extends State<SocialGraphUserList> {
                 child: ListView.builder(
                   itemCount: dataList.length,
                   itemBuilder: (BuildContext context, int index) {
+                    String avatar = dataList[index]?.avatar ?? "";
                     return ListTile(
-                      leading: const Icon(Icons.person),
+                      leading: Container(
+                        width: 50.w,
+                        height: 50.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: avatar == ""
+                            ? const Icon(Icons.person)
+                            : CachedNetworkImage(
+                                imageUrl: toCdnUrl(avatar),
+                                fadeInDuration:
+                                    const Duration(milliseconds: 100),
+                              ),
+                      ),
                       title: Text(dataList[index]!.name),
                       subtitle: Text(dataList[index]!.email),
                       trailing: const Icon(Icons.arrow_forward),
