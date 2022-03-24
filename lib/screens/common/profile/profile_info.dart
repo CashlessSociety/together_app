@@ -348,9 +348,11 @@ class _ProfileInfoState extends State<ProfileInfo>
                   fadeInDuration: const Duration(milliseconds: 200),
                   fadeOutDuration: const Duration(milliseconds: 200),
                   imageUrl: toCdnUrl(avatar),
-                  placeholder: (context, url) => CircularProgressIndicator(
-                    strokeWidth: 2.w,
-                  ),
+                  placeholder: (context, url) {
+                    return CircularProgressIndicator(
+                      strokeWidth: 2.w,
+                    );
+                  },
                   errorWidget: (context, url, error) {
                     return const Icon(Icons.error);
                   },
