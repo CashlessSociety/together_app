@@ -66,7 +66,16 @@ const QUERY_GET_ALL_USERS = const DocumentNode(definitions: [
         FieldNode(
             name: NameNode(value: 'queryUser'),
             alias: null,
-            arguments: [],
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'desc'),
+                        value: EnumValueNode(
+                            name: NameNode(value: 'createdTimestamp')))
+                  ]))
+            ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
