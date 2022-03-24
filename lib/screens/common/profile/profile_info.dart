@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/common/gratitude/gratitude_screen.dart';
 import 'package:together_app/screens/common/profile/profile_edit_screen.dart';
@@ -12,6 +14,7 @@ import 'package:together_app/screens/common/requests/requests_screen.dart';
 import 'package:together_app/screens/common/skills/skills_screen.dart';
 import 'package:together_app/screens/main_entry/main_entry_drawer.dart';
 import 'package:together_app/utils/constants.dart';
+import 'package:together_app/utils/providers.dart';
 import 'package:together_app/utils/routes.dart';
 
 class ProfileInfo extends StatefulWidget {
@@ -56,6 +59,28 @@ class _ProfileInfoState extends State<ProfileInfo>
     }
   }
 
+  void onRefreshUserInfo({
+    required String id,
+    required String name,
+    required String email,
+    required String avatar,
+  }) {
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      Provider.of<UserInfoNotifier>(context, listen: false).updateInfo(
+        id: id,
+        name: name,
+        email: email,
+        avatar: avatar,
+      );
+    });
+  }
+
+  void onUserNotFound() async {
+    showToast("Invalid User Info");
+    await const FlutterSecureStorage().delete(key: 'userId');
+    Provider.of<LoginStateRefresher>(context, listen: false).refresh();
+  }
+
   @override
   void initState() {
     tabViewHeight = 1.sh -
@@ -79,10 +104,27 @@ class _ProfileInfoState extends State<ProfileInfo>
       drawer: widget.isOwner ? const MainEntryDrawer() : null,
       body: QueryGetUserWithIdWidget(
         options: OptionsQueryGetUserWithId(
+            fetchPolicy: FetchPolicy.cacheAndNetwork,
             variables: VariablesQueryGetUserWithId(id: widget.userId)),
         builder: ((result, {refetch, fetchMore}) {
+          if (result.parsedData != null && result.parsedData!.getUser == null) {
+            onUserNotFound();
+            return const SizedBox.shrink();
+          }
           if (refetchFunction != refetch) {
             refetchFunction = refetch;
+          }
+          if (result.parsedData?.getUser?.id != null) {
+            String userId = result.parsedData!.getUser!.id;
+            String userName = result.parsedData!.getUser!.name;
+            String userEmail = result.parsedData!.getUser!.email;
+            String userAvatar = result.parsedData!.getUser!.avatar ?? "";
+            onRefreshUserInfo(
+              id: userId,
+              name: userName,
+              email: userEmail,
+              avatar: userAvatar,
+            );
           }
           return DefaultTabController(
             length: 3,
@@ -125,15 +167,16 @@ class _ProfileInfoState extends State<ProfileInfo>
                           },
                         ),
                         actions: [
-                          IconButton(
-                            onPressed: () {
-                              onGotoProfileEdit();
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.black54,
+                          if (widget.isOwner)
+                            IconButton(
+                              onPressed: () {
+                                onGotoProfileEdit();
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.black54,
+                              ),
                             ),
-                          ),
                         ],
                         backgroundColor: Colors.white,
                         bottom: TabBar(
@@ -249,12 +292,13 @@ class _ProfileInfoState extends State<ProfileInfo>
                       height: 100.w + (1 - scrollPercent) * 90.w,
                       child: Row(
                         children: [
+                          SizedBox(width: 20.w),
                           Expanded(
                             flex: 7,
                             child: buildUserInfoSection(result),
                           ),
                           Expanded(
-                            flex: 5,
+                            flex: 6,
                             child: buildUserAvatarSection(result),
                           ),
                           SizedBox(width: 10.w),
@@ -336,19 +380,20 @@ class _ProfileInfoState extends State<ProfileInfo>
                 ),
               ],
             ),
-            // if (widget.isOwner)
-            //   IconButton(
-            //     onPressed: () async {
-            //       const FlutterSecureStorage storage = FlutterSecureStorage();
-            //       await storage.delete(key: 'userId');
-            //       Provider.of<LoginStateRefresher>(context, listen: false)
-            //           .refresh();
-            //     },
-            //     icon: const Icon(
-            //       Icons.logout,
-            //       color: Colors.grey,
-            //     ),
-            //   )
+            if (widget.isOwner)
+              IconButton(
+                onPressed: () async {
+                  const FlutterSecureStorage storage = FlutterSecureStorage();
+                  await storage.delete(key: 'userId');
+                  Provider.of<LoginStateRefresher>(context, listen: false)
+                      .refresh();
+                  Provider.of<UserInfoNotifier>(context, listen: false).reset();
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.grey,
+                ),
+              )
           ],
         );
       } else {

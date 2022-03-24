@@ -1,5 +1,5 @@
 query GetAllUsers {
-    queryUser{
+    queryUser(order: {desc: createdTimestamp}){
         id
         email
         name
