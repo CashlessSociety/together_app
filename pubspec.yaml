@@ -48,6 +48,8 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_cache_manager: ^3.3.0
   permission_handler: ^9.2.0
+  webview_flutter_plus: ^0.3.0+2
+
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,9 @@ flutter:
   assets:
     - .env.dev
     - .env.prod
+    - webview/html/
+    - webview/img/
+    - webview/js/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
