@@ -6,6 +6,7 @@ import 'package:together_app/screens/common/skills/skills_edit_screen.dart';
 import 'package:together_app/screens/main_entry/main_entry_screen.dart';
 import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_screen.dart';
 import 'package:together_app/screens/nav_bottom/matching_request/matching_request_screen.dart';
+import 'package:together_app/screens/nav_bottom/matching_request/social_graph_view.dart';
 import 'package:together_app/screens/nav_bottom/social_graph/social_graph_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_edit_hashtag_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_manage_hashtags_screen.dart';
@@ -40,6 +41,10 @@ Map<String, WidgetBuilder> getRoutes(BuildContext context) {
     '/profile_edit_screen': (context) => ProfileEditScreen(
           arguments: ModalRoute.of(context)!.settings.arguments!
               as ProfileEditScreenArguments,
+        ),
+    '/social_graph_view': (context) => SocialGraphView(
+          arguments: ModalRoute.of(context)!.settings.arguments!
+              as SocialGraphViewArguments,
         ),
   };
 }
@@ -91,5 +96,13 @@ class SkillsEditScreenArguments {
     this.skillMessage,
     this.isAvailable,
     this.skillHashtagList,
+  });
+}
+
+class SocialGraphViewArguments {
+  final String htmlAssetPath;
+
+  SocialGraphViewArguments({
+    required this.htmlAssetPath,
   });
 }
