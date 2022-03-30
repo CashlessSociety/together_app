@@ -10,6 +10,7 @@ type User {
 	bio: String
 	avatar: String
 	isAdmin: Boolean
+	isTest: Boolean @search
 	createdTimestamp: DateTime
 	requests(filter: RequestFilter, order: RequestOrder, first: Int, offset: Int): [Request] @hasInverse(field: "owner")
 	skills(filter: SkillFilter, order: SkillOrder, first: Int, offset: Int): [Skill] @hasInverse(field: "owner")
@@ -55,6 +56,7 @@ type Gratitude {
 	from(filter: UserFilter): User! @hasInverse(field: "gratitudeSent")
 	to(filter: UserFilter): User! @hasInverse(field: "gratitudeReceived")
 	message: String
+	isTest: Boolean @search
 	hashtagVariants(filter: HashtagVariantFilter, order: HashtagVariantOrder, first: Int, offset: Int): [HashtagVariant]! @hasInverse(field: "gratitudes")
 	createdTimestamp: DateTime
 	hashtagVariantsAggregate(filter: HashtagVariantFilter): HashtagVariantAggregateResult
@@ -546,6 +548,7 @@ enum GratitudeHasFilter {
 	from
 	to
 	message
+	isTest
 	hashtagVariants
 	createdTimestamp
 }
@@ -630,6 +633,7 @@ enum UserHasFilter {
 	bio
 	avatar
 	isAdmin
+	isTest
 	createdTimestamp
 	requests
 	skills
@@ -654,6 +658,7 @@ input AddGratitudeInput {
 	from: UserRef!
 	to: UserRef!
 	message: String
+	isTest: Boolean
 	hashtagVariants: [HashtagVariantRef]!
 	createdTimestamp: DateTime
 }
@@ -705,6 +710,7 @@ input AddUserInput {
 	bio: String
 	avatar: String
 	isAdmin: Boolean
+	isTest: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
 	skills: [SkillRef]
@@ -714,6 +720,7 @@ input AddUserInput {
 
 input GratitudeFilter {
 	id: [ID!]
+	isTest: Boolean
 	has: [GratitudeHasFilter]
 	and: [GratitudeFilter]
 	or: [GratitudeFilter]
@@ -730,6 +737,7 @@ input GratitudePatch {
 	from: UserRef
 	to: UserRef
 	message: String
+	isTest: Boolean
 	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
@@ -739,6 +747,7 @@ input GratitudeRef {
 	from: UserRef
 	to: UserRef
 	message: String
+	isTest: Boolean
 	hashtagVariants: [HashtagVariantRef]
 	createdTimestamp: DateTime
 }
@@ -936,6 +945,7 @@ input UpdateUserInput {
 input UserFilter {
 	id: [ID!]
 	email: StringHashFilter
+	isTest: Boolean
 	has: [UserHasFilter]
 	and: [UserFilter]
 	or: [UserFilter]
@@ -954,6 +964,7 @@ input UserPatch {
 	bio: String
 	avatar: String
 	isAdmin: Boolean
+	isTest: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
 	skills: [SkillRef]
@@ -969,6 +980,7 @@ input UserRef {
 	bio: String
 	avatar: String
 	isAdmin: Boolean
+	isTest: Boolean
 	createdTimestamp: DateTime
 	requests: [RequestRef]
 	skills: [SkillRef]

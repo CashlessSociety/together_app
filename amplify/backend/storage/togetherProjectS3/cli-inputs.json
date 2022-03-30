@@ -1,6 +1,6 @@
 {
   "resourceName": "togetherProjectS3",
-  "policyUUID": "17ce1993",
+  "policyUUID": "ac779249",
   "bucketName": "together-project-s3-bucket",
   "storageAccess": "authAndGuest",
   "guestAccess": [

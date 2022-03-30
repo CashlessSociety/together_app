@@ -1,6 +1,6 @@
 {
   "auth": {
-    "togetherprojectfab8fe30": {
+    "togetherprojectb28df9b5": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

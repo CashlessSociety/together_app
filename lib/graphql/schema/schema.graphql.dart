@@ -1409,6 +1409,7 @@ class InputAddGratitudeInput extends JsonSerializable {
       {required this.from,
       required this.to,
       this.message,
+      this.isTest,
       required this.hashtagVariants,
       this.createdTimestamp});
 
@@ -1422,6 +1423,8 @@ class InputAddGratitudeInput extends JsonSerializable {
 
   final String? message;
 
+  final bool? isTest;
+
   final List<InputHashtagVariantRef?> hashtagVariants;
 
   final String? createdTimestamp;
@@ -1432,12 +1435,14 @@ class InputAddGratitudeInput extends JsonSerializable {
     final l$from = from;
     final l$to = to;
     final l$message = message;
+    final l$isTest = isTest;
     final l$hashtagVariants = hashtagVariants;
     final l$createdTimestamp = createdTimestamp;
     return Object.hashAll([
       l$from,
       l$to,
       l$message,
+      l$isTest,
       Object.hashAll(l$hashtagVariants.map((v) => v)),
       l$createdTimestamp
     ]);
@@ -1457,6 +1462,9 @@ class InputAddGratitudeInput extends JsonSerializable {
     final l$message = message;
     final lOther$message = other.message;
     if (l$message != lOther$message) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$hashtagVariants = hashtagVariants;
     final lOther$hashtagVariants = other.hashtagVariants;
     if (l$hashtagVariants.length != lOther$hashtagVariants.length) return false;
@@ -1859,6 +1867,7 @@ class InputAddUserInput extends JsonSerializable {
       this.bio,
       this.avatar,
       this.isAdmin,
+      this.isTest,
       this.createdTimestamp,
       this.requests,
       this.skills,
@@ -1881,6 +1890,8 @@ class InputAddUserInput extends JsonSerializable {
 
   final bool? isAdmin;
 
+  final bool? isTest;
+
   final String? createdTimestamp;
 
   final List<InputRequestRef?>? requests;
@@ -1900,6 +1911,7 @@ class InputAddUserInput extends JsonSerializable {
     final l$bio = bio;
     final l$avatar = avatar;
     final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
     final l$createdTimestamp = createdTimestamp;
     final l$requests = requests;
     final l$skills = skills;
@@ -1912,6 +1924,7 @@ class InputAddUserInput extends JsonSerializable {
       l$bio,
       l$avatar,
       l$isAdmin,
+      l$isTest,
       l$createdTimestamp,
       l$requests == null ? null : Object.hashAll(l$requests.map((v) => v)),
       l$skills == null ? null : Object.hashAll(l$skills.map((v) => v)),
@@ -1947,6 +1960,9 @@ class InputAddUserInput extends JsonSerializable {
     final l$isAdmin = isAdmin;
     final lOther$isAdmin = other.isAdmin;
     if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;
@@ -2010,13 +2026,16 @@ class InputAddUserInput extends JsonSerializable {
 
 @JsonSerializable()
 class InputGratitudeFilter extends JsonSerializable {
-  InputGratitudeFilter({this.id, this.has, this.and, this.or, this.not});
+  InputGratitudeFilter(
+      {this.id, this.isTest, this.has, this.and, this.or, this.not});
 
   @override
   factory InputGratitudeFilter.fromJson(Map<String, dynamic> json) =>
       _$InputGratitudeFilterFromJson(json);
 
   final List<String>? id;
+
+  final bool? isTest;
 
   @JsonKey(unknownEnumValue: EnumGratitudeHasFilter.$unknown)
   final List<EnumGratitudeHasFilter?>? has;
@@ -2031,12 +2050,14 @@ class InputGratitudeFilter extends JsonSerializable {
   Map<String, dynamic> toJson() => _$InputGratitudeFilterToJson(this);
   int get hashCode {
     final l$id = id;
+    final l$isTest = isTest;
     final l$has = has;
     final l$and = and;
     final l$or = or;
     final l$not = not;
     return Object.hashAll([
       l$id == null ? null : Object.hashAll(l$id.map((v) => v)),
+      l$isTest,
       l$has == null ? null : Object.hashAll(l$has.map((v) => v)),
       l$and == null ? null : Object.hashAll(l$and.map((v) => v)),
       l$or == null ? null : Object.hashAll(l$or.map((v) => v)),
@@ -2062,6 +2083,9 @@ class InputGratitudeFilter extends JsonSerializable {
       return false;
     }
 
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$has = has;
     final lOther$has = other.has;
     if (l$has != null && lOther$has != null) {
@@ -2157,6 +2181,7 @@ class InputGratitudePatch extends JsonSerializable {
       {this.from,
       this.to,
       this.message,
+      this.isTest,
       this.hashtagVariants,
       this.createdTimestamp});
 
@@ -2170,6 +2195,8 @@ class InputGratitudePatch extends JsonSerializable {
 
   final String? message;
 
+  final bool? isTest;
+
   final List<InputHashtagVariantRef?>? hashtagVariants;
 
   final String? createdTimestamp;
@@ -2180,12 +2207,14 @@ class InputGratitudePatch extends JsonSerializable {
     final l$from = from;
     final l$to = to;
     final l$message = message;
+    final l$isTest = isTest;
     final l$hashtagVariants = hashtagVariants;
     final l$createdTimestamp = createdTimestamp;
     return Object.hashAll([
       l$from,
       l$to,
       l$message,
+      l$isTest,
       l$hashtagVariants == null
           ? null
           : Object.hashAll(l$hashtagVariants.map((v) => v)),
@@ -2207,6 +2236,9 @@ class InputGratitudePatch extends JsonSerializable {
     final l$message = message;
     final lOther$message = other.message;
     if (l$message != lOther$message) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$hashtagVariants = hashtagVariants;
     final lOther$hashtagVariants = other.hashtagVariants;
     if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
@@ -2236,6 +2268,7 @@ class InputGratitudeRef extends JsonSerializable {
       this.from,
       this.to,
       this.message,
+      this.isTest,
       this.hashtagVariants,
       this.createdTimestamp});
 
@@ -2251,6 +2284,8 @@ class InputGratitudeRef extends JsonSerializable {
 
   final String? message;
 
+  final bool? isTest;
+
   final List<InputHashtagVariantRef?>? hashtagVariants;
 
   final String? createdTimestamp;
@@ -2262,6 +2297,7 @@ class InputGratitudeRef extends JsonSerializable {
     final l$from = from;
     final l$to = to;
     final l$message = message;
+    final l$isTest = isTest;
     final l$hashtagVariants = hashtagVariants;
     final l$createdTimestamp = createdTimestamp;
     return Object.hashAll([
@@ -2269,6 +2305,7 @@ class InputGratitudeRef extends JsonSerializable {
       l$from,
       l$to,
       l$message,
+      l$isTest,
       l$hashtagVariants == null
           ? null
           : Object.hashAll(l$hashtagVariants.map((v) => v)),
@@ -2293,6 +2330,9 @@ class InputGratitudeRef extends JsonSerializable {
     final l$message = message;
     final lOther$message = other.message;
     if (l$message != lOther$message) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$hashtagVariants = hashtagVariants;
     final lOther$hashtagVariants = other.hashtagVariants;
     if (l$hashtagVariants != null && lOther$hashtagVariants != null) {
@@ -4092,7 +4132,14 @@ class InputUpdateUserInput extends JsonSerializable {
 
 @JsonSerializable()
 class InputUserFilter extends JsonSerializable {
-  InputUserFilter({this.id, this.email, this.has, this.and, this.or, this.not});
+  InputUserFilter(
+      {this.id,
+      this.email,
+      this.isTest,
+      this.has,
+      this.and,
+      this.or,
+      this.not});
 
   @override
   factory InputUserFilter.fromJson(Map<String, dynamic> json) =>
@@ -4101,6 +4148,8 @@ class InputUserFilter extends JsonSerializable {
   final List<String>? id;
 
   final InputStringHashFilter? email;
+
+  final bool? isTest;
 
   @JsonKey(unknownEnumValue: EnumUserHasFilter.$unknown)
   final List<EnumUserHasFilter?>? has;
@@ -4116,6 +4165,7 @@ class InputUserFilter extends JsonSerializable {
   int get hashCode {
     final l$id = id;
     final l$email = email;
+    final l$isTest = isTest;
     final l$has = has;
     final l$and = and;
     final l$or = or;
@@ -4123,6 +4173,7 @@ class InputUserFilter extends JsonSerializable {
     return Object.hashAll([
       l$id == null ? null : Object.hashAll(l$id.map((v) => v)),
       l$email,
+      l$isTest,
       l$has == null ? null : Object.hashAll(l$has.map((v) => v)),
       l$and == null ? null : Object.hashAll(l$and.map((v) => v)),
       l$or == null ? null : Object.hashAll(l$or.map((v) => v)),
@@ -4151,6 +4202,9 @@ class InputUserFilter extends JsonSerializable {
     final l$email = email;
     final lOther$email = other.email;
     if (l$email != lOther$email) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$has = has;
     final lOther$has = other.has;
     if (l$has != null && lOther$has != null) {
@@ -4248,6 +4302,7 @@ class InputUserPatch extends JsonSerializable {
       this.bio,
       this.avatar,
       this.isAdmin,
+      this.isTest,
       this.createdTimestamp,
       this.requests,
       this.skills,
@@ -4268,6 +4323,8 @@ class InputUserPatch extends JsonSerializable {
 
   final bool? isAdmin;
 
+  final bool? isTest;
+
   final String? createdTimestamp;
 
   final List<InputRequestRef?>? requests;
@@ -4286,6 +4343,7 @@ class InputUserPatch extends JsonSerializable {
     final l$bio = bio;
     final l$avatar = avatar;
     final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
     final l$createdTimestamp = createdTimestamp;
     final l$requests = requests;
     final l$skills = skills;
@@ -4297,6 +4355,7 @@ class InputUserPatch extends JsonSerializable {
       l$bio,
       l$avatar,
       l$isAdmin,
+      l$isTest,
       l$createdTimestamp,
       l$requests == null ? null : Object.hashAll(l$requests.map((v) => v)),
       l$skills == null ? null : Object.hashAll(l$skills.map((v) => v)),
@@ -4329,6 +4388,9 @@ class InputUserPatch extends JsonSerializable {
     final l$isAdmin = isAdmin;
     final lOther$isAdmin = other.isAdmin;
     if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;
@@ -4400,6 +4462,7 @@ class InputUserRef extends JsonSerializable {
       this.bio,
       this.avatar,
       this.isAdmin,
+      this.isTest,
       this.createdTimestamp,
       this.requests,
       this.skills,
@@ -4424,6 +4487,8 @@ class InputUserRef extends JsonSerializable {
 
   final bool? isAdmin;
 
+  final bool? isTest;
+
   final String? createdTimestamp;
 
   final List<InputRequestRef?>? requests;
@@ -4444,6 +4509,7 @@ class InputUserRef extends JsonSerializable {
     final l$bio = bio;
     final l$avatar = avatar;
     final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
     final l$createdTimestamp = createdTimestamp;
     final l$requests = requests;
     final l$skills = skills;
@@ -4457,6 +4523,7 @@ class InputUserRef extends JsonSerializable {
       l$bio,
       l$avatar,
       l$isAdmin,
+      l$isTest,
       l$createdTimestamp,
       l$requests == null ? null : Object.hashAll(l$requests.map((v) => v)),
       l$skills == null ? null : Object.hashAll(l$skills.map((v) => v)),
@@ -4495,6 +4562,9 @@ class InputUserRef extends JsonSerializable {
     final l$isAdmin = isAdmin;
     final lOther$isAdmin = other.isAdmin;
     if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;
@@ -4627,6 +4697,8 @@ enum EnumGratitudeHasFilter {
   to,
   @JsonValue('message')
   message,
+  @JsonValue('isTest')
+  isTest,
   @JsonValue('hashtagVariants')
   hashtagVariants,
   @JsonValue('createdTimestamp')
@@ -4765,6 +4837,8 @@ enum EnumUserHasFilter {
   avatar,
   @JsonValue('isAdmin')
   isAdmin,
+  @JsonValue('isTest')
+  isTest,
   @JsonValue('createdTimestamp')
   createdTimestamp,
   @JsonValue('requests')

@@ -516,6 +516,7 @@ InputAddGratitudeInput _$InputAddGratitudeInputFromJson(
       from: InputUserRef.fromJson(json['from'] as Map<String, dynamic>),
       to: InputUserRef.fromJson(json['to'] as Map<String, dynamic>),
       message: json['message'] as String?,
+      isTest: json['isTest'] as bool?,
       hashtagVariants: (json['hashtagVariants'] as List<dynamic>)
           .map((e) => e == null
               ? null
@@ -530,6 +531,7 @@ Map<String, dynamic> _$InputAddGratitudeInputToJson(
       'from': instance.from,
       'to': instance.to,
       'message': instance.message,
+      'isTest': instance.isTest,
       'hashtagVariants': instance.hashtagVariants,
       'createdTimestamp': instance.createdTimestamp,
     };
@@ -670,6 +672,7 @@ InputAddUserInput _$InputAddUserInputFromJson(Map<String, dynamic> json) =>
       bio: json['bio'] as String?,
       avatar: json['avatar'] as String?,
       isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
       createdTimestamp: json['createdTimestamp'] as String?,
       requests: (json['requests'] as List<dynamic>?)
           ?.map((e) => e == null
@@ -701,6 +704,7 @@ Map<String, dynamic> _$InputAddUserInputToJson(InputAddUserInput instance) =>
       'bio': instance.bio,
       'avatar': instance.avatar,
       'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
       'skills': instance.skills,
@@ -712,6 +716,7 @@ InputGratitudeFilter _$InputGratitudeFilterFromJson(
         Map<String, dynamic> json) =>
     InputGratitudeFilter(
       id: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      isTest: json['isTest'] as bool?,
       has: (json['has'] as List<dynamic>?)
           ?.map((e) => $enumDecodeNullable(_$EnumGratitudeHasFilterEnumMap, e,
               unknownValue: EnumGratitudeHasFilter.$unknown))
@@ -735,6 +740,7 @@ Map<String, dynamic> _$InputGratitudeFilterToJson(
         InputGratitudeFilter instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'isTest': instance.isTest,
       'has':
           instance.has?.map((e) => _$EnumGratitudeHasFilterEnumMap[e]).toList(),
       'and': instance.and,
@@ -746,6 +752,7 @@ const _$EnumGratitudeHasFilterEnumMap = {
   EnumGratitudeHasFilter.from: 'from',
   EnumGratitudeHasFilter.to: 'to',
   EnumGratitudeHasFilter.message: 'message',
+  EnumGratitudeHasFilter.isTest: 'isTest',
   EnumGratitudeHasFilter.hashtagVariants: 'hashtagVariants',
   EnumGratitudeHasFilter.createdTimestamp: 'createdTimestamp',
   EnumGratitudeHasFilter.$unknown: r'$unknown',
@@ -785,6 +792,7 @@ InputGratitudePatch _$InputGratitudePatchFromJson(Map<String, dynamic> json) =>
           ? null
           : InputUserRef.fromJson(json['to'] as Map<String, dynamic>),
       message: json['message'] as String?,
+      isTest: json['isTest'] as bool?,
       hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
@@ -799,6 +807,7 @@ Map<String, dynamic> _$InputGratitudePatchToJson(
       'from': instance.from,
       'to': instance.to,
       'message': instance.message,
+      'isTest': instance.isTest,
       'hashtagVariants': instance.hashtagVariants,
       'createdTimestamp': instance.createdTimestamp,
     };
@@ -813,6 +822,7 @@ InputGratitudeRef _$InputGratitudeRefFromJson(Map<String, dynamic> json) =>
           ? null
           : InputUserRef.fromJson(json['to'] as Map<String, dynamic>),
       message: json['message'] as String?,
+      isTest: json['isTest'] as bool?,
       hashtagVariants: (json['hashtagVariants'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
@@ -827,6 +837,7 @@ Map<String, dynamic> _$InputGratitudeRefToJson(InputGratitudeRef instance) =>
       'from': instance.from,
       'to': instance.to,
       'message': instance.message,
+      'isTest': instance.isTest,
       'hashtagVariants': instance.hashtagVariants,
       'createdTimestamp': instance.createdTimestamp,
     };
@@ -1549,6 +1560,7 @@ InputUserFilter _$InputUserFilterFromJson(Map<String, dynamic> json) =>
           ? null
           : InputStringHashFilter.fromJson(
               json['email'] as Map<String, dynamic>),
+      isTest: json['isTest'] as bool?,
       has: (json['has'] as List<dynamic>?)
           ?.map((e) => $enumDecodeNullable(_$EnumUserHasFilterEnumMap, e,
               unknownValue: EnumUserHasFilter.$unknown))
@@ -1572,6 +1584,7 @@ Map<String, dynamic> _$InputUserFilterToJson(InputUserFilter instance) =>
     <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
+      'isTest': instance.isTest,
       'has': instance.has?.map((e) => _$EnumUserHasFilterEnumMap[e]).toList(),
       'and': instance.and,
       'or': instance.or,
@@ -1585,6 +1598,7 @@ const _$EnumUserHasFilterEnumMap = {
   EnumUserHasFilter.bio: 'bio',
   EnumUserHasFilter.avatar: 'avatar',
   EnumUserHasFilter.isAdmin: 'isAdmin',
+  EnumUserHasFilter.isTest: 'isTest',
   EnumUserHasFilter.createdTimestamp: 'createdTimestamp',
   EnumUserHasFilter.requests: 'requests',
   EnumUserHasFilter.skills: 'skills',
@@ -1628,6 +1642,7 @@ InputUserPatch _$InputUserPatchFromJson(Map<String, dynamic> json) =>
       bio: json['bio'] as String?,
       avatar: json['avatar'] as String?,
       isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
       createdTimestamp: json['createdTimestamp'] as String?,
       requests: (json['requests'] as List<dynamic>?)
           ?.map((e) => e == null
@@ -1658,6 +1673,7 @@ Map<String, dynamic> _$InputUserPatchToJson(InputUserPatch instance) =>
       'bio': instance.bio,
       'avatar': instance.avatar,
       'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
       'skills': instance.skills,
@@ -1673,6 +1689,7 @@ InputUserRef _$InputUserRefFromJson(Map<String, dynamic> json) => InputUserRef(
       bio: json['bio'] as String?,
       avatar: json['avatar'] as String?,
       isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
       createdTimestamp: json['createdTimestamp'] as String?,
       requests: (json['requests'] as List<dynamic>?)
           ?.map((e) => e == null
@@ -1705,6 +1722,7 @@ Map<String, dynamic> _$InputUserRefToJson(InputUserRef instance) =>
       'bio': instance.bio,
       'avatar': instance.avatar,
       'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
       'createdTimestamp': instance.createdTimestamp,
       'requests': instance.requests,
       'skills': instance.skills,

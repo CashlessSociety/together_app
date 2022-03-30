@@ -115,6 +115,12 @@ const QUERY_GET_ALL_USERS = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'isTest'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'createdTimestamp'),
                   alias: null,
                   arguments: [],
@@ -228,6 +234,7 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
       this.age,
       this.avatar,
       this.isAdmin,
+      this.isTest,
       this.createdTimestamp,
       required this.$__typename});
 
@@ -247,6 +254,8 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
 
   final bool? isAdmin;
 
+  final bool? isTest;
+
   final String? createdTimestamp;
 
   @JsonKey(name: '__typename')
@@ -261,6 +270,7 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
     final l$age = age;
     final l$avatar = avatar;
     final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
     final l$createdTimestamp = createdTimestamp;
     final l$$__typename = $__typename;
     return Object.hashAll([
@@ -270,6 +280,7 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
       l$age,
       l$avatar,
       l$isAdmin,
+      l$isTest,
       l$createdTimestamp,
       l$$__typename
     ]);
@@ -298,9 +309,332 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
     final l$isAdmin = isAdmin;
     final lOther$isAdmin = other.isAdmin;
     if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class QueryGetTesters extends JsonSerializable {
+  QueryGetTesters(
+      {this.allTester, this.noSendTester, required this.$__typename});
+
+  @override
+  factory QueryGetTesters.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetTestersFromJson(json);
+
+  final List<QueryGetTesters$allTester?>? allTester;
+
+  final List<QueryGetTesters$noSendTester?>? noSendTester;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetTestersToJson(this);
+  int get hashCode {
+    final l$allTester = allTester;
+    final l$noSendTester = noSendTester;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$allTester == null ? null : Object.hashAll(l$allTester.map((v) => v)),
+      l$noSendTester == null
+          ? null
+          : Object.hashAll(l$noSendTester.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTesters) || runtimeType != other.runtimeType)
+      return false;
+    final l$allTester = allTester;
+    final lOther$allTester = other.allTester;
+    if (l$allTester != null && lOther$allTester != null) {
+      if (l$allTester.length != lOther$allTester.length) return false;
+      for (int i = 0; i < l$allTester.length; i++) {
+        final l$allTester$entry = l$allTester[i];
+        final lOther$allTester$entry = lOther$allTester[i];
+        if (l$allTester$entry != lOther$allTester$entry) return false;
+      }
+    } else if (l$allTester != lOther$allTester) {
+      return false;
+    }
+
+    final l$noSendTester = noSendTester;
+    final lOther$noSendTester = other.noSendTester;
+    if (l$noSendTester != null && lOther$noSendTester != null) {
+      if (l$noSendTester.length != lOther$noSendTester.length) return false;
+      for (int i = 0; i < l$noSendTester.length; i++) {
+        final l$noSendTester$entry = l$noSendTester[i];
+        final lOther$noSendTester$entry = lOther$noSendTester[i];
+        if (l$noSendTester$entry != lOther$noSendTester$entry) return false;
+      }
+    } else if (l$noSendTester != lOther$noSendTester) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+const QUERY_GET_TESTERS = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'GetTesters'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'queryUser'),
+            alias: NameNode(value: 'allTester'),
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'isTest'),
+                        value: BooleanValueNode(value: true))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'desc'),
+                        value: EnumValueNode(
+                            name: NameNode(value: 'createdTimestamp')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'queryUser'),
+            alias: NameNode(value: 'noSendTester'),
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'isTest'),
+                        value: BooleanValueNode(value: true)),
+                    ObjectFieldNode(
+                        name: NameNode(value: 'not'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'has'),
+                              value: ListValueNode(values: [
+                                EnumValueNode(
+                                    name: NameNode(value: 'gratitudeSent'))
+                              ]))
+                        ]))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'desc'),
+                        value: EnumValueNode(
+                            name: NameNode(value: 'createdTimestamp')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+QueryGetTesters _parserFnQueryGetTesters(Map<String, dynamic> data) =>
+    QueryGetTesters.fromJson(data);
+
+class OptionsQueryGetTesters extends graphql.QueryOptions<QueryGetTesters> {
+  OptionsQueryGetTesters(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      Duration? pollInterval,
+      graphql.Context? context})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            pollInterval: pollInterval,
+            context: context,
+            document: QUERY_GET_TESTERS,
+            parserFn: _parserFnQueryGetTesters);
+}
+
+class WatchOptionsQueryGetTesters
+    extends graphql.WatchQueryOptions<QueryGetTesters> {
+  WatchOptionsQueryGetTesters(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: QUERY_GET_TESTERS,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: _parserFnQueryGetTesters);
+}
+
+class FetchMoreOptionsQueryGetTesters extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetTesters({required graphql.UpdateQuery updateQuery})
+      : super(updateQuery: updateQuery, document: QUERY_GET_TESTERS);
+}
+
+extension ClientExtensionQueryGetTesters on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetTesters>> queryGetTesters(
+          [OptionsQueryGetTesters? options]) async =>
+      await this.query(options ?? OptionsQueryGetTesters());
+  graphql.ObservableQuery<QueryGetTesters> watchQueryGetTesters(
+          [WatchOptionsQueryGetTesters? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetTesters());
+}
+
+graphql_flutter.QueryHookResult<QueryGetTesters> useQueryGetTesters(
+        [OptionsQueryGetTesters? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetTesters());
+graphql.ObservableQuery<QueryGetTesters> useWatchQueryGetTesters(
+        [WatchOptionsQueryGetTesters? options]) =>
+    graphql_flutter.useWatchQuery(options ?? WatchOptionsQueryGetTesters());
+
+class QueryGetTestersWidget extends graphql_flutter.Query<QueryGetTesters> {
+  QueryGetTestersWidget(
+      {widgets.Key? key,
+      OptionsQueryGetTesters? options,
+      required graphql_flutter.QueryBuilder<QueryGetTesters> builder})
+      : super(
+            key: key,
+            options: options ?? OptionsQueryGetTesters(),
+            builder: builder);
+}
+
+@JsonSerializable()
+class QueryGetTesters$allTester extends JsonSerializable {
+  QueryGetTesters$allTester({required this.id, required this.$__typename});
+
+  @override
+  factory QueryGetTesters$allTester.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetTesters$allTesterFromJson(json);
+
+  final String id;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetTesters$allTesterToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTesters$allTester) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class QueryGetTesters$noSendTester extends JsonSerializable {
+  QueryGetTesters$noSendTester({required this.id, required this.$__typename});
+
+  @override
+  factory QueryGetTesters$noSendTester.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetTesters$noSendTesterFromJson(json);
+
+  final String id;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetTesters$noSendTesterToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTesters$noSendTester) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) return false;
@@ -440,6 +774,12 @@ const QUERY_GET_USER_WITH_EMAIL = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'isTest'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'createdTimestamp'),
                   alias: null,
                   arguments: [],
@@ -567,6 +907,7 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
       this.avatar,
       required this.email,
       this.isAdmin,
+      this.isTest,
       this.createdTimestamp,
       required this.$__typename});
 
@@ -588,6 +929,8 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
 
   final bool? isAdmin;
 
+  final bool? isTest;
+
   final String? createdTimestamp;
 
   @JsonKey(name: '__typename')
@@ -603,6 +946,7 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
     final l$avatar = avatar;
     final l$email = email;
     final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
     final l$createdTimestamp = createdTimestamp;
     final l$$__typename = $__typename;
     return Object.hashAll([
@@ -613,6 +957,7 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
       l$avatar,
       l$email,
       l$isAdmin,
+      l$isTest,
       l$createdTimestamp,
       l$$__typename
     ]);
@@ -644,6 +989,9 @@ class QueryGetUserWithEmail$getUser extends JsonSerializable {
     final l$isAdmin = isAdmin;
     final lOther$isAdmin = other.isAdmin;
     if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;
@@ -785,6 +1133,12 @@ const QUERY_GET_USER_WITH_ID = const DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null),
               FieldNode(
+                  name: NameNode(value: 'isTest'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
                   name: NameNode(value: 'createdTimestamp'),
                   alias: null,
                   arguments: [],
@@ -910,6 +1264,7 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
       this.avatar,
       required this.email,
       this.isAdmin,
+      this.isTest,
       this.createdTimestamp,
       required this.$__typename});
 
@@ -931,6 +1286,8 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
 
   final bool? isAdmin;
 
+  final bool? isTest;
+
   final String? createdTimestamp;
 
   @JsonKey(name: '__typename')
@@ -946,6 +1303,7 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
     final l$avatar = avatar;
     final l$email = email;
     final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
     final l$createdTimestamp = createdTimestamp;
     final l$$__typename = $__typename;
     return Object.hashAll([
@@ -956,6 +1314,7 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
       l$avatar,
       l$email,
       l$isAdmin,
+      l$isTest,
       l$createdTimestamp,
       l$$__typename
     ]);
@@ -987,6 +1346,9 @@ class QueryGetUserWithId$getUser extends JsonSerializable {
     final l$isAdmin = isAdmin;
     final lOther$isAdmin = other.isAdmin;
     if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;

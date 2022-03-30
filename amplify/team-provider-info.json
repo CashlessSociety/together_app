@@ -1,20 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-togetherproject-dev-183435-authRole",
-      "UnauthRoleArn": "arn:aws:iam::022252797808:role/amplify-togetherproject-dev-183435-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::022252797808:role/amplify-togetherproject-dev-183435-authRole",
+      "AuthRoleName": "amplify-togetherproject-dev-144108-authRole",
+      "UnauthRoleArn": "arn:aws:iam::022252797808:role/amplify-togetherproject-dev-144108-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::022252797808:role/amplify-togetherproject-dev-144108-authRole",
       "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-togetherproject-dev-183435-deployment",
-      "UnauthRoleName": "amplify-togetherproject-dev-183435-unauthRole",
-      "StackName": "amplify-togetherproject-dev-183435",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:022252797808:stack/amplify-togetherproject-dev-183435/b785feb0-a9cb-11ec-84c6-02954889ae68",
-      "AmplifyAppId": "d2y3qoes8aytx4"
+      "DeploymentBucketName": "amplify-togetherproject-dev-144108-deployment",
+      "UnauthRoleName": "amplify-togetherproject-dev-144108-unauthRole",
+      "StackName": "amplify-togetherproject-dev-144108",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:022252797808:stack/amplify-togetherproject-dev-144108/3f3400f0-af2b-11ec-bdbf-061a9080e66c",
+      "AmplifyAppId": "d4i3jwl1gm9oi"
     },
     "categories": {
       "auth": {
-        "togetherprojectfab8fe30": {},
-        "true": {}
+        "togetherprojectb28df9b5": {}
       }
     }
   }
