@@ -1,5 +1,12 @@
 mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimestamp: DateTime!){
-    addUser(input: {email: $email, name: $name, age: $age, isAdmin: false, createdTimestamp: $createdTimestamp}){
+    addUser(input: {
+        email: $email,
+        name: $name,
+        age: $age,
+        isAdmin: false,
+        isTest: false,
+        createdTimestamp: $createdTimestamp
+    }){
         user{
             id
             name
@@ -9,6 +16,27 @@ mutation CreateUser($email: String!, $name: String!, $age: Int!, $createdTimesta
         }
     }
 }
+
+mutation CreateTester($testerInfo: [AddUserInput!]!){
+    addUser(input: $testerInfo){
+        user{
+            id
+            name
+            email
+            isAdmin
+            isTest
+            createdTimestamp
+        }
+    }
+}
+
+
+mutation DeleteTester{
+    deleteUser(filter: {isTest: true}){
+        numUids
+    }
+}
+
 
 mutation UpdateUser($id: ID!, $name: String!, $bio: String!, $avatar: String!){
     updateUser(input: {
@@ -141,5 +169,17 @@ mutation RemoveSkill($skillId:ID!){
         skill{
             id
         }
+    }
+}
+
+mutation CreateTestGratitude($info : [AddGratitudeInput!]!){
+    addGratitude(input: $info){
+        numUids
+    }
+}
+
+mutation DeleteTestGratitude{
+    deleteGratitude(filter: {isTest: true}){
+        numUids
     }
 }

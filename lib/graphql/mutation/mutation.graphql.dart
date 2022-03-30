@@ -146,6 +146,9 @@ const MUTATION_CREATE_USER = const DocumentNode(definitions: [
                         name: NameNode(value: 'isAdmin'),
                         value: BooleanValueNode(value: false)),
                     ObjectFieldNode(
+                        name: NameNode(value: 'isTest'),
+                        value: BooleanValueNode(value: false)),
+                    ObjectFieldNode(
                         name: NameNode(value: 'createdTimestamp'),
                         value: VariableNode(
                             name: NameNode(value: 'createdTimestamp')))
@@ -493,6 +496,757 @@ class MutationCreateUser$addUser$user extends JsonSerializable {
     final l$createdTimestamp = createdTimestamp;
     final lOther$createdTimestamp = other.createdTimestamp;
     if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class VariablesMutationCreateTester extends JsonSerializable {
+  VariablesMutationCreateTester({required this.testerInfo});
+
+  @override
+  factory VariablesMutationCreateTester.fromJson(Map<String, dynamic> json) =>
+      _$VariablesMutationCreateTesterFromJson(json);
+
+  final List<InputAddUserInput> testerInfo;
+
+  @override
+  Map<String, dynamic> toJson() => _$VariablesMutationCreateTesterToJson(this);
+  int get hashCode {
+    final l$testerInfo = testerInfo;
+    return Object.hashAll([Object.hashAll(l$testerInfo.map((v) => v))]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationCreateTester) ||
+        runtimeType != other.runtimeType) return false;
+    final l$testerInfo = testerInfo;
+    final lOther$testerInfo = other.testerInfo;
+    if (l$testerInfo.length != lOther$testerInfo.length) return false;
+    for (int i = 0; i < l$testerInfo.length; i++) {
+      final l$testerInfo$entry = l$testerInfo[i];
+      final lOther$testerInfo$entry = lOther$testerInfo[i];
+      if (l$testerInfo$entry != lOther$testerInfo$entry) return false;
+    }
+
+    return true;
+  }
+}
+
+@JsonSerializable()
+class MutationCreateTester extends JsonSerializable {
+  MutationCreateTester({this.addUser, required this.$__typename});
+
+  @override
+  factory MutationCreateTester.fromJson(Map<String, dynamic> json) =>
+      _$MutationCreateTesterFromJson(json);
+
+  final MutationCreateTester$addUser? addUser;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationCreateTesterToJson(this);
+  int get hashCode {
+    final l$addUser = addUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$addUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateTester) || runtimeType != other.runtimeType)
+      return false;
+    final l$addUser = addUser;
+    final lOther$addUser = other.addUser;
+    if (l$addUser != lOther$addUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+const MUTATION_CREATE_TESTER = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'CreateTester'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'testerInfo')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'AddUserInput'), isNonNull: true),
+                isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'addUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: VariableNode(name: NameNode(value: 'testerInfo')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'email'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'isAdmin'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'isTest'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'createdTimestamp'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+MutationCreateTester _parserFnMutationCreateTester(Map<String, dynamic> data) =>
+    MutationCreateTester.fromJson(data);
+typedef OnMutationCompletedMutationCreateTester = FutureOr<void> Function(
+    dynamic, MutationCreateTester?);
+
+class OptionsMutationCreateTester
+    extends graphql.MutationOptions<MutationCreateTester> {
+  OptionsMutationCreateTester(
+      {String? operationName,
+      required VariablesMutationCreateTester variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationCreateTester? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : _parserFnMutationCreateTester(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_CREATE_TESTER,
+            parserFn: _parserFnMutationCreateTester);
+
+  final OnMutationCompletedMutationCreateTester? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+class WatchOptionsMutationCreateTester
+    extends graphql.WatchQueryOptions<MutationCreateTester> {
+  WatchOptionsMutationCreateTester(
+      {String? operationName,
+      required VariablesMutationCreateTester variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: MUTATION_CREATE_TESTER,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: _parserFnMutationCreateTester);
+}
+
+extension ClientExtensionMutationCreateTester on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationCreateTester>> mutateCreateTester(
+          OptionsMutationCreateTester options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<MutationCreateTester> watchMutationCreateTester(
+          WatchOptionsMutationCreateTester options) =>
+      this.watchMutation(options);
+}
+
+class MutationCreateTesterHookResult {
+  MutationCreateTesterHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationCreateTester runMutation;
+
+  final graphql.QueryResult<MutationCreateTester> result;
+}
+
+MutationCreateTesterHookResult useMutationCreateTester(
+    [WidgetOptionsMutationCreateTester? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationCreateTester());
+  return MutationCreateTesterHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationCreateTester> useWatchMutationCreateTester(
+        WatchOptionsMutationCreateTester options) =>
+    graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationCreateTester
+    extends graphql.MutationOptions<MutationCreateTester> {
+  WidgetOptionsMutationCreateTester(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationCreateTester? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : _parserFnMutationCreateTester(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_CREATE_TESTER,
+            parserFn: _parserFnMutationCreateTester);
+
+  final OnMutationCompletedMutationCreateTester? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+typedef RunMutationMutationCreateTester
+    = graphql.MultiSourceResult<MutationCreateTester>
+        Function(VariablesMutationCreateTester, {Object? optimisticResult});
+typedef BuilderMutationCreateTester = widgets.Widget Function(
+    RunMutationMutationCreateTester,
+    graphql.QueryResult<MutationCreateTester>?);
+
+class MutationCreateTesterWidget
+    extends graphql_flutter.Mutation<MutationCreateTester> {
+  MutationCreateTesterWidget(
+      {widgets.Key? key,
+      WidgetOptionsMutationCreateTester? options,
+      required BuilderMutationCreateTester builder})
+      : super(
+            key: key,
+            options: options ?? WidgetOptionsMutationCreateTester(),
+            builder: (run, result) => builder(
+                (variables, {optimisticResult}) =>
+                    run(variables.toJson(), optimisticResult: optimisticResult),
+                result));
+}
+
+@JsonSerializable()
+class MutationCreateTester$addUser extends JsonSerializable {
+  MutationCreateTester$addUser({this.user, required this.$__typename});
+
+  @override
+  factory MutationCreateTester$addUser.fromJson(Map<String, dynamic> json) =>
+      _$MutationCreateTester$addUserFromJson(json);
+
+  final List<MutationCreateTester$addUser$user?>? user;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationCreateTester$addUserToJson(this);
+  int get hashCode {
+    final l$user = user;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$user == null ? null : Object.hashAll(l$user.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateTester$addUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$user = user;
+    final lOther$user = other.user;
+    if (l$user != null && lOther$user != null) {
+      if (l$user.length != lOther$user.length) return false;
+      for (int i = 0; i < l$user.length; i++) {
+        final l$user$entry = l$user[i];
+        final lOther$user$entry = lOther$user[i];
+        if (l$user$entry != lOther$user$entry) return false;
+      }
+    } else if (l$user != lOther$user) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class MutationCreateTester$addUser$user extends JsonSerializable {
+  MutationCreateTester$addUser$user(
+      {required this.id,
+      required this.name,
+      required this.email,
+      this.isAdmin,
+      this.isTest,
+      this.createdTimestamp,
+      required this.$__typename});
+
+  @override
+  factory MutationCreateTester$addUser$user.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateTester$addUser$userFromJson(json);
+
+  final String id;
+
+  final String name;
+
+  final String email;
+
+  final bool? isAdmin;
+
+  final bool? isTest;
+
+  final String? createdTimestamp;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateTester$addUser$userToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$email = email;
+    final l$isAdmin = isAdmin;
+    final l$isTest = isTest;
+    final l$createdTimestamp = createdTimestamp;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$email,
+      l$isAdmin,
+      l$isTest,
+      l$createdTimestamp,
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateTester$addUser$user) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$isAdmin = isAdmin;
+    final lOther$isAdmin = other.isAdmin;
+    if (l$isAdmin != lOther$isAdmin) return false;
+    final l$isTest = isTest;
+    final lOther$isTest = other.isTest;
+    if (l$isTest != lOther$isTest) return false;
+    final l$createdTimestamp = createdTimestamp;
+    final lOther$createdTimestamp = other.createdTimestamp;
+    if (l$createdTimestamp != lOther$createdTimestamp) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class MutationDeleteTester extends JsonSerializable {
+  MutationDeleteTester({this.deleteUser, required this.$__typename});
+
+  @override
+  factory MutationDeleteTester.fromJson(Map<String, dynamic> json) =>
+      _$MutationDeleteTesterFromJson(json);
+
+  final MutationDeleteTester$deleteUser? deleteUser;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationDeleteTesterToJson(this);
+  int get hashCode {
+    final l$deleteUser = deleteUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$deleteUser, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteTester) || runtimeType != other.runtimeType)
+      return false;
+    final l$deleteUser = deleteUser;
+    final lOther$deleteUser = other.deleteUser;
+    if (l$deleteUser != lOther$deleteUser) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+const MUTATION_DELETE_TESTER = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'DeleteTester'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'deleteUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'isTest'),
+                        value: BooleanValueNode(value: true))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'numUids'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+MutationDeleteTester _parserFnMutationDeleteTester(Map<String, dynamic> data) =>
+    MutationDeleteTester.fromJson(data);
+typedef OnMutationCompletedMutationDeleteTester = FutureOr<void> Function(
+    dynamic, MutationDeleteTester?);
+
+class OptionsMutationDeleteTester
+    extends graphql.MutationOptions<MutationDeleteTester> {
+  OptionsMutationDeleteTester(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationDeleteTester? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : _parserFnMutationDeleteTester(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_DELETE_TESTER,
+            parserFn: _parserFnMutationDeleteTester);
+
+  final OnMutationCompletedMutationDeleteTester? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+class WatchOptionsMutationDeleteTester
+    extends graphql.WatchQueryOptions<MutationDeleteTester> {
+  WatchOptionsMutationDeleteTester(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: MUTATION_DELETE_TESTER,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: _parserFnMutationDeleteTester);
+}
+
+extension ClientExtensionMutationDeleteTester on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationDeleteTester>> mutateDeleteTester(
+          [OptionsMutationDeleteTester? options]) async =>
+      await this.mutate(options ?? OptionsMutationDeleteTester());
+  graphql.ObservableQuery<MutationDeleteTester> watchMutationDeleteTester(
+          [WatchOptionsMutationDeleteTester? options]) =>
+      this.watchMutation(options ?? WatchOptionsMutationDeleteTester());
+}
+
+class MutationDeleteTesterHookResult {
+  MutationDeleteTesterHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationDeleteTester runMutation;
+
+  final graphql.QueryResult<MutationDeleteTester> result;
+}
+
+MutationDeleteTesterHookResult useMutationDeleteTester(
+    [WidgetOptionsMutationDeleteTester? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationDeleteTester());
+  return MutationDeleteTesterHookResult(
+    ({optimisticResult}) => result.runMutation(
+      const {},
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationDeleteTester> useWatchMutationDeleteTester(
+        [WatchOptionsMutationDeleteTester? options]) =>
+    graphql_flutter
+        .useWatchMutation(options ?? WatchOptionsMutationDeleteTester());
+
+class WidgetOptionsMutationDeleteTester
+    extends graphql.MutationOptions<MutationDeleteTester> {
+  WidgetOptionsMutationDeleteTester(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationDeleteTester? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(data,
+                    data == null ? null : _parserFnMutationDeleteTester(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_DELETE_TESTER,
+            parserFn: _parserFnMutationDeleteTester);
+
+  final OnMutationCompletedMutationDeleteTester? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+typedef RunMutationMutationDeleteTester
+    = graphql.MultiSourceResult<MutationDeleteTester> Function(
+        {Object? optimisticResult});
+typedef BuilderMutationDeleteTester = widgets.Widget Function(
+    RunMutationMutationDeleteTester,
+    graphql.QueryResult<MutationDeleteTester>?);
+
+class MutationDeleteTesterWidget
+    extends graphql_flutter.Mutation<MutationDeleteTester> {
+  MutationDeleteTesterWidget(
+      {widgets.Key? key,
+      WidgetOptionsMutationDeleteTester? options,
+      required BuilderMutationDeleteTester builder})
+      : super(
+            key: key,
+            options: options ?? WidgetOptionsMutationDeleteTester(),
+            builder: (run, result) => builder(
+                ({optimisticResult}) =>
+                    run(const {}, optimisticResult: optimisticResult),
+                result));
+}
+
+@JsonSerializable()
+class MutationDeleteTester$deleteUser extends JsonSerializable {
+  MutationDeleteTester$deleteUser({this.numUids, required this.$__typename});
+
+  @override
+  factory MutationDeleteTester$deleteUser.fromJson(Map<String, dynamic> json) =>
+      _$MutationDeleteTester$deleteUserFromJson(json);
+
+  final int? numUids;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationDeleteTester$deleteUserToJson(this);
+  int get hashCode {
+    final l$numUids = numUids;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$numUids, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteTester$deleteUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) return false;
@@ -5011,6 +5765,647 @@ class MutationRemoveSkill$deleteSkill$skill extends JsonSerializable {
     final l$id = id;
     final lOther$id = other.id;
     if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class VariablesMutationCreateTestGratitude extends JsonSerializable {
+  VariablesMutationCreateTestGratitude({required this.info});
+
+  @override
+  factory VariablesMutationCreateTestGratitude.fromJson(
+          Map<String, dynamic> json) =>
+      _$VariablesMutationCreateTestGratitudeFromJson(json);
+
+  final List<InputAddGratitudeInput> info;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$VariablesMutationCreateTestGratitudeToJson(this);
+  int get hashCode {
+    final l$info = info;
+    return Object.hashAll([Object.hashAll(l$info.map((v) => v))]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is VariablesMutationCreateTestGratitude) ||
+        runtimeType != other.runtimeType) return false;
+    final l$info = info;
+    final lOther$info = other.info;
+    if (l$info.length != lOther$info.length) return false;
+    for (int i = 0; i < l$info.length; i++) {
+      final l$info$entry = l$info[i];
+      final lOther$info$entry = lOther$info[i];
+      if (l$info$entry != lOther$info$entry) return false;
+    }
+
+    return true;
+  }
+}
+
+@JsonSerializable()
+class MutationCreateTestGratitude extends JsonSerializable {
+  MutationCreateTestGratitude({this.addGratitude, required this.$__typename});
+
+  @override
+  factory MutationCreateTestGratitude.fromJson(Map<String, dynamic> json) =>
+      _$MutationCreateTestGratitudeFromJson(json);
+
+  final MutationCreateTestGratitude$addGratitude? addGratitude;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationCreateTestGratitudeToJson(this);
+  int get hashCode {
+    final l$addGratitude = addGratitude;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$addGratitude, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateTestGratitude) ||
+        runtimeType != other.runtimeType) return false;
+    final l$addGratitude = addGratitude;
+    final lOther$addGratitude = other.addGratitude;
+    if (l$addGratitude != lOther$addGratitude) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+const MUTATION_CREATE_TEST_GRATITUDE = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'CreateTestGratitude'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'info')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'AddGratitudeInput'),
+                    isNonNull: true),
+                isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'addGratitude'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: VariableNode(name: NameNode(value: 'info')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'numUids'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+MutationCreateTestGratitude _parserFnMutationCreateTestGratitude(
+        Map<String, dynamic> data) =>
+    MutationCreateTestGratitude.fromJson(data);
+typedef OnMutationCompletedMutationCreateTestGratitude = FutureOr<void>
+    Function(dynamic, MutationCreateTestGratitude?);
+
+class OptionsMutationCreateTestGratitude
+    extends graphql.MutationOptions<MutationCreateTestGratitude> {
+  OptionsMutationCreateTestGratitude(
+      {String? operationName,
+      required VariablesMutationCreateTestGratitude variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationCreateTestGratitude? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFnMutationCreateTestGratitude(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_CREATE_TEST_GRATITUDE,
+            parserFn: _parserFnMutationCreateTestGratitude);
+
+  final OnMutationCompletedMutationCreateTestGratitude? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+class WatchOptionsMutationCreateTestGratitude
+    extends graphql.WatchQueryOptions<MutationCreateTestGratitude> {
+  WatchOptionsMutationCreateTestGratitude(
+      {String? operationName,
+      required VariablesMutationCreateTestGratitude variables,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            variables: variables.toJson(),
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: MUTATION_CREATE_TEST_GRATITUDE,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: _parserFnMutationCreateTestGratitude);
+}
+
+extension ClientExtensionMutationCreateTestGratitude on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationCreateTestGratitude>>
+      mutateCreateTestGratitude(
+              OptionsMutationCreateTestGratitude options) async =>
+          await this.mutate(options);
+  graphql.ObservableQuery<MutationCreateTestGratitude>
+      watchMutationCreateTestGratitude(
+              WatchOptionsMutationCreateTestGratitude options) =>
+          this.watchMutation(options);
+}
+
+class MutationCreateTestGratitudeHookResult {
+  MutationCreateTestGratitudeHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationCreateTestGratitude runMutation;
+
+  final graphql.QueryResult<MutationCreateTestGratitude> result;
+}
+
+MutationCreateTestGratitudeHookResult useMutationCreateTestGratitude(
+    [WidgetOptionsMutationCreateTestGratitude? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationCreateTestGratitude());
+  return MutationCreateTestGratitudeHookResult(
+    (variables, {optimisticResult}) => result.runMutation(
+      variables.toJson(),
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationCreateTestGratitude>
+    useWatchMutationCreateTestGratitude(
+            WatchOptionsMutationCreateTestGratitude options) =>
+        graphql_flutter.useWatchMutation(options);
+
+class WidgetOptionsMutationCreateTestGratitude
+    extends graphql.MutationOptions<MutationCreateTestGratitude> {
+  WidgetOptionsMutationCreateTestGratitude(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationCreateTestGratitude? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFnMutationCreateTestGratitude(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_CREATE_TEST_GRATITUDE,
+            parserFn: _parserFnMutationCreateTestGratitude);
+
+  final OnMutationCompletedMutationCreateTestGratitude? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+typedef RunMutationMutationCreateTestGratitude = graphql
+        .MultiSourceResult<MutationCreateTestGratitude>
+    Function(VariablesMutationCreateTestGratitude, {Object? optimisticResult});
+typedef BuilderMutationCreateTestGratitude = widgets.Widget Function(
+    RunMutationMutationCreateTestGratitude,
+    graphql.QueryResult<MutationCreateTestGratitude>?);
+
+class MutationCreateTestGratitudeWidget
+    extends graphql_flutter.Mutation<MutationCreateTestGratitude> {
+  MutationCreateTestGratitudeWidget(
+      {widgets.Key? key,
+      WidgetOptionsMutationCreateTestGratitude? options,
+      required BuilderMutationCreateTestGratitude builder})
+      : super(
+            key: key,
+            options: options ?? WidgetOptionsMutationCreateTestGratitude(),
+            builder: (run, result) => builder(
+                (variables, {optimisticResult}) =>
+                    run(variables.toJson(), optimisticResult: optimisticResult),
+                result));
+}
+
+@JsonSerializable()
+class MutationCreateTestGratitude$addGratitude extends JsonSerializable {
+  MutationCreateTestGratitude$addGratitude(
+      {this.numUids, required this.$__typename});
+
+  @override
+  factory MutationCreateTestGratitude$addGratitude.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationCreateTestGratitude$addGratitudeFromJson(json);
+
+  final int? numUids;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationCreateTestGratitude$addGratitudeToJson(this);
+  int get hashCode {
+    final l$numUids = numUids;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$numUids, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationCreateTestGratitude$addGratitude) ||
+        runtimeType != other.runtimeType) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class MutationDeleteTestGratitude extends JsonSerializable {
+  MutationDeleteTestGratitude(
+      {this.deleteGratitude, required this.$__typename});
+
+  @override
+  factory MutationDeleteTestGratitude.fromJson(Map<String, dynamic> json) =>
+      _$MutationDeleteTestGratitudeFromJson(json);
+
+  final MutationDeleteTestGratitude$deleteGratitude? deleteGratitude;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$MutationDeleteTestGratitudeToJson(this);
+  int get hashCode {
+    final l$deleteGratitude = deleteGratitude;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$deleteGratitude, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteTestGratitude) ||
+        runtimeType != other.runtimeType) return false;
+    final l$deleteGratitude = deleteGratitude;
+    final lOther$deleteGratitude = other.deleteGratitude;
+    if (l$deleteGratitude != lOther$deleteGratitude) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+const MUTATION_DELETE_TEST_GRATITUDE = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'DeleteTestGratitude'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'deleteGratitude'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'isTest'),
+                        value: BooleanValueNode(value: true))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'numUids'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+MutationDeleteTestGratitude _parserFnMutationDeleteTestGratitude(
+        Map<String, dynamic> data) =>
+    MutationDeleteTestGratitude.fromJson(data);
+typedef OnMutationCompletedMutationDeleteTestGratitude = FutureOr<void>
+    Function(dynamic, MutationDeleteTestGratitude?);
+
+class OptionsMutationDeleteTestGratitude
+    extends graphql.MutationOptions<MutationDeleteTestGratitude> {
+  OptionsMutationDeleteTestGratitude(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationDeleteTestGratitude? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFnMutationDeleteTestGratitude(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_DELETE_TEST_GRATITUDE,
+            parserFn: _parserFnMutationDeleteTestGratitude);
+
+  final OnMutationCompletedMutationDeleteTestGratitude? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+class WatchOptionsMutationDeleteTestGratitude
+    extends graphql.WatchQueryOptions<MutationDeleteTestGratitude> {
+  WatchOptionsMutationDeleteTestGratitude(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: MUTATION_DELETE_TEST_GRATITUDE,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: _parserFnMutationDeleteTestGratitude);
+}
+
+extension ClientExtensionMutationDeleteTestGratitude on graphql.GraphQLClient {
+  Future<graphql.QueryResult<MutationDeleteTestGratitude>>
+      mutateDeleteTestGratitude(
+              [OptionsMutationDeleteTestGratitude? options]) async =>
+          await this.mutate(options ?? OptionsMutationDeleteTestGratitude());
+  graphql.ObservableQuery<
+      MutationDeleteTestGratitude> watchMutationDeleteTestGratitude(
+          [WatchOptionsMutationDeleteTestGratitude? options]) =>
+      this.watchMutation(options ?? WatchOptionsMutationDeleteTestGratitude());
+}
+
+class MutationDeleteTestGratitudeHookResult {
+  MutationDeleteTestGratitudeHookResult(this.runMutation, this.result);
+
+  final RunMutationMutationDeleteTestGratitude runMutation;
+
+  final graphql.QueryResult<MutationDeleteTestGratitude> result;
+}
+
+MutationDeleteTestGratitudeHookResult useMutationDeleteTestGratitude(
+    [WidgetOptionsMutationDeleteTestGratitude? options]) {
+  final result = graphql_flutter
+      .useMutation(options ?? WidgetOptionsMutationDeleteTestGratitude());
+  return MutationDeleteTestGratitudeHookResult(
+    ({optimisticResult}) => result.runMutation(
+      const {},
+      optimisticResult: optimisticResult,
+    ),
+    result.result,
+  );
+}
+
+graphql.ObservableQuery<MutationDeleteTestGratitude>
+    useWatchMutationDeleteTestGratitude(
+            [WatchOptionsMutationDeleteTestGratitude? options]) =>
+        graphql_flutter.useWatchMutation(
+            options ?? WatchOptionsMutationDeleteTestGratitude());
+
+class WidgetOptionsMutationDeleteTestGratitude
+    extends graphql.MutationOptions<MutationDeleteTestGratitude> {
+  WidgetOptionsMutationDeleteTestGratitude(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      OnMutationCompletedMutationDeleteTestGratitude? onCompleted,
+      graphql.OnMutationUpdate? update,
+      graphql.OnError? onError})
+      : onCompletedWithParsed = onCompleted,
+        super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            onCompleted: onCompleted == null
+                ? null
+                : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFnMutationDeleteTestGratitude(data)),
+            update: update,
+            onError: onError,
+            document: MUTATION_DELETE_TEST_GRATITUDE,
+            parserFn: _parserFnMutationDeleteTestGratitude);
+
+  final OnMutationCompletedMutationDeleteTestGratitude? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed
+      ];
+}
+
+typedef RunMutationMutationDeleteTestGratitude
+    = graphql.MultiSourceResult<MutationDeleteTestGratitude> Function(
+        {Object? optimisticResult});
+typedef BuilderMutationDeleteTestGratitude = widgets.Widget Function(
+    RunMutationMutationDeleteTestGratitude,
+    graphql.QueryResult<MutationDeleteTestGratitude>?);
+
+class MutationDeleteTestGratitudeWidget
+    extends graphql_flutter.Mutation<MutationDeleteTestGratitude> {
+  MutationDeleteTestGratitudeWidget(
+      {widgets.Key? key,
+      WidgetOptionsMutationDeleteTestGratitude? options,
+      required BuilderMutationDeleteTestGratitude builder})
+      : super(
+            key: key,
+            options: options ?? WidgetOptionsMutationDeleteTestGratitude(),
+            builder: (run, result) => builder(
+                ({optimisticResult}) =>
+                    run(const {}, optimisticResult: optimisticResult),
+                result));
+}
+
+@JsonSerializable()
+class MutationDeleteTestGratitude$deleteGratitude extends JsonSerializable {
+  MutationDeleteTestGratitude$deleteGratitude(
+      {this.numUids, required this.$__typename});
+
+  @override
+  factory MutationDeleteTestGratitude$deleteGratitude.fromJson(
+          Map<String, dynamic> json) =>
+      _$MutationDeleteTestGratitude$deleteGratitudeFromJson(json);
+
+  final int? numUids;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$MutationDeleteTestGratitude$deleteGratitudeToJson(this);
+  int get hashCode {
+    final l$numUids = numUids;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$numUids, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is MutationDeleteTestGratitude$deleteGratitude) ||
+        runtimeType != other.runtimeType) return false;
+    final l$numUids = numUids;
+    final lOther$numUids = other.numUids;
+    if (l$numUids != lOther$numUids) return false;
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) return false;

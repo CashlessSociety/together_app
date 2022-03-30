@@ -80,6 +80,111 @@ Map<String, dynamic> _$MutationCreateUser$addUser$userToJson(
       '__typename': instance.$__typename,
     };
 
+VariablesMutationCreateTester _$VariablesMutationCreateTesterFromJson(
+        Map<String, dynamic> json) =>
+    VariablesMutationCreateTester(
+      testerInfo: (json['testerInfo'] as List<dynamic>)
+          .map((e) => InputAddUserInput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$VariablesMutationCreateTesterToJson(
+        VariablesMutationCreateTester instance) =>
+    <String, dynamic>{
+      'testerInfo': instance.testerInfo,
+    };
+
+MutationCreateTester _$MutationCreateTesterFromJson(
+        Map<String, dynamic> json) =>
+    MutationCreateTester(
+      addUser: json['addUser'] == null
+          ? null
+          : MutationCreateTester$addUser.fromJson(
+              json['addUser'] as Map<String, dynamic>),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationCreateTesterToJson(
+        MutationCreateTester instance) =>
+    <String, dynamic>{
+      'addUser': instance.addUser,
+      '__typename': instance.$__typename,
+    };
+
+MutationCreateTester$addUser _$MutationCreateTester$addUserFromJson(
+        Map<String, dynamic> json) =>
+    MutationCreateTester$addUser(
+      user: (json['user'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : MutationCreateTester$addUser$user.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationCreateTester$addUserToJson(
+        MutationCreateTester$addUser instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+      '__typename': instance.$__typename,
+    };
+
+MutationCreateTester$addUser$user _$MutationCreateTester$addUser$userFromJson(
+        Map<String, dynamic> json) =>
+    MutationCreateTester$addUser$user(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      email: json['email'] as String,
+      isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
+      createdTimestamp: json['createdTimestamp'] as String?,
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationCreateTester$addUser$userToJson(
+        MutationCreateTester$addUser$user instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'email': instance.email,
+      'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
+      'createdTimestamp': instance.createdTimestamp,
+      '__typename': instance.$__typename,
+    };
+
+MutationDeleteTester _$MutationDeleteTesterFromJson(
+        Map<String, dynamic> json) =>
+    MutationDeleteTester(
+      deleteUser: json['deleteUser'] == null
+          ? null
+          : MutationDeleteTester$deleteUser.fromJson(
+              json['deleteUser'] as Map<String, dynamic>),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationDeleteTesterToJson(
+        MutationDeleteTester instance) =>
+    <String, dynamic>{
+      'deleteUser': instance.deleteUser,
+      '__typename': instance.$__typename,
+    };
+
+MutationDeleteTester$deleteUser _$MutationDeleteTester$deleteUserFromJson(
+        Map<String, dynamic> json) =>
+    MutationDeleteTester$deleteUser(
+      numUids: json['numUids'] as int?,
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationDeleteTester$deleteUserToJson(
+        MutationDeleteTester$deleteUser instance) =>
+    <String, dynamic>{
+      'numUids': instance.numUids,
+      '__typename': instance.$__typename,
+    };
+
 VariablesMutationUpdateUser _$VariablesMutationUpdateUserFromJson(
         Map<String, dynamic> json) =>
     VariablesMutationUpdateUser(
@@ -887,5 +992,84 @@ Map<String, dynamic> _$MutationRemoveSkill$deleteSkill$skillToJson(
         MutationRemoveSkill$deleteSkill$skill instance) =>
     <String, dynamic>{
       'id': instance.id,
+      '__typename': instance.$__typename,
+    };
+
+VariablesMutationCreateTestGratitude
+    _$VariablesMutationCreateTestGratitudeFromJson(Map<String, dynamic> json) =>
+        VariablesMutationCreateTestGratitude(
+          info: (json['info'] as List<dynamic>)
+              .map((e) =>
+                  InputAddGratitudeInput.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$VariablesMutationCreateTestGratitudeToJson(
+        VariablesMutationCreateTestGratitude instance) =>
+    <String, dynamic>{
+      'info': instance.info,
+    };
+
+MutationCreateTestGratitude _$MutationCreateTestGratitudeFromJson(
+        Map<String, dynamic> json) =>
+    MutationCreateTestGratitude(
+      addGratitude: json['addGratitude'] == null
+          ? null
+          : MutationCreateTestGratitude$addGratitude.fromJson(
+              json['addGratitude'] as Map<String, dynamic>),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationCreateTestGratitudeToJson(
+        MutationCreateTestGratitude instance) =>
+    <String, dynamic>{
+      'addGratitude': instance.addGratitude,
+      '__typename': instance.$__typename,
+    };
+
+MutationCreateTestGratitude$addGratitude
+    _$MutationCreateTestGratitude$addGratitudeFromJson(
+            Map<String, dynamic> json) =>
+        MutationCreateTestGratitude$addGratitude(
+          numUids: json['numUids'] as int?,
+          $__typename: json['__typename'] as String,
+        );
+
+Map<String, dynamic> _$MutationCreateTestGratitude$addGratitudeToJson(
+        MutationCreateTestGratitude$addGratitude instance) =>
+    <String, dynamic>{
+      'numUids': instance.numUids,
+      '__typename': instance.$__typename,
+    };
+
+MutationDeleteTestGratitude _$MutationDeleteTestGratitudeFromJson(
+        Map<String, dynamic> json) =>
+    MutationDeleteTestGratitude(
+      deleteGratitude: json['deleteGratitude'] == null
+          ? null
+          : MutationDeleteTestGratitude$deleteGratitude.fromJson(
+              json['deleteGratitude'] as Map<String, dynamic>),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$MutationDeleteTestGratitudeToJson(
+        MutationDeleteTestGratitude instance) =>
+    <String, dynamic>{
+      'deleteGratitude': instance.deleteGratitude,
+      '__typename': instance.$__typename,
+    };
+
+MutationDeleteTestGratitude$deleteGratitude
+    _$MutationDeleteTestGratitude$deleteGratitudeFromJson(
+            Map<String, dynamic> json) =>
+        MutationDeleteTestGratitude$deleteGratitude(
+          numUids: json['numUids'] as int?,
+          $__typename: json['__typename'] as String,
+        );
+
+Map<String, dynamic> _$MutationDeleteTestGratitude$deleteGratitudeToJson(
+        MutationDeleteTestGratitude$deleteGratitude instance) =>
+    <String, dynamic>{
+      'numUids': instance.numUids,
       '__typename': instance.$__typename,
     };

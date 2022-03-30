@@ -31,6 +31,7 @@ QueryGetAllUsers$queryUser _$QueryGetAllUsers$queryUserFromJson(
       age: json['age'] as int?,
       avatar: json['avatar'] as String?,
       isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
       createdTimestamp: json['createdTimestamp'] as String?,
       $__typename: json['__typename'] as String,
     );
@@ -44,7 +45,59 @@ Map<String, dynamic> _$QueryGetAllUsers$queryUserToJson(
       'age': instance.age,
       'avatar': instance.avatar,
       'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
       'createdTimestamp': instance.createdTimestamp,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTesters _$QueryGetTestersFromJson(Map<String, dynamic> json) =>
+    QueryGetTesters(
+      allTester: (json['allTester'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : QueryGetTesters$allTester.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      noSendTester: (json['noSendTester'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : QueryGetTesters$noSendTester.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$QueryGetTestersToJson(QueryGetTesters instance) =>
+    <String, dynamic>{
+      'allTester': instance.allTester,
+      'noSendTester': instance.noSendTester,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTesters$allTester _$QueryGetTesters$allTesterFromJson(
+        Map<String, dynamic> json) =>
+    QueryGetTesters$allTester(
+      id: json['id'] as String,
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$QueryGetTesters$allTesterToJson(
+        QueryGetTesters$allTester instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTesters$noSendTester _$QueryGetTesters$noSendTesterFromJson(
+        Map<String, dynamic> json) =>
+    QueryGetTesters$noSendTester(
+      id: json['id'] as String,
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$QueryGetTesters$noSendTesterToJson(
+        QueryGetTesters$noSendTester instance) =>
+    <String, dynamic>{
+      'id': instance.id,
       '__typename': instance.$__typename,
     };
 
@@ -87,6 +140,7 @@ QueryGetUserWithEmail$getUser _$QueryGetUserWithEmail$getUserFromJson(
       avatar: json['avatar'] as String?,
       email: json['email'] as String,
       isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
       createdTimestamp: json['createdTimestamp'] as String?,
       $__typename: json['__typename'] as String,
     );
@@ -101,6 +155,7 @@ Map<String, dynamic> _$QueryGetUserWithEmail$getUserToJson(
       'avatar': instance.avatar,
       'email': instance.email,
       'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
       'createdTimestamp': instance.createdTimestamp,
       '__typename': instance.$__typename,
     };
@@ -142,6 +197,7 @@ QueryGetUserWithId$getUser _$QueryGetUserWithId$getUserFromJson(
       avatar: json['avatar'] as String?,
       email: json['email'] as String,
       isAdmin: json['isAdmin'] as bool?,
+      isTest: json['isTest'] as bool?,
       createdTimestamp: json['createdTimestamp'] as String?,
       $__typename: json['__typename'] as String,
     );
@@ -156,6 +212,7 @@ Map<String, dynamic> _$QueryGetUserWithId$getUserToJson(
       'avatar': instance.avatar,
       'email': instance.email,
       'isAdmin': instance.isAdmin,
+      'isTest': instance.isTest,
       'createdTimestamp': instance.createdTimestamp,
       '__typename': instance.$__typename,
     };

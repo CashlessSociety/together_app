@@ -6,9 +6,35 @@ query GetAllUsers {
         age
         avatar
         isAdmin
+        isTest
         createdTimestamp
     }
 }
+
+query GetTesters {
+    allTester: queryUser(
+        filter: {
+            isTest: true
+        }
+        order: {
+            desc: createdTimestamp
+        }
+    ){
+        id
+    }
+    noSendTester: queryUser(
+        filter: {
+            isTest: true,
+            not: {
+                has: [gratitudeSent]
+            }
+        }
+        order: {desc: createdTimestamp}
+    ){
+        id
+    }
+}
+
 
 query GetUserWithEmail($email: String) {
     getUser(email: $email){
@@ -19,6 +45,7 @@ query GetUserWithEmail($email: String) {
         avatar
         email
         isAdmin
+        isTest
         createdTimestamp
     }
 }
@@ -33,6 +60,7 @@ query GetUserWithId($id: ID) {
         avatar
         email
         isAdmin
+        isTest
         createdTimestamp
     }
 }
