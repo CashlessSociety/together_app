@@ -50,6 +50,101 @@ Map<String, dynamic> _$QueryGetAllUsers$queryUserToJson(
       '__typename': instance.$__typename,
     };
 
+QueryGetTestGraphData _$QueryGetTestGraphDataFromJson(
+        Map<String, dynamic> json) =>
+    QueryGetTestGraphData(
+      queryUser: (json['queryUser'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : QueryGetTestGraphData$queryUser.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$QueryGetTestGraphDataToJson(
+        QueryGetTestGraphData instance) =>
+    <String, dynamic>{
+      'queryUser': instance.queryUser,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTestGraphData$queryUser _$QueryGetTestGraphData$queryUserFromJson(
+        Map<String, dynamic> json) =>
+    QueryGetTestGraphData$queryUser(
+      id: json['id'] as String,
+      email: json['email'] as String,
+      name: json['name'] as String,
+      avatar: json['avatar'] as String?,
+      gratitudeSent: (json['gratitudeSent'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : QueryGetTestGraphData$queryUser$gratitudeSent.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      $__typename: json['__typename'] as String,
+    );
+
+Map<String, dynamic> _$QueryGetTestGraphData$queryUserToJson(
+        QueryGetTestGraphData$queryUser instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'email': instance.email,
+      'name': instance.name,
+      'avatar': instance.avatar,
+      'gratitudeSent': instance.gratitudeSent,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTestGraphData$queryUser$gratitudeSent
+    _$QueryGetTestGraphData$queryUser$gratitudeSentFromJson(
+            Map<String, dynamic> json) =>
+        QueryGetTestGraphData$queryUser$gratitudeSent(
+          from: QueryGetTestGraphData$queryUser$gratitudeSent$from.fromJson(
+              json['from'] as Map<String, dynamic>),
+          to: QueryGetTestGraphData$queryUser$gratitudeSent$to.fromJson(
+              json['to'] as Map<String, dynamic>),
+          $__typename: json['__typename'] as String,
+        );
+
+Map<String, dynamic> _$QueryGetTestGraphData$queryUser$gratitudeSentToJson(
+        QueryGetTestGraphData$queryUser$gratitudeSent instance) =>
+    <String, dynamic>{
+      'from': instance.from,
+      'to': instance.to,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTestGraphData$queryUser$gratitudeSent$from
+    _$QueryGetTestGraphData$queryUser$gratitudeSent$fromFromJson(
+            Map<String, dynamic> json) =>
+        QueryGetTestGraphData$queryUser$gratitudeSent$from(
+          id: json['id'] as String,
+          $__typename: json['__typename'] as String,
+        );
+
+Map<String, dynamic> _$QueryGetTestGraphData$queryUser$gratitudeSent$fromToJson(
+        QueryGetTestGraphData$queryUser$gratitudeSent$from instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      '__typename': instance.$__typename,
+    };
+
+QueryGetTestGraphData$queryUser$gratitudeSent$to
+    _$QueryGetTestGraphData$queryUser$gratitudeSent$toFromJson(
+            Map<String, dynamic> json) =>
+        QueryGetTestGraphData$queryUser$gratitudeSent$to(
+          id: json['id'] as String,
+          $__typename: json['__typename'] as String,
+        );
+
+Map<String, dynamic> _$QueryGetTestGraphData$queryUser$gratitudeSent$toToJson(
+        QueryGetTestGraphData$queryUser$gratitudeSent$to instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      '__typename': instance.$__typename,
+    };
+
 QueryGetTesters _$QueryGetTestersFromJson(Map<String, dynamic> json) =>
     QueryGetTesters(
       allTester: (json['allTester'] as List<dynamic>?)

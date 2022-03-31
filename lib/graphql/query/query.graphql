@@ -11,6 +11,28 @@ query GetAllUsers {
     }
 }
 
+query GetTestGraphData {
+    queryUser(
+        filter: {
+            isTest: true
+        }
+        order: {desc: createdTimestamp}
+    ){
+        id
+        email
+        name
+        avatar
+        gratitudeSent{
+            from {
+                id
+            }
+            to {
+                id
+            }
+        }
+    }
+}
+
 query GetTesters {
     allTester: queryUser(
         filter: {

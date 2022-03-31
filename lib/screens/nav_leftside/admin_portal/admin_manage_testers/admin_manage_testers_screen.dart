@@ -56,7 +56,6 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
         variables: VariablesMutationCreateTester(testerInfo: testInfo),
         onCompleted: (result, MutationCreateTester? data) {
           var userData = data?.addUser?.user;
-          print("userData $userData");
           if (userData != null && userData.isNotEmpty) {
             endProcessing(true);
           } else {
@@ -77,7 +76,6 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
         fetchPolicy: FetchPolicy.noCache,
         onCompleted: (result, MutationDeleteTester? data) {
           var numUids = data?.deleteUser?.numUids;
-          print('numUids $numUids');
           if (numUids != null) {
             endProcessing(true);
           } else {
@@ -92,20 +90,20 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
   }
 
   List<InputAddGratitudeInput> getGratitudeInputList(
-    List<String> noSenderIdList,
+    List<String> fromIdList,
     List<String> allIdList,
   ) {
     List<InputAddGratitudeInput> info = [];
-    for (String noSenderId in noSenderIdList) {
+    for (String fromId in fromIdList) {
       allIdList.shuffle();
-      String? toId = allIdList.firstWhereOrNull((e) => e != noSenderId);
+      String? toId = allIdList.firstWhereOrNull((e) => e != fromId);
       if (toId != null) {
         info.add(
           InputAddGratitudeInput(
-            from: InputUserRef(id: noSenderId),
+            from: InputUserRef(id: fromId),
             to: InputUserRef(id: toId),
             hashtagVariants: [],
-            message: "Gratitude From $noSenderId To $toId",
+            message: "Gratitude From $fromId To $toId",
             isTest: true,
             createdTimestamp: DateTime.now().toUtc().toIso8601String(),
           ),
@@ -115,7 +113,7 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
     return info;
   }
 
-  void onAddRandomTestGratitude() async {
+  void onAddRandomGratitude(bool noGratitudeSentOnly) async {
     startProcessing();
     var rst = await gqlClient!.queryGetTesters(OptionsQueryGetTesters(
       fetchPolicy: FetchPolicy.noCache,
@@ -124,44 +122,54 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
     var noSendTester = rst.parsedData?.noSendTester;
     if (allTester == null || noSendTester == null) {
       endProcessing(false);
-    } else {
-      List<String> noSenderIdList = [];
-      List<String> allIdList = allTester.map((e) => e!.id).toList();
-      noSendTester.shuffle();
-      allIdList.shuffle();
-      int userIndex = 0;
+      return;
+    }
+    var anyTester = [...rst.parsedData!.allTester!];
+    List<String> fromIdList = [];
+    List<String> allIdList = allTester.map((e) => e!.id).toList();
+    allIdList.shuffle();
+    noSendTester.shuffle();
+    anyTester.shuffle();
+
+    int userIndex = 0;
+    if (noGratitudeSentOnly) {
       while (userIndex < 10) {
         if (noSendTester.length < userIndex + 1) {
           userIndex = 10;
         } else {
-          noSenderIdList.add(noSendTester[userIndex]!.id);
+          fromIdList.add(noSendTester[userIndex]!.id);
           userIndex++;
         }
       }
-      List<InputAddGratitudeInput> info =
-          getGratitudeInputList(noSenderIdList, allIdList);
-      for (var element in info) {
-        print(element.message);
+    } else {
+      while (userIndex < 10) {
+        if (anyTester.length < userIndex + 1) {
+          userIndex = 10;
+        } else {
+          fromIdList.add(anyTester[userIndex]!.id);
+          userIndex++;
+        }
       }
-      gqlClient!.mutateCreateTestGratitude(
-        OptionsMutationCreateTestGratitude(
-          fetchPolicy: FetchPolicy.noCache,
-          variables: VariablesMutationCreateTestGratitude(info: info),
-          onCompleted: (result, MutationCreateTestGratitude? data) {
-            var numUids = data?.addGratitude?.numUids;
-            print('numUids $numUids');
-            if (numUids != null) {
-              endProcessing(true);
-            } else {
-              endProcessing(false);
-            }
-          },
-          onError: (e) {
-            print("error $e");
-          },
-        ),
-      );
     }
+    List<InputAddGratitudeInput> info =
+        getGratitudeInputList(fromIdList, allIdList);
+    gqlClient!.mutateCreateTestGratitude(
+      OptionsMutationCreateTestGratitude(
+        fetchPolicy: FetchPolicy.noCache,
+        variables: VariablesMutationCreateTestGratitude(info: info),
+        onCompleted: (result, MutationCreateTestGratitude? data) {
+          var numUids = data?.addGratitude?.numUids;
+          if (numUids != null) {
+            endProcessing(true);
+          } else {
+            endProcessing(false);
+          }
+        },
+        onError: (e) {
+          print("error $e");
+        },
+      ),
+    );
   }
 
   void onDeleteTestGratitude() {
@@ -171,7 +179,6 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
         fetchPolicy: FetchPolicy.noCache,
         onCompleted: (result, MutationDeleteTestGratitude? data) {
           var numUids = data?.deleteGratitude?.numUids;
-          print('numUids $numUids');
           if (numUids != null) {
             endProcessing(true);
           } else {
@@ -206,7 +213,7 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
                       onPressed: () {
                         onAddTester();
                       },
-                      child: const Text("Add 10 testers")),
+                      child: const Text("+10 testers")),
                   ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
@@ -222,14 +229,25 @@ class _AdminManageTestersScreenState extends State<AdminManageTestersScreen> {
               Column(
                 children: [
                   ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blueAccent),
-                      ),
-                      onPressed: () {
-                        onAddRandomTestGratitude();
-                      },
-                      child: const Text("Randomly add test Gratitude")),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blueAccent),
+                    ),
+                    onPressed: () {
+                      onAddRandomGratitude(true);
+                    },
+                    child: const Text("+10 acks (no [gratitudeSent])"),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blueAccent),
+                    ),
+                    onPressed: () {
+                      onAddRandomGratitude(false);
+                    },
+                    child: const Text("+10 acks (any [gratitudeSent])"),
+                  ),
                   ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
