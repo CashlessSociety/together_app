@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:graphql/client.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
 import 'package:together_app/screens/common/profile/other_profile_screen.dart';
+import 'package:together_app/screens/nav_bottom/social_graph/social_graph_view.dart';
 import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
 
@@ -35,11 +36,28 @@ class _SocialGraphUserListState extends State<SocialGraphUserList> {
           dataList.removeWhere((element) => element!.id == widget.userId);
           return Column(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    refetch!();
-                  },
-                  child: const Text("Refresh")),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      refetch!();
+                    },
+                    child: const Text("Refresh"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(
+                        SocialGraphView.routeName,
+                        arguments: SocialGraphViewArguments(
+                          htmlAssetPath: "webview/html/graph_1.html",
+                        ),
+                      );
+                    },
+                    child: const Text("View Graph"),
+                  ),
+                ],
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: dataList.length,

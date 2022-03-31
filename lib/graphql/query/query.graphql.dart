@@ -323,6 +323,474 @@ class QueryGetAllUsers$queryUser extends JsonSerializable {
 }
 
 @JsonSerializable()
+class QueryGetTestGraphData extends JsonSerializable {
+  QueryGetTestGraphData({this.queryUser, required this.$__typename});
+
+  @override
+  factory QueryGetTestGraphData.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetTestGraphDataFromJson(json);
+
+  final List<QueryGetTestGraphData$queryUser?>? queryUser;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() => _$QueryGetTestGraphDataToJson(this);
+  int get hashCode {
+    final l$queryUser = queryUser;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$queryUser == null ? null : Object.hashAll(l$queryUser.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTestGraphData) || runtimeType != other.runtimeType)
+      return false;
+    final l$queryUser = queryUser;
+    final lOther$queryUser = other.queryUser;
+    if (l$queryUser != null && lOther$queryUser != null) {
+      if (l$queryUser.length != lOther$queryUser.length) return false;
+      for (int i = 0; i < l$queryUser.length; i++) {
+        final l$queryUser$entry = l$queryUser[i];
+        final lOther$queryUser$entry = lOther$queryUser[i];
+        if (l$queryUser$entry != lOther$queryUser$entry) return false;
+      }
+    } else if (l$queryUser != lOther$queryUser) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+const QUERY_GET_TEST_GRAPH_DATA = const DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'GetTestGraphData'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'queryUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'filter'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'isTest'),
+                        value: BooleanValueNode(value: true))
+                  ])),
+              ArgumentNode(
+                  name: NameNode(value: 'order'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'desc'),
+                        value: EnumValueNode(
+                            name: NameNode(value: 'createdTimestamp')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'email'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'avatar'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'gratitudeSent'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'from'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'id'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null)
+                        ])),
+                    FieldNode(
+                        name: NameNode(value: 'to'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'id'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null)
+                        ])),
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ])),
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+]);
+QueryGetTestGraphData _parserFnQueryGetTestGraphData(
+        Map<String, dynamic> data) =>
+    QueryGetTestGraphData.fromJson(data);
+
+class OptionsQueryGetTestGraphData
+    extends graphql.QueryOptions<QueryGetTestGraphData> {
+  OptionsQueryGetTestGraphData(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      Duration? pollInterval,
+      graphql.Context? context})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            pollInterval: pollInterval,
+            context: context,
+            document: QUERY_GET_TEST_GRAPH_DATA,
+            parserFn: _parserFnQueryGetTestGraphData);
+}
+
+class WatchOptionsQueryGetTestGraphData
+    extends graphql.WatchQueryOptions<QueryGetTestGraphData> {
+  WatchOptionsQueryGetTestGraphData(
+      {String? operationName,
+      graphql.FetchPolicy? fetchPolicy,
+      graphql.ErrorPolicy? errorPolicy,
+      graphql.CacheRereadPolicy? cacheRereadPolicy,
+      Object? optimisticResult,
+      graphql.Context? context,
+      Duration? pollInterval,
+      bool? eagerlyFetchResults,
+      bool carryForwardDataOnException = true,
+      bool fetchResults = false})
+      : super(
+            operationName: operationName,
+            fetchPolicy: fetchPolicy,
+            errorPolicy: errorPolicy,
+            cacheRereadPolicy: cacheRereadPolicy,
+            optimisticResult: optimisticResult,
+            context: context,
+            document: QUERY_GET_TEST_GRAPH_DATA,
+            pollInterval: pollInterval,
+            eagerlyFetchResults: eagerlyFetchResults,
+            carryForwardDataOnException: carryForwardDataOnException,
+            fetchResults: fetchResults,
+            parserFn: _parserFnQueryGetTestGraphData);
+}
+
+class FetchMoreOptionsQueryGetTestGraphData extends graphql.FetchMoreOptions {
+  FetchMoreOptionsQueryGetTestGraphData(
+      {required graphql.UpdateQuery updateQuery})
+      : super(updateQuery: updateQuery, document: QUERY_GET_TEST_GRAPH_DATA);
+}
+
+extension ClientExtensionQueryGetTestGraphData on graphql.GraphQLClient {
+  Future<graphql.QueryResult<QueryGetTestGraphData>> queryGetTestGraphData(
+          [OptionsQueryGetTestGraphData? options]) async =>
+      await this.query(options ?? OptionsQueryGetTestGraphData());
+  graphql.ObservableQuery<QueryGetTestGraphData> watchQueryGetTestGraphData(
+          [WatchOptionsQueryGetTestGraphData? options]) =>
+      this.watchQuery(options ?? WatchOptionsQueryGetTestGraphData());
+}
+
+graphql_flutter.QueryHookResult<QueryGetTestGraphData> useQueryGetTestGraphData(
+        [OptionsQueryGetTestGraphData? options]) =>
+    graphql_flutter.useQuery(options ?? OptionsQueryGetTestGraphData());
+graphql.ObservableQuery<QueryGetTestGraphData> useWatchQueryGetTestGraphData(
+        [WatchOptionsQueryGetTestGraphData? options]) =>
+    graphql_flutter
+        .useWatchQuery(options ?? WatchOptionsQueryGetTestGraphData());
+
+class QueryGetTestGraphDataWidget
+    extends graphql_flutter.Query<QueryGetTestGraphData> {
+  QueryGetTestGraphDataWidget(
+      {widgets.Key? key,
+      OptionsQueryGetTestGraphData? options,
+      required graphql_flutter.QueryBuilder<QueryGetTestGraphData> builder})
+      : super(
+            key: key,
+            options: options ?? OptionsQueryGetTestGraphData(),
+            builder: builder);
+}
+
+@JsonSerializable()
+class QueryGetTestGraphData$queryUser extends JsonSerializable {
+  QueryGetTestGraphData$queryUser(
+      {required this.id,
+      required this.email,
+      required this.name,
+      this.avatar,
+      this.gratitudeSent,
+      required this.$__typename});
+
+  @override
+  factory QueryGetTestGraphData$queryUser.fromJson(Map<String, dynamic> json) =>
+      _$QueryGetTestGraphData$queryUserFromJson(json);
+
+  final String id;
+
+  final String email;
+
+  final String name;
+
+  final String? avatar;
+
+  final List<QueryGetTestGraphData$queryUser$gratitudeSent?>? gratitudeSent;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetTestGraphData$queryUserToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$email = email;
+    final l$name = name;
+    final l$avatar = avatar;
+    final l$gratitudeSent = gratitudeSent;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$email,
+      l$name,
+      l$avatar,
+      l$gratitudeSent == null
+          ? null
+          : Object.hashAll(l$gratitudeSent.map((v) => v)),
+      l$$__typename
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTestGraphData$queryUser) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) return false;
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) return false;
+    final l$avatar = avatar;
+    final lOther$avatar = other.avatar;
+    if (l$avatar != lOther$avatar) return false;
+    final l$gratitudeSent = gratitudeSent;
+    final lOther$gratitudeSent = other.gratitudeSent;
+    if (l$gratitudeSent != null && lOther$gratitudeSent != null) {
+      if (l$gratitudeSent.length != lOther$gratitudeSent.length) return false;
+      for (int i = 0; i < l$gratitudeSent.length; i++) {
+        final l$gratitudeSent$entry = l$gratitudeSent[i];
+        final lOther$gratitudeSent$entry = lOther$gratitudeSent[i];
+        if (l$gratitudeSent$entry != lOther$gratitudeSent$entry) return false;
+      }
+    } else if (l$gratitudeSent != lOther$gratitudeSent) {
+      return false;
+    }
+
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class QueryGetTestGraphData$queryUser$gratitudeSent extends JsonSerializable {
+  QueryGetTestGraphData$queryUser$gratitudeSent(
+      {required this.from, required this.to, required this.$__typename});
+
+  @override
+  factory QueryGetTestGraphData$queryUser$gratitudeSent.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetTestGraphData$queryUser$gratitudeSentFromJson(json);
+
+  final QueryGetTestGraphData$queryUser$gratitudeSent$from from;
+
+  final QueryGetTestGraphData$queryUser$gratitudeSent$to to;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetTestGraphData$queryUser$gratitudeSentToJson(this);
+  int get hashCode {
+    final l$from = from;
+    final l$to = to;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$from, l$to, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTestGraphData$queryUser$gratitudeSent) ||
+        runtimeType != other.runtimeType) return false;
+    final l$from = from;
+    final lOther$from = other.from;
+    if (l$from != lOther$from) return false;
+    final l$to = to;
+    final lOther$to = other.to;
+    if (l$to != lOther$to) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class QueryGetTestGraphData$queryUser$gratitudeSent$from
+    extends JsonSerializable {
+  QueryGetTestGraphData$queryUser$gratitudeSent$from(
+      {required this.id, required this.$__typename});
+
+  @override
+  factory QueryGetTestGraphData$queryUser$gratitudeSent$from.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetTestGraphData$queryUser$gratitudeSent$fromFromJson(json);
+
+  final String id;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetTestGraphData$queryUser$gratitudeSent$fromToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTestGraphData$queryUser$gratitudeSent$from) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
+class QueryGetTestGraphData$queryUser$gratitudeSent$to
+    extends JsonSerializable {
+  QueryGetTestGraphData$queryUser$gratitudeSent$to(
+      {required this.id, required this.$__typename});
+
+  @override
+  factory QueryGetTestGraphData$queryUser$gratitudeSent$to.fromJson(
+          Map<String, dynamic> json) =>
+      _$QueryGetTestGraphData$queryUser$gratitudeSent$toFromJson(json);
+
+  final String id;
+
+  @JsonKey(name: '__typename')
+  final String $__typename;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$QueryGetTestGraphData$queryUser$gratitudeSent$toToJson(this);
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(other is QueryGetTestGraphData$queryUser$gratitudeSent$to) ||
+        runtimeType != other.runtimeType) return false;
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) return false;
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) return false;
+    return true;
+  }
+}
+
+@JsonSerializable()
 class QueryGetTesters extends JsonSerializable {
   QueryGetTesters(
       {this.allTester, this.noSendTester, required this.$__typename});
@@ -1741,7 +2209,7 @@ class QueryGetHashtagByName extends JsonSerializable {
   }
 }
 
-const QUERY_GET_HASHTAG_BY_NAME = const DocumentNode(definitions: [
+const QUERY_GET_HASHTAG_BY_NAME = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetHashtagByName'),

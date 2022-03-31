@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:together_app/components/alter_scaffold.dart';
-import 'package:together_app/screens/nav_bottom/matching_request/social_graph_view.dart';
-import 'package:together_app/utils/routes.dart';
 
 class MatchingRequestScreen extends StatefulWidget {
   static String routeName = '/matching_request_screen';
@@ -19,35 +16,14 @@ class _MatchingRequestScreenState extends State<MatchingRequestScreen>
     super.build(context);
     return AlterScaffold(
       appBar: AppBar(
-        title: const Text("Network graph"),
+        title: const Text("Matching Requests"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(
-                      SocialGraphView.routeName,
-                      arguments: SocialGraphViewArguments(
-                        htmlAssetPath: "webview/html/graph_1.html",
-                      ),
-                    );
-                  },
-                  child: const Text("Test 1: Images")),
-              ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(
-                      SocialGraphView.routeName,
-                      arguments: SocialGraphViewArguments(
-                        htmlAssetPath: "webview/html/graph_2.html",
-                      ),
-                    );
-                  },
-                  child: const Text("Test 2: Groups")),
-            ],
+            children: const [],
           ),
         ],
       ),
