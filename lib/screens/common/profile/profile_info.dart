@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
 import 'package:oktoast/oktoast.dart';
@@ -41,9 +43,10 @@ class _ProfileInfoState extends State<ProfileInfo>
     RequestsScreen.routeName
   ];
   final double tabHeight = 45.w;
-  final double collapsedHeight = 100.w;
-  final double expandedHeight = 300.w;
+  final double collapsedHeight = 45.w;
+  final double expandedHeight = 220.w;
   final double indicatorWeight = 2.w;
+  final double topBarHeight = 45.w;
   late double tabViewHeight;
   Function? refetchFunction;
 
@@ -83,11 +86,8 @@ class _ProfileInfoState extends State<ProfileInfo>
 
   @override
   void initState() {
-    tabViewHeight = 1.sh -
-        ScreenUtil().statusBarHeight -
-        collapsedHeight -
-        tabHeight -
-        indicatorWeight;
+    tabViewHeight =
+        1.sh - ScreenUtil().statusBarHeight - collapsedHeight - tabHeight;
 
     tabController = TabController(length: 3, vsync: this);
     super.initState();
@@ -139,6 +139,7 @@ class _ProfileInfoState extends State<ProfileInfo>
                     sliver: SliverLayoutBuilder(
                         builder: (context, SliverConstraints constraints) {
                       double scrollPercent = 0;
+                      bool hasCollapsed = false;
                       double scrollSpace = expandedHeight -
                           collapsedHeight -
                           tabHeight -
@@ -148,11 +149,13 @@ class _ProfileInfoState extends State<ProfileInfo>
                       } else {
                         scrollPercent = constraints.scrollOffset / scrollSpace;
                       }
+                      hasCollapsed = scrollPercent > 0.9;
                       return SliverAppBar(
                         collapsedHeight: collapsedHeight,
                         expandedHeight: expandedHeight,
                         pinned: true,
                         elevation: 0,
+                        toolbarHeight: topBarHeight,
                         leading: IconButton(
                           icon: Icon(
                             widget.isOwner ? Icons.menu : Icons.arrow_back,
@@ -180,27 +183,28 @@ class _ProfileInfoState extends State<ProfileInfo>
                         ],
                         backgroundColor: Colors.white,
                         bottom: TabBar(
-                          indicatorColor: kPrimaryOrange,
-                          labelColor: kDeepBlue,
+                          padding: EdgeInsets.symmetric(horizontal: 38.w),
+                          indicatorColor: kPrimaryYellow,
+                          labelColor: kPrimaryBlack,
                           indicatorWeight: indicatorWeight,
-                          unselectedLabelColor: kDeepBlue,
+                          unselectedLabelColor: kPrimaryBlack.withOpacity(0.5),
                           tabs: [
                             Tab(
                               text: "Gratitude",
-                              height: tabHeight,
+                              height: tabHeight - indicatorWeight,
                             ),
                             Tab(
                               text: "Skills",
-                              height: tabHeight,
+                              height: tabHeight - indicatorWeight,
                             ),
                             Tab(
                               text: "Requests",
-                              height: tabHeight,
+                              height: tabHeight - indicatorWeight,
                             ),
                           ],
                         ),
-                        flexibleSpace:
-                            buildProfileSection(scrollPercent, result),
+                        flexibleSpace: buildProfileSection(
+                            scrollPercent, hasCollapsed, result),
                       );
                     }),
                   ),
@@ -247,118 +251,123 @@ class _ProfileInfoState extends State<ProfileInfo>
   }
 
   Widget buildProfileSection(
-      double scrollPercent, QueryResult<QueryGetUserWithId> result) {
+    double scrollPercent,
+    bool hasCollapsed,
+    QueryResult<QueryGetUserWithId> result,
+  ) {
     return FlexibleSpaceBar(
       expandedTitleScale: 1,
       centerTitle: true,
       titlePadding: EdgeInsets.zero,
       title: Stack(
         children: [
+          /// light yellow background
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                color: kPrimaryLightYellow1,
+              ),
+            ),
+          ),
+
+          /// yellow bar background
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            bottom: tabHeight,
+            height:
+                topBarHeight + indicatorWeight + ScreenUtil().statusBarHeight,
             child: Container(
               decoration: BoxDecoration(
-                color: kWhiteTeal,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular((1 - scrollPercent) * 40.w),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(1.5.w, 2.w),
-                    blurRadius: 2.w,
-                    color: Colors.grey,
+                color: kPrimaryYellow,
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 25.w + ScreenUtil().statusBarHeight + 25.w * scrollPercent,
+            left: 25.w,
+            height: 94.w,
+            width: 94.w,
+            child: buildUserAvatarSection(result, scrollPercent),
+          ),
+
+          Positioned(
+            top: topBarHeight + indicatorWeight + ScreenUtil().statusBarHeight,
+            left: 140.w,
+            right: 25.w,
+            bottom: tabHeight + indicatorWeight,
+            child: buildUserInfoSection(result),
+          ),
+
+          /// light yellow background
+          Positioned(
+            left: 0,
+            right: 0,
+            height: tabHeight + 1,
+            bottom: -1,
+            child: Container(
+              decoration: BoxDecoration(
+                color: kPrimaryLightYellow2,
+              ),
+            ),
+          ),
+
+          if (hasCollapsed)
+            Positioned(
+              top: ScreenUtil().statusBarHeight,
+              right: 0,
+              left: 0,
+              bottom: topBarHeight,
+              child: Center(
+                child: Text(
+                  'Title',
+                  style: TextStyle(
+                    color: kPrimaryBlack,
                   ),
-                ],
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: tabHeight,
-                  left: 30.w,
-                  right: 30.w,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 100.w + (1 - scrollPercent) * 90.w,
-                      child: Row(
-                        children: [
-                          SizedBox(width: 20.w),
-                          Expanded(
-                            flex: 7,
-                            child: buildUserInfoSection(result),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: buildUserAvatarSection(result),
-                          ),
-                          SizedBox(width: 10.w),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: (1 - scrollPercent) * 60.w,
-                      child: Text(
-                        result.parsedData?.getUser?.bio ?? "",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    )
-                  ],
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
   }
 
-  Widget buildUserAvatarSection(QueryResult<QueryGetUserWithId> result) {
+  Widget buildUserAvatarSection(
+    QueryResult<QueryGetUserWithId> result,
+    double scrollPercent,
+  ) {
     String avatar = result.parsedData?.getUser?.avatar ?? "";
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.w),
-      child: FittedBox(
-        alignment: Alignment.centerRight,
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey, width: 0.5.w),
-          ),
-          child: avatar == ""
-              ? const Icon(
-                  Icons.person,
-                  color: Colors.grey,
-                )
-              : CachedNetworkImage(
-                  fadeInDuration: const Duration(milliseconds: 200),
-                  fadeOutDuration: const Duration(milliseconds: 200),
-                  imageUrl: toCdnUrl(avatar),
-                  placeholder: (context, url) {
-                    return CircularProgressIndicator(
-                      strokeWidth: 2.w,
-                    );
-                  },
-                  errorWidget: (context, url, error) {
-                    return const Icon(Icons.error);
-                  },
-                ),
-        ),
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 3.w),
       ),
+      child: avatar == ""
+          ? Icon(
+              Icons.person,
+              color: Colors.grey,
+              size: 50.w,
+            )
+          : Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: CachedNetworkImage(
+                fadeInDuration: const Duration(milliseconds: 200),
+                fadeOutDuration: const Duration(milliseconds: 200),
+                imageUrl: toCdnUrl(avatar),
+                placeholder: (context, url) {
+                  return CircularProgressIndicator(
+                    strokeWidth: 2.w,
+                  );
+                },
+                errorWidget: (context, url, error) {
+                  return const Icon(Icons.error);
+                },
+              ),
+            ),
     );
   }
 
@@ -366,37 +375,95 @@ class _ProfileInfoState extends State<ProfileInfo>
     if (result.parsedData != null) {
       if (result.parsedData!.getUser != null) {
         QueryGetUserWithId$getUser data = result.parsedData!.getUser!;
-        return Row(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.name,
-                  style: TextStyle(fontSize: 20.sp, color: Colors.black87),
+        return SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 8.w),
+              SizedBox(
+                height: 29.w,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    data.name,
+                    style: TextStyle(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w400,
+                      color: kPrimaryBlack,
+                    ),
+                  ),
                 ),
-                Text(
-                  data.email,
-                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              ),
+              SizedBox(
+                height: 22.w,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    data.email,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: kDeepBlue2,
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                    ),
+                  ),
                 ),
-              ],
-            ),
-            if (widget.isOwner)
-              IconButton(
-                onPressed: () async {
-                  const FlutterSecureStorage storage = FlutterSecureStorage();
-                  await storage.delete(key: 'userId');
-                  Provider.of<LoginStateRefresher>(context, listen: false)
-                      .refresh();
-                  Provider.of<UserInfoNotifier>(context, listen: false).reset();
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.grey,
+              ),
+              SizedBox(
+                height: expandedHeight -
+                    topBarHeight -
+                    tabHeight -
+                    indicatorWeight -
+                    88.w,
+                child: AutoSizeText(
+                  data.bio!,
+                  minFontSize: 9.sp,
+                  stepGranularity: 1.sp,
+                  maxFontSize: 12.sp,
+                  maxLines: 7,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: kPrimaryBlack,
+                    fontWeight: FontWeight.w300,
+                    height: 1,
+                  ),
                 ),
-              )
-          ],
+              ),
+              SizedBox(
+                height: 15.w,
+                child: Row(
+                  children: [
+                    Text(
+                      "Message me on: ",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: kPrimaryBlack,
+                        fontWeight: FontWeight.w400,
+                        height: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3.w),
+                      child: FaIcon(
+                        FontAwesomeIcons.solidEnvelope,
+                        size: 15.w,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3.w),
+                      child: FaIcon(
+                        FontAwesomeIcons.twitter,
+                        size: 15.w,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 11.w),
+            ],
+          ),
         );
       } else {
         return Center(

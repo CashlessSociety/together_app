@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 title: 'Together App',
                 theme: ThemeData(
-                  textTheme: GoogleFonts.interTextTheme(
+                  textTheme: GoogleFonts.lexendTextTheme(
                     Theme.of(context).textTheme,
                   ),
                 ),

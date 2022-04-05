@@ -8,8 +8,13 @@ import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart'
 Color kPrimaryBlue = const Color(0xff1b9eca);
 Color kPrimaryRed = const Color(0xffF7581E);
 Color kPrimaryOrange = const Color(0xffFF8427);
+Color kPrimaryBlack = const Color(0xff2D313B);
 Color kDeepBlue = const Color(0xff134074);
+Color kDeepBlue2 = const Color(0xff3956A1);
 Color kWhiteTeal = const Color(0xffF4FFFE);
+Color kPrimaryYellow = const Color(0xffF2C363);
+Color kPrimaryLightYellow1 = const Color(0xffF8F2DF);
+Color kPrimaryLightYellow2 = const Color(0xffF4F4EC);
 
 FaIcon faHashtagPlaceholderIcon = FaIcon(
   FontAwesomeIcons.hashtag,
