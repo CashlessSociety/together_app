@@ -50,6 +50,7 @@ dependencies:
   permission_handler: ^9.2.0
   webview_flutter: ^3.0.1
   auto_size_text: ^3.0.0
+  flutter_svg: ^1.0.3
 
 
 dev_dependencies:
@@ -84,6 +85,7 @@ flutter:
     - webview/html/
     - webview/img/
     - webview/js/
+    - assets/svgs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
