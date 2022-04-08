@@ -3,6 +3,7 @@ import 'package:together_app/screens/common/profile/my_profile_screen.dart';
 import 'package:together_app/screens/common/profile/other_profile_screen.dart';
 import 'package:together_app/screens/common/profile/profile_edit_screen.dart';
 import 'package:together_app/screens/common/skills/skills_edit_screen.dart';
+import 'package:together_app/screens/common/requests/requests_edit_screen.dart';
 import 'package:together_app/screens/main_entry/main_entry_screen.dart';
 import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_screen.dart';
 import 'package:together_app/screens/nav_bottom/matching_request/matching_request_screen.dart';
@@ -14,6 +15,7 @@ import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_test
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_portal_screen.dart';
 import 'package:together_app/screens/nav_leftside/notifications/notifications_screen.dart';
 import 'package:together_app/screens/nav_leftside/settings/settings_screen.dart';
+import 'package:together_app/graphql/schema/schema.graphql.dart';
 
 Map<String, WidgetBuilder> getRoutes(BuildContext context) {
   return {
@@ -24,6 +26,10 @@ Map<String, WidgetBuilder> getRoutes(BuildContext context) {
     '/skills_edit_screen': (context) => SkillsEditScreen(
           arguments: ModalRoute.of(context)!.settings.arguments!
               as SkillsEditScreenArguments,
+        ),
+    '/requests_edit_screen': (context) => RequestsEditScreen(
+          arguments: ModalRoute.of(context)!.settings.arguments!
+              as RequestsEditScreenArguments,
         ),
     '/notifications_screen': (context) => const NotificationsScreen(),
     '/settings_screen': (context) => const SettingsScreen(),
@@ -99,6 +105,26 @@ class SkillsEditScreenArguments {
     this.skillMessage,
     this.isAvailable,
     this.skillHashtagList,
+  });
+}
+
+class RequestsEditScreenArguments {
+  final String? hashtagId;
+  final String? hashtagName;
+  final String? requestId;
+  final String? requestTitle;
+  final String? requestMessage;
+  final EnumRequestStatus? requestStatus;
+  final List<String>? requestHashtagList;
+
+  RequestsEditScreenArguments({
+    this.hashtagId,
+    this.hashtagName,
+    this.requestId,
+    this.requestTitle,
+    this.requestMessage,
+    this.requestStatus,
+    this.requestHashtagList,
   });
 }
 

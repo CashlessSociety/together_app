@@ -176,6 +176,54 @@ query GetSkillsPageData($id: ID){
     }
 }
 
+query GetRequestsByUserId($id: ID){
+    getUser(id: $id){
+        requestsAggregate{
+            count
+        }
+        requests(order: {asc: title}){
+            id
+            title
+            message
+            hashtagVariants{
+                variant
+                hashtag{
+                    id
+                    name
+                }
+            }
+            status
+            createdTimestamp
+        }
+    }
+}
+
+query GetRequestsPageData($id: ID){
+    queryHashtag(order: {asc: name}, filter: {blessed: true}){
+        ...HashtagFragmentData
+    }
+    getUser(id: $id){
+        requestsAggregate{
+            count
+        }
+        requests(order: {asc: title}){
+            id
+            title
+            message
+            status
+            createdTimestamp
+            hashtagVariants(order: {asc: variant}){
+                hashtag{
+                    id
+                    name
+                    iconName
+                }
+            }
+
+        }
+    }
+}
+
 query SearchTopRequestHashtag($keywordRegex: String!, $hashtagOrder:HashtagOrder!, $limit: Int = 12){
     queryHashtag(
         filter: {name: {regexp: $keywordRegex}},

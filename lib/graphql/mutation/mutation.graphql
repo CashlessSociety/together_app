@@ -172,6 +172,74 @@ mutation RemoveSkill($skillId:ID!){
     }
 }
 
+mutation CreateRequest(
+    $addHashtagInputList: [AddHashtagInput!]!,
+    $addRequestInput: AddRequestInput!
+){
+    addHashtag(upsert: true, input: $addHashtagInputList){
+        numUids
+    }
+    addRequest(input: [$addRequestInput]){
+        request{
+            id
+        }
+    }
+}
+
+mutation UpdateRequest(
+    $requestId: ID!,
+    $addHashtagInputList: [AddHashtagInput!]!,
+    $title: String!,
+    $message: String!,
+    $status: RequestStatus!,
+    $hashtagsToSave: [HashtagVariantRef!]!,
+    $hashtagsToDelete: [HashtagVariantRef!]!,
+){
+    addHashtag(upsert: true, input: $addHashtagInputList){
+        numUids
+    }
+    updateRequest(input: {
+        filter: {id: [$requestId]},
+        remove: {
+            hashtagVariants: $hashtagsToDelete
+        }
+        set: {
+            title: $title
+            message: $message
+            status: $status
+            hashtagVariants: $hashtagsToSave
+        }
+    }){
+        request{
+            id
+        }
+    }
+}
+
+mutation UpdateRequestAvailable($requestId:ID!, $status: RequestStatus!){
+    updateRequest(
+        input: {
+            filter: {id: [$requestId]}
+            set: {status: $status}
+        },
+    ){
+        request{
+            status
+        }
+    }
+}
+
+mutation RemoveRequest($requestId:ID!){
+    deleteRequest(
+        filter: {id: [$requestId]}
+    ){
+        request{
+            id
+        }
+    }
+}
+
+
 mutation CreateTestGratitude($info : [AddGratitudeInput!]!){
     addGratitude(input: $info){
         numUids
