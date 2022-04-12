@@ -27,9 +27,12 @@ class MainEntryDrawer extends StatelessWidget {
               left: 20.w,
               right: 20.w,
             ),
-            color: kPrimaryBlue,
-            child:
-                Consumer<UserInfoNotifier>(builder: (context, provider, child) {
+            color: kPrimaryYellow,
+            child: Consumer<UserInfoNotifier>(builder: (
+              context,
+              provider,
+              child,
+            ) {
               return Row(
                 children: [
                   Container(
@@ -40,7 +43,8 @@ class MainEntryDrawer extends StatelessWidget {
                       color: Colors.white,
                     ),
                     clipBehavior: Clip.hardEdge,
-                    child: provider.userAvatar == ""
+                    child: provider.userAvatar == null ||
+                            provider.userAvatar == ""
                         ? Icon(
                             Icons.person,
                             size: 40.h,

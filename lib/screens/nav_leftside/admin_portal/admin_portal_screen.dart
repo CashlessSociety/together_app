@@ -20,7 +20,7 @@ class _AdminPortalScreenState extends State<AdminPortalScreen> {
   Widget build(BuildContext context) {
     return AlterScaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryBlue,
+        backgroundColor: kPrimaryYellow,
         title: const Text('Admin Portal'),
         leading: const AppBarBackButton(),
       ),

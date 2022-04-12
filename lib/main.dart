@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:together_app/graphql/graphql_client.dart';
 import 'package:together_app/screens/main_entry/main_entry_screen.dart';
+import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/providers.dart';
 import 'package:together_app/utils/routes.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -49,6 +51,15 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                   textTheme: GoogleFonts.lexendTextTheme(
                     Theme.of(context).textTheme,
+                  ),
+                  appBarTheme: AppBarTheme(
+                    iconTheme: IconThemeData(color: kPrimaryBlack),
+                    titleTextStyle:
+                        TextStyle(color: kPrimaryBlack, fontSize: 22.sp),
+                    backgroundColor: kPrimaryYellow,
+                    systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+                      statusBarColor: Colors.transparent,
+                    ),
                   ),
                 ),
                 builder: (context, widget) {

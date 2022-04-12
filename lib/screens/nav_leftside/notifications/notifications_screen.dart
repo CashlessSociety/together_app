@@ -11,7 +11,7 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlterScaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryBlue,
+        backgroundColor: kPrimaryYellow,
         title: const Text('Notification'),
         leading: const AppBarBackButton(),
       ),

@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:together_app/graphql/query/query.graphql.dart';
+import 'package:together_app/utils/constants.dart';
 import 'package:together_app/utils/routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -132,8 +134,17 @@ class _SocialGraphViewState extends State<SocialGraphView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Graph Example"),
-        backgroundColor: Colors.black54,
+        iconTheme: const IconThemeData(color: Colors.white),
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+        ),
+        title: const Text(
+          "Graph Example",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: kPrimaryBlack,
       ),
       body: Stack(
         clipBehavior: Clip.hardEdge,

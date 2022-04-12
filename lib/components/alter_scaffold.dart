@@ -41,8 +41,14 @@ class _AlterScaffoldState extends State<AlterScaffold> {
   void initState() {
     /// default alter app bar
     defaultAppBar = AppBar(
-      backgroundColor: kPrimaryBlue,
-      title: const Text('The Together App'),
+      backgroundColor: kPrimaryYellow,
+      foregroundColor: kPrimaryBlack,
+      title: Text(
+        'The Together App',
+        style: TextStyle(
+          color: kPrimaryBlack,
+        ),
+      ),
     );
 
     if (widget.enableBottomNavigation) {

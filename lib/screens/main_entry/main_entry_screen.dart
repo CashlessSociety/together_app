@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_screen.dart';
 import 'package:together_app/screens/nav_bottom/matching_request/matching_request_screen.dart';
@@ -58,14 +59,16 @@ class _MainEntryScreenState extends State<MainEntryScreen> {
             MatchingRequestScreen(),
           ]),
       bottomNavigationBar: BottomNavigationBar(
+        iconSize: 22.w,
         items: kBottomNavigationBarItems,
         currentIndex: pageIndex,
         onTap: onHandleInternalTabClick,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: kBottomNavigationBarItemColors[pageIndex],
+        backgroundColor: kPrimaryYellow,
+        selectedItemColor: kPrimaryBlack,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        unselectedItemColor: Colors.grey[600],
+        unselectedItemColor: Colors.white,
       ),
     );
   }

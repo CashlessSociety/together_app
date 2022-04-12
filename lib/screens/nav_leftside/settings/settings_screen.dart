@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlterScaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryBlue,
+        backgroundColor: kPrimaryYellow,
         title: const Text('Settings'),
         leading: const AppBarBackButton(),
       ),
