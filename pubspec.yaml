@@ -48,7 +48,7 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_cache_manager: ^3.3.0
   permission_handler: ^9.2.0
-  webview_flutter: ^3.0.1
+  webview_flutter: ^3.0.2
   auto_size_text: ^3.0.0
   flutter_svg: ^1.0.3
 
