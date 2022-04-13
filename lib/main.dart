@@ -54,8 +54,8 @@ class MyApp extends StatelessWidget {
                   ),
                   appBarTheme: AppBarTheme(
                     iconTheme: IconThemeData(color: kPrimaryBlack),
-                    titleTextStyle:
-                        TextStyle(color: kPrimaryBlack, fontSize: 22.sp),
+                    titleTextStyle: GoogleFonts.lexend()
+                        .copyWith(color: kPrimaryBlack, fontSize: 20.sp),
                     backgroundColor: kPrimaryYellow,
                     systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
                       statusBarColor: Colors.transparent,

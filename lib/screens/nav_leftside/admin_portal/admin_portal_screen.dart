@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:together_app/components/alter_scaffold.dart';
 import 'package:together_app/components/buttons.dart';
+import 'package:together_app/screens/nav_leftside/admin_portal/admin_contact_methods/admin_contact_methods_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_manage_hashtags_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_testers/admin_manage_testers_screen.dart';
 import 'package:together_app/utils/constants.dart';
@@ -35,11 +36,19 @@ class _AdminPortalScreenState extends State<AdminPortalScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.tag),
+            leading: const Icon(Icons.group),
             title: const Text("Manage Test Data"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               Get.toNamed(AdminManageTestersScreen.routeName);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.perm_contact_cal),
+            title: const Text("Test Contact Methods"),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () {
+              Get.toNamed(AdminContactMethodsScreen.routeName);
             },
           )
         ],

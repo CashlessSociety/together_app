@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class OutlineTextField extends StatelessWidget {
   final Widget? label;
   final String? hintText;
+  final String? helperText;
+  final int? helperMaxLines;
   final TextStyle? hintStyle;
   final TextStyle? style;
   final ValueChanged<String>? onChanged;
@@ -20,6 +22,8 @@ class OutlineTextField extends StatelessWidget {
     Key? key,
     this.label,
     this.hintText,
+    this.helperText,
+    this.helperMaxLines,
     this.hintStyle,
     this.onChanged,
     this.style,
@@ -45,6 +49,8 @@ class OutlineTextField extends StatelessWidget {
         alignLabelWithHint: true,
         hintText: hintText,
         hintStyle: hintStyle,
+        helperText: helperText,
+        helperMaxLines: helperMaxLines,
         contentPadding: contentPadding,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.w),

@@ -8,6 +8,7 @@ import 'package:together_app/screens/nav_bottom/gratitude_wall/gratitude_wall_sc
 import 'package:together_app/screens/nav_bottom/matching_request/matching_request_screen.dart';
 import 'package:together_app/screens/nav_bottom/social_graph/social_graph_view.dart';
 import 'package:together_app/screens/nav_bottom/social_graph/social_graph_screen.dart';
+import 'package:together_app/screens/nav_leftside/admin_portal/admin_contact_methods/admin_contact_methods_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_edit_hashtag_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_hashtags/admin_manage_hashtags_screen.dart';
 import 'package:together_app/screens/nav_leftside/admin_portal/admin_manage_testers/admin_manage_testers_screen.dart';
@@ -36,6 +37,8 @@ Map<String, WidgetBuilder> getRoutes(BuildContext context) {
         const AdminManageHashtagsScreen(),
     '/admin_manage_testers_screen': (context) =>
         const AdminManageTestersScreen(),
+    '/admin_contact_methods_screen': (context) =>
+        const AdminContactMethodsScreen(),
     '/my_profile_screen': (context) => const MyProfileScreen(),
     '/other_profile_screen': (context) => OtherProfileScreen(
           arguments: ModalRoute.of(context)!.settings.arguments!
