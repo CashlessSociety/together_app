@@ -53,6 +53,7 @@ dependencies:
   flutter_svg: ^1.0.3
   flutter_email_sender: ^5.1.0
   flutter_sms: ^2.3.2
+  whatsapp_unilink: ^2.0.1+1
 
 
 dev_dependencies:

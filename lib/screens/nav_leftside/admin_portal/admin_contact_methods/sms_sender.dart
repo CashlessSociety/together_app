@@ -22,6 +22,13 @@ class _SmsSenderState extends State<SmsSender> {
     initPlatformState();
   }
 
+  @override
+  void dispose() {
+    _controllerPeople.dispose();
+    _controllerMessage.dispose();
+    super.dispose();
+  }
+
   Future<void> initPlatformState() async {
     _controllerPeople = TextEditingController();
     _controllerMessage = TextEditingController();
@@ -87,7 +94,7 @@ class _SmsSenderState extends State<SmsSender> {
       ),
       body: ListView(
         children: <Widget>[
-          if (people == null || people.isEmpty)
+          if (people.isEmpty)
             const SizedBox(height: 0)
           else
             SizedBox(
