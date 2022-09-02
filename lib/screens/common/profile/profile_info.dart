@@ -368,35 +368,38 @@ class _ProfileInfoState extends State<ProfileInfo>
         QueryGetUserWithId$getUser data = result.parsedData!.getUser!;
         return Row(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.name,
-                  style: TextStyle(fontSize: 20.sp, color: Colors.black87),
-                ),
-                Text(
-                  data.email,
-                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                ),
-              ],
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.name,
+                    style: TextStyle(fontSize: 20.sp, color: Colors.black87),
+                  ),
+                  Text(
+                    data.email,
+                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
-            if (widget.isOwner)
-              IconButton(
-                onPressed: () async {
-                  const FlutterSecureStorage storage = FlutterSecureStorage();
-                  await storage.delete(key: 'userId');
-                  Provider.of<LoginStateRefresher>(context, listen: false)
-                      .refresh();
-                  Provider.of<UserInfoNotifier>(context, listen: false).reset();
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.grey,
-                ),
-              )
-          ],
+            // MKT commenting out for now we actually dont want this
+            // and the truth is this is the thing thats messing up the layout
+            // if (widget.isOwner)
+            //   IconButton(
+            //     onPressed: () async {
+            //       const FlutterSecureStorage storage = FlutterSecureStorage();
+            //       await storage.delete(key: 'userId');
+            //       Provider.of<LoginStateRefresher>(context, listen: false)
+            //           .refresh();
+            //       Provider.of<UserInfoNotifier>(context, listen: false).reset();
+            //     },
+            //     icon: const Icon(
+            //       Icons.logout,
+            //       color: Colors.grey,
+            //     ),
+            //   )
         );
       } else {
         return Center(
