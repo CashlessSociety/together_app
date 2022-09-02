@@ -366,26 +366,24 @@ class _ProfileInfoState extends State<ProfileInfo>
     if (result.parsedData != null) {
       if (result.parsedData!.getUser != null) {
         QueryGetUserWithId$getUser data = result.parsedData!.getUser!;
-        return Row(
-          children: [
-            Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    data.name,
-                    style: TextStyle(fontSize: 20.sp, color: Colors.black87),
-                  ),
-                  Text(
-                    data.email,
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                  ),
-                ],
-              ),
+        return Row(children: [
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data.name,
+                  style: TextStyle(fontSize: 20.sp, color: Colors.black87),
+                ),
+                Text(
+                  data.email,
+                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                ),
+              ],
             ),
-            
-        );
+          ),
+        ]);
       } else {
         return Center(
           child: ElevatedButton(
