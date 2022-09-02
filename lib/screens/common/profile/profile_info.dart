@@ -384,22 +384,7 @@ class _ProfileInfoState extends State<ProfileInfo>
                 ],
               ),
             ),
-            // MKT commenting out for now we actually dont want this
-            // and the truth is this is the thing thats messing up the layout
-            // if (widget.isOwner)
-            //   IconButton(
-            //     onPressed: () async {
-            //       const FlutterSecureStorage storage = FlutterSecureStorage();
-            //       await storage.delete(key: 'userId');
-            //       Provider.of<LoginStateRefresher>(context, listen: false)
-            //           .refresh();
-            //       Provider.of<UserInfoNotifier>(context, listen: false).reset();
-            //     },
-            //     icon: const Icon(
-            //       Icons.logout,
-            //       color: Colors.grey,
-            //     ),
-            //   )
+            
         );
       } else {
         return Center(
