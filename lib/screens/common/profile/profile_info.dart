@@ -366,9 +366,9 @@ class _ProfileInfoState extends State<ProfileInfo>
     if (result.parsedData != null) {
       if (result.parsedData!.getUser != null) {
         QueryGetUserWithId$getUser data = result.parsedData!.getUser!;
-        return Row(
-          children: [
-            Column(
+        return Row(children: [
+          Flexible(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -382,22 +382,8 @@ class _ProfileInfoState extends State<ProfileInfo>
                 ),
               ],
             ),
-            if (widget.isOwner)
-              IconButton(
-                onPressed: () async {
-                  const FlutterSecureStorage storage = FlutterSecureStorage();
-                  await storage.delete(key: 'userId');
-                  Provider.of<LoginStateRefresher>(context, listen: false)
-                      .refresh();
-                  Provider.of<UserInfoNotifier>(context, listen: false).reset();
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.grey,
-                ),
-              )
-          ],
-        );
+          ),
+        ]);
       } else {
         return Center(
           child: ElevatedButton(
